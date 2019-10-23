@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/exercise_item.xml",
+        "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/layout/exercise_item.xml"
+    },
+    {
+        "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/fragment_home.xml",
+        "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/layout/fragment_home.xml"
+    }
+]

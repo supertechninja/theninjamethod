@@ -1,0 +1,236 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:2:1-25:12
+MERGED from [androidx.databinding:databinding-adapters:3.6.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/2042e64c44248e5cc575e6bdc36abc8a/databinding-adapters-3.6.0-beta01/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.databinding:databinding-runtime:3.6.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/55c62c8b601c26075cfd38d90899c605/databinding-runtime-3.6.0-beta01/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.navigation:navigation-ui-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/d1c422fdea3add8a00bf155fa3b65f73/navigation-ui-ktx-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-ui:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/7f2668a3e06106da372bd3a933e5c972/navigation-ui-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.material:material:1.1.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/eae32eb0d20dfc690b9134567157dc6c/material-1.1.0-beta01/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/286b21dd00506067c0ab1958af926261/appcompat-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core-ktx:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/5774b3b636e4cb40b737c82a99f685ff/jetified-core-ktx-1.1.0/AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/8ca395dacdab6d986f05296f35473b07/constraintlayout-1.1.3/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/72aae6a9b374a79ed4db197240d5f3e8/navigation-fragment-ktx-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-fragment:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/3b59495d3ef945f38a5ffd47763cc980/navigation-fragment-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/4b049f59fc50d2829299d784f3de02c0/lifecycle-extensions-2.0.0/AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.viewpager2:viewpager2:1.0.0-beta04] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6a11ffbaeca687bb20be2bf43f160d89/jetified-viewpager2-1.0.0-beta04/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-beta04] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/3644cd8ab9230598e9ac57fcb43eb47e/recyclerview-1.1.0-beta04/AndroidManifest.xml:17:1-24:12
+MERGED from [io.reactivex.rxjava2:rxandroid:2.1.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/fe506c525315ee425bf0a1b20dc57778/jetified-rxandroid-2.1.1/AndroidManifest.xml:15:1-20:12
+MERGED from [androidx.databinding:viewbinding:3.6.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/02916aa1f7f0b29a3ce14b77e89a8f43/jetified-viewbinding-3.6.0-beta01/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.fragment:fragment:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/f390f58ea1dd280b07ecfa4ce6d467c3/fragment-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/215510bb03a7f2c85a8686d8be38d968/jetified-appcompat-resources-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/120a42b332170b38e1e31f886a2e8e25/drawerlayout-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/03507580ba886822684660367a77ca7b/coordinatorlayout-1.1.0-beta01/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.transition:transition:1.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/d97781dea83e455ab40af4b1e9b8f221/transition-1.0.1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e65802d32f294ed15d089d1526226441/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e56c425ba20b2263019534e45c27776b/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/efb8c9f13a912d2c2105717ef1ccc822/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/8997a7ecb8f323fca228a6f6cda1649f/navigation-runtime-ktx-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-runtime:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/92eacd7b5e3215c554381de04a2fbe2a/navigation-runtime-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/a90c70185223c6ab8c7559ba68e742de/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0efe64abd1c14747e0a9fc06a1226ba2/loader-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b5976381a0bbc57798c71f1b0effc7ca/jetified-activity-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.customview:customview:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/fb178598b0f3a8a3721b30116cf15076/customview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-common-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/f43c462f4f0dabb2fbb8084ac4772d13/navigation-common-ktx-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-common:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/07641f1be9ca75b307cfa197bcd50521/navigation-common-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b188d04e4bda18e0a38c574452278f1a/core-1.1.0/AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.lifecycle:lifecycle-service:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/60669658fb29d4b3d4d5132ad226b0b1/jetified-lifecycle-service-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b04d139566d0cbdbf2928cff7f3b84e3/lifecycle-runtime-2.1.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b0f73e6ceb0884c8ef61b258fca3c3a4/versionedparcelable-1.1.0/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/045d071b735fceb2227f209671ba3e93/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/a66d3b0928bd1dd2e4d8c0837effee3c/cardview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/aceeb63bc14233ced951b6b5d67c981c/lifecycle-livedata-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/34645c5926fc7fa17f401d842773387c/lifecycle-livedata-core-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/599f782a5923b5fd1ac63694d485f0c6/core-runtime-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0311cd9b524c2ebb0d5c4b4d066d623c/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/5a01eb7e429eea99cae88201f07ff7fb/jetified-savedstate-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ace813da80017b677f064ccc8e1f9262/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/30ef563baf87fcacacf2d42dbbb4ac49/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/1e3c90eadf4cc394b3ceee7d13865174/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/551a2f28e3536747659a3b3e31f946c1/print-1.0.0/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:2:1-25:12
+	package
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:3:5-44
+		INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:2:1-25:12
+		INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:2:1-25:12
+		INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:5:5-66
+	android:name
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:5:22-64
+application
+ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:7:5-23:19
+MERGED from [com.google.android.material:material:1.1.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/eae32eb0d20dfc690b9134567157dc6c/material-1.1.0-beta01/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.material:material:1.1.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/eae32eb0d20dfc690b9134567157dc6c/material-1.1.0-beta01/AndroidManifest.xml:22:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/8ca395dacdab6d986f05296f35473b07/constraintlayout-1.1.3/AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/8ca395dacdab6d986f05296f35473b07/constraintlayout-1.1.3/AndroidManifest.xml:9:5-20
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/4b049f59fc50d2829299d784f3de02c0/lifecycle-extensions-2.0.0/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/4b049f59fc50d2829299d784f3de02c0/lifecycle-extensions-2.0.0/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.core:core:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b188d04e4bda18e0a38c574452278f1a/core-1.1.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b188d04e4bda18e0a38c574452278f1a/core-1.1.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:22:5-28:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:22:5-28:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b0f73e6ceb0884c8ef61b258fca3c3a4/versionedparcelable-1.1.0/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b0f73e6ceb0884c8ef61b258fca3c3a4/versionedparcelable-1.1.0/AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b188d04e4bda18e0a38c574452278f1a/core-1.1.0/AndroidManifest.xml:24:18-86
+	android:supportsRtl
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:12:9-35
+	android:label
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:10:9-41
+	android:roundIcon
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:11:9-54
+	android:icon
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:9:9-43
+	android:allowBackup
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:8:9-35
+	android:theme
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:13:9-40
+activity#com.mcwilliams.theninjamethod.MainActivity
+ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:14:9-22:20
+	android:label
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:16:13-45
+	android:name
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:15:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:17:13-21:29
+action#android.intent.action.MAIN
+ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:18:17-69
+	android:name
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:18:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:20:17-77
+	android:name
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:20:27-74
+uses-sdk
+INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+MERGED from [androidx.databinding:databinding-adapters:3.6.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/2042e64c44248e5cc575e6bdc36abc8a/databinding-adapters-3.6.0-beta01/AndroidManifest.xml:22:5-44
+MERGED from [androidx.databinding:databinding-adapters:3.6.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/2042e64c44248e5cc575e6bdc36abc8a/databinding-adapters-3.6.0-beta01/AndroidManifest.xml:22:5-44
+MERGED from [androidx.databinding:databinding-runtime:3.6.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/55c62c8b601c26075cfd38d90899c605/databinding-runtime-3.6.0-beta01/AndroidManifest.xml:22:5-44
+MERGED from [androidx.databinding:databinding-runtime:3.6.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/55c62c8b601c26075cfd38d90899c605/databinding-runtime-3.6.0-beta01/AndroidManifest.xml:22:5-44
+MERGED from [androidx.navigation:navigation-ui-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/d1c422fdea3add8a00bf155fa3b65f73/navigation-ui-ktx-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-ui-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/d1c422fdea3add8a00bf155fa3b65f73/navigation-ui-ktx-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-ui:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/7f2668a3e06106da372bd3a933e5c972/navigation-ui-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-ui:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/7f2668a3e06106da372bd3a933e5c972/navigation-ui-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.1.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/eae32eb0d20dfc690b9134567157dc6c/material-1.1.0-beta01/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.material:material:1.1.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/eae32eb0d20dfc690b9134567157dc6c/material-1.1.0-beta01/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/286b21dd00506067c0ab1958af926261/appcompat-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/286b21dd00506067c0ab1958af926261/appcompat-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core-ktx:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/5774b3b636e4cb40b737c82a99f685ff/jetified-core-ktx-1.1.0/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.core:core-ktx:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/5774b3b636e4cb40b737c82a99f685ff/jetified-core-ktx-1.1.0/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/8ca395dacdab6d986f05296f35473b07/constraintlayout-1.1.3/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/8ca395dacdab6d986f05296f35473b07/constraintlayout-1.1.3/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/72aae6a9b374a79ed4db197240d5f3e8/navigation-fragment-ktx-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/72aae6a9b374a79ed4db197240d5f3e8/navigation-fragment-ktx-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/3b59495d3ef945f38a5ffd47763cc980/navigation-fragment-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-fragment:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/3b59495d3ef945f38a5ffd47763cc980/navigation-fragment-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/4b049f59fc50d2829299d784f3de02c0/lifecycle-extensions-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/4b049f59fc50d2829299d784f3de02c0/lifecycle-extensions-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager2:viewpager2:1.0.0-beta04] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6a11ffbaeca687bb20be2bf43f160d89/jetified-viewpager2-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager2:viewpager2:1.0.0-beta04] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6a11ffbaeca687bb20be2bf43f160d89/jetified-viewpager2-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-beta04] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/3644cd8ab9230598e9ac57fcb43eb47e/recyclerview-1.1.0-beta04/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0-beta04] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/3644cd8ab9230598e9ac57fcb43eb47e/recyclerview-1.1.0-beta04/AndroidManifest.xml:20:5-22:41
+MERGED from [io.reactivex.rxjava2:rxandroid:2.1.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/fe506c525315ee425bf0a1b20dc57778/jetified-rxandroid-2.1.1/AndroidManifest.xml:18:5-43
+MERGED from [io.reactivex.rxjava2:rxandroid:2.1.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/fe506c525315ee425bf0a1b20dc57778/jetified-rxandroid-2.1.1/AndroidManifest.xml:18:5-43
+MERGED from [androidx.databinding:viewbinding:3.6.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/02916aa1f7f0b29a3ce14b77e89a8f43/jetified-viewbinding-3.6.0-beta01/AndroidManifest.xml:20:5-44
+MERGED from [androidx.databinding:viewbinding:3.6.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/02916aa1f7f0b29a3ce14b77e89a8f43/jetified-viewbinding-3.6.0-beta01/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/f390f58ea1dd280b07ecfa4ce6d467c3/fragment-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/f390f58ea1dd280b07ecfa4ce6d467c3/fragment-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/215510bb03a7f2c85a8686d8be38d968/jetified-appcompat-resources-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/215510bb03a7f2c85a8686d8be38d968/jetified-appcompat-resources-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/120a42b332170b38e1e31f886a2e8e25/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/120a42b332170b38e1e31f886a2e8e25/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/03507580ba886822684660367a77ca7b/coordinatorlayout-1.1.0-beta01/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0-beta01] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/03507580ba886822684660367a77ca7b/coordinatorlayout-1.1.0-beta01/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.transition:transition:1.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/d97781dea83e455ab40af4b1e9b8f221/transition-1.0.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.transition:transition:1.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/d97781dea83e455ab40af4b1e9b8f221/transition-1.0.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e65802d32f294ed15d089d1526226441/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e65802d32f294ed15d089d1526226441/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e56c425ba20b2263019534e45c27776b/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e56c425ba20b2263019534e45c27776b/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/efb8c9f13a912d2c2105717ef1ccc822/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/efb8c9f13a912d2c2105717ef1ccc822/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/8997a7ecb8f323fca228a6f6cda1649f/navigation-runtime-ktx-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/8997a7ecb8f323fca228a6f6cda1649f/navigation-runtime-ktx-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/92eacd7b5e3215c554381de04a2fbe2a/navigation-runtime-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/92eacd7b5e3215c554381de04a2fbe2a/navigation-runtime-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/a90c70185223c6ab8c7559ba68e742de/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/a90c70185223c6ab8c7559ba68e742de/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0efe64abd1c14747e0a9fc06a1226ba2/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0efe64abd1c14747e0a9fc06a1226ba2/loader-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b5976381a0bbc57798c71f1b0effc7ca/jetified-activity-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b5976381a0bbc57798c71f1b0effc7ca/jetified-activity-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.customview:customview:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/fb178598b0f3a8a3721b30116cf15076/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/fb178598b0f3a8a3721b30116cf15076/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/f43c462f4f0dabb2fbb8084ac4772d13/navigation-common-ktx-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common-ktx:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/f43c462f4f0dabb2fbb8084ac4772d13/navigation-common-ktx-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/07641f1be9ca75b307cfa197bcd50521/navigation-common-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/07641f1be9ca75b307cfa197bcd50521/navigation-common-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b188d04e4bda18e0a38c574452278f1a/core-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b188d04e4bda18e0a38c574452278f1a/core-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-service:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/60669658fb29d4b3d4d5132ad226b0b1/jetified-lifecycle-service-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-service:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/60669658fb29d4b3d4d5132ad226b0b1/jetified-lifecycle-service-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b04d139566d0cbdbf2928cff7f3b84e3/lifecycle-runtime-2.1.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b04d139566d0cbdbf2928cff7f3b84e3/lifecycle-runtime-2.1.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b0f73e6ceb0884c8ef61b258fca3c3a4/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b0f73e6ceb0884c8ef61b258fca3c3a4/versionedparcelable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/045d071b735fceb2227f209671ba3e93/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/045d071b735fceb2227f209671ba3e93/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/a66d3b0928bd1dd2e4d8c0837effee3c/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cardview:cardview:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/a66d3b0928bd1dd2e4d8c0837effee3c/cardview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/aceeb63bc14233ced951b6b5d67c981c/lifecycle-livedata-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/aceeb63bc14233ced951b6b5d67c981c/lifecycle-livedata-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/34645c5926fc7fa17f401d842773387c/lifecycle-livedata-core-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/34645c5926fc7fa17f401d842773387c/lifecycle-livedata-core-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/599f782a5923b5fd1ac63694d485f0c6/core-runtime-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/599f782a5923b5fd1ac63694d485f0c6/core-runtime-2.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0311cd9b524c2ebb0d5c4b4d066d623c/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0311cd9b524c2ebb0d5c4b4d066d623c/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/5a01eb7e429eea99cae88201f07ff7fb/jetified-savedstate-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/5a01eb7e429eea99cae88201f07ff7fb/jetified-savedstate-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ace813da80017b677f064ccc8e1f9262/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ace813da80017b677f064ccc8e1f9262/interpolator-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/30ef563baf87fcacacf2d42dbbb4ac49/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/30ef563baf87fcacacf2d42dbbb4ac49/documentfile-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/1e3c90eadf4cc394b3ceee7d13865174/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/1e3c90eadf4cc394b3ceee7d13865174/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/551a2f28e3536747659a3b3e31f946c1/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/551a2f28e3536747659a3b3e31f946c1/print-1.0.0/AndroidManifest.xml:20:5-44
+INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+		ADDED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml
+provider#androidx.lifecycle.ProcessLifecycleOwnerInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:23:9-27:43
+	android:authorities
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:25:13-69
+	android:multiprocess
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:27:13-40
+	android:exported
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:26:13-37
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:24:13-79
