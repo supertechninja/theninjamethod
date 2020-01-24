@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,6 +30,8 @@ object NetworkModule {
         return retrofit.create(ExerciseApi::class.java)
     }
 
+
+
     /**
      * Provides the Retrofit object.
      * @return the Retrofit object
@@ -36,10 +40,18 @@ object NetworkModule {
     @Reusable
     @JvmStatic
     internal fun provideRetrofitInterface(): Retrofit {
+        var logging = HttpLoggingInterceptor()
+        logging.level = HttpLoggingInterceptor.Level.BODY
+
+        val okHttpClient = OkHttpClient.Builder()
+        okHttpClient.addInterceptor(logging)
+
+
         return Retrofit.Builder()
             .baseUrl("https://sheetdb.io")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .client(okHttpClient.build())
             .build()
     }
 }

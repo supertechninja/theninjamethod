@@ -3,7 +3,9 @@ package com.mcwilliams.theninjamethod.viewmodel
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.model.Data
 import com.mcwilliams.theninjamethod.model.Exercise
+import com.mcwilliams.theninjamethod.model.Response
 import com.mcwilliams.theninjamethod.network.ExerciseApi
 import com.mcwilliams.theninjamethod.ui.home.ExerciseListAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,7 +13,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class ExerciseListViewModel:BaseViewModel(){
+class ExerciseListViewModel : BaseViewModel() {
     @Inject
     lateinit var exerciseApi: ExerciseApi
 
@@ -19,16 +21,18 @@ class ExerciseListViewModel:BaseViewModel(){
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
 
-    val errorMessage:MutableLiveData<Int> = MutableLiveData()
+    var isRefreshing : Boolean = false
+
+    val errorMessage: MutableLiveData<Int> = MutableLiveData()
     val errorClickListener = View.OnClickListener { loadExercises() }
 
     val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
 
-    init{
+    init {
         loadExercises()
     }
 
-    private fun loadExercises(){
+    private fun loadExercises() {
         subscription = exerciseApi.getExercises()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -40,20 +44,38 @@ class ExerciseListViewModel:BaseViewModel(){
             )
     }
 
-    private fun onRetrievePostListStart(){
+    fun addExercise(data: Data){
+        subscription = exerciseApi.addExercise(data)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { refreshData() },
+                { onRetrievePostListError() }
+            )
+
+    }
+
+    fun refreshData(){
+        isRefreshing = true
+        loadExercises()
+    }
+
+    private fun onRetrievePostListStart() {
         loadingVisibility.value = View.VISIBLE
         errorMessage.value = null
+        isRefreshing = false
     }
 
-    private fun onRetrievePostListFinish(){
+    private fun onRetrievePostListFinish() {
         loadingVisibility.value = View.GONE
+        isRefreshing = false
     }
 
-    private fun onRetrievePostListSuccess(exerciseList:List<Exercise>){
+    private fun onRetrievePostListSuccess(exerciseList: List<Exercise>) {
         exerciseListAdapter.updatePostList(exerciseList)
     }
 
-    private fun onRetrievePostListError(){
+    private fun onRetrievePostListError() {
         errorMessage.value = R.string.exercise_error
     }
 

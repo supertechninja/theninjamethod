@@ -10,10 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mcwilliams.theninjamethod.databinding.FragmentHomeBinding
 import com.mcwilliams.theninjamethod.viewmodel.ExerciseListViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.model.Data
+import com.mcwilliams.theninjamethod.model.Exercise
 
 
 class HomeFragment : Fragment() {
@@ -31,8 +35,7 @@ class HomeFragment : Fragment() {
         binding = inflate(
             inflater, R.layout.fragment_home, container, false
         )
-        val view = binding.getRoot()
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,6 +49,35 @@ class HomeFragment : Fragment() {
             if (errorMessage != null) showError(errorMessage) else hideError()
         })
         binding.exerciseListViewModel = viewModel
+
+        binding.swipeContainer.setOnRefreshListener {
+            viewModel.refreshData()
+        }
+
+        binding.addExercise.setOnClickListener {
+            val view = layoutInflater.inflate(R.layout.add_exercise_dialog, null)
+            val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
+                .setTitle("Add Exercise")
+                .setView(view)
+                .setPositiveButton("Save") { _, _ ->
+                    //do something
+                    val exerciseName =
+                        view.findViewById<TextInputEditText>(R.id.exerciseName).text.toString()
+                    val exerciseType =
+                        view.findViewById<TextInputEditText>(R.id.exerciseType).text.toString()
+                    val exercise = Exercise(exerciseName, exerciseType)
+                    val data = Data(listOf(exercise))
+
+                    viewModel.addExercise(data = data)
+
+                }
+                .setNegativeButton("Cancel") { _, _ ->
+                    {
+
+                    }
+                }
+            materialAlertDialogBuilder.show()
+        }
 
     }
 
