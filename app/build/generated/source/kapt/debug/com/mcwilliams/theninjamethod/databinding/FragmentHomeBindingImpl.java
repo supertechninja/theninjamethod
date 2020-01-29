@@ -14,7 +14,8 @@ public class FragmentHomeBindingImpl extends FragmentHomeBinding  {
     private static final android.util.SparseIntArray sViewsWithIds;
     static {
         sIncludes = null;
-        sViewsWithIds = null;
+        sViewsWithIds = new android.util.SparseIntArray();
+        sViewsWithIds.put(R.id.addExercise, 4);
     }
     // views
     @NonNull
@@ -27,17 +28,20 @@ public class FragmentHomeBindingImpl extends FragmentHomeBinding  {
     // Inverse Binding Event Handlers
 
     public FragmentHomeBindingImpl(@Nullable androidx.databinding.DataBindingComponent bindingComponent, @NonNull View root) {
-        this(bindingComponent, root, mapBindings(bindingComponent, root, 3, sIncludes, sViewsWithIds));
+        this(bindingComponent, root, mapBindings(bindingComponent, root, 5, sIncludes, sViewsWithIds));
     }
     private FragmentHomeBindingImpl(androidx.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
         super(bindingComponent, root, 1
-            , (androidx.recyclerview.widget.RecyclerView) bindings[2]
+            , (com.google.android.material.floatingactionbutton.FloatingActionButton) bindings[4]
+            , (androidx.recyclerview.widget.RecyclerView) bindings[3]
+            , (androidx.swiperefreshlayout.widget.SwipeRefreshLayout) bindings[2]
             );
         this.exerciseList.setTag(null);
         this.mboundView0 = (androidx.constraintlayout.widget.ConstraintLayout) bindings[0];
         this.mboundView0.setTag(null);
         this.mboundView1 = (android.widget.ProgressBar) bindings[1];
         this.mboundView1.setTag(null);
+        this.swipeContainer.setTag(null);
         setRootTag(root);
         // listeners
         invalidateAll();
@@ -65,7 +69,7 @@ public class FragmentHomeBindingImpl extends FragmentHomeBinding  {
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.exerciseListViewModel == variableId) {
-            setExerciseListViewModel((com.mcwilliams.theninjamethod.viewmodel.ExerciseListViewModel) variable);
+            setExerciseListViewModel((com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel) variable);
         }
         else {
             variableSet = false;
@@ -73,7 +77,7 @@ public class FragmentHomeBindingImpl extends FragmentHomeBinding  {
             return variableSet;
     }
 
-    public void setExerciseListViewModel(@Nullable com.mcwilliams.theninjamethod.viewmodel.ExerciseListViewModel ExerciseListViewModel) {
+    public void setExerciseListViewModel(@Nullable com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel ExerciseListViewModel) {
         this.mExerciseListViewModel = ExerciseListViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x2L;
@@ -107,9 +111,10 @@ public class FragmentHomeBindingImpl extends FragmentHomeBinding  {
             dirtyFlags = mDirtyFlags;
             mDirtyFlags = 0;
         }
-        com.mcwilliams.theninjamethod.ui.home.ExerciseListAdapter exerciseListViewModelGetExerciseListAdapter = null;
+        com.mcwilliams.theninjamethod.ui.exercises.ExerciseListAdapter exerciseListViewModelGetExerciseListAdapter = null;
         androidx.lifecycle.MutableLiveData<java.lang.Integer> exerciseListViewModelGetLoadingVisibility = null;
-        com.mcwilliams.theninjamethod.viewmodel.ExerciseListViewModel exerciseListViewModel = mExerciseListViewModel;
+        com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel exerciseListViewModel = mExerciseListViewModel;
+        boolean exerciseListViewModelRefreshing = false;
         java.lang.Integer exerciseListViewModelGetLoadingVisibilityGetValue = null;
 
         if ((dirtyFlags & 0x7L) != 0) {
@@ -120,6 +125,8 @@ public class FragmentHomeBindingImpl extends FragmentHomeBinding  {
                     if (exerciseListViewModel != null) {
                         // read exerciseListViewModel.getExerciseListAdapter()
                         exerciseListViewModelGetExerciseListAdapter = exerciseListViewModel.getExerciseListAdapter();
+                        // read exerciseListViewModel.refreshing
+                        exerciseListViewModelRefreshing = exerciseListViewModel.isRefreshing();
                     }
             }
 
@@ -140,6 +147,7 @@ public class FragmentHomeBindingImpl extends FragmentHomeBinding  {
             // api target 1
 
             com.mcwilliams.theninjamethod.utils.BindingAdaptersKt.setAdapter(this.exerciseList, exerciseListViewModelGetExerciseListAdapter);
+            this.swipeContainer.setRefreshing(exerciseListViewModelRefreshing);
         }
         if ((dirtyFlags & 0x7L) != 0) {
             // api target 1

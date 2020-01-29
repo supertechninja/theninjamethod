@@ -4,7 +4,7 @@
     <data>
         <variable
             name="exerciseViewModel"
-            type="com.mcwilliams.theninjamethod.viewmodel.ExerciseViewModel" />
+            type="com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

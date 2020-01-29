@@ -63,7 +63,7 @@ public class ExerciseItemBindingImpl extends ExerciseItemBinding  {
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.exerciseViewModel == variableId) {
-            setExerciseViewModel((com.mcwilliams.theninjamethod.viewmodel.ExerciseViewModel) variable);
+            setExerciseViewModel((com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseViewModel) variable);
         }
         else {
             variableSet = false;
@@ -71,7 +71,7 @@ public class ExerciseItemBindingImpl extends ExerciseItemBinding  {
             return variableSet;
     }
 
-    public void setExerciseViewModel(@Nullable com.mcwilliams.theninjamethod.viewmodel.ExerciseViewModel ExerciseViewModel) {
+    public void setExerciseViewModel(@Nullable com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseViewModel ExerciseViewModel) {
         this.mExerciseViewModel = ExerciseViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x4L;
@@ -117,7 +117,7 @@ public class ExerciseItemBindingImpl extends ExerciseItemBinding  {
             mDirtyFlags = 0;
         }
         java.lang.String exerciseViewModelGetExerciseTitleGetValue = null;
-        com.mcwilliams.theninjamethod.viewmodel.ExerciseViewModel exerciseViewModel = mExerciseViewModel;
+        com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseViewModel exerciseViewModel = mExerciseViewModel;
         androidx.lifecycle.MutableLiveData<java.lang.String> exerciseViewModelGetExerciseTitle = null;
         androidx.lifecycle.MutableLiveData<java.lang.String> exerciseViewModelGetExerciseBody = null;
         java.lang.String exerciseViewModelGetExerciseBodyGetValue = null;

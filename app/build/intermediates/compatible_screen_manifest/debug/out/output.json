@@ -1,1 +1,6 @@
-[]
+{
+  "version": 1,
+  "applicationId": "com.mcwilliams.theninjamethod",
+  "variantType": "BASE_APK",
+  "elements": []
+}

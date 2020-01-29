@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "708090696199",
+    "firebase_url": "https://theninjamethod-ead06.firebaseio.com",
+    "project_id": "theninjamethod-ead06",
+    "storage_bucket": "theninjamethod-ead06.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:708090696199:android:2296cebae9584631c350a2",
+        "android_client_info": {
+          "package_name": "com.mcwilliams.theninjamethod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "708090696199-f4hghh9c614ua7sjjffb2nctmrh2o4hj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mcwilliams.theninjamethod",
+            "certificate_hash": "94f2df278a2660f8937652e6adad91d170e018a2"
+          }
+        },
+        {
+          "client_id": "708090696199-4qhjs891pravkg9qsdi6int8vfq2btie.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdFvGG_075RmhDAzWIPoMGutahNZOd_1A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "708090696199-4qhjs891pravkg9qsdi6int8vfq2btie.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

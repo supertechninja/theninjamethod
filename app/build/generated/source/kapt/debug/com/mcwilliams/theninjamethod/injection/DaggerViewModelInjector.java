@@ -2,10 +2,14 @@ package com.mcwilliams.theninjamethod.injection;
 
 import com.mcwilliams.theninjamethod.network.ExerciseApi;
 import com.mcwilliams.theninjamethod.network.NetworkModule;
-import com.mcwilliams.theninjamethod.network.NetworkModule_ProvidePostApi$app_debugFactory;
+import com.mcwilliams.theninjamethod.network.NetworkModule_ProvideExerciseApi$app_debugFactory;
 import com.mcwilliams.theninjamethod.network.NetworkModule_ProvideRetrofitInterface$app_debugFactory;
-import com.mcwilliams.theninjamethod.viewmodel.ExerciseListViewModel;
-import com.mcwilliams.theninjamethod.viewmodel.ExerciseListViewModel_MembersInjector;
+import com.mcwilliams.theninjamethod.network.NetworkModule_ProvideWorkoutApi$app_debugFactory;
+import com.mcwilliams.theninjamethod.network.WorkoutApi;
+import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel;
+import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel_MembersInjector;
+import com.mcwilliams.theninjamethod.ui.workouts.WorkoutListViewModel;
+import com.mcwilliams.theninjamethod.ui.workouts.WorkoutListViewModel_MembersInjector;
 import dagger.internal.Preconditions;
 import dagger.internal.SingleCheck;
 import javax.annotation.Generated;
@@ -23,7 +27,9 @@ import retrofit2.Retrofit;
 public final class DaggerViewModelInjector implements ViewModelInjector {
   private Provider<Retrofit> provideRetrofitInterface$app_debugProvider;
 
-  private Provider<ExerciseApi> providePostApi$app_debugProvider;
+  private Provider<ExerciseApi> provideExerciseApi$app_debugProvider;
+
+  private Provider<WorkoutApi> provideWorkoutApi$app_debugProvider;
 
   private DaggerViewModelInjector() {
 
@@ -41,15 +47,25 @@ public final class DaggerViewModelInjector implements ViewModelInjector {
   @SuppressWarnings("unchecked")
   private void initialize() {
     this.provideRetrofitInterface$app_debugProvider = SingleCheck.provider(NetworkModule_ProvideRetrofitInterface$app_debugFactory.create());
-    this.providePostApi$app_debugProvider = SingleCheck.provider(NetworkModule_ProvidePostApi$app_debugFactory.create(provideRetrofitInterface$app_debugProvider));
+    this.provideExerciseApi$app_debugProvider = SingleCheck.provider(NetworkModule_ProvideExerciseApi$app_debugFactory.create(provideRetrofitInterface$app_debugProvider));
+    this.provideWorkoutApi$app_debugProvider = SingleCheck.provider(NetworkModule_ProvideWorkoutApi$app_debugFactory.create(provideRetrofitInterface$app_debugProvider));
   }
 
   @Override
-  public void inject(ExerciseListViewModel postListViewModel) {
-    injectExerciseListViewModel(postListViewModel);}
+  public void inject(ExerciseListViewModel exerciseListViewModel) {
+    injectExerciseListViewModel(exerciseListViewModel);}
+
+  @Override
+  public void inject(WorkoutListViewModel workoutListViewModel) {
+    injectWorkoutListViewModel(workoutListViewModel);}
 
   private ExerciseListViewModel injectExerciseListViewModel(ExerciseListViewModel instance) {
-    ExerciseListViewModel_MembersInjector.injectExerciseApi(instance, providePostApi$app_debugProvider.get());
+    ExerciseListViewModel_MembersInjector.injectExerciseApi(instance, provideExerciseApi$app_debugProvider.get());
+    return instance;
+  }
+
+  private WorkoutListViewModel injectWorkoutListViewModel(WorkoutListViewModel instance) {
+    WorkoutListViewModel_MembersInjector.injectWorkoutApi(instance, provideWorkoutApi$app_debugProvider.get());
     return instance;
   }
 

@@ -6,7 +6,7 @@
 
         <variable
             name="exerciseListViewModel"
-            type="com.mcwilliams.theninjamethod.viewmodel.ExerciseListViewModel" />
+            type="com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

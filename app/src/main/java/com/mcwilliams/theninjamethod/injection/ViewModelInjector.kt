@@ -1,7 +1,8 @@
 package com.mcwilliams.theninjamethod.injection
 
 import com.mcwilliams.theninjamethod.network.NetworkModule
-import com.mcwilliams.theninjamethod.viewmodel.ExerciseListViewModel
+import com.mcwilliams.theninjamethod.ui.workouts.WorkoutListViewModel
+import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -13,9 +14,11 @@ import javax.inject.Singleton
 interface ViewModelInjector {
     /**
      * Injects required dependencies into the specified PostListViewModel.
-     * @param postListViewModel PostListViewModel in which to inject the dependencies
+     * @param exerciseListViewModel PostListViewModel in which to inject the dependencies
      */
-    fun inject(postListViewModel: ExerciseListViewModel)
+    fun inject(exerciseListViewModel: ExerciseListViewModel)
+
+    fun inject(workoutListViewModel: WorkoutListViewModel)
 
     @Component.Builder
     interface Builder {

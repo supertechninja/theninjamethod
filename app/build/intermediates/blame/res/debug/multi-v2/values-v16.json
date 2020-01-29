@@ -4,7 +4,7 @@
             "outputFile": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v16/values-v16.xml",
             "map": [
                 {
-                    "source": "/Users/supertechninja/.gradle/caches/transforms-2/files-2.1/286b21dd00506067c0ab1958af926261/appcompat-1.1.0/res/values-v16/values-v16.xml",
+                    "source": "/Users/supertechninja/.gradle/caches/transforms-2/files-2.1/87e116948d55c07fc723b593692b8f22/appcompat-1.1.0/res/values-v16/values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "/Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b188d04e4bda18e0a38c574452278f1a/core-1.1.0/res/values-v16/values-v16.xml",
+                    "source": "/Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b1b2213f4683d6efab416915eaef467d/core-1.1.0/res/values-v16/values-v16.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

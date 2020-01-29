@@ -12,6 +12,14 @@
         "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
     },
     {
+        "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/res/merged/debug/drawable_ic_delete.xml.flat",
+        "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/drawable/ic_delete.xml"
+    },
+    {
+        "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/res/merged/debug/drawable-night_ic_delete.xml.flat",
+        "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/drawable-night/ic_delete.xml"
+    },
+    {
         "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher_round.png.flat",
         "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
     },
@@ -56,12 +64,12 @@
         "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/res/merged/debug/navigation_mobile_navigation.xml.flat",
-        "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/navigation/mobile_navigation.xml"
-    },
-    {
         "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/res/merged/debug/drawable_ic_home_black_24dp.xml.flat",
         "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/drawable/ic_home_black_24dp.xml"
+    },
+    {
+        "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/res/merged/debug/navigation_mobile_navigation.xml.flat",
+        "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/navigation/mobile_navigation.xml"
     },
     {
         "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
@@ -78,6 +86,10 @@
     {
         "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
         "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/res/merged/debug/layout_add_exercise_dialog.xml.flat",
+        "source": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/res/layout/add_exercise_dialog.xml"
     },
     {
         "merged": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_ic_launcher.xml.flat",

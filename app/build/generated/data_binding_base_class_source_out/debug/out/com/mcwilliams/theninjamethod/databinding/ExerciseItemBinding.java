@@ -11,7 +11,7 @@ import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import com.mcwilliams.theninjamethod.R;
-import com.mcwilliams.theninjamethod.viewmodel.ExerciseViewModel;
+import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseViewModel;
 import java.lang.Deprecated;
 import java.lang.Object;
 

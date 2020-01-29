@@ -4,7 +4,26 @@
             "outputFile": "/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v26/values-v26.xml",
             "map": [
                 {
-                    "source": "/Users/supertechninja/.gradle/caches/transforms-2/files-2.1/286b21dd00506067c0ab1958af926261/appcompat-1.1.0/res/values-v26/values-v26.xml",
+                    "source": "/Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/res/values-v26/values-v26.xml",
+                    "from": {
+                        "startLines": "2,6,10,14",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,253,438,631",
+                        "endLines": "5,9,13,17",
+                        "endColumns": "12,12,12,12",
+                        "endOffsets": "248,433,626,806"
+                    },
+                    "to": {
+                        "startLines": "17,21,25,29",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "989,1187,1372,1565",
+                        "endLines": "20,24,28,32",
+                        "endColumns": "12,12,12,12",
+                        "endOffsets": "1182,1367,1560,1740"
+                    }
+                },
+                {
+                    "source": "/Users/supertechninja/.gradle/caches/transforms-2/files-2.1/87e116948d55c07fc723b593692b8f22/appcompat-1.1.0/res/values-v26/values-v26.xml",
                     "from": {
                         "startLines": "2,3,4,8,12,16",
                         "startColumns": "4,4,4,4,4,4",

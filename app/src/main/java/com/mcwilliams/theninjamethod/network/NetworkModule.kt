@@ -26,10 +26,16 @@ object NetworkModule {
     @Provides
     @Reusable
     @JvmStatic
-    internal fun providePostApi(retrofit: Retrofit): ExerciseApi {
+    internal fun provideExerciseApi(retrofit: Retrofit): ExerciseApi {
         return retrofit.create(ExerciseApi::class.java)
     }
 
+    @Provides
+    @Reusable
+    @JvmStatic
+    internal fun provideWorkoutApi(retrofit: Retrofit): WorkoutApi {
+        return retrofit.create(WorkoutApi::class.java)
+    }
 
 
     /**
@@ -46,9 +52,8 @@ object NetworkModule {
         val okHttpClient = OkHttpClient.Builder()
         okHttpClient.addInterceptor(logging)
 
-
         return Retrofit.Builder()
-            .baseUrl("https://sheetdb.io")
+            .baseUrl("https://v2-api.sheety.co/3914cbe7336242c6f95cabe092d3ae4e/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .client(okHttpClient.build())

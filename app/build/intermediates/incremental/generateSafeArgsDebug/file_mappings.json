@@ -1,1 +1,1 @@
-[{"navFile":"src/main/res/navigation/mobile_navigation.xml","javaFiles":["com.mcwilliams.theninjamethod.ui.home.HomeFragmentDirections","com.mcwilliams.theninjamethod.ui.home.HomeSecondFragmentDirections","com.mcwilliams.theninjamethod.ui.home.HomeSecondFragmentArgs"]}]
+[{"navFile":"src/main/res/navigation/mobile_navigation.xml","javaFiles":["com.mcwilliams.theninjamethod.ui.exercises.ExercisesFragmentDirections","com.mcwilliams.theninjamethod.ui.exercises.HomeSecondFragmentDirections","com.mcwilliams.theninjamethod.ui.exercises.HomeSecondFragmentArgs"]}]

@@ -13,54 +13,397 @@
 11    <uses-permission android:name="android.permission.INTERNET" />
 11-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:5:5-66
 11-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:5:22-64
-12
-13    <application
-13-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:7:5-23:19
-14        android:allowBackup="true"
-14-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:8:9-35
-15        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-15-->[androidx.core:core:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b188d04e4bda18e0a38c574452278f1a/core-1.1.0/AndroidManifest.xml:24:18-86
-16        android:debuggable="true"
-17        android:extractNativeLibs="false"
-18        android:icon="@mipmap/ic_launcher"
-18-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:9:9-43
-19        android:label="@string/app_name"
-19-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:10:9-41
-20        android:roundIcon="@mipmap/ic_launcher_round"
-20-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:11:9-54
-21        android:supportsRtl="true"
-21-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:12:9-35
-22        android:testOnly="true"
-23        android:theme="@style/AppTheme" >
-23-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:13:9-40
-24        <activity
-24-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:14:9-22:20
-25            android:name="com.mcwilliams.theninjamethod.MainActivity"
-25-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:15:13-41
-26            android:label="@string/app_name" >
-26-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:16:13-45
-27            <intent-filter>
-27-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:17:13-21:29
-28                <action android:name="android.intent.action.MAIN" />
-28-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:18:17-69
-28-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:18:25-66
-29
-30                <category android:name="android.intent.category.LAUNCHER" />
-30-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:20:17-77
-30-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:20:27-74
-31            </intent-filter>
-32        </activity>
-33
-34        <provider
-34-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:23:9-27:43
-35            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
-35-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:24:13-79
-36            android:authorities="com.mcwilliams.theninjamethod.lifecycle-process"
-36-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:25:13-69
-37            android:exported="false"
-37-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:26:13-37
-38            android:multiprocess="true" />
-38-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0b80193cc17569737dd9556a39a14a2d/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:27:13-40
-39    </application>
-40
-41</manifest>
+12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+12-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:12:5-79
+12-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:12:22-76
+13    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+13-->[com.google.android.gms:play-services-measurement-api:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/11cb9e240a208dea6cb2349dc652d04b/jetified-play-services-measurement-api-17.2.0/AndroidManifest.xml:24:5-68
+13-->[com.google.android.gms:play-services-measurement-api:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/11cb9e240a208dea6cb2349dc652d04b/jetified-play-services-measurement-api-17.2.0/AndroidManifest.xml:24:22-65
+14    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+14-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:26:5-82
+14-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:26:22-79
+15    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+15-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:26:5-110
+15-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:26:22-107
+16
+17    <application
+17-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:7:5-23:19
+18        android:name="com.mcwilliams.theninjamethod.TheNinjaMethodApplication"
+18-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:13:9-50
+19        android:allowBackup="true"
+19-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:8:9-35
+20        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+20-->[androidx.core:core:1.1.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/b1b2213f4683d6efab416915eaef467d/core-1.1.0/AndroidManifest.xml:24:18-86
+21        android:debuggable="true"
+22        android:extractNativeLibs="false"
+23        android:icon="@mipmap/ic_launcher"
+23-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:9:9-43
+24        android:label="@string/app_name"
+24-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:10:9-41
+25        android:roundIcon="@mipmap/ic_launcher_round"
+25-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:11:9-54
+26        android:supportsRtl="true"
+26-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:12:9-35
+27        android:testOnly="true"
+28        android:theme="@style/MyTheme.DayNight" >
+28-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:14:9-48
+29        <activity
+29-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:15:9-22:20
+30            android:name="com.mcwilliams.theninjamethod.ui.MainActivity"
+30-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:16:13-44
+31            android:label="@string/app_name" >
+31-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:17:13-45
+32            <intent-filter>
+32-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:18:13-21:29
+33                <action android:name="android.intent.action.MAIN" />
+33-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:19:17-69
+33-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:19:25-66
+34
+35                <category android:name="android.intent.category.LAUNCHER" />
+35-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:20:17-77
+35-->/Users/supertechninja/AndroidStudioProjects/TheNinjaMethod/app/src/main/AndroidManifest.xml:20:27-74
+36            </intent-filter>
+37        </activity>
+38
+39        <meta-data
+39-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:16:9-18:69
+40            android:name="com.google.android.gms.version"
+40-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:17:13-58
+41            android:value="@integer/google_play_services_version" />
+41-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:18:13-66
+42        <meta-data
+42-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:19:9-21:63
+43            android:name="com.facebook.sdk.ApplicationId"
+43-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:20:13-58
+44            android:value="@string/facebook_application_id" />
+44-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:21:13-60
+45
+46        <activity
+46-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:23:9-27:61
+47            android:name="com.firebase.ui.auth.KickoffActivity"
+47-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:24:13-64
+48            android:exported="false"
+48-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:25:13-37
+49            android:label=""
+49-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:26:13-29
+50            android:theme="@style/FirebaseUI.Transparent" />
+50-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:27:13-58
+51        <activity
+51-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:28:9-32:61
+52            android:name="com.firebase.ui.auth.ui.idp.SingleSignInActivity"
+52-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:29:13-76
+53            android:exported="false"
+53-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:30:13-37
+54            android:label=""
+54-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:31:13-29
+55            android:theme="@style/FirebaseUI.Transparent" />
+55-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:32:13-58
+56        <activity
+56-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:33:9-37:61
+57            android:name="com.firebase.ui.auth.ui.credentials.CredentialSaveActivity"
+57-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:34:13-86
+58            android:exported="false"
+58-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:35:13-37
+59            android:label=""
+59-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:36:13-29
+60            android:theme="@style/FirebaseUI.Transparent" />
+60-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:37:13-58
+61        <activity
+61-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:38:9-42:58
+62            android:name="com.firebase.ui.auth.ui.email.RecoverPasswordActivity"
+62-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:39:13-81
+63            android:exported="false"
+63-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:40:13-37
+64            android:label="@string/fui_title_recover_password_activity"
+64-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:41:13-72
+65            android:windowSoftInputMode="adjustResize" />
+65-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:42:13-55
+66        <activity
+66-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:43:9-47:58
+67            android:name="com.firebase.ui.auth.ui.email.EmailActivity"
+67-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:44:13-71
+68            android:exported="false"
+68-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:45:13-37
+69            android:label="@string/fui_sign_in_default"
+69-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:46:13-56
+70            android:windowSoftInputMode="adjustResize" />
+70-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:47:13-55
+71        <activity
+71-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:48:9-52:77
+72            android:name="com.firebase.ui.auth.ui.phone.PhoneActivity"
+72-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:49:13-71
+73            android:exported="false"
+73-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:50:13-37
+74            android:label="@string/fui_sign_in_with_phone_number"
+74-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:51:13-66
+75            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
+75-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:52:13-74
+76        <activity
+76-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:53:9-57:58
+77            android:name="com.firebase.ui.auth.ui.idp.WelcomeBackIdpPrompt"
+77-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:54:13-76
+78            android:exported="false"
+78-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:55:13-37
+79            android:label="@string/fui_title_welcome_back_idp_prompt"
+79-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:56:13-70
+80            android:windowSoftInputMode="adjustResize" />
+80-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:57:13-55
+81        <activity
+81-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:58:9-62:58
+82            android:name="com.firebase.ui.auth.ui.email.WelcomeBackPasswordPrompt"
+82-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:59:13-83
+83            android:exported="false"
+83-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:60:13-37
+84            android:label="@string/fui_title_welcome_back_password_prompt"
+84-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:61:13-75
+85            android:windowSoftInputMode="adjustResize" />
+85-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:62:13-55
+86        <activity
+86-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:63:9-67:58
+87            android:name="com.firebase.ui.auth.ui.email.WelcomeBackEmailLinkPrompt"
+87-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:64:13-84
+88            android:exported="false"
+88-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:65:13-37
+89            android:label="@string/fui_title_welcome_back_password_prompt"
+89-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:66:13-75
+90            android:windowSoftInputMode="adjustResize" />
+90-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:67:13-55
+91        <activity
+91-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:68:9-73:58
+92            android:name="com.firebase.ui.auth.ui.email.EmailLinkCatcherActivity"
+92-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:69:13-82
+93            android:exported="false"
+93-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:70:13-37
+94            android:label=""
+94-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:71:13-29
+95            android:theme="@style/FirebaseUI.Transparent"
+95-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:72:13-58
+96            android:windowSoftInputMode="adjustResize" />
+96-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:73:13-55
+97        <activity
+97-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:74:9-78:58
+98            android:name="com.firebase.ui.auth.ui.email.EmailLinkErrorRecoveryActivity"
+98-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:75:13-88
+99            android:exported="false"
+99-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:76:13-37
+100            android:label="@string/fui_sign_in_default"
+100-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:77:13-56
+101            android:windowSoftInputMode="adjustResize" />
+101-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:78:13-55
+102        <activity
+102-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:79:9-82:65
+103            android:name="com.firebase.ui.auth.ui.idp.AuthMethodPickerActivity"
+103-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:80:13-80
+104            android:exported="false"
+104-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:81:13-37
+105            android:label="@string/fui_default_toolbar_title" />
+105-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:82:13-62
+106        <activity
+106-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:83:9-87:48
+107            android:name="com.facebook.FacebookActivity"
+107-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:84:13-57
+108            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+108-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:85:13-96
+109            android:label="@string/app_name" />
+109-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:86:13-45
+110        <activity
+110-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:88:9-100:20
+111            android:name="com.facebook.CustomTabActivity"
+111-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:89:13-58
+112            android:exported="true" >
+112-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:90:13-36
+113            <intent-filter>
+113-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:92:13-99:29
+114                <action android:name="android.intent.action.VIEW" />
+114-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:93:17-69
+114-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:93:25-66
+115
+116                <category android:name="android.intent.category.DEFAULT" />
+116-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:95:17-76
+116-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:95:27-73
+117                <category android:name="android.intent.category.BROWSABLE" />
+117-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:96:17-78
+117-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:96:27-75
+118
+119                <data android:scheme="@string/facebook_login_protocol_scheme" />
+119-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:98:17-81
+119-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:98:23-78
+120            </intent-filter>
+121        </activity>
+122
+123        <provider
+123-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:102:9-106:38
+124            android:name="com.firebase.ui.auth.data.client.AuthUiInitProvider"
+124-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:103:13-79
+125            android:authorities="com.mcwilliams.theninjamethod.authuiinitprovider"
+125-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:104:13-70
+126            android:exported="false"
+126-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:105:13-37
+127            android:initOrder="90" />
+127-->[com.firebaseui:firebase-ui-auth:4.3.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6ff384520830c347f1ac5f56d33d3486/jetified-firebase-ui-auth-4.3.1/AndroidManifest.xml:106:13-35
+128
+129        <service
+129-->[com.google.firebase:firebase-database:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0286264747b62a6d0a19a3b5f249b6a5/jetified-firebase-database-19.2.0/AndroidManifest.xml:29:9-35:19
+130            android:name="com.google.firebase.components.ComponentDiscoveryService"
+130-->[com.google.firebase:firebase-database:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0286264747b62a6d0a19a3b5f249b6a5/jetified-firebase-database-19.2.0/AndroidManifest.xml:30:13-84
+131            android:directBootAware="true"
+131-->[com.google.firebase:firebase-common:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e516d60cf311aff73fd555a9c1c543b4/jetified-firebase-common-19.2.0/AndroidManifest.xml:15:13-43
+132            android:exported="false" >
+132-->[com.google.firebase:firebase-database:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0286264747b62a6d0a19a3b5f249b6a5/jetified-firebase-database-19.2.0/AndroidManifest.xml:31:13-37
+133            <meta-data
+133-->[com.google.firebase:firebase-database:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0286264747b62a6d0a19a3b5f249b6a5/jetified-firebase-database-19.2.0/AndroidManifest.xml:32:13-34:85
+134                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+134-->[com.google.firebase:firebase-database:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0286264747b62a6d0a19a3b5f249b6a5/jetified-firebase-database-19.2.0/AndroidManifest.xml:33:17-109
+135                android:value="com.google.firebase.components.ComponentRegistrar" />
+135-->[com.google.firebase:firebase-database:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/0286264747b62a6d0a19a3b5f249b6a5/jetified-firebase-database-19.2.0/AndroidManifest.xml:34:17-82
+136            <meta-data
+136-->[com.google.firebase:firebase-auth:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/37d75cd52dbd355fabe50462cd95f3b9/jetified-firebase-auth-17.0.0/AndroidManifest.xml:36:13-38:85
+137                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+137-->[com.google.firebase:firebase-auth:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/37d75cd52dbd355fabe50462cd95f3b9/jetified-firebase-auth-17.0.0/AndroidManifest.xml:37:17-109
+138                android:value="com.google.firebase.components.ComponentRegistrar" />
+138-->[com.google.firebase:firebase-auth:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/37d75cd52dbd355fabe50462cd95f3b9/jetified-firebase-auth-17.0.0/AndroidManifest.xml:38:17-82
+139            <meta-data
+139-->[com.google.android.gms:play-services-measurement-api:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/11cb9e240a208dea6cb2349dc652d04b/jetified-play-services-measurement-api-17.2.0/AndroidManifest.xml:30:13-32:85
+140                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+140-->[com.google.android.gms:play-services-measurement-api:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/11cb9e240a208dea6cb2349dc652d04b/jetified-play-services-measurement-api-17.2.0/AndroidManifest.xml:31:17-139
+141                android:value="com.google.firebase.components.ComponentRegistrar" />
+141-->[com.google.android.gms:play-services-measurement-api:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/11cb9e240a208dea6cb2349dc652d04b/jetified-play-services-measurement-api-17.2.0/AndroidManifest.xml:32:17-82
+142            <meta-data
+142-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:32:13-34:85
+143                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+143-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:33:17-96
+144                android:value="com.google.firebase.components.ComponentRegistrar" />
+144-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:34:17-82
+145        </service>
+146
+147        <activity
+147-->[com.google.firebase:firebase-auth:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/37d75cd52dbd355fabe50462cd95f3b9/jetified-firebase-auth-17.0.0/AndroidManifest.xml:24:9-31:50
+148            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
+148-->[com.google.firebase:firebase-auth:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/37d75cd52dbd355fabe50462cd95f3b9/jetified-firebase-auth-17.0.0/AndroidManifest.xml:25:13-85
+149            android:excludeFromRecents="true"
+149-->[com.google.firebase:firebase-auth:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/37d75cd52dbd355fabe50462cd95f3b9/jetified-firebase-auth-17.0.0/AndroidManifest.xml:26:13-46
+150            android:exported="true"
+150-->[com.google.firebase:firebase-auth:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/37d75cd52dbd355fabe50462cd95f3b9/jetified-firebase-auth-17.0.0/AndroidManifest.xml:27:13-36
+151            android:launchMode="singleTask"
+151-->[com.google.firebase:firebase-auth:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/37d75cd52dbd355fabe50462cd95f3b9/jetified-firebase-auth-17.0.0/AndroidManifest.xml:28:13-44
+152            android:permission="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN"
+152-->[com.google.firebase:firebase-auth:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/37d75cd52dbd355fabe50462cd95f3b9/jetified-firebase-auth-17.0.0/AndroidManifest.xml:29:13-102
+153            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+153-->[com.google.firebase:firebase-auth:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/37d75cd52dbd355fabe50462cd95f3b9/jetified-firebase-auth-17.0.0/AndroidManifest.xml:30:13-72
+154        <activity
+154-->[com.google.android.gms:play-services-auth:16.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/c383eb625c86a5a059e22cb5e3454168/jetified-play-services-auth-16.0.1/AndroidManifest.xml:23:9-27:75
+155            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+155-->[com.google.android.gms:play-services-auth:16.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/c383eb625c86a5a059e22cb5e3454168/jetified-play-services-auth-16.0.1/AndroidManifest.xml:24:13-93
+156            android:excludeFromRecents="true"
+156-->[com.google.android.gms:play-services-auth:16.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/c383eb625c86a5a059e22cb5e3454168/jetified-play-services-auth-16.0.1/AndroidManifest.xml:25:13-46
+157            android:exported="false"
+157-->[com.google.android.gms:play-services-auth:16.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/c383eb625c86a5a059e22cb5e3454168/jetified-play-services-auth-16.0.1/AndroidManifest.xml:26:13-37
+158            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+158-->[com.google.android.gms:play-services-auth:16.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/c383eb625c86a5a059e22cb5e3454168/jetified-play-services-auth-16.0.1/AndroidManifest.xml:27:13-72
+159        <!--
+160            Service handling Google Sign-In user revocation. For apps that do not integrate with
+161            Google Sign-In, this service will never be started.
+162        -->
+163        <service
+163-->[com.google.android.gms:play-services-auth:16.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/c383eb625c86a5a059e22cb5e3454168/jetified-play-services-auth-16.0.1/AndroidManifest.xml:33:9-36:110
+164            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+164-->[com.google.android.gms:play-services-auth:16.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/c383eb625c86a5a059e22cb5e3454168/jetified-play-services-auth-16.0.1/AndroidManifest.xml:34:13-89
+165            android:exported="true"
+165-->[com.google.android.gms:play-services-auth:16.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/c383eb625c86a5a059e22cb5e3454168/jetified-play-services-auth-16.0.1/AndroidManifest.xml:35:13-36
+166            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION" />
+166-->[com.google.android.gms:play-services-auth:16.0.1] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/c383eb625c86a5a059e22cb5e3454168/jetified-play-services-auth-16.0.1/AndroidManifest.xml:36:13-107
+167
+168        <receiver
+168-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:37:9-44:20
+169            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+169-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:38:13-78
+170            android:exported="true"
+170-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:39:13-36
+171            android:permission="com.google.android.c2dm.permission.SEND" >
+171-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:40:13-73
+172            <intent-filter>
+172-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:41:13-43:29
+173                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+173-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:42:17-81
+173-->[com.google.firebase:firebase-iid:19.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/ed7445100ff3bcafe4f1243977cdb287/jetified-firebase-iid-19.0.0/AndroidManifest.xml:42:25-78
+174            </intent-filter>
+175        </receiver>
+176
+177        <activity
+177-->[com.google.android.gms:play-services-base:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/fe1e4297607731a777b0376dd38f755a/jetified-play-services-base-17.0.0/AndroidManifest.xml:23:9-26:75
+178            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+178-->[com.google.android.gms:play-services-base:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/fe1e4297607731a777b0376dd38f755a/jetified-play-services-base-17.0.0/AndroidManifest.xml:24:13-79
+179            android:exported="false"
+179-->[com.google.android.gms:play-services-base:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/fe1e4297607731a777b0376dd38f755a/jetified-play-services-base-17.0.0/AndroidManifest.xml:25:13-37
+180            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+180-->[com.google.android.gms:play-services-base:17.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/fe1e4297607731a777b0376dd38f755a/jetified-play-services-base-17.0.0/AndroidManifest.xml:26:13-72
+181
+182        <receiver
+182-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:29:9-33:20
+183            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+183-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:30:13-85
+184            android:enabled="true"
+184-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:31:13-35
+185            android:exported="false" >
+185-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:32:13-37
+186        </receiver>
+187        <receiver
+187-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:34:9-42:20
+188            android:name="com.google.android.gms.measurement.AppMeasurementInstallReferrerReceiver"
+188-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:35:13-100
+189            android:enabled="true"
+189-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:36:13-35
+190            android:exported="true"
+190-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:37:13-36
+191            android:permission="android.permission.INSTALL_PACKAGES" >
+191-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:38:13-69
+192            <intent-filter>
+192-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:39:13-41:29
+193                <action android:name="com.android.vending.INSTALL_REFERRER" />
+193-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:40:17-79
+193-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:40:25-76
+194            </intent-filter>
+195        </receiver>
+196
+197        <service
+197-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:44:9-47:40
+198            android:name="com.google.android.gms.measurement.AppMeasurementService"
+198-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:45:13-84
+199            android:enabled="true"
+199-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:46:13-35
+200            android:exported="false" />
+200-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:47:13-37
+201        <service
+201-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:48:9-52:72
+202            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+202-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:49:13-87
+203            android:enabled="true"
+203-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:50:13-35
+204            android:exported="false"
+204-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:51:13-37
+205            android:permission="android.permission.BIND_JOB_SERVICE" />
+205-->[com.google.android.gms:play-services-measurement:17.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/6dcd4e65b5baea29303ea829b5af851e/jetified-play-services-measurement-17.2.0/AndroidManifest.xml:52:13-69
+206
+207        <provider
+207-->[com.google.firebase:firebase-common:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e516d60cf311aff73fd555a9c1c543b4/jetified-firebase-common-19.2.0/AndroidManifest.xml:19:9-23:39
+208            android:name="com.google.firebase.provider.FirebaseInitProvider"
+208-->[com.google.firebase:firebase-common:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e516d60cf311aff73fd555a9c1c543b4/jetified-firebase-common-19.2.0/AndroidManifest.xml:20:13-77
+209            android:authorities="com.mcwilliams.theninjamethod.firebaseinitprovider"
+209-->[com.google.firebase:firebase-common:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e516d60cf311aff73fd555a9c1c543b4/jetified-firebase-common-19.2.0/AndroidManifest.xml:21:13-72
+210            android:exported="false"
+210-->[com.google.firebase:firebase-common:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e516d60cf311aff73fd555a9c1c543b4/jetified-firebase-common-19.2.0/AndroidManifest.xml:22:13-37
+211            android:initOrder="100" />
+211-->[com.google.firebase:firebase-common:19.2.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/e516d60cf311aff73fd555a9c1c543b4/jetified-firebase-common-19.2.0/AndroidManifest.xml:23:13-36
+212        <provider
+212-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/7bd552f4b1e09ae4d34a8e1f605b59eb/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:23:9-27:43
+213            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+213-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/7bd552f4b1e09ae4d34a8e1f605b59eb/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:24:13-79
+214            android:authorities="com.mcwilliams.theninjamethod.lifecycle-process"
+214-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/7bd552f4b1e09ae4d34a8e1f605b59eb/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:25:13-69
+215            android:exported="false"
+215-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/7bd552f4b1e09ae4d34a8e1f605b59eb/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:26:13-37
+216            android:multiprocess="true" />
+216-->[androidx.lifecycle:lifecycle-process:2.0.0] /Users/supertechninja/.gradle/caches/transforms-2/files-2.1/7bd552f4b1e09ae4d34a8e1f605b59eb/jetified-lifecycle-process-2.0.0/AndroidManifest.xml:27:13-40
+217    </application>
+218
+219</manifest>

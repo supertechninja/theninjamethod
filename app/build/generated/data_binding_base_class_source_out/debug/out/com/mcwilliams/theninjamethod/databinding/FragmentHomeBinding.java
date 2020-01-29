@@ -10,22 +10,33 @@ import androidx.databinding.Bindable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mcwilliams.theninjamethod.R;
-import com.mcwilliams.theninjamethod.viewmodel.ExerciseListViewModel;
+import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel;
 import java.lang.Deprecated;
 import java.lang.Object;
 
 public abstract class FragmentHomeBinding extends ViewDataBinding {
   @NonNull
+  public final FloatingActionButton addExercise;
+
+  @NonNull
   public final RecyclerView exerciseList;
+
+  @NonNull
+  public final SwipeRefreshLayout swipeContainer;
 
   @Bindable
   protected ExerciseListViewModel mExerciseListViewModel;
 
   protected FragmentHomeBinding(Object _bindingComponent, View _root, int _localFieldCount,
-      RecyclerView exerciseList) {
+      FloatingActionButton addExercise, RecyclerView exerciseList,
+      SwipeRefreshLayout swipeContainer) {
     super(_bindingComponent, _root, _localFieldCount);
+    this.addExercise = addExercise;
     this.exerciseList = exerciseList;
+    this.swipeContainer = swipeContainer;
   }
 
   public abstract void setExerciseListViewModel(
