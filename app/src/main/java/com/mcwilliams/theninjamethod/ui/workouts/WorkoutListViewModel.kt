@@ -1,6 +1,8 @@
 package com.mcwilliams.theninjamethod.ui.workouts
 
 import android.util.Log
+import android.view.View
+import androidx.lifecycle.MutableLiveData
 import com.mcwilliams.theninjamethod.model.*
 import com.mcwilliams.theninjamethod.network.WorkoutApi
 import com.mcwilliams.theninjamethod.utils.viewmodel.BaseViewModel
@@ -16,14 +18,13 @@ class WorkoutListViewModel() : BaseViewModel() {
 
     private lateinit var subscription: Disposable
 
-//    val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
-//
-//    var isRefreshing : Boolean = false
-//
-//    val errorMessage: MutableLiveData<Int> = MutableLiveData()
-//    val errorClickListener = View.OnClickListener { loadExercises() }
-//
-//    val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
+    val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
+
+    var isRefreshing: Boolean = false
+    val errorMessage: MutableLiveData<Int> = MutableLiveData()
+    val errorClickListener = View.OnClickListener { loadWorkouts() }
+
+    val workoutListAdapter: WorkoutListAdapter = WorkoutListAdapter()
 
     init {
         loadWorkouts()
@@ -38,8 +39,8 @@ class WorkoutListViewModel() : BaseViewModel() {
         subscription = workoutApi.getWorkouts()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-//            .doOnSubscribe { onRetrievePostListStart() }
-//            .doOnTerminate { onRetrievePostListFinish() }
+            .doOnSubscribe { onRetrievePostListStart() }
+            .doOnTerminate { onRetrievePostListFinish() }
             .subscribe(
                 { result -> onRetrievePostListSuccess(result) },
                 { onRetrievePostListError() }
@@ -50,7 +51,7 @@ class WorkoutListViewModel() : BaseViewModel() {
 //        val exerciseToDelete = exerciseListAdapter.getExerciseList()[position]
 //    }
 
-//    fun addExercise(exercise: AddExerciseRequest){
+    //    fun addExercise(exercise: AddExerciseRequest){
 //        subscription = exerciseApi.addExercise(exercise)
 //            .subscribeOn(Schedulers.io())
 //            .observeOn(AndroidSchedulers.mainThread())
@@ -61,25 +62,29 @@ class WorkoutListViewModel() : BaseViewModel() {
 //
 //    }
 //
-//    fun refreshData(){
-//        isRefreshing = true
-//        loadExercises()
-//    }
-//
-//    private fun onRetrievePostListStart() {
-//        loadingVisibility.value = View.VISIBLE
-//        errorMessage.value = null
-//        isRefreshing = false
-//    }
-//
-//    private fun onRetrievePostListFinish() {
-//        loadingVisibility.value = View.GONE
-//        isRefreshing = false
-//    }
+    fun refreshData() {
+        isRefreshing = true
+        loadWorkouts()
+    }
+
+    private fun onRetrievePostListStart() {
+        loadingVisibility.value = View.VISIBLE
+        errorMessage.value = null
+        isRefreshing = false
+    }
+
+    private fun onRetrievePostListFinish() {
+        loadingVisibility.value = View.GONE
+        isRefreshing = false
+    }
 
     private fun onRetrievePostListSuccess(workoutList: WorkoutList) {
         Log.d(TAG, "onRetrievePostListSuccess: " + workoutList.workouts.size.toString())
-//        exerciseListAdapter.updatePostList(exerciseList.exercises)
+        workoutListAdapter.updateWorkoutList(
+            workoutList.workouts.associateBy(
+                keySelector = { it.date },
+                valueTransform = { it }).keys.toList()
+        )
     }
 
     private fun onRetrievePostListError() {
