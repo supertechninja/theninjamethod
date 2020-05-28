@@ -2,33 +2,42 @@ package com.mcwilliams.theninjamethod.ui.exercises.viewmodel
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.model.*
 import com.mcwilliams.theninjamethod.network.ExerciseApi
 import com.mcwilliams.theninjamethod.ui.exercises.ExerciseListAdapter
-import com.mcwilliams.theninjamethod.utils.viewmodel.BaseViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ExerciseListViewModel() : BaseViewModel() {
-    @Inject
-    lateinit var exerciseApi: ExerciseApi
-
-    private lateinit var subscription: Disposable
+class ExerciseListViewModel @Inject constructor(
+    private val exerciseApi: ExerciseApi
+) : ViewModel() {
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
 
-    var isRefreshing : Boolean = false
+    var isRefreshing: Boolean = false
 
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
-    val errorClickListener = View.OnClickListener { loadExercises() }
+    val errorClickListener = View.OnClickListener {
+        viewModelScope.launch {
+            loadExercises()
+        }
+    }
 
     val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
 
     init {
-        loadExercises()
+        viewModelScope.launch {
+            val data = loadExercises()
+            onRetrievePostListSuccess(data)
+        }
+
+//        viewModelScope.launch {
+//            val loginResult = getToken()
+//            Log.d(Companion.TAG, ": " + loginResult!!.access_token)
+//        }
     }
 
 //    fun setupSwipeToDelete(){
@@ -36,36 +45,36 @@ class ExerciseListViewModel() : BaseViewModel() {
 //        itemTouchHelper.attachToRecyclerView(recyclerView)
 //    }
 
-    private fun loadExercises() {
-        subscription = exerciseApi.getExercises()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { onRetrievePostListStart() }
-            .doOnTerminate { onRetrievePostListFinish() }
-            .subscribe(
-                { result -> onRetrievePostListSuccess(result) },
-                { onRetrievePostListError() }
-            )
-    }
+    private suspend fun loadExercises() = exerciseApi.getExercises()
+
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .doOnSubscribe { onRetrievePostListStart() }
+//            .doOnTerminate { onRetrievePostListFinish() }
+//            .subscribe(
+//                { result -> onRetrievePostListSuccess(result) },
+//                { onRetrievePostListError() }
+//            )
+//    }
 
 //    fun deleteExercise(position : Int){
 //        val exerciseToDelete = exerciseListAdapter.getExerciseList()[position]
 //    }
 
-    fun addExercise(exercise: AddExerciseRequest){
-        subscription = exerciseApi.addExercise(exercise)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { refreshData() },
-                { onRetrievePostListError() }
-            )
+    fun addExercise(exercise: AddExerciseRequest) {
+//        subscription = exerciseApi.addExercise(exercise)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(
+//                { refreshData() },
+//                { onRetrievePostListError() }
+//            )
 
     }
 
-    fun refreshData(){
+    fun refreshData() {
         isRefreshing = true
-        loadExercises()
+//        loadExercises()
     }
 
     private fun onRetrievePostListStart() {
@@ -89,6 +98,10 @@ class ExerciseListViewModel() : BaseViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        subscription.dispose()
+//        subscription.dispose()
+    }
+
+    companion object {
+        private const val TAG = "ExerciseListViewModel"
     }
 }

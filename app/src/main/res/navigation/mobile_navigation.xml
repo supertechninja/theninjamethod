@@ -3,41 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_dashboard">
+    app:startDestination="@+id/navigation_workouts">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.mcwilliams.theninjamethod.ui.exercises.ExercisesFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home">
-
-        <action
-            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
-            app:destination="@id/navigation_home_second" />
-    </fragment>
-    <fragment
-        android:id="@+id/navigation_home_second"
-        android:name="com.mcwilliams.theninjamethod.ui.exercises.HomeSecondFragment"
-        android:label="@string/home_second"
-        tools:layout="@layout/fragment_home_second">
-        <action
-            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/navigation_home" />
-
-        <argument
-            android:name="myArg"
-            app:argType="string" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_workouts"
         android:name="com.mcwilliams.theninjamethod.ui.workouts.WorkoutsFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_workouts" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.mcwilliams.theninjamethod.ui.notifications.NotificationsFragment"
+        android:id="@+id/navigation_exercises"
+        android:name="com.mcwilliams.theninjamethod.ui.exercises.ExercisesFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.mcwilliams.theninjamethod.ui.notifications.SettingsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

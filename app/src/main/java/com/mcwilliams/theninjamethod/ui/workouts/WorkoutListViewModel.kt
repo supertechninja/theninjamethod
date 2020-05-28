@@ -3,19 +3,19 @@ package com.mcwilliams.theninjamethod.ui.workouts
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.mcwilliams.theninjamethod.model.*
 import com.mcwilliams.theninjamethod.network.WorkoutApi
-import com.mcwilliams.theninjamethod.utils.viewmodel.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class WorkoutListViewModel() : BaseViewModel() {
-    private val TAG = "WorkoutListViewModel"
-    @Inject
-    lateinit var workoutApi: WorkoutApi
+class WorkoutListViewModel @Inject constructor(
+    private val workoutApi: WorkoutApi
+) : ViewModel() {
 
+    private val TAG = "WorkoutListViewModel"
     private lateinit var subscription: Disposable
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,14 +21,24 @@ import com.mcwilliams.theninjamethod.databinding.FragmentWorkoutsBinding
 import com.mcwilliams.theninjamethod.model.AddExerciseRequest
 import com.mcwilliams.theninjamethod.model.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
+import com.mcwilliams.theninjamethod.utils.ViewModelFactory
+import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 class WorkoutsFragment : Fragment() {
 
-
     private lateinit var binding: FragmentWorkoutsBinding
-    private lateinit var viewModel: WorkoutListViewModel
 
     private var errorSnackbar: Snackbar? = null
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: WorkoutListViewModel by viewModels { viewModelFactory }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AndroidSupportInjection.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,9 +57,7 @@ class WorkoutsFragment : Fragment() {
         binding.workoutList.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
-        viewModel = ViewModelProviders.of(this).get(WorkoutListViewModel::class.java)
-
-        viewModel.errorMessage.observe(this, Observer { errorMessage ->
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
             if (errorMessage != null) showError(errorMessage) else hideError()
         })
         binding.workoutListViewModel = viewModel
@@ -63,14 +72,6 @@ class WorkoutsFragment : Fragment() {
                 .setTitle("Add Exercise")
                 .setView(view)
                 .setPositiveButton("Save") { _, _ ->
-//                    //do something
-//                    val exerciseName =
-//                        view.findViewById<TextInputEditText>(R.id.exerciseName).text.toString()
-//                    val exerciseType =
-//                        view.findViewById<TextInputEditText>(R.id.exerciseType).text.toString()
-//                    val exercise = Exercise(exerciseName, exerciseType, "")
-//                    val addExerciseRequest = AddExerciseRequest(exercise)
-//                    viewModel.addExercise(addExerciseRequest)
                 }
                 .setNegativeButton("Cancel") { _, _ ->
                     {

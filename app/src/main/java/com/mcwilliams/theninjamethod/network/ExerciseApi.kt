@@ -9,7 +9,7 @@ import retrofit2.http.POST
 
 interface ExerciseApi {
     @GET("exercisesApi/exercises")
-    fun getExercises(): Observable<Data>
+    suspend fun getExercises(): Data
 
     @POST("exercisesApi/exercises")
     fun addExercise(@Body exercise: AddExerciseRequest): Observable<Exercise>
