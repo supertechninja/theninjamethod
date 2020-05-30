@@ -49,7 +49,7 @@ public class StravaLogin {
         return intent;
     }
 
-    private String makeLoginURL() {
+    public String makeLoginURL() {
         StringBuilder loginURLBuilder = new StringBuilder();
         loginURLBuilder.append(STRAVA_LOGIN_URL);
         loginURLBuilder.append(clientIDParameter());

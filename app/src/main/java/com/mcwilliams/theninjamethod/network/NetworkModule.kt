@@ -1,6 +1,5 @@
 package com.mcwilliams.theninjamethod.network
 
-import com.mcwilliams.theninjamethod.strava.authorize.TokenApi
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable

@@ -22,73 +22,37 @@ class ExerciseListViewModel @Inject constructor(
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
     val errorClickListener = View.OnClickListener {
         viewModelScope.launch {
-            loadExercises()
+            exerciseApi.getExercises()
         }
     }
 
     val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
 
     init {
-        viewModelScope.launch {
-            val data = loadExercises()
-            onRetrievePostListSuccess(data)
-        }
-
-//        viewModelScope.launch {
-//            val loginResult = getToken()
-//            Log.d(Companion.TAG, ": " + loginResult!!.access_token)
-//        }
+       loadExercises()
     }
 
-//    fun setupSwipeToDelete(){
-//        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(exerciseListAdapter, this))
-//        itemTouchHelper.attachToRecyclerView(recyclerView)
-//    }
-
-    private suspend fun loadExercises() = exerciseApi.getExercises()
-
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .doOnSubscribe { onRetrievePostListStart() }
-//            .doOnTerminate { onRetrievePostListFinish() }
-//            .subscribe(
-//                { result -> onRetrievePostListSuccess(result) },
-//                { onRetrievePostListError() }
-//            )
-//    }
-
-//    fun deleteExercise(position : Int){
-//        val exerciseToDelete = exerciseListAdapter.getExerciseList()[position]
-//    }
+    private fun loadExercises(){
+        viewModelScope.launch {
+            val data = exerciseApi.getExercises()
+            onRetrievePostListSuccess(data)
+        }
+    }
 
     fun addExercise(exercise: AddExerciseRequest) {
-//        subscription = exerciseApi.addExercise(exercise)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                { refreshData() },
-//                { onRetrievePostListError() }
-//            )
-
+        viewModelScope.launch {
+            exerciseApi.addExercise(exercise)
+            refreshData()
+        }
     }
 
     fun refreshData() {
         isRefreshing = true
-//        loadExercises()
-    }
-
-    private fun onRetrievePostListStart() {
-        loadingVisibility.value = View.VISIBLE
-        errorMessage.value = null
-        isRefreshing = false
-    }
-
-    private fun onRetrievePostListFinish() {
-        loadingVisibility.value = View.GONE
-        isRefreshing = false
+        loadExercises()
     }
 
     private fun onRetrievePostListSuccess(exerciseList: Data) {
+        loadingVisibility.value = View.GONE
         exerciseListAdapter.updatePostList(exerciseList.exercises)
     }
 

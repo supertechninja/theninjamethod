@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.mcwilliams.theninjamethod.ui.notifications.SettingsFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.settings.SettingsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_settings" />
 </navigation>
