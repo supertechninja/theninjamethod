@@ -1,11 +1,9 @@
 package com.mcwilliams.theninjamethod.ui.workouts
 
 import androidx.lifecycle.MutableLiveData
-import com.mcwilliams.theninjamethod.model.Exercise
-import com.mcwilliams.theninjamethod.model.Workout
-import com.mcwilliams.theninjamethod.utils.viewmodel.BaseViewModel
+import androidx.lifecycle.ViewModel
 
-class WorkoutViewModel : BaseViewModel() {
+class WorkoutViewModel : ViewModel() {
     private val workoutDate = MutableLiveData<String>()
 
     fun bind(workoutDateString: String) {

@@ -2,84 +2,57 @@ package com.mcwilliams.theninjamethod.ui.exercises.viewmodel
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.model.*
 import com.mcwilliams.theninjamethod.network.ExerciseApi
 import com.mcwilliams.theninjamethod.ui.exercises.ExerciseListAdapter
-import com.mcwilliams.theninjamethod.utils.viewmodel.BaseViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ExerciseListViewModel() : BaseViewModel() {
-    @Inject
-    lateinit var exerciseApi: ExerciseApi
-
-    private lateinit var subscription: Disposable
+class ExerciseListViewModel @Inject constructor(
+    private val exerciseApi: ExerciseApi
+) : ViewModel() {
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
 
-    var isRefreshing : Boolean = false
+    var isRefreshing: Boolean = false
 
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
-    val errorClickListener = View.OnClickListener { loadExercises() }
+    val errorClickListener = View.OnClickListener {
+        viewModelScope.launch {
+            exerciseApi.getExercises()
+        }
+    }
 
     val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
 
     init {
-        loadExercises()
+       loadExercises()
     }
 
-//    fun setupSwipeToDelete(){
-//        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(exerciseListAdapter, this))
-//        itemTouchHelper.attachToRecyclerView(recyclerView)
-//    }
-
-    private fun loadExercises() {
-        subscription = exerciseApi.getExercises()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { onRetrievePostListStart() }
-            .doOnTerminate { onRetrievePostListFinish() }
-            .subscribe(
-                { result -> onRetrievePostListSuccess(result) },
-                { onRetrievePostListError() }
-            )
+    private fun loadExercises(){
+        viewModelScope.launch {
+            val data = exerciseApi.getExercises()
+            onRetrievePostListSuccess(data)
+        }
     }
 
-//    fun deleteExercise(position : Int){
-//        val exerciseToDelete = exerciseListAdapter.getExerciseList()[position]
-//    }
-
-    fun addExercise(exercise: AddExerciseRequest){
-        subscription = exerciseApi.addExercise(exercise)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { refreshData() },
-                { onRetrievePostListError() }
-            )
-
+    fun addExercise(exercise: AddExerciseRequest) {
+        viewModelScope.launch {
+            exerciseApi.addExercise(exercise)
+            refreshData()
+        }
     }
 
-    fun refreshData(){
+    fun refreshData() {
         isRefreshing = true
         loadExercises()
     }
 
-    private fun onRetrievePostListStart() {
-        loadingVisibility.value = View.VISIBLE
-        errorMessage.value = null
-        isRefreshing = false
-    }
-
-    private fun onRetrievePostListFinish() {
-        loadingVisibility.value = View.GONE
-        isRefreshing = false
-    }
-
     private fun onRetrievePostListSuccess(exerciseList: Data) {
+        loadingVisibility.value = View.GONE
         exerciseListAdapter.updatePostList(exerciseList.exercises)
     }
 
@@ -89,6 +62,10 @@ class ExerciseListViewModel() : BaseViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        subscription.dispose()
+//        subscription.dispose()
+    }
+
+    companion object {
+        private const val TAG = "ExerciseListViewModel"
     }
 }

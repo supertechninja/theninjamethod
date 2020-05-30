@@ -3,19 +3,21 @@ package com.mcwilliams.theninjamethod.ui.workouts
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.model.*
 import com.mcwilliams.theninjamethod.network.WorkoutApi
-import com.mcwilliams.theninjamethod.utils.viewmodel.BaseViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class WorkoutListViewModel() : BaseViewModel() {
-    private val TAG = "WorkoutListViewModel"
-    @Inject
-    lateinit var workoutApi: WorkoutApi
+class WorkoutListViewModel @Inject constructor(
+    private val workoutApi: WorkoutApi
+) : ViewModel() {
 
+    private val TAG = "WorkoutListViewModel"
     private lateinit var subscription: Disposable
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
@@ -36,15 +38,19 @@ class WorkoutListViewModel() : BaseViewModel() {
 //    }
 
     private fun loadWorkouts() {
-        subscription = workoutApi.getWorkouts()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { onRetrievePostListStart() }
-            .doOnTerminate { onRetrievePostListFinish() }
-            .subscribe(
-                { result -> onRetrievePostListSuccess(result) },
-                { onRetrievePostListError() }
-            )
+        viewModelScope.launch {
+            val data = workoutApi.getWorkouts()
+            onRetrievePostListSuccess(data)
+        }
+//        subscription = workoutApi.getWorkouts()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .doOnSubscribe { onRetrievePostListStart() }
+//            .doOnTerminate { onRetrievePostListFinish() }
+//            .subscribe(
+//                { result -> onRetrievePostListSuccess(result) },
+//                { onRetrievePostListError() }
+//            )
     }
 
 //    fun deleteExercise(position : Int){
@@ -80,6 +86,7 @@ class WorkoutListViewModel() : BaseViewModel() {
 
     private fun onRetrievePostListSuccess(workoutList: WorkoutList) {
         Log.d(TAG, "onRetrievePostListSuccess: " + workoutList.workouts.size.toString())
+        loadingVisibility.value = View.GONE
         workoutListAdapter.updateWorkoutList(
             workoutList.workouts.associateBy(
                 keySelector = { it.date },
