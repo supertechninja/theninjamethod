@@ -1,6 +1,6 @@
-package com.mcwilliams.theninjamethod.injection
+package com.mcwilliams.theninjamethod.di
 
-import com.mcwilliams.theninjamethod.network.NetworkModule
+import com.mcwilliams.theninjamethod.di.modules.NetworkModule
 import com.mcwilliams.theninjamethod.ui.workouts.WorkoutListViewModel
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
 import dagger.Component

@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.injection
+package com.mcwilliams.theninjamethod.di
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

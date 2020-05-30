@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.model.*
-import com.mcwilliams.theninjamethod.network.ExerciseApi
+import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.ui.exercises.ExerciseListAdapter
 import kotlinx.coroutines.launch
 import javax.inject.Inject

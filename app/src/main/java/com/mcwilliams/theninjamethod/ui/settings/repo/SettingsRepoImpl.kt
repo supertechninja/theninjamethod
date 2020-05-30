@@ -1,9 +1,8 @@
 package com.mcwilliams.theninjamethod.ui.settings.repo
 
 import com.mcwilliams.theninjamethod.network.Result
-import com.mcwilliams.theninjamethod.network.TokenApi
+import com.mcwilliams.theninjamethod.network.apis.TokenApi
 import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
-import com.mcwilliams.theninjamethod.ui.settings.data.TokenResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

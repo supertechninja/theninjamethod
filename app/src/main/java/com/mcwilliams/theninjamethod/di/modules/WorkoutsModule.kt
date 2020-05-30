@@ -1,11 +1,8 @@
-package com.mcwilliams.theninjamethod.injection.modules
+package com.mcwilliams.theninjamethod.di.modules
 
 import androidx.lifecycle.ViewModel
-import com.mcwilliams.theninjamethod.injection.ViewModelFactoryModule
-import com.mcwilliams.theninjamethod.injection.ViewModelKey
-import com.mcwilliams.theninjamethod.network.NetworkModule
-import com.mcwilliams.theninjamethod.ui.exercises.ExercisesFragment
-import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
+import com.mcwilliams.theninjamethod.di.ViewModelFactoryModule
+import com.mcwilliams.theninjamethod.di.ViewModelKey
 import com.mcwilliams.theninjamethod.ui.workouts.WorkoutListViewModel
 import com.mcwilliams.theninjamethod.ui.workouts.WorkoutsFragment
 import dagger.Binds

@@ -1,10 +1,10 @@
-package com.mcwilliams.theninjamethod.injection
+package com.mcwilliams.theninjamethod.di
 
 import android.content.Context
 import com.mcwilliams.theninjamethod.TheNinjaMethodApplication
-import com.mcwilliams.theninjamethod.injection.modules.ExercisesModule
-import com.mcwilliams.theninjamethod.injection.modules.SettingsModule
-import com.mcwilliams.theninjamethod.injection.modules.WorkoutsModule
+import com.mcwilliams.theninjamethod.di.modules.ExercisesModule
+import com.mcwilliams.theninjamethod.di.modules.SettingsModule
+import com.mcwilliams.theninjamethod.di.modules.WorkoutsModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule

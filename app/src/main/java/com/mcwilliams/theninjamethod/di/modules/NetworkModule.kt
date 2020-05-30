@@ -1,5 +1,8 @@
-package com.mcwilliams.theninjamethod.network
+package com.mcwilliams.theninjamethod.di.modules
 
+import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
+import com.mcwilliams.theninjamethod.network.apis.TokenApi
+import com.mcwilliams.theninjamethod.network.apis.WorkoutApi
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable

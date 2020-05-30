@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.network
+package com.mcwilliams.theninjamethod.network.apis
 
 import com.mcwilliams.theninjamethod.model.*
 import io.reactivex.Observable

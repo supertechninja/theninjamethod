@@ -6,10 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.model.*
-import com.mcwilliams.theninjamethod.network.WorkoutApi
+import com.mcwilliams.theninjamethod.network.apis.WorkoutApi
 import io.reactivex.disposables.Disposable
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

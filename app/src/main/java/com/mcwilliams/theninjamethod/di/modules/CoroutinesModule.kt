@@ -1,8 +1,8 @@
-package com.mcwilliams.theninjamethod.injection.modules
+package com.mcwilliams.theninjamethod.di.modules
 
-import com.mcwilliams.theninjamethod.injection.DefaultDispatcher
-import com.mcwilliams.theninjamethod.injection.IoDispatcher
-import com.mcwilliams.theninjamethod.injection.MainDispatcher
+import com.mcwilliams.theninjamethod.di.DefaultDispatcher
+import com.mcwilliams.theninjamethod.di.IoDispatcher
+import com.mcwilliams.theninjamethod.di.MainDispatcher
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher

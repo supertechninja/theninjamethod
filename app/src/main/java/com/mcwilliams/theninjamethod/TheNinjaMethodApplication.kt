@@ -1,7 +1,6 @@
 package com.mcwilliams.theninjamethod
 
-import android.app.Application
-import com.mcwilliams.theninjamethod.injection.DaggerAppComponent
+import com.mcwilliams.theninjamethod.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 

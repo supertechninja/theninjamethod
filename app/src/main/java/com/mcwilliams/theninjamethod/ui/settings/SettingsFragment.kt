@@ -15,9 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.strava.authorize.AccessScope
-import com.mcwilliams.theninjamethod.strava.authorize.ApprovalPrompt
-import com.mcwilliams.theninjamethod.strava.authorize.StravaLogin
+import com.mcwilliams.theninjamethod.strava.AccessScope
+import com.mcwilliams.theninjamethod.strava.ApprovalPrompt
+import com.mcwilliams.theninjamethod.strava.StravaLogin
 import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
 import com.mcwilliams.theninjamethod.utils.ViewModelFactory
 import dagger.android.support.AndroidSupportInjection
