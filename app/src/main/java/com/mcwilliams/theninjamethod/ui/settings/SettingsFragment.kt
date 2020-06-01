@@ -51,20 +51,12 @@ class SettingsFragment : Fragment() {
 
         loginWebview = view.findViewById(R.id.login_webview) as WebView
 
-        loginUrl = StravaLogin.withContext(activity)
-            .withClientID(47849)
-            .withRedirectURI("https://www.supertech.ninja")
-            .withApprovalPrompt(ApprovalPrompt.AUTO)
-            .withAccessScope(AccessScope.VIEW_PRIVATE_WRITE)
-            .makeLoginURL()
-
-        configureWebViewClient()
-
         btnLogin2Strava.setOnClickListener{
+            loadLoginUrl()
+            configureWebViewClient()
             loginWebview.visibility = View.VISIBLE
             loginWebview.loadUrl(loginUrl)
         }
-//        loginWebview.loadUrl(loginUrl)
 
     }
 
@@ -78,7 +70,6 @@ class SettingsFragment : Fragment() {
                 Log.d(TAG, "initObservers: " + athlete.firstname)
                 loadAthlete(it)
 //                showData(it)
-//                binding.fabShare.setOnClickListener { shareWorldStats() }
             } ?: kotlin.run {
 //                handleError()
             }
@@ -96,6 +87,15 @@ class SettingsFragment : Fragment() {
     private fun loadAthlete(athlete: Athlete){
         btnLogin2Strava.visibility = View.GONE
         athleteName.text = "${athlete.firstname} ${athlete.lastname}"
+    }
+
+    private fun loadLoginUrl(){
+        loginUrl = StravaLogin.withContext(activity)
+            .withClientID(47849)
+            .withRedirectURI("https://www.supertech.ninja")
+            .withApprovalPrompt(ApprovalPrompt.AUTO)
+            .withAccessScope(AccessScope.VIEW_PRIVATE_WRITE)
+            .makeLoginURL()
     }
 
     private fun configureWebViewClient() {
