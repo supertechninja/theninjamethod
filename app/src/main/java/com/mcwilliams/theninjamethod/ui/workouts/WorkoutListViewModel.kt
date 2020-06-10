@@ -16,7 +16,6 @@ class WorkoutListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val TAG = "WorkoutListViewModel"
-    private lateinit var subscription: Disposable
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
 
@@ -96,8 +95,4 @@ class WorkoutListViewModel @Inject constructor(
 //        errorMessage.value = R.string.exercise_error
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        subscription.dispose()
-    }
 }
