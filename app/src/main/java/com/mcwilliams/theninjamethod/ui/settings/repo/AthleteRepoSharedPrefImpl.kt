@@ -1,13 +1,9 @@
 package com.mcwilliams.theninjamethod.ui.settings.repo
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
-import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.network.Result
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
-import com.mcwilliams.theninjamethod.strava.model.DetailedAthlete
-import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
+import com.mcwilliams.theninjamethod.strava.model.athlete.StravaAthlete
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -29,7 +25,7 @@ class AthleteRepoSharedPrefImpl @Inject constructor(val api: AthleteApi) : Athle
 //        Result.Success(request)
 //    }
 
-    override suspend fun fetchAthlete(): Result<DetailedAthlete?> = withContext(Dispatchers.IO) {
+    override suspend fun fetchAthlete(): Result<StravaAthlete?> = withContext(Dispatchers.IO) {
         val request = api.getAthlete()
         Log.i("CHRIS", "fetchAthlete has a result")
         Result.Success(request)

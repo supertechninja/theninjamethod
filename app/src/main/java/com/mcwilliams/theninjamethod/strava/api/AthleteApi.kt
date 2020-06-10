@@ -1,13 +1,12 @@
 package com.mcwilliams.theninjamethod.strava.api
 
-import com.mcwilliams.theninjamethod.strava.model.DetailedAthlete
-import com.mcwilliams.theninjamethod.strava.model.Zones
+import com.mcwilliams.theninjamethod.strava.model.athlete.StravaAthlete
 import retrofit2.http.GET
 
 interface AthleteApi {
     @GET("athlete")
-    suspend fun getAthlete(): DetailedAthlete
+    suspend fun getAthlete(): StravaAthlete
 
-    @GET("athlete/zones")
-    suspend fun getZones(): Zones
+//    @GET("athlete/zones")
+//    suspend fun getZones(): Zones
 }

@@ -6,20 +6,23 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.network.Result
-import com.mcwilliams.theninjamethod.strava.model.DetailedAthlete
+import com.mcwilliams.theninjamethod.strava.model.athlete.StravaAthlete
 import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
 import com.mcwilliams.theninjamethod.ui.settings.repo.AthleteRepo
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SettingsViewModel @Inject constructor(private val settingsRepo: SettingsRepo, private val athleteRepo: AthleteRepo) : ViewModel() {
+class SettingsViewModel @Inject constructor(
+    private val settingsRepo: SettingsRepo,
+    private val athleteRepo: AthleteRepo
+) : ViewModel() {
 
     private var _resultLogin = MutableLiveData<Athlete>()
     var resultLogin: LiveData<Athlete> = _resultLogin
 
-    private var _detailedAthlete = MutableLiveData<DetailedAthlete>()
-    var detailedAthlete: LiveData<DetailedAthlete> = _detailedAthlete
+    private var _detailedAthlete = MutableLiveData<StravaAthlete>()
+    var detailedAthlete: LiveData<StravaAthlete> = _detailedAthlete
 
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
@@ -58,6 +61,5 @@ class SettingsViewModel @Inject constructor(private val settingsRepo: SettingsRe
                 _errorMessage.postValue(e.message)
             }
         }
-
     }
 }
