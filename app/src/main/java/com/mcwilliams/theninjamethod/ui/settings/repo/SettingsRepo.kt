@@ -4,5 +4,5 @@ import com.mcwilliams.theninjamethod.network.Result
 import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
 
 interface SettingsRepo {
-        suspend fun authAthlete(code:String): Result<Athlete>
+    suspend fun authAthlete(code: String): Result<Athlete?>
 }

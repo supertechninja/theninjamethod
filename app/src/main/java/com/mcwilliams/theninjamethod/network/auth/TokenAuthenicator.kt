@@ -1,6 +1,6 @@
 package com.mcwilliams.theninjamethod.network.auth
 
-import com.mcwilliams.theninjamethod.network.SessionRepository
+import com.mcwilliams.theninjamethod.strava.SessionRepository
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
@@ -8,18 +8,17 @@ import okhttp3.Route
 import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
 import javax.inject.Inject
 
-class TokenAuthenticator @Inject constructor(
-    private val sessionRepository: SessionRepository) :
+class TokenAuthenticator @Inject constructor(private val sessionRepository: SessionRepository) :
     Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
-        if (response.code() == HTTP_UNAUTHORIZED && retryCount(response) == 0) {
+        return if (response.code() == HTTP_UNAUTHORIZED && retryCount(response) == 0) {
             // Retrieve New Access Token from the Session Repository or whatever...
-//            val token = sessionRepository.refreshToken()
+            //            val token = sessionRepository.refreshToken()
 
-            return response.request().newBuilder().build()
+            response.request().newBuilder().build()
         } else {
-            return null
+            null
         }
     }
 

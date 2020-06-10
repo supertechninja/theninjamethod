@@ -31,7 +31,6 @@ class SettingsFragment : Fragment() {
     private val viewModel: SettingsViewModel by viewModels { viewModelFactory }
 
     lateinit var loginWebview: WebView
-    lateinit var loginUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +50,8 @@ class SettingsFragment : Fragment() {
 
         loginWebview = view.findViewById(R.id.login_webview) as WebView
 
-        btnLogin2Strava.setOnClickListener{
-            loadLoginUrl()
+        btnLogin2Strava.setOnClickListener {
+            val loginUrl = loadLoginUrl()
             configureWebViewClient()
             loginWebview.visibility = View.VISIBLE
             loginWebview.loadUrl(loginUrl)
@@ -68,7 +67,10 @@ class SettingsFragment : Fragment() {
         viewModel.resultLogin.observe(this, Observer { athlete ->
             athlete?.let {
                 Log.d(TAG, "initObservers: " + athlete.firstname)
-                loadAthlete(it)
+                button_get_athlete.hideOtherViews()
+                button_get_athlete.setOnClickListener(View.OnClickListener {
+                    getDetailedAthelete()
+                })
 //                showData(it)
             } ?: kotlin.run {
 //                handleError()
@@ -84,29 +86,45 @@ class SettingsFragment : Fragment() {
 //        })
     }
 
-    private fun loadAthlete(athlete: Athlete){
+    private fun getDetailedAthelete() {
+        viewModel.loadDetailedAthlete()
+        viewModel.detailedAthlete.observe(this, Observer { dathlete ->
+            Log.i("CHRIS", "detailed athlete live data updated")
+            Log.i("CHRIS", dathlete.toString())
+            detailed_athlete.text = dathlete.toString()
+            detailed_athlete.hideOtherViews()
+        })
+    }
+
+    private fun View.hideOtherViews() {
+        btnLogin2Strava.visibility = View.GONE
+        athleteName.visibility = View.GONE
+        detailed_athlete.visibility = View.GONE
+        loginWebview.visibility = View.GONE
+        this.visibility = View.VISIBLE
+    }
+
+    private fun loadAthlete(athlete: Athlete) {
         btnLogin2Strava.visibility = View.GONE
         athleteName.text = "${athlete.firstname} ${athlete.lastname}"
     }
 
-    private fun loadLoginUrl(){
-        loginUrl = StravaLogin.withContext(activity)
-            .withClientID(47849)
-            .withRedirectURI("https://www.supertech.ninja")
+
+    private fun loadLoginUrl(): String {
+        return StravaLogin.withContext(activity)
+            .withClientID(CLIENT_ID)
+            .withRedirectURI(redirectUrl)
             .withApprovalPrompt(ApprovalPrompt.AUTO)
             .withAccessScope(AccessScope.VIEW_PRIVATE_WRITE)
             .makeLoginURL()
     }
 
     private fun configureWebViewClient() {
-        loginWebview.getSettings().setJavaScriptEnabled(true)
-        loginWebview.getSettings().setUserAgentString("Mozilla/5.0 Google")
-        loginWebview.setWebViewClient(object : WebViewClient() {
+        loginWebview.settings.javaScriptEnabled = true
+        loginWebview.settings.userAgentString = "Mozilla/5.0 Google"
+        loginWebview.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                return handleUrl(Uri.parse(url)) || super.shouldOverrideUrlLoading(
-                    view,
-                    url
-                )
+                return handleUrl(Uri.parse(url)) || super.shouldOverrideUrlLoading(view, url)
             }
 
             @TargetApi(Build.VERSION_CODES.N)
@@ -119,8 +137,8 @@ class SettingsFragment : Fragment() {
             }
 
             private fun handleUrl(uri: Uri): Boolean {
-//                val redirectURL: String =
-//                    getIntent().getStringExtra(StravaLoginActivity.EXTRA_REDIRECT_URL)
+                //                val redirectURL: String =
+                //                    getIntent().getStringExtra(StravaLoginActivity.EXTRA_REDIRECT_URL)
                 if (uri.toString().startsWith(redirectUrl)) {
                     val code = uri.getQueryParameter("code")
                     return makeResult(code)
@@ -129,20 +147,21 @@ class SettingsFragment : Fragment() {
             }
 
             private fun makeResult(code: String?): Boolean {
-                if (code != null && !code.isEmpty()) {
+                if (code != null && code.isNotEmpty()) {
                     loginWebview.visibility = View.GONE
                     initViews(code)
                     initObservers()
                     return true
                 }
-//                finish()
+                //                finish()
                 return false
             }
-        })
+        }
     }
 
     companion object {
         private const val TAG = "SettingsFragment"
         const val redirectUrl = "https://www.supertech.ninja"
+        private const val CLIENT_ID = 47849
     }
 }

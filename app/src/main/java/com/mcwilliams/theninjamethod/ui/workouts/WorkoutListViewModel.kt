@@ -98,6 +98,6 @@ class WorkoutListViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        subscription.dispose()
+        subscription?.dispose()
     }
 }

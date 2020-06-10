@@ -2,6 +2,7 @@ package com.mcwilliams.theninjamethod.di
 
 import android.content.Context
 import com.mcwilliams.theninjamethod.TheNinjaMethodApplication
+import com.mcwilliams.theninjamethod.di.modules.AppModule
 import com.mcwilliams.theninjamethod.di.modules.ExercisesModule
 import com.mcwilliams.theninjamethod.di.modules.SettingsModule
 import com.mcwilliams.theninjamethod.di.modules.WorkoutsModule
@@ -13,6 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
+    AppModule::class,
     ExercisesModule::class,
     WorkoutsModule::class,
     SettingsModule::class,
