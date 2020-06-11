@@ -4,8 +4,6 @@ import android.content.Context
 import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import com.mcwilliams.theninjamethod.strava.api.Session
-import com.mcwilliams.theninjamethod.ui.settings.repo.AthleteRepo
-import com.mcwilliams.theninjamethod.ui.settings.repo.AthleteRepoSharedPrefImpl
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepoImpl
 import dagger.Module
@@ -20,11 +18,8 @@ import javax.inject.Singleton
 class AppModule {
 
     @Provides
-    fun provideAthleteRepo(api: AthleteApi): AthleteRepo = AthleteRepoSharedPrefImpl(api)
-
-    @Provides
-    fun provideSettingsRepository(settingsRepoImpl: SessionRepository) : SettingsRepo =
-        SettingsRepoImpl(settingsRepoImpl)
+    fun provideSettingsRepository(settingsRepoImpl: SessionRepository, athleteApi: AthleteApi) : SettingsRepo =
+        SettingsRepoImpl(settingsRepoImpl, athleteApi)
 
     @Provides
     @Singleton

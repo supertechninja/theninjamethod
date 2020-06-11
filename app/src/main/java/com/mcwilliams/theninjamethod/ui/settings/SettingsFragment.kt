@@ -39,13 +39,21 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.loadDetailedAthlete()
+        viewModel.detailedAthlete.observe(viewLifecycleOwner, Observer { dathlete ->
+            detailed_athlete.text = dathlete.toString()
+            detailed_athlete.hideOtherViews()
+        })
+
         viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
             if (it) {
                 btnLogin2Strava.visibility = View.GONE
                 athleteName.visibility = View.GONE
                 loginWebview.visibility = View.GONE
                 detailed_athlete.visibility = View.VISIBLE
-                getDetailedAthelete()
+                viewModel.loadDetailedAthlete()
+            } else {
+                btnLogin2Strava.visibility = View.VISIBLE
             }
         })
 
@@ -57,42 +65,11 @@ class SettingsFragment : Fragment() {
             loginWebview.visibility = View.VISIBLE
             loginWebview.loadUrl(loginUrl)
         }
-
     }
 
-    private fun initViews(code: String) {
+    //Called after permission granted in webview auth
+    private fun handleStravaLogin(code: String) {
         viewModel.loginAthlete(code)
-    }
-
-    private fun initObservers() {
-        viewModel.resultLogin.observe(this, Observer { athlete ->
-            athlete?.let {
-                Log.d(TAG, "initObservers: " + athlete.firstname)
-                button_get_athlete.hideOtherViews()
-                button_get_athlete.setOnClickListener(View.OnClickListener {
-                    getDetailedAthelete()
-                })
-//                showData(it)
-            } ?: kotlin.run {
-//                handleError()
-            }
-        })
-
-//        getViewModel().errorMessage.observe(this, Observer {
-//            handleError()
-//        })
-//        getViewModel().showLoading.observe(this, Observer { showLoading ->
-//            if (showLoading) binding.progress.show()
-//            else binding.progress.hide()
-//        })
-    }
-
-    private fun getDetailedAthelete() {
-        viewModel.loadDetailedAthlete()
-        viewModel.detailedAthlete.observe(viewLifecycleOwner, Observer { dathlete ->
-            detailed_athlete.text = dathlete.toString()
-            detailed_athlete.hideOtherViews()
-        })
     }
 
     private fun View.hideOtherViews() {
@@ -102,12 +79,6 @@ class SettingsFragment : Fragment() {
         loginWebview.visibility = View.GONE
         this.visibility = View.VISIBLE
     }
-
-    private fun loadAthlete(athlete: Athlete) {
-        btnLogin2Strava.visibility = View.GONE
-        athleteName.text = "${athlete.firstname} ${athlete.lastname}"
-    }
-
 
     private fun loadLoginUrl(): String {
         return StravaLogin.withContext(activity)
@@ -148,8 +119,7 @@ class SettingsFragment : Fragment() {
             private fun makeResult(code: String?): Boolean {
                 if (code != null && code.isNotEmpty()) {
                     loginWebview.visibility = View.GONE
-                    initViews(code)
-                    initObservers()
+                    handleStravaLogin(code)
                     return true
                 }
                 //                finish()

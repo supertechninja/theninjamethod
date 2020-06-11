@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.api.Session
 import com.mcwilliams.theninjamethod.ui.settings.data.TokenResponse
-import com.mcwilliams.theninjamethod.ui.settings.repo.AthleteRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
