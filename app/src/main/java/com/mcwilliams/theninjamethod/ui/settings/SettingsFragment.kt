@@ -39,6 +39,16 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                btnLogin2Strava.visibility = View.GONE
+                athleteName.visibility = View.GONE
+                loginWebview.visibility = View.GONE
+                detailed_athlete.visibility = View.VISIBLE
+                getDetailedAthelete()
+            }
+        })
+
         loginWebview = view.findViewById(R.id.login_webview) as WebView
 
         btnLogin2Strava.setOnClickListener {
@@ -79,9 +89,7 @@ class SettingsFragment : Fragment() {
 
     private fun getDetailedAthelete() {
         viewModel.loadDetailedAthlete()
-        viewModel.detailedAthlete.observe(this, Observer { dathlete ->
-            Log.i("CHRIS", "detailed athlete live data updated")
-            Log.i("CHRIS", dathlete.toString())
+        viewModel.detailedAthlete.observe(viewLifecycleOwner, Observer { dathlete ->
             detailed_athlete.text = dathlete.toString()
             detailed_athlete.hideOtherViews()
         })

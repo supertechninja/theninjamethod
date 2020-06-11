@@ -83,6 +83,13 @@ class SessionRepository @Inject constructor(
         return preferences.getInt(EXPIRATION, 0)
     }
 
+    fun isLoggedIn (): Boolean {
+        val doesHaveToken = !preferences.getString(ACCESS_TOKEN, "").isNullOrEmpty()
+        val isTokenValid = getExpiration() < System.currentTimeMillis()
+
+        return doesHaveToken && isTokenValid
+    }
+
     companion object {
         const val CLIENT_ID = 47849
         const val CLIENT_SECRET = "bcbe511450ad0d98e32ee8f40ddba379dcae75aa"

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.network.Result
+import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.strava.model.athlete.StravaAthlete
 import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
 import com.mcwilliams.theninjamethod.ui.settings.repo.AthleteRepo
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 class SettingsViewModel @ViewModelInject constructor(
     private val settingsRepo: SettingsRepo,
-    private val athleteRepo: AthleteRepo
+    private val athleteRepo: AthleteRepo,
+    private val sessionRepository: SessionRepository
 ) : ViewModel() {
 
     private var _resultLogin = MutableLiveData<Athlete>()
@@ -27,6 +29,13 @@ class SettingsViewModel @ViewModelInject constructor(
 
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
+
+    private var _isLoggedIn = MutableLiveData<Boolean>()
+    var isLoggedIn : LiveData<Boolean> = _isLoggedIn
+
+    init {
+        _isLoggedIn.postValue(sessionRepository.isLoggedIn())
+    }
 
     fun loginAthlete(code: String) {
         viewModelScope.launch {

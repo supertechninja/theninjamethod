@@ -32,7 +32,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/athleteName"
             tools:text="detailed athlete"
-            android:text="hello world"
             tools:visibility="visible" />
 
         <Button
