@@ -1,6 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.settings
 
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +14,7 @@ import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SettingsViewModel @Inject constructor(
+class SettingsViewModel @ViewModelInject constructor(
     private val settingsRepo: SettingsRepo,
     private val athleteRepo: AthleteRepo
 ) : ViewModel() {

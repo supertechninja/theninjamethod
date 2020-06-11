@@ -8,6 +8,8 @@ import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,8 +22,8 @@ import javax.inject.Named
 /**
  * Module which provides all required dependencies about network
  */
+@InstallIn(ApplicationComponent::class)
 @Module
-// Safe here as we are dealing with a Dagger 2 module
 @Suppress("unused")
 object NetworkModule {
     /**

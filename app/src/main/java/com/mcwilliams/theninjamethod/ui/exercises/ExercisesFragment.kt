@@ -18,25 +18,15 @@ import com.mcwilliams.theninjamethod.databinding.FragmentHomeBinding
 import com.mcwilliams.theninjamethod.model.AddExerciseRequest
 import com.mcwilliams.theninjamethod.model.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
-import com.mcwilliams.theninjamethod.utils.ViewModelFactory
-import dagger.android.support.AndroidSupportInjection
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ExercisesFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private var errorSnackbar: Snackbar? = null
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: ExerciseListViewModel by viewModels { viewModelFactory }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
+    private val viewModel: ExerciseListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

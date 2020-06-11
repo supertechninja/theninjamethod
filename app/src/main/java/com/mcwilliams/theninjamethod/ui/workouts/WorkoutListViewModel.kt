@@ -2,6 +2,7 @@ package com.mcwilliams.theninjamethod.ui.workouts
 
 import android.util.Log
 import android.view.View
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +12,7 @@ import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class WorkoutListViewModel @Inject constructor(
+class WorkoutListViewModel @ViewModelInject constructor(
     private val workoutApi: WorkoutApi
 ) : ViewModel() {
 

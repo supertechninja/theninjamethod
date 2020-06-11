@@ -16,13 +16,4 @@ class SettingsRepoImpl @Inject constructor(private val sessionRepo: SessionRepos
         Result.Success(request)
     }
 
-//        return
-
-//        val result = stravaApi.token(CLIENT_ID, CLIENT_SECRET, code)
-//        if (result is Result.Success) {
-//            val athlete = result.data.athlete
-//        }
-//        return result!!
-
-
 }

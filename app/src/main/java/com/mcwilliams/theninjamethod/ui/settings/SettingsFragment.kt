@@ -19,23 +19,14 @@ import com.mcwilliams.theninjamethod.strava.AccessScope
 import com.mcwilliams.theninjamethod.strava.ApprovalPrompt
 import com.mcwilliams.theninjamethod.strava.StravaLogin
 import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
-import com.mcwilliams.theninjamethod.utils.ViewModelFactory
-import dagger.android.support.AndroidSupportInjection
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: SettingsViewModel by viewModels { viewModelFactory }
-
+    private val viewModel: SettingsViewModel by viewModels()
     lateinit var loginWebview: WebView
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
