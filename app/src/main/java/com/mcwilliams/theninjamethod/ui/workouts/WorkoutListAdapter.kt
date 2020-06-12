@@ -13,7 +13,7 @@ import com.mcwilliams.theninjamethod.model.Workout
 class WorkoutListAdapter() :
     RecyclerView.Adapter<WorkoutListAdapter.ViewHolder>() {
 
-    private lateinit var workoutList: List<String>
+    private lateinit var workoutList: List<Workout>
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,27 +32,18 @@ class WorkoutListAdapter() :
         return if (::workoutList.isInitialized) workoutList.size else 0
     }
 
-    fun deleteItem(position: Int) {
-        val mRecentlyDeletedItem = workoutList.get(position)
-        val mRecentlyDeletedItemPosition = position
-        workoutList.drop(position)
-        notifyItemRemoved(position)
-//        showUndoSnackbar()
-    }
-
-    fun updateWorkoutList(workoutDates: List<String>) {
+    fun updateWorkoutList(workoutDates: List<Workout>) {
         this.workoutList = workoutDates
         notifyDataSetChanged()
     }
 
     class ViewHolder(private val binding: WorkoutItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val viewModel =
-            WorkoutViewModel()
+        private val viewModel = WorkoutViewModel()
 
-        fun bind(workoutDate: String) {
+        fun bind(workoutObj: Workout) {
             // ...
-            viewModel.bind(workoutDate)
+            viewModel.bind(workoutObj)
             binding.workoutViewModel = viewModel
         }
     }

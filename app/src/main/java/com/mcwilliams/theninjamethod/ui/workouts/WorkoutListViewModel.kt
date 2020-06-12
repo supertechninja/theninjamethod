@@ -1,5 +1,6 @@
 package com.mcwilliams.theninjamethod.ui.workouts
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
 import androidx.hilt.lifecycle.ViewModelInject
@@ -12,6 +13,9 @@ import com.mcwilliams.theninjamethod.network.apis.WorkoutApi
 import com.mcwilliams.theninjamethod.strava.SessionRepository
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.launch
+import java.text.DateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class WorkoutListViewModel @ViewModelInject constructor(
@@ -30,6 +34,8 @@ class WorkoutListViewModel @ViewModelInject constructor(
 
     val workoutListAdapter: WorkoutListAdapter = WorkoutListAdapter()
 
+    val workoutList: MutableList<Workout> = mutableListOf()
+
     init {
         loadWorkouts()
     }
@@ -37,7 +43,8 @@ class WorkoutListViewModel @ViewModelInject constructor(
     private fun loadWorkouts() {
         viewModelScope.launch {
             val data = workoutApi.getWorkouts()
-            onRetrievePostListSuccess(data)
+            workoutList.addAll(data.workouts)
+            updateListView()
         }
 
         if (sessionRepo.isLoggedIn()) {
@@ -47,6 +54,11 @@ class WorkoutListViewModel @ViewModelInject constructor(
                         is Result.Success -> {
                             val listOfActivities =  listOfActivitiesResponse.data
                             Log.d(TAG, "loadWorkouts: ${listOfActivities.size}")
+                            listOfActivities.forEach {
+                                val workoutItem = Workout(it.start_date, it.name,"",0,0,"")
+                                workoutList.add(workoutItem)
+                            }
+                            updateListView()
                         }
                         is Result.Error -> {
 //                            _errorMessage.postValue(response.exception.toString())
@@ -90,12 +102,11 @@ class WorkoutListViewModel @ViewModelInject constructor(
         isRefreshing = false
     }
 
-    private fun onRetrievePostListSuccess(workoutList: WorkoutList) {
-        Log.d(TAG, "onRetrievePostListSuccess: " + workoutList.workouts.size.toString())
+    private fun updateListView() {
         loadingVisibility.value = View.GONE
         workoutListAdapter.updateWorkoutList(
-            workoutList.workouts.associateBy(
-                keySelector = { it.date },
+            workoutList.associateBy(
+                keySelector = { it },
                 valueTransform = { it }).keys.toList()
         )
     }
