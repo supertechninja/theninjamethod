@@ -4,7 +4,7 @@ import com.mcwilliams.theninjamethod.ui.settings.data.TokenResponse
 
 interface ISessionRepository {
     suspend fun getFirstTokens(code: String): TokenResponse
-    fun refreshToken()
+    suspend fun refreshToken(): String
 
     fun setAccessToken(accessToken: String)
     fun getAccessToken(): String

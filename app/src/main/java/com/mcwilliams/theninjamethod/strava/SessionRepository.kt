@@ -37,16 +37,19 @@ class SessionRepository @Inject constructor(
         }
     }
 
-    override fun refreshToken() {
-        val newTokens = session.refreshToken(
-            CLIENT_ID,
-            CLIENT_SECRET,
-            getRefreshToken(),
-            GrantType.REFRESH_TOKEN.toString()
-        )
+    override suspend fun refreshToken() : String {
+        return withContext(context = Dispatchers.IO) {
+            val newTokens = session.refreshToken(
+                CLIENT_ID,
+                CLIENT_SECRET,
+                getRefreshToken(),
+                GrantType.REFRESH_TOKEN.toString()
+            )
 
-        setAccessToken(newTokens.access_token)
-        setRefreshToken(newTokens.refresh_token)
+            setAccessToken(newTokens.access_token)
+            setRefreshToken(newTokens.refresh_token)
+            newTokens.access_token
+        }
     }
 
     override fun setAccessToken(accessToken: String) {
@@ -87,6 +90,11 @@ class SessionRepository @Inject constructor(
         val isTokenValid = getExpiration() < System.currentTimeMillis()
 
         return doesHaveToken && isTokenValid
+    }
+
+    fun logOff (){
+        preferences.edit().remove(ACCESS_TOKEN).apply()
+        preferences.edit().remove(REFRESH_TOKEN).apply()
     }
 
     companion object {

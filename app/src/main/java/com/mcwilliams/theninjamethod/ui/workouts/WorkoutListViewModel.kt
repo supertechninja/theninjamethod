@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.model.*
+import com.mcwilliams.theninjamethod.network.Result
 import com.mcwilliams.theninjamethod.network.apis.WorkoutApi
 import com.mcwilliams.theninjamethod.strava.SessionRepository
 import io.reactivex.disposables.Disposable
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 class WorkoutListViewModel @ViewModelInject constructor(
     private val workoutApi: WorkoutApi,
-    private val sessionRepo: SessionRepository
+    private val sessionRepo: SessionRepository,
+    private val workoutRepo: WorkoutRepo
 ) : ViewModel() {
 
     private val TAG = "WorkoutListViewModel"
@@ -32,11 +34,6 @@ class WorkoutListViewModel @ViewModelInject constructor(
         loadWorkouts()
     }
 
-//    fun setupSwipeToDelete(){
-//        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(exerciseListAdapter, this))
-//        itemTouchHelper.attachToRecyclerView(recyclerView)
-//    }
-
     private fun loadWorkouts() {
         viewModelScope.launch {
             val data = workoutApi.getWorkouts()
@@ -44,17 +41,22 @@ class WorkoutListViewModel @ViewModelInject constructor(
         }
 
         if (sessionRepo.isLoggedIn()) {
-            Log.d(TAG, "loadWorkouts: logged in")
+            viewModelScope.launch {
+                try {
+                    when (val listOfActivitiesResponse = workoutRepo.getStravaActivities()) {
+                        is Result.Success -> {
+                            val listOfActivities =  listOfActivitiesResponse.data
+                            Log.d(TAG, "loadWorkouts: ${listOfActivities.size}")
+                        }
+                        is Result.Error -> {
+//                            _errorMessage.postValue(response.exception.toString())
+                        }
+                    }
+                } catch (e: java.lang.Exception) {
+//                    _errorMessage.postValue(e.message)
+                }
+            }
         }
-//        subscription = workoutApi.getWorkouts()
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .doOnSubscribe { onRetrievePostListStart() }
-//            .doOnTerminate { onRetrievePostListFinish() }
-//            .subscribe(
-//                { result -> onRetrievePostListSuccess(result) },
-//                { onRetrievePostListError() }
-//            )
     }
 
 //    fun deleteExercise(position : Int){

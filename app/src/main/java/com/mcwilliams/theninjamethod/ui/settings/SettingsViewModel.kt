@@ -62,4 +62,8 @@ class SettingsViewModel @ViewModelInject constructor(
             }
         }
     }
+
+    fun logOff (){
+        sessionRepository.logOff()
+    }
 }
