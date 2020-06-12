@@ -7,6 +7,7 @@ class StravaLogin(private val context: Context?) {
     private var redirectURI: String? = null
     private var approvalPrompt: ApprovalPrompt? = null
     private var accessScope: AccessScope? = null
+
     fun withClientID(clientID: Int): StravaLogin {
         this.clientID = clientID
         return this

@@ -1,21 +1,20 @@
 package com.mcwilliams.theninjamethod.ui.settings.repo
 
 import com.mcwilliams.theninjamethod.network.Result
-import com.mcwilliams.theninjamethod.network.apis.TokenApi
+import com.mcwilliams.theninjamethod.strava.api.Session
+import com.mcwilliams.theninjamethod.strava.GrantType
+import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SettingsRepoImpl @Inject constructor(
-    private val stravaApi: TokenApi
-) : SettingsRepo {
+class SettingsRepoImpl @Inject constructor(private val sessionRepo: SessionRepository) : SettingsRepo {
 
-    override suspend fun authAthlete(code:String): Result<Athlete> = withContext(Dispatchers.IO) {
-            val request =
-                stravaApi.token(CLIENT_ID, CLIENT_SECRET, code).athlete
-            Result.Success(request)
-        }
+    override suspend fun authAthlete(code: String): Result<Athlete?> = withContext(Dispatchers.IO) {
+        val request = sessionRepo.getFirstTokens(code).athlete
+        Result.Success(request)
+    }
 
 //        return
 
@@ -26,9 +25,4 @@ class SettingsRepoImpl @Inject constructor(
 //        return result!!
 
 
-
-    companion object {
-        const val CLIENT_ID = 47849
-        const val CLIENT_SECRET = "bcbe511450ad0d98e32ee8f40ddba379dcae75aa"
-    }
 }
