@@ -39,7 +39,6 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loadDetailedAthlete()
         viewModel.detailedAthlete.observe(viewLifecycleOwner, Observer { dathlete ->
             detailed_athlete.text = dathlete.toString()
             detailed_athlete.hideOtherViews()
