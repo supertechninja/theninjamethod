@@ -19,23 +19,14 @@ import com.mcwilliams.theninjamethod.strava.AccessScope
 import com.mcwilliams.theninjamethod.strava.ApprovalPrompt
 import com.mcwilliams.theninjamethod.strava.StravaLogin
 import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
-import com.mcwilliams.theninjamethod.utils.ViewModelFactory
-import dagger.android.support.AndroidSupportInjection
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: SettingsViewModel by viewModels { viewModelFactory }
-
+    private val viewModel: SettingsViewModel by viewModels()
     lateinit var loginWebview: WebView
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        AndroidSupportInjection.inject(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +39,23 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.detailedAthlete.observe(viewLifecycleOwner, Observer { dathlete ->
+            detailed_athlete.text = dathlete.toString()
+            detailed_athlete.hideOtherViews()
+        })
+
+        viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                btnLogin2Strava.visibility = View.GONE
+                athleteName.visibility = View.GONE
+                loginWebview.visibility = View.GONE
+                detailed_athlete.visibility = View.VISIBLE
+                viewModel.loadDetailedAthlete()
+            } else {
+                btnLogin2Strava.visibility = View.VISIBLE
+            }
+        })
+
         loginWebview = view.findViewById(R.id.login_webview) as WebView
 
         btnLogin2Strava.setOnClickListener {
@@ -56,44 +64,11 @@ class SettingsFragment : Fragment() {
             loginWebview.visibility = View.VISIBLE
             loginWebview.loadUrl(loginUrl)
         }
-
     }
 
-    private fun initViews(code: String) {
+    //Called after permission granted in webview auth
+    private fun handleStravaLogin(code: String) {
         viewModel.loginAthlete(code)
-    }
-
-    private fun initObservers() {
-        viewModel.resultLogin.observe(this, Observer { athlete ->
-            athlete?.let {
-                Log.d(TAG, "initObservers: " + athlete.firstname)
-                button_get_athlete.hideOtherViews()
-                button_get_athlete.setOnClickListener(View.OnClickListener {
-                    getDetailedAthelete()
-                })
-//                showData(it)
-            } ?: kotlin.run {
-//                handleError()
-            }
-        })
-
-//        getViewModel().errorMessage.observe(this, Observer {
-//            handleError()
-//        })
-//        getViewModel().showLoading.observe(this, Observer { showLoading ->
-//            if (showLoading) binding.progress.show()
-//            else binding.progress.hide()
-//        })
-    }
-
-    private fun getDetailedAthelete() {
-        viewModel.loadDetailedAthlete()
-        viewModel.detailedAthlete.observe(this, Observer { dathlete ->
-            Log.i("CHRIS", "detailed athlete live data updated")
-            Log.i("CHRIS", dathlete.toString())
-            detailed_athlete.text = dathlete.toString()
-            detailed_athlete.hideOtherViews()
-        })
     }
 
     private fun View.hideOtherViews() {
@@ -103,12 +78,6 @@ class SettingsFragment : Fragment() {
         loginWebview.visibility = View.GONE
         this.visibility = View.VISIBLE
     }
-
-    private fun loadAthlete(athlete: Athlete) {
-        btnLogin2Strava.visibility = View.GONE
-        athleteName.text = "${athlete.firstname} ${athlete.lastname}"
-    }
-
 
     private fun loadLoginUrl(): String {
         return StravaLogin.withContext(activity)
@@ -149,8 +118,7 @@ class SettingsFragment : Fragment() {
             private fun makeResult(code: String?): Boolean {
                 if (code != null && code.isNotEmpty()) {
                     loginWebview.visibility = View.GONE
-                    initViews(code)
-                    initObservers()
+                    handleStravaLogin(code)
                     return true
                 }
                 //                finish()

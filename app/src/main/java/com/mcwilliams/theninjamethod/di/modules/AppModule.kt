@@ -1,28 +1,29 @@
 package com.mcwilliams.theninjamethod.di.modules
 
-import androidx.lifecycle.ViewModel
-import com.mcwilliams.theninjamethod.di.ViewModelFactoryModule
-import com.mcwilliams.theninjamethod.di.ViewModelKey
-import com.mcwilliams.theninjamethod.ui.settings.repo.AthleteRepo
-import com.mcwilliams.theninjamethod.ui.settings.repo.AthleteRepoSharedPrefImpl
-import com.mcwilliams.theninjamethod.ui.workouts.WorkoutListViewModel
-import com.mcwilliams.theninjamethod.ui.workouts.WorkoutsFragment
-import dagger.Binds
+import android.content.Context
+import com.mcwilliams.theninjamethod.strava.SessionRepository
+import com.mcwilliams.theninjamethod.strava.api.AthleteApi
+import com.mcwilliams.theninjamethod.strava.api.Session
+import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
+import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepoImpl
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
-import dagger.multibindings.IntoMap
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Singleton
 
-@Module(includes = [ViewModelFactoryModule::class, NetworkModule::class])
-abstract class AppModule {
+@InstallIn(ApplicationComponent::class)
+@Module(includes = [NetworkModule::class])
+class AppModule {
 
-//    @ContributesAndroidInjector
-//    internal abstract fun contributesWorkoutsFragment(): WorkoutsFragment
+    @Provides
+    fun provideSettingsRepository(settingsRepoImpl: SessionRepository, athleteApi: AthleteApi) : SettingsRepo =
+        SettingsRepoImpl(settingsRepoImpl, athleteApi)
 
-//    @Binds
-//    @IntoMap
-//    @ViewModelKey(WorkoutListViewModel::class)
-//    abstract fun bindWorkoutViewModel(workoutViewModel: WorkoutListViewModel): ViewModel
+    @Provides
+    @Singleton
+    fun providesSessionRepository(@ApplicationContext context: Context, session: Session) : SessionRepository =
+        SessionRepository(context, session)
 
-    @Binds
-    abstract fun bindAhtleteRepo(a: AthleteRepoSharedPrefImpl): AthleteRepo
 }

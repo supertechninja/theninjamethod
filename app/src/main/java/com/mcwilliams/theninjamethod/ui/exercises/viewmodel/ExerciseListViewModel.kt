@@ -1,6 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.exercises.viewmodel
 
 import android.view.View
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +12,7 @@ import com.mcwilliams.theninjamethod.ui.exercises.ExerciseListAdapter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ExerciseListViewModel @Inject constructor(
+class ExerciseListViewModel @ViewModelInject constructor(
     private val exerciseApi: ExerciseApi
 ) : ViewModel() {
 

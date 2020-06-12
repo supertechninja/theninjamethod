@@ -2,21 +2,23 @@ package com.mcwilliams.theninjamethod.ui.workouts
 
 import android.util.Log
 import android.view.View
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.model.*
 import com.mcwilliams.theninjamethod.network.apis.WorkoutApi
+import com.mcwilliams.theninjamethod.strava.SessionRepository
 import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class WorkoutListViewModel @Inject constructor(
-    private val workoutApi: WorkoutApi
+class WorkoutListViewModel @ViewModelInject constructor(
+    private val workoutApi: WorkoutApi,
+    private val sessionRepo: SessionRepository
 ) : ViewModel() {
 
     private val TAG = "WorkoutListViewModel"
-    private lateinit var subscription: Disposable
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
 
@@ -39,6 +41,10 @@ class WorkoutListViewModel @Inject constructor(
         viewModelScope.launch {
             val data = workoutApi.getWorkouts()
             onRetrievePostListSuccess(data)
+        }
+
+        if (sessionRepo.isLoggedIn()) {
+            Log.d(TAG, "loadWorkouts: logged in")
         }
 //        subscription = workoutApi.getWorkouts()
 //            .subscribeOn(Schedulers.io())
@@ -94,10 +100,5 @@ class WorkoutListViewModel @Inject constructor(
 
     private fun onRetrievePostListError() {
 //        errorMessage.value = R.string.exercise_error
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        subscription?.dispose()
     }
 }
