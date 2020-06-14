@@ -7,16 +7,16 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mcwilliams.theninjamethod.model.*
+import com.mcwilliams.theninjamethod.model.Workout
+import com.mcwilliams.theninjamethod.model.WorkoutType
 import com.mcwilliams.theninjamethod.network.Result
 import com.mcwilliams.theninjamethod.network.apis.WorkoutApi
 import com.mcwilliams.theninjamethod.strava.SessionRepository
-import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.launch
-import java.text.DateFormat
-import java.time.LocalDate
+import java.text.SimpleDateFormat
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import javax.inject.Inject
+import java.util.*
 
 class WorkoutListViewModel @ViewModelInject constructor(
     private val workoutApi: WorkoutApi,
@@ -40,10 +40,15 @@ class WorkoutListViewModel @ViewModelInject constructor(
         loadWorkouts()
     }
 
+    @SuppressLint("NewApi", "SimpleDateFormat")
     private fun loadWorkouts() {
         viewModelScope.launch {
             val data = workoutApi.getWorkouts()
+            data.workouts.forEach {
+                it.workoutType = WorkoutType.LIFTING
+            }
             workoutList.addAll(data.workouts)
+            isRefreshing = false
             updateListView()
         }
 
@@ -55,7 +60,17 @@ class WorkoutListViewModel @ViewModelInject constructor(
                             val listOfActivities =  listOfActivitiesResponse.data
                             Log.d(TAG, "loadWorkouts: ${listOfActivities.size}")
                             listOfActivities.forEach {
-                                val workoutItem = Workout(it.start_date, it.name,"",0,0,"")
+                                val dtf = DateTimeFormatter.ISO_DATE_TIME
+                                val zdt: ZonedDateTime = ZonedDateTime.parse(it.start_date_local, dtf)
+                                val localDateTime = zdt.toLocalDateTime()
+                                val date = localDateTime.toLocalDate()
+                                val time = localDateTime.toLocalTime()
+
+
+                                val elapsedTime = "${it.elapsed_time / 60}:${it.elapsed_time % 60} min"
+                                val miles = "${getMiles(it.distance).round(2).toString()} mi"
+
+                                val workoutItem = Workout("$date $time", it.name, WorkoutType.STRAVA, miles, elapsedTime)
                                 workoutList.add(workoutItem)
                             }
                             updateListView()
@@ -71,21 +86,16 @@ class WorkoutListViewModel @ViewModelInject constructor(
         }
     }
 
-//    fun deleteExercise(position : Int){
-//        val exerciseToDelete = exerciseListAdapter.getExerciseList()[position]
-//    }
+    fun onWorkoutClicked(workout: Workout){
 
-    //    fun addExercise(exercise: AddExerciseRequest){
-//        subscription = exerciseApi.addExercise(exercise)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                { refreshData() },
-//                { onRetrievePostListError() }
-//            )
-//
-//    }
-//
+    }
+
+    fun getMiles(meters:Float): Double {
+        return meters*0.000621371192;
+    }
+
+    fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDouble()
+
     fun refreshData() {
         isRefreshing = true
         loadWorkouts()

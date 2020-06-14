@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">The Ninja Method</string>
+    <string name="app_name">Ninja Method</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="hello_home_second">Hello HomeSecondFragment. Arg: %1$s</string>
