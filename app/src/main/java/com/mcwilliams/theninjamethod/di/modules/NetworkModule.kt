@@ -71,11 +71,11 @@ object NetworkModule {
     @JvmStatic
     internal fun provideStravaApi(
         okHttpClient: OkHttpClient.Builder,
-//        authenticator: TokenAuthenticator,
+        authenticator: TokenAuthenticator,
         authorizationInterceptor: AuthorizationInterceptor
     ): Retrofit {
         okHttpClient.addInterceptor(authorizationInterceptor)
-//        okHttpClient.authenticator(authenticator)
+        okHttpClient.authenticator(authenticator)
 
         return Retrofit.Builder()
             .baseUrl("https://www.strava.com/api/v3/")
