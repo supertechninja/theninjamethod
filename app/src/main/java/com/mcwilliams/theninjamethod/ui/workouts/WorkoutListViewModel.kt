@@ -142,6 +142,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
                             val listOfDates = workoutList.distinctBy { it.date }
                             for (date in listOfDates) {
                                 val workoutsByDate: MutableList<Workout> = mutableListOf()
+                                //TODO chris look at rxjava
                                 workoutList.forEach {
                                     if (it.date == date.date) {
                                         workoutsByDate.add(it)
