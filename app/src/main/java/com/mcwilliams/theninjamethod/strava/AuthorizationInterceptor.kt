@@ -1,5 +1,6 @@
 package com.mcwilliams.theninjamethod.strava
 
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -10,7 +11,9 @@ class AuthorizationInterceptor @Inject constructor(val sessionRepository: Sessio
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
         if (sessionRepository.getExpiration() > System.currentTimeMillis()) {
-            sessionRepository.refreshToken()
+            runBlocking {
+                sessionRepository.refreshToken()
+            }
         }
 
         val token = sessionRepository.getAccessToken()

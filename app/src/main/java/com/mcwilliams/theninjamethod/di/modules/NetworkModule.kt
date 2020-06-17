@@ -4,6 +4,7 @@ import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.strava.api.Session
 import com.mcwilliams.theninjamethod.network.apis.WorkoutApi
 import com.mcwilliams.theninjamethod.strava.AuthorizationInterceptor
+import com.mcwilliams.theninjamethod.strava.TokenAuthenticator
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import dagger.Module
 import dagger.Provides
@@ -68,8 +69,13 @@ object NetworkModule {
     @Named("stravaApi")
     @Reusable
     @JvmStatic
-    internal fun provideStravaApi(okHttpClient: OkHttpClient.Builder, authorizationInterceptor: AuthorizationInterceptor): Retrofit {
+    internal fun provideStravaApi(
+        okHttpClient: OkHttpClient.Builder,
+        authenticator: TokenAuthenticator,
+        authorizationInterceptor: AuthorizationInterceptor
+    ): Retrofit {
         okHttpClient.addInterceptor(authorizationInterceptor)
+        okHttpClient.authenticator(authenticator)
 
         return Retrofit.Builder()
             .baseUrl("https://www.strava.com/api/v3/")

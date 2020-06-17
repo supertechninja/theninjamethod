@@ -56,6 +56,10 @@ class SettingsFragment : Fragment() {
             }
         })
 
+        button_log_off.setOnClickListener {
+            viewModel.logOff()
+        }
+
         loginWebview = view.findViewById(R.id.login_webview) as WebView
 
         btnLogin2Strava.setOnClickListener {

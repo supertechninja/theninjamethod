@@ -18,7 +18,7 @@ interface Session {
 
     @POST("/oauth/token")
     @FormUrlEncoded
-    fun refreshToken(
+    suspend fun refreshToken(
         @Field("client_id") clientID: Int,
         @Field("client_secret") clientSecret: String?,
         @Field("refresh_token") refreshToken: String?,
