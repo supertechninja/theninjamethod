@@ -4,6 +4,7 @@ import android.content.Context
 import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import com.mcwilliams.theninjamethod.strava.api.Session
+import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepoImpl
 import com.mcwilliams.theninjamethod.ui.workouts.repo.ManualWorkoutsRepository
@@ -39,5 +40,10 @@ class AppModule {
     @Singleton
     fun providesManualWorkoutRepository(@ApplicationContext context: Context) : ManualWorkoutsRepository =
         ManualWorkoutsRepository(context)
+
+    @Provides
+    @Singleton
+    fun providesExerciseRepository(@ApplicationContext context: Context) : ExerciseRepository =
+        ExerciseRepository(context)
 
 }

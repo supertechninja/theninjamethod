@@ -9,15 +9,15 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mcwilliams.theninjamethod.model.Exercise
-import com.mcwilliams.theninjamethod.model.Workout
-import com.mcwilliams.theninjamethod.model.WorkoutSet
-import com.mcwilliams.theninjamethod.model.WorkoutType
+import com.mcwilliams.theninjamethod.ui.workouts.ui.model.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.ui.model.WorkoutType
 import com.mcwilliams.theninjamethod.network.Result
 import com.mcwilliams.theninjamethod.network.apis.WorkoutApi
 import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.ui.workouts.repo.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.ui.workouts.repo.WorkoutRepo
+import com.mcwilliams.theninjamethod.ui.workouts.ui.model.Exercise
+import com.mcwilliams.theninjamethod.ui.workouts.ui.model.WorkoutSet
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZonedDateTime
@@ -52,26 +52,6 @@ class WorkoutListViewModel @ViewModelInject constructor(
 //        manualWorkoutsRepository.addWorkout(createDummyWorkout())
     }
 
-    //Faking to populate db
-    fun createDummyWorkout(): com.mcwilliams.theninjamethod.ui.workouts.db.Workout {
-        val exercises = mutableListOf(
-            Exercise(
-                "Pullups", "Bodyweight", "Back",
-                mutableListOf(WorkoutSet("1","185", "12"), WorkoutSet("1","185", "12"))
-            ),
-            Exercise(
-                "Squat", "Bodyweight", "Back",
-                mutableListOf(WorkoutSet("1","305", "12"), WorkoutSet("2","345", "10"))
-            )
-        )
-        return com.mcwilliams.theninjamethod.ui.workouts.db.Workout(
-            0,
-            "Leg Day",
-            LocalDate.now().toString(),
-            exercises
-        )
-    }
-
     @SuppressLint("NewApi", "SimpleDateFormat")
     private fun loadWorkouts() {
         viewModelScope.launch {
@@ -90,7 +70,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
                 manualWorkouts.forEach {
                     workoutList.add(
                         Workout(
-                            it.workoutDate,
+                            LocalDate.parse(it.workoutDate),
                             "",
                             it.workoutName,
                             WorkoutType.STRAVA,
@@ -124,20 +104,21 @@ class WorkoutListViewModel @ViewModelInject constructor(
 
                                 val milesPerHour = (it.average_speed * 2.237).round(2)
 
-                                val workoutItem = Workout(
-                                    date.toString(),
-                                    "${time.hour}:${time.minute}",
-                                    it.name,
-                                    WorkoutType.STRAVA,
-                                    milesString,
-                                    "$movingTime Pace: $milesPerHour mph"
-                                )
+                                val workoutItem =
+                                    Workout(
+                                        date,
+                                        "${time.hour}:${time.minute}",
+                                        it.name,
+                                        WorkoutType.STRAVA,
+                                        milesString,
+                                        "$movingTime Pace: $milesPerHour mph"
+                                    )
 
                                 workoutList.add(workoutItem)
                             }
 
                             //Group strava workouts by date
-                            val dateKeyedWorkouts: MutableMap<String, MutableList<Workout>> =
+                            val dateKeyedWorkouts: MutableMap<LocalDate, MutableList<Workout>> =
                                 mutableMapOf()
                             val listOfDates = workoutList.distinctBy { it.date }
                             for (date in listOfDates) {
@@ -151,6 +132,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
                                 dateKeyedWorkouts[date.date] = workoutsByDate
                             }
                             updateListView(dateKeyedWorkouts.toList())
+                            loadingVisibility.value = View.GONE
                         }
                         is Result.Error -> {
 //                            _errorMessage.postValue(response.exception.toString())
@@ -202,7 +184,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
         isRefreshing = false
     }
 
-    private fun updateListView(dateKeyedWorkouts: List<Pair<String, MutableList<Workout>>>) {
+    private fun updateListView(dateKeyedWorkouts: List<Pair<LocalDate, MutableList<Workout>>>) {
         loadingVisibility.value = View.GONE
         workoutListAdapter.updateWorkoutList(dateKeyedWorkouts)
     }

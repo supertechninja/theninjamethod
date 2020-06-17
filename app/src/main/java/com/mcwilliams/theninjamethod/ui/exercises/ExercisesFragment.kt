@@ -12,11 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.FragmentHomeBinding
-import com.mcwilliams.theninjamethod.model.AddExerciseRequest
-import com.mcwilliams.theninjamethod.model.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,5 +1,6 @@
 package com.mcwilliams.theninjamethod.ui.workouts
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,14 @@ import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.StravaWorkoutItemBinding
 import com.mcwilliams.theninjamethod.databinding.WorkoutCardItemViewBinding
 import com.mcwilliams.theninjamethod.databinding.WorkoutItemBinding
-import com.mcwilliams.theninjamethod.model.Workout
-import com.mcwilliams.theninjamethod.model.WorkoutType
+import com.mcwilliams.theninjamethod.ui.workouts.ui.model.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.ui.model.WorkoutType
+import java.time.LocalDate
 
 
 class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private lateinit var workoutList: List<Pair<String, MutableList<Workout>>>
+    private lateinit var workoutList: List<Pair<LocalDate, MutableList<Workout>>>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 //        return if (viewType == WorkoutType.LIFTING.ordinal) {
@@ -54,7 +56,7 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return if (::workoutList.isInitialized) workoutList.size else 0
     }
 
-    fun updateWorkoutList(workoutDates: List<Pair<String, MutableList<Workout>>>) {
+    fun updateWorkoutList(workoutDates: List<Pair<LocalDate, MutableList<Workout>>>) {
         this.workoutList = workoutDates
         notifyDataSetChanged()
     }
@@ -73,8 +75,11 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class StravaWorkoutViewHolder(private val binding: StravaWorkoutItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(workoutObj: Pair<String, MutableList<Workout>>, holder: StravaWorkoutViewHolder) {
-            holder.binding.stravaWorkoutTitle.text = workoutObj.first
+        @SuppressLint("SetTextI18n")
+        fun bind(workoutObj: Pair<LocalDate, MutableList<Workout>>, holder: StravaWorkoutViewHolder) {
+            val workoutDate = workoutObj.first
+            holder.binding.stravaWorkoutTitle.text = workoutDate.dayOfWeek.name.toLowerCase().capitalize() +
+                    ", " + workoutDate.month.name.toLowerCase().capitalize() + " " + workoutDate.dayOfMonth
 
             workoutObj.second.forEach {
                 val workoutItemView = WorkoutCardItemViewBinding.inflate(LayoutInflater.from(holder.itemView.context))

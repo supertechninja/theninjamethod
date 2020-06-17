@@ -1,9 +1,10 @@
-package com.mcwilliams.theninjamethod.model
+package com.mcwilliams.theninjamethod.ui.workouts.ui.model
 
 import com.google.gson.annotations.SerializedName
+import java.time.LocalDate
 
 data class Workout(
-    val date: String,
+    val date: LocalDate,
     val time: String,
     @SerializedName("exerciseName")
     val workoutName: String,

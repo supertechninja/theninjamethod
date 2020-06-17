@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.ExerciseItemBinding
-import com.mcwilliams.theninjamethod.model.Exercise
+import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseViewModel
 
 
@@ -50,7 +50,7 @@ class ExerciseListAdapter() :
     class ViewHolder(private val binding: ExerciseItemBinding):RecyclerView.ViewHolder(binding.root){
         private val viewModel =
             ExerciseViewModel()
-        fun bind(post:Exercise){
+        fun bind(post: Exercise){
             // ...
             viewModel.bind(post)
             binding.exerciseViewModel = viewModel

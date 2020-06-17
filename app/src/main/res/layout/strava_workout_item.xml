@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="4dp"
-            app:cardBackgroundColor="@color/color_primary"
+            app:cardBackgroundColor="@color/card_background"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 

@@ -6,14 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.model.*
 import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.ui.exercises.ExerciseListAdapter
+import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
+import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import kotlinx.coroutines.runBlocking
 
 class ExerciseListViewModel @ViewModelInject constructor(
-    private val exerciseApi: ExerciseApi
+    private val exerciseApi: ExerciseApi,
+    private val exerciseRepository: ExerciseRepository
 ) : ViewModel() {
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
@@ -30,20 +32,17 @@ class ExerciseListViewModel @ViewModelInject constructor(
     val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
 
     init {
-       loadExercises()
+        loadExercises()
     }
 
-    private fun loadExercises(){
+    private fun loadExercises() {
         viewModelScope.launch {
             val data = exerciseApi.getExercises()
-            onRetrievePostListSuccess(data)
-        }
-    }
+            data.exercises.forEach {
+                runBlocking { exerciseRepository.addExercises(it) }
+            }
 
-    fun addExercise(exercise: AddExerciseRequest) {
-        viewModelScope.launch {
-            exerciseApi.addExercise(exercise)
-            refreshData()
+            onRetrievePostListSuccess(data.exercises)
         }
     }
 
@@ -52,9 +51,9 @@ class ExerciseListViewModel @ViewModelInject constructor(
         loadExercises()
     }
 
-    private fun onRetrievePostListSuccess(exerciseList: Data) {
+    private fun onRetrievePostListSuccess(exerciseList: List<Exercise>) {
         loadingVisibility.value = View.GONE
-        exerciseListAdapter.updatePostList(exerciseList.exercises)
+        exerciseListAdapter.updatePostList(exerciseList)
     }
 
     private fun onRetrievePostListError() {

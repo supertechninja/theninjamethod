@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.mcwilliams.theninjamethod.model.ExerciseTypeConverter
+import com.mcwilliams.theninjamethod.ui.workouts.db.ExerciseTypeConverter
 
 @Database(entities = arrayOf(Workout::class), version = 1)
 @TypeConverters(ExerciseTypeConverter::class)
@@ -23,7 +23,7 @@ abstract class WorkoutDatabase : RoomDatabase() {
                     if (INSTANCE == null) {
                         INSTANCE = Room.databaseBuilder(
                             context.applicationContext,
-                            WorkoutDatabase::class.java, "app_database"
+                            WorkoutDatabase::class.java, "workout_database"
                         )
                             .build()
                     }

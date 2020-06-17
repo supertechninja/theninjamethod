@@ -2,7 +2,7 @@ package com.mcwilliams.theninjamethod.ui.exercises.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mcwilliams.theninjamethod.model.Exercise
+import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 
 class ExerciseViewModel : ViewModel() {
     private val exerciseTitle = MutableLiveData<String>()

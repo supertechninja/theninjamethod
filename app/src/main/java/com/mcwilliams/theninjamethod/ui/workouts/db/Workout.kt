@@ -1,8 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.workouts.db
 
 import androidx.room.*
-import com.mcwilliams.theninjamethod.model.Exercise
-import com.mcwilliams.theninjamethod.model.ExerciseTypeConverter
+import com.mcwilliams.theninjamethod.ui.workouts.ui.model.Exercise
 
 @Entity
 data class Workout(

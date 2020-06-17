@@ -1,6 +1,6 @@
 package com.mcwilliams.theninjamethod.network.apis
 
-import com.mcwilliams.theninjamethod.model.WorkoutList
+import com.mcwilliams.theninjamethod.ui.workouts.ui.model.WorkoutList
 import retrofit2.http.GET
 
 interface WorkoutApi {

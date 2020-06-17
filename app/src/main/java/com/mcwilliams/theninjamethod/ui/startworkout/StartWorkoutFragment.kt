@@ -1,10 +1,8 @@
 package com.mcwilliams.theninjamethod.ui.startworkout
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,10 +12,9 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.model.Exercise
-import com.mcwilliams.theninjamethod.model.WorkoutSet
-import com.mcwilliams.theninjamethod.ui.workouts.WorkoutListViewModel
 import com.mcwilliams.theninjamethod.ui.workouts.db.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.ui.model.Exercise
+import com.mcwilliams.theninjamethod.ui.workouts.ui.model.WorkoutSet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_start_workout.*
 import java.time.LocalDate
@@ -103,10 +100,22 @@ class StartWorkoutFragment : Fragment() {
                 val weight = setsRow.findViewById<TextInputEditText>(R.id.weight_amount)
                 val reps = setsRow.findViewById<TextInputEditText>(R.id.rep_count)
 
-                sets.add(WorkoutSet(setCount.text.toString(), weight.text.toString(), reps.text.toString()))
+                sets.add(
+                    WorkoutSet(
+                        setCount.text.toString(),
+                        weight.text.toString(),
+                        reps.text.toString()
+                    )
+                )
             }
 
-            val exercise = Exercise(exerciseName.text.toString(), "", "", sets)
+            val exercise =
+                Exercise(
+                    exerciseName.text.toString(),
+                    "",
+                    "",
+                    sets
+                )
             exerciseList.add(exercise)
         }
 
