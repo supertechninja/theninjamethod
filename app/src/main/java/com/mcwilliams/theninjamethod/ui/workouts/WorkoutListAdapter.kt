@@ -1,8 +1,10 @@
 package com.mcwilliams.theninjamethod.ui.workouts
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.StravaWorkoutItemBinding
@@ -78,8 +80,13 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val workoutItemView = WorkoutCardItemViewBinding.inflate(LayoutInflater.from(holder.itemView.context))
                 workoutItemView.workoutName.text = it.workoutName
                 workoutItemView.workoutDuration.text = it.stravaTime
+                workoutItemView.root.setOnClickListener { onWorkoutClicked(workoutItemView.root) }
                 holder.binding.llWorkouts.addView(workoutItemView.root)
             }
+        }
+
+        private fun onWorkoutClicked(view: View){
+            Navigation.findNavController(view).navigate(R.id.navigate_to_workout_detail)
         }
     }
 }

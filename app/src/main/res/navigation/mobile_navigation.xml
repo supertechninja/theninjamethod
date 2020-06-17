@@ -7,18 +7,26 @@
 
     <fragment
         android:id="@+id/navigation_workouts"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.WorkoutsFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.workouts.ui.WorkoutsFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_workouts">
 
         <action android:id="@+id/navigate_to_workout_detail"
             app:destination="@+id/navigation_workout_detail"/>
 
+        <action android:id="@+id/navigate_to_start_workout"
+            app:destination="@+id/navigation_start_workout"/>
     </fragment>
 
     <fragment
+        android:id="@+id/navigation_start_workout"
+        android:name="com.mcwilliams.theninjamethod.ui.workouts.ui.StartWorkoutFragment"
+        android:label="Start Workout"
+        tools:layout="@layout/fragment_start_workout" />
+
+    <fragment
         android:id="@+id/navigation_workout_detail"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.WorkoutDetailFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.workouts.ui.WorkoutDetailFragment"
         android:label="Workout Detail"
         tools:layout="@layout/workout_detail_fragment" />
 

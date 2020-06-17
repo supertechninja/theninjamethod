@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts
+package com.mcwilliams.theninjamethod.ui.workouts.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,9 +16,6 @@ class WorkoutDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.workout_detail_fragment, container)
+        return inflater.inflate(R.layout.workout_detail_fragment, container, false)
     }
-
-
-
 }

@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts
+package com.mcwilliams.theninjamethod.ui.workouts.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,17 +9,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.databinding.FragmentWorkoutsBinding
+import com.mcwilliams.theninjamethod.ui.workouts.WorkoutListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_workouts.*
+
 
 @AndroidEntryPoint
 class WorkoutsFragment : Fragment() {
-
-    private lateinit var binding: FragmentWorkoutsBinding
 
     private var errorSnackbar: Snackbar? = null
 
@@ -30,49 +30,36 @@ class WorkoutsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_workouts, container, false
-        )
-        return binding.root
+        return inflater.inflate(R.layout.fragment_workouts, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.workoutList.layoutManager =
+        workout_list.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
         viewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
             if (errorMessage != null) showError(errorMessage) else hideError()
         })
-        binding.workoutListViewModel = viewModel
 
-        binding.swipeContainer.setOnRefreshListener {
+        workout_list.adapter = viewModel.workoutListAdapter
+
+        swipeContainer.setOnRefreshListener {
             viewModel.dropWorkoutDb()
         }
 
-        binding.startWorkout.setOnClickListener {
-            viewModel.onStartWorkoutClick()
-//            val view = layoutInflater.inflate(R.layout.add_exercise_dialog, null)
-//            val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
-//                .setTitle("Add Exercise")
-//                .setView(view)
-//                .setPositiveButton("Save") { _, _ ->
-//                }
-//                .setNegativeButton("Cancel") { _, _ ->
-//                    {
-//
-//                    }
-//                }
-//            materialAlertDialogBuilder.show()
+        startWorkout.setOnClickListener {
+//            viewModel.onStartWorkoutClick()
+            Navigation.findNavController(it).navigate(R.id.navigate_to_start_workout)
         }
 
     }
 
     private fun showError(@StringRes errorMessage: Int) {
-        errorSnackbar = Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_INDEFINITE)
-        errorSnackbar?.setAction(R.string.retry, viewModel.errorClickListener)
-        errorSnackbar?.show()
+//        errorSnackbar = Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_INDEFINITE)
+//        errorSnackbar?.setAction(R.string.retry, viewModel.errorClickListener)
+//        errorSnackbar?.show()
     }
 
     private fun hideError() {
