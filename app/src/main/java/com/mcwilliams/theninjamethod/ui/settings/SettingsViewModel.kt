@@ -65,5 +65,6 @@ class SettingsViewModel @ViewModelInject constructor(
 
     fun logOff (){
         sessionRepository.logOff()
+        _isLoggedIn.postValue(false)
     }
 }

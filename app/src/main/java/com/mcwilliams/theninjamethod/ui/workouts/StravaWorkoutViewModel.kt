@@ -2,21 +2,19 @@ package com.mcwilliams.theninjamethod.ui.workouts
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.model.Workout
 
 class StravaWorkoutViewModel : ViewModel() {
-    private val stravaWorkout = MutableLiveData<Workout>()
+    private lateinit var stravaWorkout : Pair<String, MutableList<Workout>>
     private lateinit var view : RecyclerView.ViewHolder
 
-    fun bind(workoutObj: Workout, holder: RecyclerView.ViewHolder) {
-        stravaWorkout.value = workoutObj
+    fun bind(workoutObj: Pair<String, MutableList<Workout>>, holder: RecyclerView.ViewHolder) {
+        stravaWorkout = workoutObj
         view = holder
     }
 
-    fun getStravaWorkout(): MutableLiveData<Workout> {
+    fun getStravaWorkout(): Pair<String, MutableList<Workout>> {
         return stravaWorkout
     }
 

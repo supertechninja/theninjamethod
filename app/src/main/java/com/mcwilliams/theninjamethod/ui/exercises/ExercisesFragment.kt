@@ -62,13 +62,13 @@ class ExercisesFragment : Fragment() {
                 .setView(view)
                 .setPositiveButton("Save") { _, _ ->
                     //do something
-                    val exerciseName =
-                        view.findViewById<TextInputEditText>(R.id.exerciseName).text.toString()
-                    val exerciseType =
-                        view.findViewById<TextInputEditText>(R.id.exerciseType).text.toString()
-                    val exercise = Exercise(exerciseName, exerciseType, "")
-                    val addExerciseRequest = AddExerciseRequest(exercise)
-                    viewModel.addExercise(addExerciseRequest)
+//                    val exerciseName =
+//                        view.findViewById<TextInputEditText>(R.id.exerciseName).text.toString()
+//                    val exerciseType =
+//                        view.findViewById<TextInputEditText>(R.id.exerciseType).text.toString()
+//                    val exercise = Exercise(exerciseName, exerciseType, "")
+//                    val addExerciseRequest = AddExerciseRequest(exercise)
+//                    viewModel.addExercise(addExerciseRequest)
                 }
                 .setNegativeButton("Cancel") { _, _ ->
                     {

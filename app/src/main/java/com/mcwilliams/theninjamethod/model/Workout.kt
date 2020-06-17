@@ -5,6 +5,7 @@ import java.util.*
 
 data class Workout(
     val date: String,
+    val time: String,
     @SerializedName("exerciseName")
     val workoutName: String,
     var workoutType : WorkoutType,

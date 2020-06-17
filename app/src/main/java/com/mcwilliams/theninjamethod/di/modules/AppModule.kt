@@ -6,7 +6,8 @@ import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import com.mcwilliams.theninjamethod.strava.api.Session
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepoImpl
-import com.mcwilliams.theninjamethod.ui.workouts.WorkoutRepo
+import com.mcwilliams.theninjamethod.ui.workouts.repo.ManualWorkoutsRepository
+import com.mcwilliams.theninjamethod.ui.workouts.repo.WorkoutRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,12 +24,20 @@ class AppModule {
         SettingsRepoImpl(settingsRepoImpl, athleteApi)
 
     @Provides
-    fun provideWorkoutRepository(athleteApi: AthleteApi) : WorkoutRepo =
-        WorkoutRepo(athleteApi)
+    fun provideWorkoutRepository(@ApplicationContext context: Context, athleteApi: AthleteApi) : WorkoutRepo =
+        WorkoutRepo(
+            context,
+            athleteApi
+        )
 
     @Provides
     @Singleton
     fun providesSessionRepository(@ApplicationContext context: Context, session: Session) : SessionRepository =
         SessionRepository(context, session)
+
+    @Provides
+    @Singleton
+    fun providesManualWorkoutRepository(@ApplicationContext context: Context) : ManualWorkoutsRepository =
+        ManualWorkoutsRepository(context)
 
 }
