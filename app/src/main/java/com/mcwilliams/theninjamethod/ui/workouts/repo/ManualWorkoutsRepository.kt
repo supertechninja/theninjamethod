@@ -35,4 +35,6 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
         }
     }
 
+    suspend fun nukeTable() = workoutDao?.nukeTable()
+
 }

@@ -22,4 +22,7 @@ interface WorkoutDao {
 
     @Delete
     suspend fun delete(user: Workout)
+
+    @Query("DELETE FROM workout")
+    suspend fun nukeTable()
 }

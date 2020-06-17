@@ -48,7 +48,7 @@ class WorkoutsFragment : Fragment() {
         binding.workoutListViewModel = viewModel
 
         binding.swipeContainer.setOnRefreshListener {
-//            viewModel.refreshData()
+            viewModel.dropWorkoutDb()
         }
 
         binding.startWorkout.setOnClickListener {

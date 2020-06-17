@@ -172,6 +172,12 @@ class WorkoutListViewModel @ViewModelInject constructor(
         return meters * 0.000621371192;
     }
 
+    fun dropWorkoutDb(){
+        viewModelScope.launch {
+            manualWorkoutsRepository.nukeTable()
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun LocalDate.format(date: LocalDate): String {
         return "${date.monthValue}/${date.dayOfMonth}/${date.year}"
