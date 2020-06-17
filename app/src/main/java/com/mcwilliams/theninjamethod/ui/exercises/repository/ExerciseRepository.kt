@@ -25,7 +25,7 @@ class ExerciseRepository @Inject constructor(val context: Context) : CoroutineSc
         exerciseDao = db?.exerciseDao()
     }
 
-    suspend fun getWorkouts() = exerciseDao?.getAll()
+    suspend fun getExercises() = exerciseDao?.getAll()
 
     suspend fun addExercises(exercise: Exercise) {
         withContext(Dispatchers.IO){

@@ -1,11 +1,13 @@
 package com.mcwilliams.theninjamethod.ui.startworkout
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -24,6 +26,7 @@ class StartWorkoutFragment : Fragment() {
 
     lateinit var exerciseName : String
     lateinit var exerciseListView : LinearLayout
+    lateinit var loadedExercises : List<com.mcwilliams.theninjamethod.ui.exercises.db.Exercise>
 
     private val startWorkoutViewModel: StartWorkoutViewModel by viewModels()
 
@@ -39,17 +42,29 @@ class StartWorkoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        startWorkoutViewModel.listOfExercises.observe(viewLifecycleOwner, Observer { exercistList ->
+            if (!exercistList.isNullOrEmpty()) {
+                loadedExercises = exercistList
+            }
+        })
+
         //kotlin synthetics for accessing root views
         val addExercise =  view.findViewById<ExtendedFloatingActionButton>(R.id.add_exercise)
         addExercise.setOnClickListener {
             //Show Exercise Picker, after exercise selection add layout
             //Mocking exercise name
-            exerciseName = "Bench Press"
+            exerciseName = "Select Exercise"
 
             val addExerciseViewLayout = layoutInflater.inflate(R.layout.add_exercise_row_view, null)
 
             val exerciseNameView = addExerciseViewLayout.findViewById<MaterialTextView>(R.id.exercise_name)
             exerciseNameView.text = exerciseName
+
+            exerciseNameView.setOnClickListener {
+                //TODO Show Alert Dialog to Pick from list of Exercises
+            }
+
+
             var setCounter = 0
 
             val addSet = addExerciseViewLayout.findViewById<MaterialButton>(R.id.add_set)

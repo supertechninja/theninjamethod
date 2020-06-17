@@ -32,6 +32,7 @@ class ExerciseListViewModel @ViewModelInject constructor(
     val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
 
     init {
+        //TODO Setup to execute only once
         loadExercises()
     }
 
