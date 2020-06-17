@@ -49,7 +49,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
 
 
     fun onStartWorkoutClick() {
-        manualWorkoutsRepository.addWorkout(createDummyWorkout())
+//        manualWorkoutsRepository.addWorkout(createDummyWorkout())
     }
 
     //Faking to populate db
@@ -57,11 +57,11 @@ class WorkoutListViewModel @ViewModelInject constructor(
         val exercises = mutableListOf(
             Exercise(
                 "Pullups", "Bodyweight", "Back",
-                mutableListOf(WorkoutSet(185, 12), WorkoutSet(185, 12))
+                mutableListOf(WorkoutSet("1","185", "12"), WorkoutSet("1","185", "12"))
             ),
             Exercise(
                 "Squat", "Bodyweight", "Back",
-                mutableListOf(WorkoutSet(305, 12), WorkoutSet(345, 10))
+                mutableListOf(WorkoutSet("1","305", "12"), WorkoutSet("2","345", "10"))
             )
         )
         return com.mcwilliams.theninjamethod.ui.workouts.db.Workout(

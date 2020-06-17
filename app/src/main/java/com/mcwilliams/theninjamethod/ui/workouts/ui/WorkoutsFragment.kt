@@ -53,7 +53,6 @@ class WorkoutsFragment : Fragment() {
 //            viewModel.onStartWorkoutClick()
             Navigation.findNavController(it).navigate(R.id.navigate_to_start_workout)
         }
-
     }
 
     private fun showError(@StringRes errorMessage: Int) {

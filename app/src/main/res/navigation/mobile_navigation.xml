@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/navigation_start_workout"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.ui.StartWorkoutFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutFragment"
         android:label="Start Workout"
         tools:layout="@layout/fragment_start_workout" />
 

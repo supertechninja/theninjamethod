@@ -14,4 +14,4 @@ data class AddExerciseRequest(val exercise: Exercise)
 
 data class Response(val updated: Int)
 
-data class WorkoutSet (val weight:Int, val reps: Int)
+data class WorkoutSet (val index: String, val weight:String, val reps: String)
