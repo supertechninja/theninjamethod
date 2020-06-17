@@ -23,7 +23,7 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
         workoutDao = db?.workoutDao()
     }
 
-    fun getWorkouts() = workoutDao?.getAll()
+    suspend fun getWorkouts() = workoutDao?.getAll()
 
     fun addWorkout(workout: Workout) {
         launch  { setWorkout(workout) }

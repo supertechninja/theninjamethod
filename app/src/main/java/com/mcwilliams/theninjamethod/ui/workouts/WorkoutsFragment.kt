@@ -48,22 +48,23 @@ class WorkoutsFragment : Fragment() {
         binding.workoutListViewModel = viewModel
 
         binding.swipeContainer.setOnRefreshListener {
-            viewModel.refreshData()
+//            viewModel.refreshData()
         }
 
-        binding.addExercise.setOnClickListener {
-            val view = layoutInflater.inflate(R.layout.add_exercise_dialog, null)
-            val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
-                .setTitle("Add Exercise")
-                .setView(view)
-                .setPositiveButton("Save") { _, _ ->
-                }
-                .setNegativeButton("Cancel") { _, _ ->
-                    {
-
-                    }
-                }
-            materialAlertDialogBuilder.show()
+        binding.startWorkout.setOnClickListener {
+            viewModel.onStartWorkoutClick()
+//            val view = layoutInflater.inflate(R.layout.add_exercise_dialog, null)
+//            val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
+//                .setTitle("Add Exercise")
+//                .setView(view)
+//                .setPositiveButton("Save") { _, _ ->
+//                }
+//                .setNegativeButton("Cancel") { _, _ ->
+//                    {
+//
+//                    }
+//                }
+//            materialAlertDialogBuilder.show()
         }
 
     }

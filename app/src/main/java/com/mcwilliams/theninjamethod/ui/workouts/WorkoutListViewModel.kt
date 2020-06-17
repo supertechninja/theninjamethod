@@ -45,6 +45,10 @@ class WorkoutListViewModel @ViewModelInject constructor(
 
     init {
         loadWorkouts()
+    }
+
+
+    fun onStartWorkoutClick() {
         manualWorkoutsRepository.addWorkout(createDummyWorkout())
     }
 
@@ -60,7 +64,12 @@ class WorkoutListViewModel @ViewModelInject constructor(
                 mutableListOf(WorkoutSet(305, 12), WorkoutSet(345, 10))
             )
         )
-        return com.mcwilliams.theninjamethod.ui.workouts.db.Workout(0,"Leg Day", LocalDate.now().toString(), exercises)
+        return com.mcwilliams.theninjamethod.ui.workouts.db.Workout(
+            0,
+            "Leg Day",
+            LocalDate.now().toString(),
+            exercises
+        )
     }
 
     @SuppressLint("NewApi", "SimpleDateFormat")
@@ -73,6 +82,26 @@ class WorkoutListViewModel @ViewModelInject constructor(
 //            workoutList.addAll(data.workouts)
 //            isRefreshing = false
 //            updateListView()
+        }
+
+        viewModelScope.launch {
+            val manualWorkouts = manualWorkoutsRepository.getWorkouts()
+            if (manualWorkouts!!.isNotEmpty()) {
+                manualWorkouts.forEach {
+                    workoutList.add(
+                        Workout(
+                            it.workoutDate,
+                            "",
+                            it.workoutName,
+                            WorkoutType.STRAVA,
+                            "",
+                            ""
+                        )
+                    )
+                }
+            }
+            Log.d(TAG, "loadWorkouts: $workoutList")
+//            updateListView(workoutList)
         }
 
         if (sessionRepo.isLoggedIn()) {

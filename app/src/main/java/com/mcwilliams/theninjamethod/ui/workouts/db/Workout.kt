@@ -7,8 +7,8 @@ import com.mcwilliams.theninjamethod.model.ExerciseTypeConverter
 @Entity
 data class Workout(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    @ColumnInfo(name = "workout_name") val firstName: String?,
-    @ColumnInfo(name = "workout_date") val lastName: String?,
+    @ColumnInfo(name = "workout_name") val workoutName: String,
+    @ColumnInfo(name = "workout_date") val workoutDate: String,
     @TypeConverters(ExerciseTypeConverter::class)
     val exercises: List<Exercise>
 )
