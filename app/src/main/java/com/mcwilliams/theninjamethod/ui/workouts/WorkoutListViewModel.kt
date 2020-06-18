@@ -55,16 +55,6 @@ class WorkoutListViewModel @ViewModelInject constructor(
     @SuppressLint("NewApi", "SimpleDateFormat")
     private fun loadWorkouts() {
         viewModelScope.launch {
-//            val data = workoutApi.getWorkouts()
-//            data.workouts.forEach {
-//                it.workoutType = WorkoutType.LIFTING
-//            }
-//            workoutList.addAll(data.workouts)
-//            isRefreshing = false
-//            updateListView()
-        }
-
-        viewModelScope.launch {
             val manualWorkouts = manualWorkoutsRepository.getWorkouts()
             if (manualWorkouts!!.isNotEmpty()) {
                 manualWorkouts.forEach {
@@ -80,8 +70,8 @@ class WorkoutListViewModel @ViewModelInject constructor(
                     )
                 }
             }
+            onWorkoutsRetrived()
             Log.d(TAG, "loadWorkouts: $workoutList")
-//            updateListView(workoutList)
         }
 
         if (sessionRepo.isLoggedIn()) {
@@ -116,23 +106,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
 
                                 workoutList.add(workoutItem)
                             }
-
-                            //Group strava workouts by date
-                            val dateKeyedWorkouts: MutableMap<LocalDate, MutableList<Workout>> =
-                                mutableMapOf()
-                            val listOfDates = workoutList.distinctBy { it.date }
-                            for (date in listOfDates) {
-                                val workoutsByDate: MutableList<Workout> = mutableListOf()
-                                //TODO chris look at rxjava
-                                workoutList.forEach {
-                                    if (it.date == date.date) {
-                                        workoutsByDate.add(it)
-                                    }
-                                }
-                                dateKeyedWorkouts[date.date] = workoutsByDate
-                            }
-                            updateListView(dateKeyedWorkouts.toList())
-                            loadingVisibility.value = View.GONE
+                            onWorkoutsRetrived()
                         }
                         is Result.Error -> {
 //                            _errorMessage.postValue(response.exception.toString())
@@ -145,6 +119,25 @@ class WorkoutListViewModel @ViewModelInject constructor(
                 }
             }
         }
+    }
+
+    private fun onWorkoutsRetrived(){
+        //Group workouts by date
+        val dateKeyedWorkouts: MutableMap<LocalDate, MutableList<Workout>> =
+            mutableMapOf()
+        val listOfDates = workoutList.distinctBy { it.date }
+        for (date in listOfDates) {
+            val workoutsByDate: MutableList<Workout> = mutableListOf()
+            //TODO chris look at rxjava
+            workoutList.forEach {
+                if (it.date == date.date) {
+                    workoutsByDate.add(it)
+                }
+            }
+            dateKeyedWorkouts[date.date] = workoutsByDate
+        }
+        updateListView(dateKeyedWorkouts.toList())
+        loadingVisibility.value = View.GONE
     }
 
     fun onWorkoutClicked(workout: Workout) {

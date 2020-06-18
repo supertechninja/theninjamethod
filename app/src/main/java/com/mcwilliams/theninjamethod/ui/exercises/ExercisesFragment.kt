@@ -42,9 +42,9 @@ class ExercisesFragment : Fragment() {
         binding.exerciseList.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
-        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
-            if (errorMessage != null) showError(errorMessage) else hideError()
-        })
+//        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
+//            if (errorMessage != null) showError(errorMessage) else hideError()
+//        })
 
         binding.exerciseListViewModel = viewModel
 
@@ -77,11 +77,11 @@ class ExercisesFragment : Fragment() {
 
     }
 
-    private fun showError(@StringRes errorMessage: Int) {
-        errorSnackbar = Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_INDEFINITE)
-        errorSnackbar?.setAction(R.string.retry, viewModel.errorClickListener)
-        errorSnackbar?.show()
-    }
+//    private fun showError(@StringRes errorMessage: Int) {
+//        errorSnackbar = Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_INDEFINITE)
+//        errorSnackbar?.setAction(R.string.retry, viewModel.errorClickListener)
+//        errorSnackbar?.show()
+//    }
 
     private fun hideError() {
         errorSnackbar?.dismiss()

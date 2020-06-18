@@ -23,6 +23,7 @@ class StartWorkoutViewModel @ViewModelInject constructor(
     var listOfExercises: LiveData<List<Exercise>> = _listOfExercises
 
     init {
+       //Preload list of exercises from exerciseDB
        viewModelScope.launch {
            _listOfExercises.postValue(exerciseRepository.getExercises())
        }

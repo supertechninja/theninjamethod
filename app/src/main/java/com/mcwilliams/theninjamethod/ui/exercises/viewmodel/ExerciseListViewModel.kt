@@ -1,5 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.exercises.viewmodel
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.view.View
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
@@ -14,7 +16,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class ExerciseListViewModel @ViewModelInject constructor(
-    private val exerciseApi: ExerciseApi,
     private val exerciseRepository: ExerciseRepository
 ) : ViewModel() {
 
@@ -23,27 +24,21 @@ class ExerciseListViewModel @ViewModelInject constructor(
     var isRefreshing: Boolean = false
 
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
-    val errorClickListener = View.OnClickListener {
-        viewModelScope.launch {
-            exerciseApi.getExercises()
-        }
-    }
+//    val errorClickListener = View.OnClickListener {
+//        viewModelScope.launch {
+//            exerciseApi.getExercises()
+//        }
+//    }
 
     val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
 
     init {
-        //TODO Setup to execute only once
         loadExercises()
     }
 
     private fun loadExercises() {
         viewModelScope.launch {
-            val data = exerciseApi.getExercises()
-            data.exercises.forEach {
-                runBlocking { exerciseRepository.addExercises(it) }
-            }
-
-            onRetrievePostListSuccess(data.exercises)
+            exerciseRepository.getExercises()?.let { onRetrievePostListSuccess(it) }
         }
     }
 

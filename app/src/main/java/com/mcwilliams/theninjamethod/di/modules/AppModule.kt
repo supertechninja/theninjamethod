@@ -1,6 +1,7 @@
 package com.mcwilliams.theninjamethod.di.modules
 
 import android.content.Context
+import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import com.mcwilliams.theninjamethod.strava.api.Session
@@ -43,7 +44,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesExerciseRepository(@ApplicationContext context: Context) : ExerciseRepository =
-        ExerciseRepository(context)
+    fun providesExerciseRepository(@ApplicationContext context: Context, exerciseApi: ExerciseApi) : ExerciseRepository =
+        ExerciseRepository(context, exerciseApi)
 
 }
