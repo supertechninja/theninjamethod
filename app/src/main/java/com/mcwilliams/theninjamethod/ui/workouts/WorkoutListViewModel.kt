@@ -70,8 +70,11 @@ class WorkoutListViewModel @ViewModelInject constructor(
                     )
                 }
             }
-            onWorkoutsRetrived()
-            Log.d(TAG, "loadWorkouts: $workoutList")
+            //Only render list if not logged in, other list will be rendered
+            // after strava activities come back
+            if (!sessionRepo.isLoggedIn()) {
+                onWorkoutsRetrived()
+            }
         }
 
         if (sessionRepo.isLoggedIn()) {
