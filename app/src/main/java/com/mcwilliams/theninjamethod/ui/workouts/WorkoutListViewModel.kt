@@ -9,25 +9,19 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mcwilliams.theninjamethod.ui.workouts.ui.model.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.ui.model.WorkoutType
+import com.mcwilliams.theninjamethod.ui.workouts.model.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.model.WorkoutType
 import com.mcwilliams.theninjamethod.network.Result
-import com.mcwilliams.theninjamethod.network.apis.WorkoutApi
 import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.ui.workouts.repo.ManualWorkoutsRepository
-import com.mcwilliams.theninjamethod.ui.workouts.repo.WorkoutRepo
-import com.mcwilliams.theninjamethod.ui.workouts.ui.model.Exercise
-import com.mcwilliams.theninjamethod.ui.workouts.ui.model.WorkoutSet
+import com.mcwilliams.theninjamethod.ui.workouts.repo.StravaWorkoutRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 class WorkoutListViewModel @ViewModelInject constructor(
-    private val workoutApi: WorkoutApi,
     private val sessionRepo: SessionRepository,
-    private val workoutRepo: WorkoutRepo,
+    private val stravaWorkoutRepository: StravaWorkoutRepository,
     private val manualWorkoutsRepository: ManualWorkoutsRepository
 ) : ViewModel() {
 
@@ -81,35 +75,10 @@ class WorkoutListViewModel @ViewModelInject constructor(
         if (sessionRepo.isLoggedIn()) {
             viewModelScope.launch {
                 try {
-                    when (val listOfActivitiesResponse = workoutRepo.getStravaActivities()) {
+                    when (val listOfActivitiesResponse = stravaWorkoutRepository.getStravaActivities()) {
                         is Result.Success -> {
-                            val listOfActivities = listOfActivitiesResponse.data
-                            listOfActivities.forEach {
-                                val dtf = DateTimeFormatter.ISO_DATE_TIME
-                                val zdt: ZonedDateTime =
-                                    ZonedDateTime.parse(it.start_date_local, dtf)
-                                val localDateTime = zdt.toLocalDateTime()
-                                val date = localDateTime.toLocalDate()
-                                val time = localDateTime.toLocalTime()
-
-                                val movingTime = "${it.moving_time / 60}m ${it.moving_time % 60}s"
-                                val miles = getMiles(it.distance).round(2)
-                                val milesString = "$miles mi"
-
-                                val milesPerHour = (it.average_speed * 2.237).round(2)
-
-                                val workoutItem =
-                                    Workout(
-                                        date,
-                                        "${time.hour}:${time.minute}",
-                                        it.name,
-                                        WorkoutType.STRAVA,
-                                        milesString,
-                                        "$movingTime Pace: $milesPerHour mph",
-                                        it.id
-                                    )
-
-                                workoutList.add(workoutItem)
+                            listOfActivitiesResponse.data.forEach {
+                                workoutList.add(it)
                             }
                             onWorkoutsRetrived()
                         }
@@ -126,7 +95,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun onWorkoutsRetrived(){
+    private fun onWorkoutsRetrived() {
         //Group workouts by date
         val dateKeyedWorkouts: MutableMap<LocalDate, MutableList<Workout>> =
             mutableMapOf()
@@ -153,18 +122,11 @@ class WorkoutListViewModel @ViewModelInject constructor(
         return meters * 0.000621371192;
     }
 
-    fun dropWorkoutDb(){
+    fun dropWorkoutDb() {
         viewModelScope.launch {
             manualWorkoutsRepository.nukeTable()
         }
     }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun LocalDate.format(date: LocalDate): String {
-        return "${date.monthValue}/${date.dayOfMonth}/${date.year}"
-    }
-
-    fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDouble()
 
     fun refreshData() {
         isRefreshing = true

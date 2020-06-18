@@ -2,10 +2,8 @@ package com.mcwilliams.theninjamethod.ui.workouts
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.workouts.ui.model.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.model.Workout
 
 class WorkoutViewModel : ViewModel() {
     private val workout = MutableLiveData<Workout>()

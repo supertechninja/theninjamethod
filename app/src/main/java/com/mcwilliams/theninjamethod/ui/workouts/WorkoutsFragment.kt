@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.ui
+package com.mcwilliams.theninjamethod.ui.workouts
 
 import android.os.Bundle
 import android.view.LayoutInflater

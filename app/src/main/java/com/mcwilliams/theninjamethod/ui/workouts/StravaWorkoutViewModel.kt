@@ -2,7 +2,7 @@ package com.mcwilliams.theninjamethod.ui.workouts
 
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
-import com.mcwilliams.theninjamethod.ui.workouts.ui.model.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.model.Workout
 
 class StravaWorkoutViewModel : ViewModel() {
     private lateinit var stravaWorkout : Pair<String, MutableList<Workout>>

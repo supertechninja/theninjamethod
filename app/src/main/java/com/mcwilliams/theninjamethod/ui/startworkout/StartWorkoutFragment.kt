@@ -1,8 +1,6 @@
 package com.mcwilliams.theninjamethod.ui.startworkout
 
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
@@ -17,8 +15,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.ui.workouts.db.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.ui.model.Exercise
-import com.mcwilliams.theninjamethod.ui.workouts.ui.model.WorkoutSet
+import com.mcwilliams.theninjamethod.ui.workouts.model.Exercise
+import com.mcwilliams.theninjamethod.ui.workouts.model.WorkoutSet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_start_workout.*
 import java.time.LocalDate

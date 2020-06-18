@@ -20,7 +20,7 @@ data class ActivitesItem(
     val gear_id: String,
     val has_heartrate: Boolean,
     val has_kudoed: Boolean,
-    val id: Number,
+    var id: Number,
     val kilojoules: Int,
     val kudos_count: Int,
     val location_city: Any,
