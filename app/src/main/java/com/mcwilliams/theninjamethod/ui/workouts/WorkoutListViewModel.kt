@@ -63,9 +63,10 @@ class WorkoutListViewModel @ViewModelInject constructor(
                             LocalDate.parse(it.workoutDate),
                             "",
                             it.workoutName,
-                            WorkoutType.STRAVA,
+                            WorkoutType.LIFTING,
                             "",
-                            ""
+                            "",
+                            it.id
                         )
                     )
                 }
@@ -104,7 +105,8 @@ class WorkoutListViewModel @ViewModelInject constructor(
                                         it.name,
                                         WorkoutType.STRAVA,
                                         milesString,
-                                        "$movingTime Pace: $milesPerHour mph"
+                                        "$movingTime Pace: $milesPerHour mph",
+                                        it.id
                                     )
 
                                 workoutList.add(workoutItem)

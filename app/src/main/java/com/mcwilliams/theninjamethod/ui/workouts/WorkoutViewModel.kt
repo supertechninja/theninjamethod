@@ -21,6 +21,6 @@ class WorkoutViewModel : ViewModel() {
     }
 
     fun onWorkoutClicked(){
-        Navigation.findNavController(view.itemView.rootView.rootView).navigate(R.id.navigate_to_workout_detail)
+//        Navigation.findNavController(view.itemView.rootView.rootView).navigate(R.id.navig)
     }
 }

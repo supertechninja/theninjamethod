@@ -46,7 +46,7 @@ class WorkoutsFragment : Fragment() {
         workout_list.adapter = viewModel.workoutListAdapter
 
         swipeContainer.setOnRefreshListener {
-            viewModel.dropWorkoutDb()
+//            viewModel.dropWorkoutDb()
         }
 
         startWorkout.setOnClickListener {

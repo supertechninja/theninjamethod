@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
@@ -81,17 +82,32 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             holder.binding.stravaWorkoutTitle.text = workoutDate.dayOfWeek.name.toLowerCase().capitalize() +
                     ", " + workoutDate.month.name.toLowerCase().capitalize() + " " + workoutDate.dayOfMonth
 
-            workoutObj.second.forEach {
+            workoutObj.second.forEach { workout ->
                 val workoutItemView = WorkoutCardItemViewBinding.inflate(LayoutInflater.from(holder.itemView.context))
-                workoutItemView.workoutName.text = it.workoutName
-                workoutItemView.workoutDuration.text = it.stravaTime
-                workoutItemView.root.setOnClickListener { onWorkoutClicked(workoutItemView.root) }
+                workoutItemView.workoutName.text = workout.workoutName
+                workoutItemView.workoutDuration.text = workout.stravaTime
+                workoutItemView.root.setOnClickListener { onWorkoutClicked(workoutItemView.root, workout) }
                 holder.binding.llWorkouts.addView(workoutItemView.root)
             }
+
         }
 
-        private fun onWorkoutClicked(view: View){
-            Navigation.findNavController(view).navigate(R.id.navigate_to_workout_detail)
+        private fun onWorkoutClicked(
+            view: View,
+            workout: Workout
+        ){
+            val bundle = bundleOf("workout" to workout)
+            when(workout.workoutType) {
+                WorkoutType.STRAVA -> {
+                    Navigation.findNavController(view)
+                        .navigate(R.id.navigate_to_strava_workout_detail, bundle)
+                }
+                WorkoutType.LIFTING -> {
+                    Navigation.findNavController(view)
+                        .navigate(R.id.navigate_to_manual_workout_detail, bundle)
+                }
+            }
+
         }
     }
 }

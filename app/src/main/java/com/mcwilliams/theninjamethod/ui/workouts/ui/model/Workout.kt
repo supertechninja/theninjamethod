@@ -1,6 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.workouts.ui.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.time.LocalDate
 
 data class Workout(
@@ -10,8 +11,9 @@ data class Workout(
     val workoutName: String,
     var workoutType: WorkoutType,
     var stravaDistance: String,
-    var stravaTime: String
-)
+    var stravaTime: String,
+    var id: Number
+) : Serializable
 
 data class WorkoutList(
     val workouts: List<Workout>
