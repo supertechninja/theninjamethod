@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts
+package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -33,7 +33,8 @@ class WorkoutListViewModel @ViewModelInject constructor(
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
     val errorClickListener = View.OnClickListener { loadWorkouts() }
 
-    val workoutListAdapter: WorkoutListAdapter = WorkoutListAdapter()
+    val workoutListAdapter: WorkoutListAdapter =
+        WorkoutListAdapter()
 
     val workoutList: MutableList<Workout> = mutableListOf()
 

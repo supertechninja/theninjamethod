@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_workouts"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.WorkoutsFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.WorkoutsFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_workouts">
 

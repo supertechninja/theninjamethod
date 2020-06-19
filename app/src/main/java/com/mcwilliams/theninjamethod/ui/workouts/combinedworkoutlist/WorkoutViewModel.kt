@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts
+package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -18,12 +18,24 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
 
     private var workoutDao: WorkoutDao?
 
+    //in memory cache of workouts from db
+    private var manualWorkoutList = listOf<Workout>()
+
     init {
         val db = WorkoutDatabase.getDatabase(context)
         workoutDao = db?.workoutDao()
     }
 
-    suspend fun getWorkouts() = workoutDao?.getAll()
+    //check cache workouts before reading db (reading db is heavy)
+    suspend fun getWorkouts() : List<Workout> {
+        if (manualWorkoutList.isEmpty()) {
+            val workoutList = workoutDao?.getAll()
+            if (!workoutList.isNullOrEmpty()) {
+                manualWorkoutList = workoutList!!
+            }
+        }
+        return manualWorkoutList
+    }
 
     suspend fun addWorkout(workout: Workout) {
         withContext(Dispatchers.IO){
@@ -33,4 +45,5 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
 
     suspend fun nukeTable() = workoutDao?.nukeTable()
 
+    //TODO need to expose refresh to invalidate in-mem workouts
 }

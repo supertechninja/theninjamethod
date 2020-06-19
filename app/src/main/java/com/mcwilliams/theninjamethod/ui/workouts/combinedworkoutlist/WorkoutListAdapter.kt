@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts
+package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -64,7 +64,8 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class WorkoutViewHolder(private val binding: WorkoutItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val viewModel = WorkoutViewModel()
+        private val viewModel =
+            WorkoutViewModel()
 
         fun bind(workoutObj: Workout, holder: WorkoutViewHolder) {
             // ...
