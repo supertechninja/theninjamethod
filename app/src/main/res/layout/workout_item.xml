@@ -4,7 +4,7 @@
     <data>
         <variable
             name="workoutViewModel"
-            type="com.mcwilliams.theninjamethod.ui.workouts.WorkoutViewModel" />
+            type="com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.WorkoutViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:textAppearance="?attr/textAppearanceBody1"
-            android:text="@{workoutViewModel.workout.date}"
+            android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

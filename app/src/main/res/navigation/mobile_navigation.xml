@@ -7,27 +7,45 @@
 
     <fragment
         android:id="@+id/navigation_workouts"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.WorkoutsFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.WorkoutsFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_workouts">
 
-        <action android:id="@+id/navigate_to_workout_detail"
-            app:destination="@+id/navigation_workout_detail"/>
+        <action
+            android:id="@+id/navigate_to_manual_workout_detail"
+            app:destination="@+id/manual_workout_detail"/>
 
+        <action
+            android:id="@+id/navigate_to_strava_workout_detail"
+            app:destination="@+id/strava_workout_detail"/>
+
+        <action
+            android:id="@+id/navigate_to_start_workout"
+            app:destination="@+id/navigation_start_workout" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_workout_detail"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.WorkoutDetailFragment"
-        android:label="Workout Detail"
-        tools:layout="@layout/workout_detail_fragment" />
+        android:id="@+id/navigation_start_workout"
+        android:name="com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutFragment"
+        android:label="Start Workout"
+        tools:layout="@layout/fragment_start_workout" />
+
+    <fragment
+        android:id="@+id/manual_workout_detail"
+        android:name="com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutDetailFragment"
+        tools:layout="@layout/workout_detail_fragment">
+    </fragment>
+
+    <fragment
+        android:id="@+id/strava_workout_detail"
+        android:name="com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutDetailFragment"
+        tools:layout="@layout/workout_detail_fragment"/>
 
     <fragment
         android:id="@+id/navigation_exercises"
         android:name="com.mcwilliams.theninjamethod.ui.exercises.ExercisesFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home">
-    </fragment>
+        tools:layout="@layout/fragment_home"/>
 
     <fragment
         android:id="@+id/navigation_settings"

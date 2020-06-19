@@ -12,11 +12,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.FragmentHomeBinding
-import com.mcwilliams.theninjamethod.model.AddExerciseRequest
-import com.mcwilliams.theninjamethod.model.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,9 +42,9 @@ class ExercisesFragment : Fragment() {
         binding.exerciseList.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
-        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
-            if (errorMessage != null) showError(errorMessage) else hideError()
-        })
+//        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
+//            if (errorMessage != null) showError(errorMessage) else hideError()
+//        })
 
         binding.exerciseListViewModel = viewModel
 
@@ -80,11 +77,11 @@ class ExercisesFragment : Fragment() {
 
     }
 
-    private fun showError(@StringRes errorMessage: Int) {
-        errorSnackbar = Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_INDEFINITE)
-        errorSnackbar?.setAction(R.string.retry, viewModel.errorClickListener)
-        errorSnackbar?.show()
-    }
+//    private fun showError(@StringRes errorMessage: Int) {
+//        errorSnackbar = Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_INDEFINITE)
+//        errorSnackbar?.setAction(R.string.retry, viewModel.errorClickListener)
+//        errorSnackbar?.show()
+//    }
 
     private fun hideError() {
         errorSnackbar?.dismiss()

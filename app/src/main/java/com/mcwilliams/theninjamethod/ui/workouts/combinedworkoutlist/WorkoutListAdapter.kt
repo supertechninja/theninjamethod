@@ -1,20 +1,25 @@
-package com.mcwilliams.theninjamethod.ui.workouts
+package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.StravaWorkoutItemBinding
 import com.mcwilliams.theninjamethod.databinding.WorkoutCardItemViewBinding
 import com.mcwilliams.theninjamethod.databinding.WorkoutItemBinding
-import com.mcwilliams.theninjamethod.model.Workout
-import com.mcwilliams.theninjamethod.model.WorkoutType
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
+import java.time.LocalDate
 
 
 class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private lateinit var workoutList: List<Pair<String, MutableList<Workout>>>
+    private lateinit var workoutList: List<Pair<LocalDate, MutableList<Workout>>>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 //        return if (viewType == WorkoutType.LIFTING.ordinal) {
@@ -52,14 +57,15 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return if (::workoutList.isInitialized) workoutList.size else 0
     }
 
-    fun updateWorkoutList(workoutDates: List<Pair<String, MutableList<Workout>>>) {
+    fun updateWorkoutList(workoutDates: List<Pair<LocalDate, MutableList<Workout>>>) {
         this.workoutList = workoutDates
         notifyDataSetChanged()
     }
 
     class WorkoutViewHolder(private val binding: WorkoutItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val viewModel = WorkoutViewModel()
+        private val viewModel =
+            WorkoutViewModel()
 
         fun bind(workoutObj: Workout, holder: WorkoutViewHolder) {
             // ...
@@ -71,15 +77,38 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class StravaWorkoutViewHolder(private val binding: StravaWorkoutItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(workoutObj: Pair<String, MutableList<Workout>>, holder: StravaWorkoutViewHolder) {
-            holder.binding.stravaWorkoutTitle.text = workoutObj.first
+        @SuppressLint("SetTextI18n")
+        fun bind(workoutObj: Pair<LocalDate, MutableList<Workout>>, holder: StravaWorkoutViewHolder) {
+            val workoutDate = workoutObj.first
+            holder.binding.stravaWorkoutTitle.text = workoutDate.dayOfWeek.name.toLowerCase().capitalize() +
+                    ", " + workoutDate.month.name.toLowerCase().capitalize() + " " + workoutDate.dayOfMonth
 
-            workoutObj.second.forEach {
+            workoutObj.second.forEach { workout ->
                 val workoutItemView = WorkoutCardItemViewBinding.inflate(LayoutInflater.from(holder.itemView.context))
-                workoutItemView.workoutName.text = it.workoutName
-                workoutItemView.workoutDuration.text = it.stravaTime
+                workoutItemView.workoutName.text = workout.workoutName
+                workoutItemView.workoutDuration.text = workout.stravaTime
+                workoutItemView.root.setOnClickListener { onWorkoutClicked(workoutItemView.root, workout) }
                 holder.binding.llWorkouts.addView(workoutItemView.root)
             }
+
+        }
+
+        private fun onWorkoutClicked(
+            view: View,
+            workout: Workout
+        ){
+            val bundle = bundleOf("workout" to workout)
+            when(workout.workoutType) {
+                WorkoutType.STRAVA -> {
+                    Navigation.findNavController(view)
+                        .navigate(R.id.navigate_to_strava_workout_detail, bundle)
+                }
+                WorkoutType.LIFTING -> {
+                    Navigation.findNavController(view)
+                        .navigate(R.id.navigate_to_manual_workout_detail, bundle)
+                }
+            }
+
         }
     }
 }

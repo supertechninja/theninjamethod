@@ -1,16 +1,19 @@
-package com.mcwilliams.theninjamethod.model
+package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+import java.time.LocalDate
 
 data class Workout(
-    val date: String,
+    val date: LocalDate,
     val time: String,
     @SerializedName("exerciseName")
     val workoutName: String,
     var workoutType: WorkoutType,
     var stravaDistance: String,
-    var stravaTime: String
-)
+    var stravaTime: String,
+    var id: Number
+) : Serializable
 
 data class WorkoutList(
     val workouts: List<Workout>

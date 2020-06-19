@@ -1,19 +1,22 @@
 package com.mcwilliams.theninjamethod.ui.exercises.viewmodel
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.view.View
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.model.*
 import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.ui.exercises.ExerciseListAdapter
+import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
+import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import kotlinx.coroutines.runBlocking
 
 class ExerciseListViewModel @ViewModelInject constructor(
-    private val exerciseApi: ExerciseApi
+    private val exerciseRepository: ExerciseRepository
 ) : ViewModel() {
 
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
@@ -21,29 +24,21 @@ class ExerciseListViewModel @ViewModelInject constructor(
     var isRefreshing: Boolean = false
 
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
-    val errorClickListener = View.OnClickListener {
-        viewModelScope.launch {
-            exerciseApi.getExercises()
-        }
-    }
+//    val errorClickListener = View.OnClickListener {
+//        viewModelScope.launch {
+//            exerciseApi.getExercises()
+//        }
+//    }
 
     val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
 
     init {
-       loadExercises()
+        loadExercises()
     }
 
-    private fun loadExercises(){
+    private fun loadExercises() {
         viewModelScope.launch {
-            val data = exerciseApi.getExercises()
-            onRetrievePostListSuccess(data)
-        }
-    }
-
-    fun addExercise(exercise: AddExerciseRequest) {
-        viewModelScope.launch {
-            exerciseApi.addExercise(exercise)
-            refreshData()
+            exerciseRepository.getExercises()?.let { onRetrievePostListSuccess(it) }
         }
     }
 
@@ -52,9 +47,9 @@ class ExerciseListViewModel @ViewModelInject constructor(
         loadExercises()
     }
 
-    private fun onRetrievePostListSuccess(exerciseList: Data) {
+    private fun onRetrievePostListSuccess(exerciseList: List<Exercise>) {
         loadingVisibility.value = View.GONE
-        exerciseListAdapter.updatePostList(exerciseList.exercises)
+        exerciseListAdapter.updatePostList(exerciseList)
     }
 
     private fun onRetrievePostListError() {

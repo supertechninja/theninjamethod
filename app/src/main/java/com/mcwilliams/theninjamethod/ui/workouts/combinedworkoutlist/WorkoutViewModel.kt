@@ -1,13 +1,9 @@
-package com.mcwilliams.theninjamethod.ui.workouts
+package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.model.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
 
 class WorkoutViewModel : ViewModel() {
     private val workout = MutableLiveData<Workout>()
@@ -23,6 +19,6 @@ class WorkoutViewModel : ViewModel() {
     }
 
     fun onWorkoutClicked(){
-        Navigation.findNavController(view.itemView.rootView.rootView).navigate(R.id.navigate_to_workout_detail)
+//        Navigation.findNavController(view.itemView.rootView.rootView).navigate(R.id.navig)
     }
 }
