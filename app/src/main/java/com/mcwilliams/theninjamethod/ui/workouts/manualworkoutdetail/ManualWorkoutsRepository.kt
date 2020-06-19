@@ -37,6 +37,7 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
     }
 
     suspend fun addWorkout(workout: Workout) {
+        manualWorkoutList = listOf()
         withContext(Dispatchers.IO){
             workoutDao?.insertAll(workout)
         }

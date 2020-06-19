@@ -1,11 +1,14 @@
 package com.mcwilliams.theninjamethod.ui.workouts.stravadetail
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.mcwilliams.theninjamethod.network.Result
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import com.mcwilliams.theninjamethod.strava.model.activites.ActivitesItem
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.ZonedDateTime
@@ -18,7 +21,6 @@ class StravaWorkoutRepository @Inject constructor(val context: Context, private 
 
     //Cache in memory the strava workouts
     private var listOfStravaWorkouts = listOf<ActivitesItem>()
-
 
     suspend fun getStravaActivities(): Result<List<Workout>> {
         if (listOfStravaWorkouts.isNotEmpty()) {
@@ -33,7 +35,10 @@ class StravaWorkoutRepository @Inject constructor(val context: Context, private 
     }
 
     //Return Detail Strava Activity to render the activity detail
-    fun getStravaItemDetail(id: Number) : ActivitesItem? = listOfStravaWorkouts.find { it.id == id }
+    fun getStravaItemDetail(id: Number) : LiveData<ActivitesItem> {
+        val activitiesItem = listOfStravaWorkouts.find { it.id == id }
+        return MutableLiveData(activitiesItem)
+    }
 
     //Return a list of strava workout summaries, a subset of the detail data needed to show the ui
     private fun mapStravaWorkouts() : List<Workout> {

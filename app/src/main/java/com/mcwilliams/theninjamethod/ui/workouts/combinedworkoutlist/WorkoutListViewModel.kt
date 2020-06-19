@@ -42,14 +42,10 @@ class WorkoutListViewModel @ViewModelInject constructor(
         loadWorkouts()
     }
 
-
-    fun onStartWorkoutClick() {
-//        manualWorkoutsRepository.addWorkout(createDummyWorkout())
-    }
-
     @SuppressLint("NewApi", "SimpleDateFormat")
     private fun loadWorkouts() {
         viewModelScope.launch {
+            //TODO convert to return liveData so when new workout is added, new data is emitted
             val manualWorkouts = manualWorkoutsRepository.getWorkouts()
             if (manualWorkouts!!.isNotEmpty()) {
                 manualWorkouts.forEach {
@@ -113,14 +109,6 @@ class WorkoutListViewModel @ViewModelInject constructor(
         }
         updateListView(dateKeyedWorkouts.toList())
         loadingVisibility.value = View.GONE
-    }
-
-    fun onWorkoutClicked(workout: Workout) {
-
-    }
-
-    fun getMiles(meters: Float): Double {
-        return meters * 0.000621371192;
     }
 
     fun dropWorkoutDb() {

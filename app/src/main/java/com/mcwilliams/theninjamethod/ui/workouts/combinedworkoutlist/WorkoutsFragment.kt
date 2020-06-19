@@ -44,13 +44,19 @@ class WorkoutsFragment : Fragment() {
         workout_list.adapter = viewModel.workoutListAdapter
 
         swipeContainer.setOnRefreshListener {
-//            viewModel.dropWorkoutDb()
+            viewModel.refreshData()
         }
 
         startWorkout.setOnClickListener {
 //            viewModel.onStartWorkoutClick()
             Navigation.findNavController(it).navigate(R.id.navigate_to_start_workout)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.refreshData()
     }
 
     private fun showError(@StringRes errorMessage: Int) {
