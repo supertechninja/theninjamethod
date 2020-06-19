@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.db
+package com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db
 
 import androidx.room.Dao
 import androidx.room.Delete

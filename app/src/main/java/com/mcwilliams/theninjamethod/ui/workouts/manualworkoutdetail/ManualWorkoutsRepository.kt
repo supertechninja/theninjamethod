@@ -1,12 +1,11 @@
-package com.mcwilliams.theninjamethod.ui.workouts.repo
+package com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail
 
 import android.content.Context
-import com.mcwilliams.theninjamethod.ui.workouts.db.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.db.WorkoutDao
-import com.mcwilliams.theninjamethod.ui.workouts.db.WorkoutDatabase
+import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.WorkoutDao
+import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.WorkoutDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext

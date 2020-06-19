@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.workouts.model.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ManualWorkoutDetailFragment : Fragment() {
-    lateinit var workout:Workout
+    lateinit var workout: Workout
 
     override fun onCreateView(
         inflater: LayoutInflater,

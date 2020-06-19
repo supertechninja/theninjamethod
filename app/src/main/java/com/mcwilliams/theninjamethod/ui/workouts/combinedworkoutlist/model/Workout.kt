@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.model
+package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable

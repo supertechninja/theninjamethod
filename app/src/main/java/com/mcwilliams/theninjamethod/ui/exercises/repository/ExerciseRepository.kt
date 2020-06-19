@@ -7,9 +7,6 @@ import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.db.ExerciseDao
 import com.mcwilliams.theninjamethod.ui.exercises.db.ExerciseDatabase
-import com.mcwilliams.theninjamethod.ui.workouts.db.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.db.WorkoutDao
-import com.mcwilliams.theninjamethod.ui.workouts.db.WorkoutDatabase
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext

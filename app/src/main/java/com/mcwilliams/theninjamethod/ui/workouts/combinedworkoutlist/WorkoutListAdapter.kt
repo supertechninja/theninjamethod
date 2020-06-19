@@ -12,8 +12,8 @@ import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.StravaWorkoutItemBinding
 import com.mcwilliams.theninjamethod.databinding.WorkoutCardItemViewBinding
 import com.mcwilliams.theninjamethod.databinding.WorkoutItemBinding
-import com.mcwilliams.theninjamethod.ui.workouts.model.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.model.WorkoutType
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
 import java.time.LocalDate
 
 

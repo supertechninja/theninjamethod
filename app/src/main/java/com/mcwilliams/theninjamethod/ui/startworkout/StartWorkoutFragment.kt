@@ -14,9 +14,9 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.workouts.db.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.model.Exercise
-import com.mcwilliams.theninjamethod.ui.workouts.model.WorkoutSet
+import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutSet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_start_workout.*
 import java.time.LocalDate
@@ -148,7 +148,12 @@ class StartWorkoutFragment : Fragment() {
             exerciseList.add(exercise)
         }
 
-        return Workout(0, workout_name.text.toString(), LocalDate.now().toString(), exerciseList)
+        return Workout(
+            0,
+            workout_name.text.toString(),
+            LocalDate.now().toString(),
+            exerciseList
+        )
     }
 }
 

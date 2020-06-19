@@ -1,28 +1,26 @@
-package com.mcwilliams.theninjamethod.ui.workouts.repo
+package com.mcwilliams.theninjamethod.ui.workouts.stravadetail
 
 import android.content.Context
 import com.mcwilliams.theninjamethod.network.Result
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import com.mcwilliams.theninjamethod.strava.model.activites.ActivitesItem
-import com.mcwilliams.theninjamethod.ui.workouts.model.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.model.WorkoutType
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.time.LocalDate
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StravaWorkoutRepository @Inject constructor(val context: Context, private val athleteApi: AthleteApi) :
-    IWorkoutRepo {
+class StravaWorkoutRepository @Inject constructor(val context: Context, private val athleteApi: AthleteApi) {
 
     //Cache in memory the strava workouts
     private var listOfStravaWorkouts = listOf<ActivitesItem>()
 
 
-    override suspend fun getStravaActivities(): Result<List<Workout>> {
+    suspend fun getStravaActivities(): Result<List<Workout>> {
         if (listOfStravaWorkouts.isNotEmpty()) {
             return Result.Success(mapStravaWorkouts())
         } else {

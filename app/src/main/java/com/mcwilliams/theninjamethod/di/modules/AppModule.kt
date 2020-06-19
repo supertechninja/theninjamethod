@@ -8,8 +8,8 @@ import com.mcwilliams.theninjamethod.strava.api.Session
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepoImpl
-import com.mcwilliams.theninjamethod.ui.workouts.repo.ManualWorkoutsRepository
-import com.mcwilliams.theninjamethod.ui.workouts.repo.StravaWorkoutRepository
+import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
+import com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,7 +42,9 @@ class AppModule {
     @Provides
     @Singleton
     fun providesManualWorkoutRepository(@ApplicationContext context: Context) : ManualWorkoutsRepository =
-        ManualWorkoutsRepository(context)
+        ManualWorkoutsRepository(
+            context
+        )
 
     @Provides
     @Singleton

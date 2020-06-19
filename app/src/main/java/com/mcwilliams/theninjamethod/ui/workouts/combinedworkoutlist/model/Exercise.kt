@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.model
+package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model
 
 data class Exercise(
     val exerciseName: String,

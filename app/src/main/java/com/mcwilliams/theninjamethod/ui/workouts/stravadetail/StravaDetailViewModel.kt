@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mcwilliams.theninjamethod.strava.model.activites.ActivitesItem
-import com.mcwilliams.theninjamethod.ui.workouts.repo.StravaWorkoutRepository
 
 class StravaDetailViewModel @ViewModelInject constructor(
     private val workoutsRepository: StravaWorkoutRepository

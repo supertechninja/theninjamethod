@@ -9,12 +9,12 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mcwilliams.theninjamethod.ui.workouts.model.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.model.WorkoutType
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
 import com.mcwilliams.theninjamethod.network.Result
 import com.mcwilliams.theninjamethod.strava.SessionRepository
-import com.mcwilliams.theninjamethod.ui.workouts.repo.ManualWorkoutsRepository
-import com.mcwilliams.theninjamethod.ui.workouts.repo.StravaWorkoutRepository
+import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
+import com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
