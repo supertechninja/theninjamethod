@@ -20,6 +20,9 @@ class StartWorkoutViewModel @ViewModelInject constructor(
     private var _listOfExercises = MutableLiveData<List<Exercise>>()
     var listOfExercises: LiveData<List<Exercise>> = _listOfExercises
 
+    private var _didSaveWorkout = MutableLiveData<Boolean>()
+    var didSaveWorkout: LiveData<Boolean> = _didSaveWorkout
+
     init {
        //Preload list of exercises from exerciseDB
        viewModelScope.launch {
@@ -27,9 +30,11 @@ class StartWorkoutViewModel @ViewModelInject constructor(
        }
     }
 
-    fun saveWorkout(workout: Workout):Boolean {
-        runBlocking { manualWorkoutsRepository.addWorkout(workout) }
-        return true
+    fun saveWorkout(workout: Workout){
+        viewModelScope.launch {
+            manualWorkoutsRepository.addWorkout(workout)
+            _didSaveWorkout.postValue(true)
+        }
     }
 
 

@@ -33,7 +33,8 @@
     <fragment
         android:id="@+id/manual_workout_detail"
         android:name="com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutDetailFragment"
-        tools:layout="@layout/workout_detail_fragment"/>
+        tools:layout="@layout/workout_detail_fragment">
+    </fragment>
 
     <fragment
         android:id="@+id/strava_workout_detail"

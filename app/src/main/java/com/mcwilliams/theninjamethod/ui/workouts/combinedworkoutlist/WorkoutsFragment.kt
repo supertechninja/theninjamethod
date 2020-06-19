@@ -56,7 +56,7 @@ class WorkoutsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        viewModel.refreshData()
+//        viewModel.refreshData()
     }
 
     private fun showError(@StringRes errorMessage: Int) {

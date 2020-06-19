@@ -60,7 +60,7 @@ class StartWorkoutFragment : Fragment() {
             exerciseNameView.text = exerciseName
 
             exerciseNameView.setOnClickListener {
-                //Setup exercise picker dialog
+                //Setup exercise picker dialog or full screen dialog or bottom sheet
                 val builder: AlertDialog.Builder = AlertDialog.Builder(it.context)
                 builder.setTitle("Choose Exercise")
                 val exerciseNames = mutableListOf<String>()
@@ -94,6 +94,11 @@ class StartWorkoutFragment : Fragment() {
 
             exerciseListView = view.findViewById(R.id.exercise_list)
             exerciseListView.addView(addExerciseViewLayout)
+
+            //Observes if workouts save to db before navigating
+            startWorkoutViewModel.didSaveWorkout.observe(viewLifecycleOwner, Observer {
+                if (it) goBack()
+            })
         }
     }
 
@@ -106,8 +111,7 @@ class StartWorkoutFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (R.id.menu_done == item.itemId) {
             val workoutToAdd = getWorkoutObject()
-            val didSave = startWorkoutViewModel.saveWorkout(workoutToAdd)
-            if (didSave) goBack()
+           startWorkoutViewModel.saveWorkout(workoutToAdd)
         }
         return super.onOptionsItemSelected(item)
     }
