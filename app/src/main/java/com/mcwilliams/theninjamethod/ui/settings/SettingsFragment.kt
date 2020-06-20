@@ -14,6 +14,7 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import coil.api.load
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.AccessScope
 import com.mcwilliams.theninjamethod.strava.ApprovalPrompt
@@ -41,6 +42,7 @@ class SettingsFragment : Fragment() {
 
         viewModel.detailedAthlete.observe(viewLifecycleOwner, Observer { dathlete ->
             detailed_athlete.text = dathlete.toString()
+            profile_picture.load(dathlete.profile_medium)
             detailed_athlete.hideOtherViews()
         })
 
