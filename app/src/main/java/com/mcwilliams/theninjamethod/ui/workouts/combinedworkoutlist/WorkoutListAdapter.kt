@@ -62,6 +62,10 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun clear (){
+        this.workoutList = mutableListOf()
+    }
+
     class WorkoutViewHolder(private val binding: WorkoutItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val viewModel =

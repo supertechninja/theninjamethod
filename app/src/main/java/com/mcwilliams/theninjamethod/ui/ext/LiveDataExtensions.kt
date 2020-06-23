@@ -2,9 +2,9 @@ package com.mcwilliams.theninjamethod.ui.ext
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 //Transforms an observable into a livedata
 fun <T, U> Observable<T>.toLiveData(

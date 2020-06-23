@@ -1,6 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +42,18 @@ class WorkoutsFragment : Fragment() {
             if (errorMessage != null) showError(errorMessage) else hideError()
         })
 
-        workout_list.adapter = viewModel.workoutListAdapter
+        val workoutListAdapter = WorkoutListAdapter()
+        workout_list.adapter = workoutListAdapter
+
+//        viewModel.stravaWorkoutsLive.observe(viewLifecycleOwner, Observer {
+//            val listOfWorkouts = it
+//            Log.d("TAG", "onViewCreated: ${listOfWorkouts.size}")
+//        })
+
+        viewModel.workoutMapLiveData.observe(viewLifecycleOwner, Observer {
+            Log.d("TAG", "onViewCreated: ${it.size}")
+            workoutListAdapter.updateWorkoutList(it)
+        })
 
         swipeContainer.setOnRefreshListener {
             viewModel.refreshData()

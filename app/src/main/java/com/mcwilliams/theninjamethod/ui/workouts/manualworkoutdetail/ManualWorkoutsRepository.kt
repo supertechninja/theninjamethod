@@ -1,12 +1,16 @@
 package com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail
 
 import android.content.Context
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.WorkoutDao
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.WorkoutDatabase
+import io.reactivex.Flowable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -26,15 +30,54 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
     }
 
     //check cache workouts before reading db (reading db is heavy)
-    suspend fun getWorkouts() : List<Workout> {
-        if (manualWorkoutList.isEmpty()) {
-            val workoutList = workoutDao?.getAll()
-            if (!workoutList.isNullOrEmpty()) {
-                manualWorkoutList = workoutList!!
-            }
-        }
-        return manualWorkoutList
+    fun getWorkouts() : Flowable<List<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>> {
+//        val workoutUiObjList = mutableListOf<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>()
+//        if (manualWorkoutList.isEmpty()) {
+
+            return workoutDao?.getAll()!!.map { mapManualWorkoutToUiWorkout(it) }
+//
+//
+//            withContext(Dispatchers.IO) {
+//                val workoutList = workoutDao?.getAll()
+//                if (!workoutList.isNullOrEmpty()) {
+//                    manualWorkoutList = workoutList
+//                    manualWorkoutList.forEach {
+//                        workoutUiObjList.add(
+//                            com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout(
+//                                LocalDate.parse(it.workoutDate),
+//                                "",
+//                                it.workoutName,
+//                                WorkoutType.LIFTING,
+//                                "",
+//                                "",
+//                                it.id
+//                            )
+//                        )
+//                    }
+//                }
+//            }
+//        }
+//        return workoutUiObjList
     }
+
+    fun mapManualWorkoutToUiWorkout(workoutList:List<Workout>): List<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>{
+        val workoutUiObjList = mutableListOf<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>()
+        workoutList.forEach {
+            workoutUiObjList.add(
+                com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout(
+                    LocalDate.parse(it.workoutDate),
+                    "",
+                    it.workoutName,
+                    WorkoutType.LIFTING,
+                    "",
+                    "",
+                    it.id
+                )
+            )
+        }
+        return workoutUiObjList
+    }
+
 
     suspend fun addWorkout(workout: Workout) {
         manualWorkoutList = listOf()

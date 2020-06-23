@@ -2,6 +2,7 @@ package com.mcwilliams.theninjamethod.strava.api
 
 import com.mcwilliams.theninjamethod.strava.model.activites.ActivitesItem
 import com.mcwilliams.theninjamethod.strava.model.athlete.StravaAthlete
+import io.reactivex.Observable
 import retrofit2.http.GET
 
 interface AthleteApi {
@@ -9,7 +10,7 @@ interface AthleteApi {
     suspend fun getAthlete(): StravaAthlete
     
     @GET("athlete/activities")
-    suspend fun getAthleteActivities(): List<ActivitesItem>
+    fun getAthleteActivities(): Observable<List<ActivitesItem>>
 
 //    @GET("athlete/zones")
 //    suspend fun getZones(): Zones
