@@ -14,24 +14,19 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StravaWorkoutRepository @Inject constructor(val context: Context, private val athleteApi: AthleteApi) {
+class StravaWorkoutRepository @Inject constructor(
+    val context: Context,
+    private val athleteApi: AthleteApi
+) {
 
     //Cache in memory the strava workouts
-    private lateinit var listOfStravaWorkouts : List<ActivitesItem>
+    private lateinit var listOfStravaWorkouts: List<ActivitesItem>
 
-    fun getStravaActivities(): Observable<List<Workout>> {
-        return athleteApi.getAthleteActivities().map { mapStravaWorkouts(it) }
-
-//        if (listOfStravaWorkouts.isNotEmpty()) {
-//            return mapStravaWorkouts()
-//        } else {
-//                listOfStravaWorkouts = athleteApi.getAthleteActivities()
-//        }
-//        return mapStravaWorkouts()
-    }
+    fun getStravaActivities(): Observable<List<Workout>> =
+        athleteApi.getAthleteActivities().map { mapStravaWorkouts(it) }
 
     //Return Detail Strava Activity to render the activity detail
-    fun getStravaItemDetail(id: Number) : LiveData<ActivitesItem> {
+    fun getStravaItemDetail(id: Number): LiveData<ActivitesItem> {
         val activitiesItem = listOfStravaWorkouts.find { it.id == id }
         return MutableLiveData(activitiesItem)
     }
@@ -39,6 +34,7 @@ class StravaWorkoutRepository @Inject constructor(val context: Context, private 
     //Return a list of strava workout summaries, a subset of the detail data needed to show the ui
     private fun mapStravaWorkouts(stravaWorkouts: List<ActivitesItem>): List<Workout> {
         val workoutList = mutableListOf<Workout>()
+        listOfStravaWorkouts = stravaWorkouts
         stravaWorkouts.forEach {
             val dtf = DateTimeFormatter.ISO_DATE_TIME
             val zdt: ZonedDateTime =

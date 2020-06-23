@@ -19,7 +19,7 @@ import java.time.LocalDate
 
 class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private lateinit var workoutList: List<Pair<LocalDate, MutableList<Workout>>>
+    var workoutList: List<Pair<LocalDate, MutableList<Workout>>> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 //        return if (viewType == WorkoutType.LIFTING.ordinal) {
@@ -54,16 +54,12 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return if (::workoutList.isInitialized) workoutList.size else 0
+        return workoutList.size
     }
 
     fun updateWorkoutList(workoutDates: List<Pair<LocalDate, MutableList<Workout>>>) {
         this.workoutList = workoutDates
         notifyDataSetChanged()
-    }
-
-    fun clear (){
-        this.workoutList = mutableListOf()
     }
 
     class WorkoutViewHolder(private val binding: WorkoutItemBinding) :

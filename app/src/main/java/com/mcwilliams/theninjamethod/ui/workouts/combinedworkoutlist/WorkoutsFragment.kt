@@ -45,11 +45,6 @@ class WorkoutsFragment : Fragment() {
         val workoutListAdapter = WorkoutListAdapter()
         workout_list.adapter = workoutListAdapter
 
-//        viewModel.stravaWorkoutsLive.observe(viewLifecycleOwner, Observer {
-//            val listOfWorkouts = it
-//            Log.d("TAG", "onViewCreated: ${listOfWorkouts.size}")
-//        })
-
         viewModel.workoutMapLiveData.observe(viewLifecycleOwner, Observer {
             Log.d("TAG", "onViewCreated: ${it.size}")
             workoutListAdapter.updateWorkoutList(it)
@@ -60,15 +55,8 @@ class WorkoutsFragment : Fragment() {
         }
 
         startWorkout.setOnClickListener {
-//            viewModel.onStartWorkoutClick()
             Navigation.findNavController(it).navigate(R.id.navigate_to_start_workout)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-//        viewModel.refreshData()
     }
 
     private fun showError(@StringRes errorMessage: Int) {

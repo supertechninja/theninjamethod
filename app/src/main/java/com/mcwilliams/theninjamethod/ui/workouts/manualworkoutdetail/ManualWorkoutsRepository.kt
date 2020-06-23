@@ -31,36 +31,10 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
 
     //check cache workouts before reading db (reading db is heavy)
     fun getWorkouts() : Flowable<List<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>> {
-//        val workoutUiObjList = mutableListOf<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>()
-//        if (manualWorkoutList.isEmpty()) {
-
             return workoutDao?.getAll()!!.map { mapManualWorkoutToUiWorkout(it) }
-//
-//
-//            withContext(Dispatchers.IO) {
-//                val workoutList = workoutDao?.getAll()
-//                if (!workoutList.isNullOrEmpty()) {
-//                    manualWorkoutList = workoutList
-//                    manualWorkoutList.forEach {
-//                        workoutUiObjList.add(
-//                            com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout(
-//                                LocalDate.parse(it.workoutDate),
-//                                "",
-//                                it.workoutName,
-//                                WorkoutType.LIFTING,
-//                                "",
-//                                "",
-//                                it.id
-//                            )
-//                        )
-//                    }
-//                }
-//            }
-//        }
-//        return workoutUiObjList
     }
 
-    fun mapManualWorkoutToUiWorkout(workoutList:List<Workout>): List<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>{
+    private fun mapManualWorkoutToUiWorkout(workoutList:List<Workout>): List<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>{
         val workoutUiObjList = mutableListOf<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>()
         workoutList.forEach {
             workoutUiObjList.add(
