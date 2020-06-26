@@ -8,7 +8,6 @@ import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.WorkoutD
 import io.reactivex.Flowable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import javax.inject.Inject
@@ -30,12 +29,24 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
     }
 
     //check cache workouts before reading db (reading db is heavy)
-    fun getWorkouts() : Flowable<List<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>> {
-            return workoutDao?.getAll()!!.map { mapManualWorkoutToUiWorkout(it) }
+    fun getWorkouts(): Flowable<List<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>> {
+        return workoutDao?.getAll()!!.map { mapManualWorkoutToUiWorkout(it) }
     }
 
-    private fun mapManualWorkoutToUiWorkout(workoutList:List<Workout>): List<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>{
-        val workoutUiObjList = mutableListOf<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>()
+    fun getWorkoutDetail(id: Number): Workout? {
+        return manualWorkoutList.find { it.id == id }
+    }
+
+    suspend fun deleteWorkout(workout: Workout) {
+        withContext(Dispatchers.IO) {
+            workoutDao?.delete(workout)
+        }
+    }
+
+    private fun mapManualWorkoutToUiWorkout(workoutList: List<Workout>): List<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout> {
+        val workoutUiObjList =
+            mutableListOf<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>()
+        manualWorkoutList = workoutList
         workoutList.forEach {
             workoutUiObjList.add(
                 com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout(
@@ -55,7 +66,7 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
 
     suspend fun addWorkout(workout: Workout) {
         manualWorkoutList = listOf()
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             workoutDao?.insertAll(workout)
         }
     }

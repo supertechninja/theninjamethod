@@ -11,83 +11,69 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.StravaWorkoutItemBinding
 import com.mcwilliams.theninjamethod.databinding.WorkoutCardItemViewBinding
-import com.mcwilliams.theninjamethod.databinding.WorkoutItemBinding
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
+import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import java.time.LocalDate
 
 
 class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var workoutList: List<Pair<LocalDate, MutableList<Workout>>> = mutableListOf()
+    var workoutList: MutableList<Pair<LocalDate, MutableList<Workout>>> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//        return if (viewType == WorkoutType.LIFTING.ordinal) {
-//            val binding: WorkoutItemBinding = DataBindingUtil.inflate(
-//                LayoutInflater.from(parent.context),
-//                R.layout.workout_item, parent, false
-//            )
-//            WorkoutViewHolder(binding)
-//        } else {
-            val binding: StravaWorkoutItemBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.strava_workout_item, parent, false
-            )
-            return StravaWorkoutViewHolder(binding)
-//        }
+        val binding: StravaWorkoutItemBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.strava_workout_item, parent, false
+        )
+        return StravaWorkoutViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-//        if (getItemViewType(position) == WorkoutType.LIFTING.ordinal) {
-//            (holder as WorkoutViewHolder).bind((workoutList[position]), holder)
-//        } else {
-            (holder as StravaWorkoutViewHolder).bind(workoutList[position], holder)
-//        }
+        (holder as StravaWorkoutViewHolder).bind(workoutList[position], holder)
     }
 
     override fun getItemViewType(position: Int): Int {
-//        return if (workoutList[position].workoutType == WorkoutType.LIFTING)
-//            WorkoutType.LIFTING.ordinal
-//        else {
-           return WorkoutType.STRAVA.ordinal
-//        }
+        return WorkoutType.STRAVA.ordinal
     }
 
     override fun getItemCount(): Int {
         return workoutList.size
     }
 
-    fun updateWorkoutList(workoutDates: List<Pair<LocalDate, MutableList<Workout>>>) {
+    fun updateWorkoutList(workoutDates: MutableList<Pair<LocalDate, MutableList<Workout>>>) {
         this.workoutList = workoutDates
         notifyDataSetChanged()
     }
 
-    class WorkoutViewHolder(private val binding: WorkoutItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        private val viewModel =
-            WorkoutViewModel()
-
-        fun bind(workoutObj: Workout, holder: WorkoutViewHolder) {
-            // ...
-            viewModel.bind(workoutObj, holder)
-            binding.workoutViewModel = viewModel
-        }
+    fun clearData() {
+        this.workoutList.clear()
     }
 
     class StravaWorkoutViewHolder(private val binding: StravaWorkoutItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(workoutObj: Pair<LocalDate, MutableList<Workout>>, holder: StravaWorkoutViewHolder) {
+        fun bind(
+            workoutObj: Pair<LocalDate, MutableList<Workout>>,
+            holder: StravaWorkoutViewHolder
+        ) {
             val workoutDate = workoutObj.first
-            holder.binding.stravaWorkoutTitle.text = workoutDate.dayOfWeek.name.toLowerCase().capitalize() +
-                    ", " + workoutDate.month.name.toLowerCase().capitalize() + " " + workoutDate.dayOfMonth
+            holder.binding.stravaWorkoutTitle.text =
+                workoutDate.dayOfWeek.name.fixCase() +
+                        ", " + workoutDate.month.name.fixCase() + " " + workoutDate.dayOfMonth
 
             workoutObj.second.forEach { workout ->
-                val workoutItemView = WorkoutCardItemViewBinding.inflate(LayoutInflater.from(holder.itemView.context))
+                val workoutItemView =
+                    WorkoutCardItemViewBinding.inflate(LayoutInflater.from(holder.itemView.context))
                 workoutItemView.workoutName.text = workout.workoutName
                 workoutItemView.workoutDuration.text = workout.stravaTime
-                workoutItemView.root.setOnClickListener { onWorkoutClicked(workoutItemView.root, workout) }
+                workoutItemView.root.setOnClickListener {
+                    onWorkoutClicked(
+                        workoutItemView.root,
+                        workout
+                    )
+                }
                 holder.binding.llWorkouts.addView(workoutItemView.root)
             }
 
@@ -96,9 +82,9 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private fun onWorkoutClicked(
             view: View,
             workout: Workout
-        ){
+        ) {
             val bundle = bundleOf("workout" to workout)
-            when(workout.workoutType) {
+            when (workout.workoutType) {
                 WorkoutType.STRAVA -> {
                     Navigation.findNavController(view)
                         .navigate(R.id.navigate_to_strava_workout_detail, bundle)

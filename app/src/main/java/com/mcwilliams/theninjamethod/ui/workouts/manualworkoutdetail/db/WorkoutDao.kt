@@ -22,7 +22,7 @@ interface WorkoutDao {
     suspend fun insertAll(vararg users: Workout)
 
     @Delete
-    suspend fun delete(user: Workout)
+    suspend fun delete(workout: Workout)
 
     @Query("DELETE FROM workout")
     suspend fun nukeTable()

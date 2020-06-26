@@ -45,9 +45,20 @@ class WorkoutsFragment : Fragment() {
         val workoutListAdapter = WorkoutListAdapter()
         workout_list.adapter = workoutListAdapter
 
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                progress_bar.visibility = View.VISIBLE
+            } else {
+                progress_bar.visibility = View.GONE
+            }
+        })
+
         viewModel.workoutMapLiveData.observe(viewLifecycleOwner, Observer {
             Log.d("TAG", "onViewCreated: ${it.size}")
+            //Clearing current data before rendering new data
+            workoutListAdapter.clearData()
             workoutListAdapter.updateWorkoutList(it)
+            viewModel._isLoading.postValue(false)
         })
 
         swipeContainer.setOnRefreshListener {

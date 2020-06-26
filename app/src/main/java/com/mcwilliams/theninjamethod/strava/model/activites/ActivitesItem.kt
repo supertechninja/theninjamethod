@@ -49,5 +49,10 @@ data class ActivitesItem(
     val upload_id: Number,
     val utc_offset: Int,
     val weighted_average_watts: Int,
-    val workout_type: Any
+    val workout_type: Any,
+
+    var miles: String,
+    var formattedDate: String,
+    var duration: String
+
 )

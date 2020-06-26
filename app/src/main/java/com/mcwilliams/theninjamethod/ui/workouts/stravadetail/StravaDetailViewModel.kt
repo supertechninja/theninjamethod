@@ -10,9 +10,10 @@ class StravaDetailViewModel @ViewModelInject constructor(
     private val workoutsRepository: StravaWorkoutRepository
 ) : ViewModel() {
 
-    var detailedActivity: LiveData<ActivitesItem> = MutableLiveData()
+    var _detailedActivity: MutableLiveData<ActivitesItem> = MutableLiveData()
+    var detailedActivity: LiveData<ActivitesItem> = _detailedActivity
 
-    fun getDetailedActivities(id : Number) {
-        detailedActivity = workoutsRepository.getStravaItemDetail(id)
+    fun getDetailedActivities(id: Number) {
+        _detailedActivity.postValue(workoutsRepository.getStravaItemDetail(id))
     }
 }

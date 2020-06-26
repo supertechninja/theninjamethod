@@ -1,11 +1,13 @@
 package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
 
-import android.view.View
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.*
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutRepository
 import io.reactivex.Observable
@@ -13,6 +15,18 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import kotlin.collections.List
+import kotlin.collections.MutableList
+import kotlin.collections.MutableMap
+import kotlin.collections.distinctBy
+import kotlin.collections.flatten
+import kotlin.collections.forEach
+import kotlin.collections.mutableListOf
+import kotlin.collections.mutableMapOf
+import kotlin.collections.set
+import kotlin.collections.sortedByDescending
+import kotlin.collections.toList
+import kotlin.collections.toMutableList
 
 class WorkoutListViewModel @ViewModelInject constructor(
     sessionRepo: SessionRepository,
@@ -24,13 +38,16 @@ class WorkoutListViewModel @ViewModelInject constructor(
 
     val rootDisposable = CompositeDisposable()
 
-    var _workoutMapLiveData: MutableLiveData<List<Pair<LocalDate, MutableList<Workout>>>> =
+    var _workoutMapLiveData: MutableLiveData<MutableList<Pair<LocalDate, MutableList<Workout>>>> =
         MutableLiveData()
-    var workoutMapLiveData: LiveData<List<Pair<LocalDate, MutableList<Workout>>>> =
+    var workoutMapLiveData: LiveData<MutableList<Pair<LocalDate, MutableList<Workout>>>> =
         _workoutMapLiveData
 
+    var _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    var isLoading: LiveData<Boolean> = _isLoading
 
     init {
+        _isLoading.postValue(true)
         if (sessionRepo.isLoggedIn()) {
             workoutMapLiveData =
                 Observable.combineLatest(
@@ -50,7 +67,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun onWorkoutsRetrived(wrkOutList: List<Workout>): List<Pair<LocalDate, MutableList<Workout>>> {
+    private fun onWorkoutsRetrived(wrkOutList: List<Workout>): MutableList<Pair<LocalDate, MutableList<Workout>>> {
         //Group workouts by date to return
         val dateKeyedWorkouts: MutableMap<LocalDate, MutableList<Workout>> = mutableMapOf()
         //sort the workout by date ascending
@@ -68,7 +85,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
             }
             dateKeyedWorkouts[date.date] = workoutsByDate
         }
-        return dateKeyedWorkouts.toList()
+        return dateKeyedWorkouts.toList().toMutableList()
     }
 
     fun dropWorkoutDb() {
