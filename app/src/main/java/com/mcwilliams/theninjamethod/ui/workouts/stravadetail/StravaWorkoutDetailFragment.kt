@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import coil.api.load
+import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +44,7 @@ class StravaWorkoutDetailFragment : Fragment() {
     }
 
     fun getMapUrl(polyline: String): String {
-        return "https://maps.googleapis.com/maps/api/staticmap?size=700x350&scale=2&maptype=roadmap&path=enc:${polyline}&key=AIzaSyBWhwSFZ1aFOyxGN057wR_4wMA3QMyLT9I"
+        return "https://maps.googleapis.com/maps/api/staticmap?size=700x350&scale=2&maptype=roadmap&path=enc:${polyline}&key=${BuildConfig.MAPS_API_KEY}"
     }
 
 
