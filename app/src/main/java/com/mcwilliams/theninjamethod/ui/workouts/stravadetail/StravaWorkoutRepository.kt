@@ -22,8 +22,6 @@ class StravaWorkoutRepository @Inject constructor(
     fun getStravaActivities(): Observable<List<Workout>> =
         athleteApi.getAthleteActivities().map { mapStravaWorkouts(it) }
 
-    //Return Detail Strava Activity to render the activity detail
-    fun getStravaItemDetail(id: Number): ActivitesItem = listOfStravaWorkouts.find { it.id == id }!!
 
     //Return a list of strava workout summaries, a subset of the detail data needed to show the ui
     private fun mapStravaWorkouts(stravaWorkouts: List<ActivitesItem>): List<Workout> {

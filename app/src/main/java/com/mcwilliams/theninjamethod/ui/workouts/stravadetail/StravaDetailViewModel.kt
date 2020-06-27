@@ -4,16 +4,20 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mcwilliams.theninjamethod.strava.model.activites.ActivitesItem
+import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
+import com.mcwilliams.theninjamethod.ui.ext.toLiveData
+import io.reactivex.disposables.CompositeDisposable
 
 class StravaDetailViewModel @ViewModelInject constructor(
-    private val workoutsRepository: StravaWorkoutRepository
+    private val stravaDetailRepository: StravaWorkoutDetailRepository
 ) : ViewModel() {
 
-    var _detailedActivity: MutableLiveData<ActivitesItem> = MutableLiveData()
-    var detailedActivity: LiveData<ActivitesItem> = _detailedActivity
+    val rootDisposable = CompositeDisposable()
+    var _detailedActivity: MutableLiveData<StravaActivityDetail> = MutableLiveData()
+    var detailedActivity: LiveData<StravaActivityDetail> = _detailedActivity
 
     fun getDetailedActivities(id: Number) {
-        _detailedActivity.postValue(workoutsRepository.getStravaItemDetail(id))
+        detailedActivity =
+            stravaDetailRepository.getStravaItemDetail(id).toLiveData(rootDisposable) { it }
     }
 }

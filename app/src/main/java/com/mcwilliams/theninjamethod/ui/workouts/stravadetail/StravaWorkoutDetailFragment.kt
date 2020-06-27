@@ -31,16 +31,26 @@ class StravaWorkoutDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.getDetailedActivities(workout.id)
         viewModel.detailedActivity.observe(viewLifecycleOwner, Observer {
             workout_name.text = it.name
+
             map_view.load(getMapUrl(it.map.summary_polyline))
             workout_date.text = it.formattedDate
 
             distance.text = it.miles
             workout_duration.text = it.duration
+
+            calories_burned.text = it.calories.toString()
+
+            if (it.has_heartrate) {
+                workout_heartrate.text = "${it.average_heartrate} bpm"
+            } else {
+                workout_heartrate.visibility = View.GONE
+                heartIcon.visibility = View.GONE
+            }
         })
 
-        viewModel.getDetailedActivities(workout.id)
     }
 
     fun getMapUrl(polyline: String): String {
