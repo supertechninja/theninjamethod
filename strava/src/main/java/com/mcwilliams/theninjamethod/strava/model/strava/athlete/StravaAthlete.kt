@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.strava.model.athlete
+package com.mcwilliams.theninjamethod.strava.model.strava.athlete
 
 data class StravaAthlete(
     val athlete_type: Int,

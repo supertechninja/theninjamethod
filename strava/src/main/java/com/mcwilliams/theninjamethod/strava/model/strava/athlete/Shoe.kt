@@ -1,6 +1,6 @@
-package com.mcwilliams.theninjamethod.strava.model.athlete
+package com.mcwilliams.theninjamethod.strava.model.strava.athlete
 
-data class Bike(
+data class Shoe(
     val distance: Int,
     val id: String,
     val name: String,

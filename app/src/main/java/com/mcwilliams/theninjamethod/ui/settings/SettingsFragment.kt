@@ -4,7 +4,6 @@ import android.annotation.TargetApi
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +15,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import coil.api.load
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.compose.ActivityTotalCard
 import com.mcwilliams.theninjamethod.strava.AccessScope
 import com.mcwilliams.theninjamethod.strava.ApprovalPrompt
 import com.mcwilliams.theninjamethod.strava.StravaLogin
-import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
 
@@ -37,13 +36,42 @@ class SettingsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
+    private fun setProfileVisibility(visibility: Int) {
+        if (visibility != View.VISIBLE && visibility != View.GONE && visibility != View.INVISIBLE) return
+        athleteName.visibility = visibility
+        profile_picture.visibility = visibility
+    }
+
+    private fun setLoginVisibility(visibility: Int) {
+
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.detailedAthlete.observe(viewLifecycleOwner, Observer { dathlete ->
-            detailed_athlete.text = dathlete.toString()
-            profile_picture.load(dathlete.profile_medium)
-            detailed_athlete.hideOtherViews()
+        viewModel.detailedAthlete.observe(viewLifecycleOwner, Observer { stravaAthlete ->
+            detailed_athlete.text = stravaAthlete.toString()
+            profile_picture.load(stravaAthlete.profile_medium)
+            athleteName.text = stravaAthlete.firstname + " " + stravaAthlete.lastname
+//            setProfileVisibility(View.VISIBLE)
+            btnLogin2Strava.visibility = View.GONE
+            loginWebview.visibility = View.GONE
+        })
+
+        viewModel.activityStats.observe(viewLifecycleOwner, Observer { stats ->
+            detailed_athlete.visibility = View.GONE
+            context?.let {
+                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.all_ride_totals) )
+                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.all_run_totals) )
+                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.all_swim_totals) )
+                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.recent_ride_totals) )
+                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.recent_run_totals) )
+                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.recent_swim_totals) )
+                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.ytd_ride_totals) )
+                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.ytd_run_totals) )
+                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.ytd_swim_totals) )
+            }
         })
 
         viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {

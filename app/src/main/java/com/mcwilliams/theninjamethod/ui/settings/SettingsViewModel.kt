@@ -7,7 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.network.Result
 import com.mcwilliams.theninjamethod.strava.SessionRepository
-import com.mcwilliams.theninjamethod.strava.model.athlete.StravaAthlete
+import com.mcwilliams.theninjamethod.strava.model.strava.athlete.ActivityStats
+import com.mcwilliams.theninjamethod.strava.model.strava.athlete.StravaAthlete
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
 import kotlinx.coroutines.launch
 
@@ -16,6 +17,9 @@ class SettingsViewModel @ViewModelInject constructor(
     private val sessionRepository: SessionRepository
 ) : ViewModel() {
 
+    private val _activityStats = MutableLiveData<ActivityStats>()
+    var activityStats: LiveData<ActivityStats> = _activityStats
+
     private var _detailedAthlete = MutableLiveData<StravaAthlete>()
     var detailedAthlete: LiveData<StravaAthlete> = _detailedAthlete
 
@@ -23,7 +27,7 @@ class SettingsViewModel @ViewModelInject constructor(
     var errorMessage: LiveData<String> = _errorMessage
 
     private var _isLoggedIn = MutableLiveData<Boolean>()
-    var isLoggedIn : LiveData<Boolean> = _isLoggedIn
+    var isLoggedIn: LiveData<Boolean> = _isLoggedIn
 
     init {
         _isLoggedIn.postValue(sessionRepository.isLoggedIn())
@@ -52,6 +56,7 @@ class SettingsViewModel @ViewModelInject constructor(
                 when (val response = settingsRepo.fetchAthlete()) {
                     is Result.Success -> {
                         _detailedAthlete.postValue(response.data)
+                        response.data?.id?.let { loadActivityStats(it) }
                     }
                     is Result.Error -> {
                         _errorMessage.postValue(response.exception.toString())
@@ -63,7 +68,25 @@ class SettingsViewModel @ViewModelInject constructor(
         }
     }
 
-    fun logOff (){
+    fun loadActivityStats(id: Long) {
+        viewModelScope.launch {
+            try {
+                when (val response = settingsRepo.fetchAthleteStats(id)) {
+                    is Result.Success -> {
+                        _activityStats.postValue(response.data)
+                    }
+                    is Result.Error -> {
+                        _errorMessage.postValue(response.exception.toString())
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                _errorMessage.postValue(e.message)
+            }
+        }
+
+    }
+
+    fun logOff() {
         sessionRepository.logOff()
         _isLoggedIn.postValue(false)
     }
