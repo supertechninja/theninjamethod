@@ -1,12 +1,15 @@
 package com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail
 
 import android.content.Context
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.WorkoutDao
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.WorkoutDatabase
+import io.reactivex.Flowable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
@@ -26,19 +29,44 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
     }
 
     //check cache workouts before reading db (reading db is heavy)
-    suspend fun getWorkouts() : List<Workout> {
-        if (manualWorkoutList.isEmpty()) {
-            val workoutList = workoutDao?.getAll()
-            if (!workoutList.isNullOrEmpty()) {
-                manualWorkoutList = workoutList!!
-            }
-        }
-        return manualWorkoutList
+    fun getWorkouts(): Flowable<List<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>> {
+        return workoutDao?.getAll()!!.map { mapManualWorkoutToUiWorkout(it) }
     }
+
+    fun getWorkoutDetail(id: Number): Workout? {
+        return manualWorkoutList.find { it.id == id }
+    }
+
+    suspend fun deleteWorkout(workout: Workout) {
+        withContext(Dispatchers.IO) {
+            workoutDao?.delete(workout)
+        }
+    }
+
+    private fun mapManualWorkoutToUiWorkout(workoutList: List<Workout>): List<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout> {
+        val workoutUiObjList =
+            mutableListOf<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout>()
+        manualWorkoutList = workoutList
+        workoutList.forEach {
+            workoutUiObjList.add(
+                com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout(
+                    LocalDate.parse(it.workoutDate),
+                    "",
+                    it.workoutName,
+                    WorkoutType.LIFTING,
+                    "",
+                    "",
+                    it.id
+                )
+            )
+        }
+        return workoutUiObjList
+    }
+
 
     suspend fun addWorkout(workout: Workout) {
         manualWorkoutList = listOf()
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             workoutDao?.insertAll(workout)
         }
     }

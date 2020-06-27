@@ -1,6 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,22 +42,32 @@ class WorkoutsFragment : Fragment() {
             if (errorMessage != null) showError(errorMessage) else hideError()
         })
 
-        workout_list.adapter = viewModel.workoutListAdapter
+        val workoutListAdapter = WorkoutListAdapter()
+        workout_list.adapter = workoutListAdapter
+
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                progress_bar.visibility = View.VISIBLE
+            } else {
+                progress_bar.visibility = View.GONE
+            }
+        })
+
+        viewModel.workoutMapLiveData.observe(viewLifecycleOwner, Observer {
+            Log.d("TAG", "onViewCreated: ${it.size}")
+            //Clearing current data before rendering new data
+            workoutListAdapter.clearData()
+            workoutListAdapter.updateWorkoutList(it)
+            viewModel._isLoading.postValue(false)
+        })
 
         swipeContainer.setOnRefreshListener {
             viewModel.refreshData()
         }
 
         startWorkout.setOnClickListener {
-//            viewModel.onStartWorkoutClick()
             Navigation.findNavController(it).navigate(R.id.navigate_to_start_workout)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-//        viewModel.refreshData()
     }
 
     private fun showError(@StringRes errorMessage: Int) {

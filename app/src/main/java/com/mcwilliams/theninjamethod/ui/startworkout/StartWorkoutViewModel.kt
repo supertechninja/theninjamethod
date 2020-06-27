@@ -7,10 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
-import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
+import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class StartWorkoutViewModel @ViewModelInject constructor(
     private val manualWorkoutsRepository: ManualWorkoutsRepository,
@@ -30,12 +29,17 @@ class StartWorkoutViewModel @ViewModelInject constructor(
        }
     }
 
-    fun saveWorkout(workout: Workout){
+    fun saveWorkout(workout: Workout) {
         viewModelScope.launch {
             manualWorkoutsRepository.addWorkout(workout)
             _didSaveWorkout.postValue(true)
         }
     }
 
+    fun addNewExercise(exercise: Exercise) {
+        viewModelScope.launch {
+            exerciseRepository.addExercises(exercise)
+        }
+    }
 
 }

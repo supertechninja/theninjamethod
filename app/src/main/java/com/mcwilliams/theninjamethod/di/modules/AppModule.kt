@@ -9,6 +9,7 @@ import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepoImpl
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
+import com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutDetailRepository
 import com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutRepository
 import dagger.Module
 import dagger.Provides
@@ -28,7 +29,10 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideWorkoutRepository(@ApplicationContext context: Context, athleteApi: AthleteApi) : StravaWorkoutRepository =
+    fun provideWorkoutRepository(
+        @ApplicationContext context: Context,
+        athleteApi: AthleteApi
+    ): StravaWorkoutRepository =
         StravaWorkoutRepository(
             context,
             athleteApi
@@ -36,12 +40,22 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesSessionRepository(@ApplicationContext context: Context, session: Session) : SessionRepository =
+    fun provideStravaDetailRepository(athleteApi: AthleteApi): StravaWorkoutDetailRepository =
+        StravaWorkoutDetailRepository(
+            athleteApi
+        )
+
+    @Provides
+    @Singleton
+    fun providesSessionRepository(
+        @ApplicationContext context: Context,
+        session: Session
+    ): SessionRepository =
         SessionRepository(context, session)
 
     @Provides
     @Singleton
-    fun providesManualWorkoutRepository(@ApplicationContext context: Context) : ManualWorkoutsRepository =
+    fun providesManualWorkoutRepository(@ApplicationContext context: Context): ManualWorkoutsRepository =
         ManualWorkoutsRepository(
             context
         )

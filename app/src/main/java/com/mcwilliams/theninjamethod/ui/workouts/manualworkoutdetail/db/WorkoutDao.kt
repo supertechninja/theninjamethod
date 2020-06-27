@@ -4,11 +4,12 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import io.reactivex.Flowable
 
 @Dao
 interface WorkoutDao {
     @Query("SELECT * FROM workout")
-    suspend fun getAll(): List<Workout>
+    fun getAll(): Flowable<List<Workout>>
 
     @Query("SELECT * FROM workout WHERE id IN (:userIds)")
     suspend fun loadAllByIds(userIds: IntArray): List<Workout>
@@ -21,7 +22,7 @@ interface WorkoutDao {
     suspend fun insertAll(vararg users: Workout)
 
     @Delete
-    suspend fun delete(user: Workout)
+    suspend fun delete(workout: Workout)
 
     @Query("DELETE FROM workout")
     suspend fun nukeTable()
