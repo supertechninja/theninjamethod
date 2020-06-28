@@ -64,7 +64,6 @@ class StartWorkoutFragment : Fragment() {
                 //Setup exercise picker dialog or full screen dialog or bottom sheet
                 val builder: AlertDialog.Builder = AlertDialog.Builder(it.context)
                 builder.setTitle("Choose Exercise")
-                //TODO need to make observable so list updates when new exercise is added
                 val exerciseNames = mutableListOf<String>()
                 exerciseNames.add(0, "New")
                 for (exercise in loadedExercises) {

@@ -7,6 +7,7 @@ import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.db.ExerciseDao
 import com.mcwilliams.theninjamethod.ui.exercises.db.ExerciseDatabase
+import io.reactivex.Flowable
 import kotlinx.coroutines.*
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -43,7 +44,9 @@ class ExerciseRepository @Inject constructor(
         preferences.edit().putBoolean("hasRetrievedExercises", true).apply()
     }
 
-    suspend fun getExercises() = exerciseDao?.getAll()
+    fun getExercises(): Flowable<List<Exercise>>? {
+        return exerciseDao!!.getAllFlow()
+    }
 
     suspend fun addExercises(exercise: Exercise) {
         withContext(Dispatchers.IO) {
