@@ -119,9 +119,14 @@ class StartWorkoutFragment : Fragment() {
                 setCounter = setCounter.inc()
                 setCount.text = setCounter.toString()
 
+                val weight = addWorkoutSetLayout.findViewById<TextInputEditText>(R.id.weight_amount)
+                weight.requestFocus()
+
                 val exerciseSets =
                     addExerciseViewLayout.findViewById<LinearLayout>(R.id.exercise_sets)
                 exerciseSets.addView(addWorkoutSetLayout)
+
+
             }
 
             exerciseListView = view.findViewById(R.id.exercise_list)

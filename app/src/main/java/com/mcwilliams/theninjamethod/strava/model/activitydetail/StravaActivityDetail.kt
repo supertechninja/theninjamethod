@@ -49,6 +49,7 @@ data class StravaActivityDetail(
     val segment_efforts: List<SegmentEffort>,
     val segment_leaderboard_opt_out: Boolean,
     val splits_metric: List<SplitsMetric>,
+    val splits_standard: List<SplitsMetric>,
     val start_date: String,
     val start_date_local: String,
     val start_latlng: List<Double>,
