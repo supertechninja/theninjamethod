@@ -48,6 +48,12 @@ class ExerciseRepository @Inject constructor(
         return exerciseDao!!.getAllFlow()
     }
 
+    suspend fun deleteExercise(exercise: Exercise) {
+        withContext(Dispatchers.IO) {
+            exerciseDao?.delete(exercise)
+        }
+    }
+
     suspend fun addExercises(exercise: Exercise) {
         withContext(Dispatchers.IO) {
             exerciseDao?.insertAll(exercise)

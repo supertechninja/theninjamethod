@@ -18,7 +18,7 @@ interface ExerciseDao {
     suspend fun insertAll(vararg users: Exercise)
 
     @Delete
-    suspend fun delete(user: Exercise)
+    suspend fun delete(exercise: Exercise)
 
     @Query("DELETE FROM exercise")
     suspend fun nukeTable()

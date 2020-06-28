@@ -10,47 +10,39 @@ import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseViewModel
 
 
-class ExerciseListAdapter() :
-    RecyclerView.Adapter<ExerciseListAdapter.ViewHolder>() {
+class ExerciseListAdapter() : RecyclerView.Adapter<ExerciseListAdapter.ViewHolder>() {
 
-    private lateinit var postList:List<Exercise>
-
+    private lateinit var exerciseList: List<Exercise>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ExerciseItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),
-            R.layout.exercise_item, parent, false)
+        val binding: ExerciseItemBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.exercise_item, parent, false
+        )
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(postList[position])
+        holder.bind(exerciseList[position])
     }
 
     override fun getItemCount(): Int {
-        return if(::postList.isInitialized) postList.size else 0
+        return if (::exerciseList.isInitialized) exerciseList.size else 0
     }
 
-    fun deleteItem(position: Int) {
-        val mRecentlyDeletedItem = postList.get(position)
-        val mRecentlyDeletedItemPosition = position
-        postList.drop(position)
-        notifyItemRemoved(position)
-//        showUndoSnackbar()
+    fun getExerciseList(): List<Exercise> {
+        return exerciseList
     }
 
-    fun updatePostList(postList:List<Exercise>){
-        this.postList = postList
+    fun updatePostList(postList: List<Exercise>) {
+        this.exerciseList = postList
         notifyDataSetChanged()
     }
 
-    fun getExerciseList(): List<Exercise>{
-        return postList
-    }
-
-    class ViewHolder(private val binding: ExerciseItemBinding):RecyclerView.ViewHolder(binding.root){
-        private val viewModel =
-            ExerciseViewModel()
-        fun bind(post: Exercise){
+    class ViewHolder(private val binding: ExerciseItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        private val viewModel = ExerciseViewModel()
+        fun bind(post: Exercise) {
             // ...
             viewModel.bind(post)
             binding.exerciseViewModel = viewModel

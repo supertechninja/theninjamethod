@@ -2,7 +2,6 @@ package com.mcwilliams.theninjamethod.ui.exercises.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
@@ -14,10 +13,6 @@ import kotlinx.coroutines.launch
 class ExerciseListViewModel @ViewModelInject constructor(
     private val exerciseRepository: ExerciseRepository
 ) : ViewModel() {
-
-    var isRefreshing: Boolean = false
-
-    val errorMessage: MutableLiveData<Int> = MutableLiveData()
 
     var exerciseList: LiveData<List<Exercise>>
     var compositeDisposable = CompositeDisposable()
@@ -33,13 +28,8 @@ class ExerciseListViewModel @ViewModelInject constructor(
         }
     }
 
-    fun refreshData() {
-        isRefreshing = true
-//        loadExercises()
+    fun deleteExercise(exercise: Exercise) {
+        viewModelScope.launch { exerciseRepository.deleteExercise(exercise) }
     }
 
-
-    companion object {
-        private const val TAG = "ExerciseListViewModel"
-    }
 }
