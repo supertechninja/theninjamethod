@@ -35,13 +35,23 @@
         android:name="com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutDetailFragment"
         android:label="Workout Details"
         tools:layout="@layout/workout_detail_fragment">
+
+        <action
+            android:id="@+id/navigate_to_share_workout"
+            app:destination="@+id/share_workout" />
     </fragment>
+
+    <fragment
+        android:id="@+id/share_workout"
+        android:name="com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ShareManualWorkoutFragment"
+        android:label="Share Workout"
+        tools:layout="@layout/workout_detail_fragment"></fragment>
 
     <fragment
         android:id="@+id/strava_workout_detail"
         android:name="com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutDetailFragment"
         android:label="Strava Workout Detail"
-        tools:layout="@layout/workout_detail_fragment"/>
+        tools:layout="@layout/workout_detail_fragment" />
 
     <fragment
         android:id="@+id/navigation_exercises"
