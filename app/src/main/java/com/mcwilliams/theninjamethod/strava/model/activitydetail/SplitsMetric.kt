@@ -7,5 +7,6 @@ data class SplitsMetric(
     val elevation_difference: Double,
     val moving_time: Int,
     val pace_zone: Int,
-    val split: Int
+    val split: Int,
+    val average_heartrate: Float
 )

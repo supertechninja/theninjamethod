@@ -45,19 +45,29 @@
         android:id="@+id/share_workout"
         android:name="com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ShareManualWorkoutFragment"
         android:label="Share Workout"
-        tools:layout="@layout/workout_detail_fragment"></fragment>
+        tools:layout="@layout/workout_detail_fragment" />
 
     <fragment
         android:id="@+id/strava_workout_detail"
         android:name="com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutDetailFragment"
         android:label="Strava Workout Detail"
+        tools:layout="@layout/workout_detail_fragment">
+        <action
+            android:id="@+id/navigate_to_share_strava_workout"
+            app:destination="@+id/share_strava_workout" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/share_strava_workout"
+        android:name="com.mcwilliams.theninjamethod.ui.workouts.stravadetail.ShareStravaWorkoutFragment"
+        android:label="Share Workout"
         tools:layout="@layout/workout_detail_fragment" />
 
     <fragment
         android:id="@+id/navigation_exercises"
         android:name="com.mcwilliams.theninjamethod.ui.exercises.ExercisesFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_settings"

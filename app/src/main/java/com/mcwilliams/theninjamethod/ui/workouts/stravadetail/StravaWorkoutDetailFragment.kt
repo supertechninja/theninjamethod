@@ -1,16 +1,17 @@
 package com.mcwilliams.theninjamethod.ui.workouts.stravadetail
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import coil.api.load
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.utils.extensions.getMiles
 import com.mcwilliams.theninjamethod.utils.extensions.round
@@ -21,6 +22,8 @@ import kotlinx.android.synthetic.main.strava_workout_detail_fragment.*
 class StravaWorkoutDetailFragment : Fragment() {
     lateinit var workout: Workout
     private val viewModel: StravaDetailViewModel by viewModels()
+    lateinit var rootView: View
+    lateinit var stravaDetailObj: StravaActivityDetail
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +31,9 @@ class StravaWorkoutDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         workout = arguments?.getSerializable("workout") as Workout
-        return inflater.inflate(R.layout.strava_workout_detail_fragment, container, false)
+        setHasOptionsMenu(true)
+        rootView = inflater.inflate(R.layout.strava_workout_detail_fragment, container, false)
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,6 +41,7 @@ class StravaWorkoutDetailFragment : Fragment() {
 
         viewModel.getDetailedActivities(workout.id)
         viewModel.detailedActivity.observe(viewLifecycleOwner, Observer { stravaDetail ->
+            stravaDetailObj = stravaDetail
             workout_name.text = stravaDetail.name
 
             map_view.load(getMapUrl(stravaDetail.map.summary_polyline))
@@ -69,11 +75,26 @@ class StravaWorkoutDetailFragment : Fragment() {
                 llsplits.addView(splitsRow)
             }
         })
-
     }
 
     fun getMapUrl(polyline: String): String {
         return "https://maps.googleapis.com/maps/api/staticmap?size=700x350&scale=2&maptype=roadmap&path=enc:${polyline}&key=${BuildConfig.MAPS_API_KEY}"
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.strava_workout_detail_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (R.id.menu_share == item.itemId) {
+            val bundle = bundleOf(
+                "workout" to stravaDetailObj
+            )
+            Navigation.findNavController(rootView)
+                .navigate(R.id.navigate_to_share_strava_workout, bundle)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
