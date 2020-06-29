@@ -46,8 +46,7 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
         val totalWeightLifted = view.findViewById<MaterialTextView>(R.id.workout_weight_lifted)
 
         totalWeightLifted.text =
-            "Weight Lifted: ${NumberFormat.getNumberInstance(Locale.US).format(amountLifted)}"
-//            NumberFormat.getNumberInstance(Locale.US).format(totalAmountLifted) + "lbs"
+            "Weight Lifted: ${NumberFormat.getNumberInstance(Locale.US).format(amountLifted)}lbs"
 
         for (exercise in workout.exercises) {
 
@@ -62,8 +61,9 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
                 setsSummary += "${set.reps}x${set.weight}lbs, "
             }
 
-            exerciseSummary.text = "$exerciseName: $setsSummary"
+            val setsSummaryFormatted = setsSummary.substring(0, (setsSummary.length - 2))
 
+            exerciseSummary.text = "$exerciseName: $setsSummaryFormatted"
             exercise_summary_layout.addView(shareExerciseSummary)
         }
 

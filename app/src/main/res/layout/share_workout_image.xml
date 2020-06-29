@@ -26,30 +26,17 @@
                 tools:text="Early Morning Workout" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/workout_summary"
-                style="?attr/textAppearanceSubtitle1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:text="Workout Summary"
-                android:textColor="@color/color_on_background"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/workout_name" />
-
-            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/workout_weight_lifted"
                 style="?attr/textAppearanceBody2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="Total Weight Lifted: "
                 android:textColor="@color/color_on_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/workout_summary" />
+                app:layout_constraintTop_toBottomOf="@+id/workout_name" />
 
             <LinearLayout
                 android:id="@+id/exercise_summary_layout"
@@ -61,6 +48,7 @@
                 android:orientation="vertical"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/ninja_method_icon"
                 app:layout_constraintTop_toBottomOf="@+id/workout_weight_lifted" />
 
             <ImageView
