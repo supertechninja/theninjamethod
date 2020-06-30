@@ -34,3 +34,11 @@ fun String.fixCase(): String = this.toLowerCase().capitalize()
 
 fun getDateTimeDisplayString(date: LocalDate, time: LocalTime): String =
     "${date.dayOfWeek.name.fixCase()}, ${date.month.name.fixCase()} ${date.dayOfMonth}, ${date.year} at ${time.get12HrTime()}"
+
+//fun totalWeightLifted(sets: List<WorkoutSet>) : String {
+//    var totalAmountLifted = 0
+//    sets.forEach {
+//        totalAmountLifted += (it.weight.toInt() * it.reps.toInt())
+//    }
+//    return NumberFormat.getNumberInstance(Locale.US).format(totalAmountLifted)t
+//}

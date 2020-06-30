@@ -1,67 +1,35 @@
 package com.mcwilliams.theninjamethod.ui.exercises.viewmodel
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.view.View
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
-import com.mcwilliams.theninjamethod.ui.exercises.ExerciseListAdapter
 import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
+import com.mcwilliams.theninjamethod.ui.ext.toLiveData
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class ExerciseListViewModel @ViewModelInject constructor(
     private val exerciseRepository: ExerciseRepository
 ) : ViewModel() {
 
-    val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
-
-    var isRefreshing: Boolean = false
-
-    val errorMessage: MutableLiveData<Int> = MutableLiveData()
-//    val errorClickListener = View.OnClickListener {
-//        viewModelScope.launch {
-//            exerciseApi.getExercises()
-//        }
-//    }
-
-    val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
+    var exerciseList: LiveData<List<Exercise>>
+    var compositeDisposable = CompositeDisposable()
 
     init {
-        loadExercises()
+        exerciseList = exerciseRepository.getExercises()!!.toObservable()
+            .toLiveData(compositeDisposable) { it }
     }
 
-    private fun loadExercises() {
+    fun addNewExercise(exercise: Exercise) {
         viewModelScope.launch {
-            exerciseRepository.getExercises()?.let { onRetrievePostListSuccess(it) }
+            exerciseRepository.addExercises(exercise)
         }
     }
 
-    fun refreshData() {
-        isRefreshing = true
-        loadExercises()
+    fun deleteExercise(exercise: Exercise) {
+        viewModelScope.launch { exerciseRepository.deleteExercise(exercise) }
     }
 
-    private fun onRetrievePostListSuccess(exerciseList: List<Exercise>) {
-        loadingVisibility.value = View.GONE
-        exerciseListAdapter.updatePostList(exerciseList)
-    }
-
-    private fun onRetrievePostListError() {
-        errorMessage.value = R.string.exercise_error
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-//        subscription.dispose()
-    }
-
-    companion object {
-        private const val TAG = "ExerciseListViewModel"
-    }
 }

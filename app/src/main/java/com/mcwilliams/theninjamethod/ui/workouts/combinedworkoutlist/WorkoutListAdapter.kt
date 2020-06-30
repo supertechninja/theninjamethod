@@ -77,6 +77,12 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 holder.binding.llWorkouts.addView(workoutItemView.root)
             }
 
+            holder.binding.root.setOnClickListener {
+                val bundle = bundleOf("workoutSummary" to workoutObj)
+                Navigation.findNavController(it)
+                    .navigate(R.id.navigate_to_combined_workout, bundle)
+            }
+
         }
 
         private fun onWorkoutClicked(

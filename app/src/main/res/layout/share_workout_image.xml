@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rootView"
+            android:layout_width="300dp"
+            android:layout_height="350dp"
+            android:layout_centerInParent="true"
+            android:background="@color/card_background">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/workout_name"
+                style="?attr/textAppearanceHeadline6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="@color/color_on_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Early Morning Workout" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/workout_weight_lifted"
+                style="?attr/textAppearanceBody2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Total Weight Lifted: "
+                android:textColor="@color/color_on_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/workout_name" />
+
+            <LinearLayout
+                android:id="@+id/exercise_summary_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                style="@style/TextAppearance.MaterialComponents.Subtitle2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/ninja_method_icon"
+                app:layout_constraintTop_toBottomOf="@+id/workout_weight_lifted" />
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="25dp"
+                android:id="@+id/ninja_method_icon"
+                android:src="@mipmap/ic_launcher_foreground"
+                android:tint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ninja_method_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Ninja Method"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/color_on_background"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintStart_toStartOf="@id/ninja_method_icon"
+                app:layout_constraintEnd_toEndOf="@id/ninja_method_icon"
+                app:layout_constraintTop_toBottomOf="@+id/ninja_method_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rootView"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="Share" />
+    </RelativeLayout>
+</layout>

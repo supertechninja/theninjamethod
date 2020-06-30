@@ -3,6 +3,7 @@ package com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,6 +26,7 @@ class ManualWorkoutDetailFragment : Fragment() {
 
     private lateinit var binding: WorkoutDetailFragmentBinding
     lateinit var workout: Workout
+    lateinit var detailedWorkout: com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
     private val viewModel: ManualWorkoutViewModel by viewModels()
     private var totalAmountLifted = 0
 
@@ -48,7 +50,7 @@ class ManualWorkoutDetailFragment : Fragment() {
 
         viewModel.workout.observe(viewLifecycleOwner, Observer {
             Log.d("TAG", "onViewCreated: ${it.workoutName}")
-
+            detailedWorkout = it
             workout_name.text = it.workoutName
 
             val date = LocalDate.parse(it.workoutDate)
@@ -99,11 +101,18 @@ class ManualWorkoutDetailFragment : Fragment() {
         if (R.id.menu_delete == item.itemId) {
             viewModel.deleteWorkout()
             Navigation.findNavController(binding.root).popBackStack()
+        } else if (R.id.menu_share == item.itemId) {
+            val bundle = bundleOf(
+                "workout" to detailedWorkout,
+                "amountLifted" to totalAmountLifted
+            )
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.navigate_to_share_workout, bundle)
         }
         return super.onOptionsItemSelected(item)
     }
 
-    fun totalWeightLifted(sets: List<WorkoutSet>) {
+    private fun totalWeightLifted(sets: List<WorkoutSet>) {
         sets.forEach {
             totalAmountLifted += (it.weight.toInt() * it.reps.toInt())
         }

@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
+import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 
 class StartWorkoutViewModel @ViewModelInject constructor(
@@ -16,17 +18,16 @@ class StartWorkoutViewModel @ViewModelInject constructor(
     private val exerciseRepository: ExerciseRepository
 ) : ViewModel() {
 
-    private var _listOfExercises = MutableLiveData<List<Exercise>>()
-    var listOfExercises: LiveData<List<Exercise>> = _listOfExercises
+    var listOfExercises: LiveData<List<Exercise>>
 
     private var _didSaveWorkout = MutableLiveData<Boolean>()
     var didSaveWorkout: LiveData<Boolean> = _didSaveWorkout
 
+    var compositeDisposable = CompositeDisposable()
+
     init {
-       //Preload list of exercises from exerciseDB
-       viewModelScope.launch {
-           _listOfExercises.postValue(exerciseRepository.getExercises())
-       }
+        listOfExercises = exerciseRepository.getExercises()!!.toObservable()
+            .toLiveData(compositeDisposable) { it }
     }
 
     fun saveWorkout(workout: Workout) {

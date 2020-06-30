@@ -1,5 +1,7 @@
 package com.mcwilliams.theninjamethod.strava.model.activitydetail
 
+import java.io.Serializable
+
 data class StravaActivityDetail(
     val achievement_count: Int,
     val athlete: Athlete,
@@ -49,6 +51,7 @@ data class StravaActivityDetail(
     val segment_efforts: List<SegmentEffort>,
     val segment_leaderboard_opt_out: Boolean,
     val splits_metric: List<SplitsMetric>,
+    val splits_standard: List<SplitsMetric>,
     val start_date: String,
     val start_date_local: String,
     val start_latlng: List<Double>,
@@ -67,4 +70,4 @@ data class StravaActivityDetail(
     var formattedDate: String,
     var duration: String
 
-)
+) : Serializable

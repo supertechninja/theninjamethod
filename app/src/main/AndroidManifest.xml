@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".TheNinjaMethodApplication"
+        android:hardwareAccelerated="true"
         android:theme="@style/MyTheme.DayNight">
         <activity
             android:name=".ui.MainActivity"
