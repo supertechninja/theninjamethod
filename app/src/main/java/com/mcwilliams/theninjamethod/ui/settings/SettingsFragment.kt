@@ -15,7 +15,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import coil.api.load
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.compose.ActivityTotalCard
+import com.mcwilliams.theninjamethod.compose.ActivityTotalCardModel
+import com.mcwilliams.theninjamethod.compose.Profile
 import com.mcwilliams.theninjamethod.strava.AccessScope
 import com.mcwilliams.theninjamethod.strava.ApprovalPrompt
 import com.mcwilliams.theninjamethod.strava.StravaLogin
@@ -57,20 +58,34 @@ class SettingsFragment : Fragment() {
 //            setProfileVisibility(View.VISIBLE)
             btnLogin2Strava.visibility = View.GONE
             loginWebview.visibility = View.GONE
+            stravaAthlete.apply {
+                if (context != null) {
+                    totals.addView(Profile(
+                        context = context ?: requireContext(),
+                        username = username,
+                        name = "${firstname} ${lastname}",
+                        premium = premium,
+                        followerCount = follower_count,
+                        friendCount = friend_count,
+                        location = "${city}, ${state}, ${country}",
+                        profilePic = profile_medium,
+                    ))
+                }
+            }
         })
 
         viewModel.activityStats.observe(viewLifecycleOwner, Observer { stats ->
             detailed_athlete.visibility = View.GONE
             context?.let {
-                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.all_ride_totals) )
-                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.all_run_totals) )
-                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.all_swim_totals) )
-                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.recent_ride_totals) )
-                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.recent_run_totals) )
-                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.recent_swim_totals) )
-                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.ytd_ride_totals) )
-                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.ytd_run_totals) )
-                totals.addView( ActivityTotalCard(context = it, activityTotal = stats.ytd_swim_totals) )
+                totals.addView( ActivityTotalCardModel(context = it, activityTotal = stats.all_ride_totals) )
+                totals.addView( ActivityTotalCardModel(context = it, activityTotal = stats.all_run_totals) )
+                totals.addView( ActivityTotalCardModel(context = it, activityTotal = stats.all_swim_totals) )
+                totals.addView( ActivityTotalCardModel(context = it, activityTotal = stats.recent_ride_totals) )
+                totals.addView( ActivityTotalCardModel(context = it, activityTotal = stats.recent_run_totals) )
+                totals.addView( ActivityTotalCardModel(context = it, activityTotal = stats.recent_swim_totals) )
+                totals.addView( ActivityTotalCardModel(context = it, activityTotal = stats.ytd_ride_totals) )
+                totals.addView( ActivityTotalCardModel(context = it, activityTotal = stats.ytd_run_totals) )
+                totals.addView( ActivityTotalCardModel(context = it, activityTotal = stats.ytd_swim_totals) )
             }
         })
 
