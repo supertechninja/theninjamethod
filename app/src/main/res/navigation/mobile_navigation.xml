@@ -13,21 +13,42 @@
 
         <action
             android:id="@+id/navigate_to_manual_workout_detail"
-            app:destination="@+id/manual_workout_detail"/>
+            app:destination="@+id/manual_workout_detail" />
 
         <action
             android:id="@+id/navigate_to_strava_workout_detail"
-            app:destination="@+id/strava_workout_detail"/>
+            app:destination="@+id/strava_workout_detail" />
 
         <action
             android:id="@+id/navigate_to_start_workout"
             app:destination="@+id/navigation_start_workout" />
+
+        <action
+            android:id="@+id/navigate_to_combined_workout"
+            app:destination="@+id/navigation_combined_workout_detail" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_start_workout"
         android:name="com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutFragment"
         android:label="Start Workout"
+        tools:layout="@layout/fragment_start_workout" />
+
+    <fragment
+        android:id="@+id/navigation_combined_workout_detail"
+        android:name="com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.combineddetail.CombinedWorkoutDetailFragment"
+        android:label="Daily Workout Summary"
+        tools:layout="@layout/fragment_start_workout">
+
+        <action
+            android:id="@+id/navigate_to_share_combined_workout"
+            app:destination="@+id/navigation_share_combined_workout" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_share_combined_workout"
+        android:name="com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.combineddetail.ShareCombinedWorkoutFragment"
+        android:label="Share Workout"
         tools:layout="@layout/fragment_start_workout" />
 
     <fragment
