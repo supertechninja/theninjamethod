@@ -46,21 +46,25 @@ class ShareStravaWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
 
         binding.caloriesBurned.text = workout.calories.toString()
 
-        workout.splits_standard.forEach {
-            if ((it.distance > 999.00)) {
-                val splitsRow = layoutInflater.inflate(R.layout.share_strava_split_row, null)
+        if (workout.splits_standard.isNullOrEmpty()) {
+            binding.splits.visibility = View.GONE
+        } else {
+            workout.splits_standard!!.forEach {
+                if ((it.distance > 10.00)) {
+                    val splitsRow = layoutInflater.inflate(R.layout.share_strava_split_row, null)
 
-                val splitCount = splitsRow.findViewById<MaterialTextView>(R.id.split_count)
-                splitCount.text = it.split.toString()
+                    val splitCount = splitsRow.findViewById<MaterialTextView>(R.id.split_count)
+                    splitCount.text = it.split.toString()
 
-                val splitDistance = splitsRow.findViewById<MaterialTextView>(R.id.split_pace)
-                val movingTime = "${it.moving_time / 60}m ${it.moving_time % 60}s"
-                splitDistance.text = movingTime
+                    val splitDistance = splitsRow.findViewById<MaterialTextView>(R.id.split_pace)
+                    val movingTime = "${it.moving_time / 60}m ${it.moving_time % 60}s"
+                    splitDistance.text = movingTime
 
-                val splitTime = splitsRow.findViewById<MaterialTextView>(R.id.split_heart_rate)
-                splitTime.text = it.average_heartrate.roundToInt().toString()
+                    val splitTime = splitsRow.findViewById<MaterialTextView>(R.id.split_heart_rate)
+                    splitTime.text = it.average_heartrate.roundToInt().toString()
 
-                binding.splits.addView(splitsRow)
+                    binding.splits.addView(splitsRow)
+                }
             }
         }
 

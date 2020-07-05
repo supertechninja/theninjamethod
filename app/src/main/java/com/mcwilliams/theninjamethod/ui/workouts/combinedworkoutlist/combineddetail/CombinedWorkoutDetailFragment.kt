@@ -21,6 +21,7 @@ import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Worko
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_combined_workout_detail.*
+import kotlinx.android.synthetic.main.strava_workout_detail_fragment.*
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.util.*
@@ -120,7 +121,12 @@ class CombinedWorkoutDetailFragment : Fragment() {
 
             val mapView =
                 stravaWorkoutCardview.findViewById<ImageView>(R.id.map_view)
-            mapView.load(getMapUrl(stravaDetail.map.summary_polyline))
+
+            if (stravaDetail.map!!.summary_polyline.isNullOrEmpty()) {
+                map_view.visibility = View.GONE
+            } else {
+                map_view.load(getMapUrl(stravaDetail.map.summary_polyline!!))
+            }
 
             val workoutDistance =
                 stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.distance)

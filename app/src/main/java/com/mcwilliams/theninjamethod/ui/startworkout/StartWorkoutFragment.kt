@@ -3,6 +3,7 @@ package com.mcwilliams.theninjamethod.ui.startworkout
 import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -11,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
@@ -51,7 +51,7 @@ class StartWorkoutFragment : Fragment() {
         })
 
         //kotlin synthetics for accessing root views
-        val addExercise = view.findViewById<ExtendedFloatingActionButton>(R.id.add_exercise)
+        val addExercise = view.findViewById<MaterialButton>(R.id.add_exercise)
         addExercise.setOnClickListener {
             exerciseName = "SELECT EXERCISE"
 
@@ -126,7 +126,7 @@ class StartWorkoutFragment : Fragment() {
                     addExerciseViewLayout.findViewById<LinearLayout>(R.id.exercise_sets)
                 exerciseSets.addView(addWorkoutSetLayout)
 
-
+                scrollViewContainer.scrollToBottom()
             }
 
             exerciseListView = view.findViewById(R.id.exercise_list)
@@ -136,6 +136,8 @@ class StartWorkoutFragment : Fragment() {
             startWorkoutViewModel.didSaveWorkout.observe(viewLifecycleOwner, Observer {
                 if (it) goBack()
             })
+
+            scrollViewContainer.scrollToBottom()
         }
     }
 
@@ -198,3 +200,9 @@ class StartWorkoutFragment : Fragment() {
     }
 }
 
+fun ScrollView.scrollToBottom() {
+    val lastChild = getChildAt(childCount - 1)
+    val bottom = lastChild.bottom + paddingBottom
+    val delta = bottom - (scrollY + height)
+    smoothScrollBy(0, delta)
+}

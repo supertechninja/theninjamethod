@@ -8,9 +8,9 @@ import com.mcwilliams.theninjamethod.strava.api.Session
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepoImpl
+import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.StravaWorkoutRepository
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutDetailRepository
-import com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
