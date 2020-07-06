@@ -11,10 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.ui.exercises.AddExerciseDialog
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutSet
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
@@ -73,33 +73,7 @@ class StartWorkoutFragment : Fragment() {
                 builder.setItems(arrayOfExercises) { _, which ->
                     //Set the name of the exercise in the UI
                     if (arrayOfExercises[which] == "New") {
-                        val newExerciseView =
-                            layoutInflater.inflate(R.layout.add_exercise_dialog, null)
-                        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
-                            .setTitle("Add Exercise")
-                            .setView(newExerciseView)
-                            .setPositiveButton("Save") { _, _ ->
-                                //do something
-                                val exerciseName =
-                                    newExerciseView.findViewById<TextInputEditText>(R.id.exerciseName).text.toString()
-                                exerciseNameView.text = exerciseName
-                                //TODO limit type to prefill
-                                val exerciseType =
-                                    newExerciseView.findViewById<TextInputEditText>(R.id.exerciseType).text.toString()
-                                val exerciseBodyPart =
-                                    newExerciseView.findViewById<TextInputEditText>(R.id.exerciseBodyPart).text.toString()
-
-                                //Add new exercise to db in background
-                                startWorkoutViewModel.addNewExercise(
-                                    com.mcwilliams.theninjamethod.ui.exercises.db.Exercise(
-                                        0,
-                                        exerciseName,
-                                        exerciseType,
-                                        exerciseBodyPart
-                                    )
-                                )
-                            }
-                        materialAlertDialogBuilder.show()
+                        AddExerciseDialog().show(parentFragmentManager, "TAG")
                     } else {
                         exerciseNameView.text = arrayOfExercises[which]
                     }

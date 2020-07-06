@@ -7,6 +7,7 @@ import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.db.ExerciseDao
 import com.mcwilliams.theninjamethod.ui.exercises.db.ExerciseDatabase
+import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import io.reactivex.Flowable
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -39,6 +40,7 @@ class ExerciseRepository @Inject constructor(
     private suspend fun getRemoteExercises() {
         val data = exerciseApi.getExercises()
         data.exercises.forEach {
+            it.definedExerciseType = ExerciseType.valueOf(it.exerciseType!!)
             runBlocking { addExercises(it) }
         }
         preferences.edit().putBoolean("hasRetrievedExercises", true).apply()
