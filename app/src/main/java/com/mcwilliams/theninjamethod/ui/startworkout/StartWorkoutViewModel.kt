@@ -32,7 +32,7 @@ class StartWorkoutViewModel @ViewModelInject constructor(
     private var _workout = MutableLiveData<Workout>()
     var workout: MutableLiveData<Workout> = _workout
 
-    lateinit var workoutInProgress: Workout
+    var workoutInProgress: Workout? = null
     var listOfExercisesPerformed: MutableList<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise> =
         mutableListOf()
 
@@ -46,8 +46,9 @@ class StartWorkoutViewModel @ViewModelInject constructor(
 
     fun saveWorkout() {
         viewModelScope.launch {
-            manualWorkoutsRepository.addWorkout(workoutInProgress)
+            manualWorkoutsRepository.addWorkout(workoutInProgress!!)
             _didSaveWorkout.postValue(true)
+            workoutInProgress = null
         }
     }
 
@@ -65,25 +66,26 @@ class StartWorkoutViewModel @ViewModelInject constructor(
                 mutableListOf()
             )
         listOfExercisesPerformed.add(newExercise)
-        workoutInProgress.exercises = listOfExercisesPerformed
+        workoutInProgress!!.exercises = listOfExercisesPerformed
         _workout.postValue(workoutInProgress)
     }
 
     //Create empty workout set in exercise to update later
     fun addNewSetToExerciseToWorkout(exercise: String) {
-        val exerciseToAddSetTo = workoutInProgress.exercises!!.find { it.exerciseName == exercise }
+        val exerciseToAddSetTo =
+            workoutInProgress!!.exercises!!.find { it.exerciseName == exercise }
         val currentSetCount = exerciseToAddSetTo!!.sets!!.size
         val newSet = WorkoutSet(currentSetCount.inc(), "", "")
-        workoutInProgress.exercises!!.find { it.exerciseName == exercise }!!.sets!!.add(newSet)
+        workoutInProgress!!.exercises!!.find { it.exerciseName == exercise }!!.sets!!.add(newSet)
         _workout.postValue(workoutInProgress)
     }
 
     //Update set in exercise with values from UI, Finds the exercise in the workout by exerciseName,
     // then finds the sets based on index
     fun updateSetInExercise(index: Int, weight: String, reps: String, exercise: String) {
-        workoutInProgress.exercises!!.find { it.exerciseName == exercise }!!
+        workoutInProgress!!.exercises!!.find { it.exerciseName == exercise }!!
             .sets!!.find { it.index == index }!!.weight = weight
-        workoutInProgress.exercises!!.find { it.exerciseName == exercise }!!
+        workoutInProgress!!.exercises!!.find { it.exerciseName == exercise }!!
             .sets!!.find { it.index == index }!!.reps = reps
         _workout.postValue(workoutInProgress)
     }

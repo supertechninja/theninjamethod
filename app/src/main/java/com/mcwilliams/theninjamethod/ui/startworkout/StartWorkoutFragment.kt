@@ -1,17 +1,20 @@
 package com.mcwilliams.theninjamethod.ui.startworkout
 
 import android.app.Activity
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
@@ -71,6 +74,7 @@ class StartWorkoutFragment : Fragment() {
                 val inputMethodManager =
                     requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                workout_name.clearFocus()
                 true
             } else {
                 false
@@ -99,7 +103,7 @@ class StartWorkoutFragment : Fragment() {
     }
 
     private fun goBack() {
-        Navigation.findNavController(exerciseListView).popBackStack()
+        Navigation.findNavController(requireView()).popBackStack()
     }
 
     private fun drawExerciseRow(isFirstDraw: Boolean, exercise: Exercise?) {
@@ -109,7 +113,14 @@ class StartWorkoutFragment : Fragment() {
             addExerciseViewLayout.findViewById<MaterialTextView>(R.id.exercise_name)
 
         if (isFirstDraw) {
-            exerciseNameView.text = "Choose exercise"
+            exerciseNameView.text = "CHOOSE EXERCISE"
+            exerciseNameView.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.color_secondary
+                )
+            )
+            exerciseNameView.setTypeface(null, Typeface.BOLD)
         } else {
             exerciseNameView.text = exercise!!.exerciseName
         }
@@ -183,7 +194,11 @@ class StartWorkoutFragment : Fragment() {
 
         val addSet = addExerciseViewLayout.findViewById<MaterialButton>(R.id.add_set)
         addSet.setOnClickListener {
-            startWorkoutViewModel.addNewSetToExerciseToWorkout(exercise!!.exerciseName)
+            if (exercise == null) {
+                Snackbar.make(it, "Select an exercise first", Snackbar.LENGTH_SHORT).show()
+            } else {
+                startWorkoutViewModel.addNewSetToExerciseToWorkout(exercise.exerciseName)
+            }
 //            scrollViewContainer.scrollToBottom()
         }
 
