@@ -32,4 +32,8 @@ class ExerciseListViewModel @ViewModelInject constructor(
         viewModelScope.launch { exerciseRepository.deleteExercise(exercise) }
     }
 
+    fun nukeExercisesTable() {
+        viewModelScope.launch { exerciseRepository.nukeTable() }
+    }
+
 }

@@ -1,9 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.exercises
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil.inflate
 import androidx.fragment.app.Fragment
@@ -12,13 +10,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.FragmentHomeBinding
-import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class ExercisesFragment : Fragment() {
@@ -35,6 +31,7 @@ class ExercisesFragment : Fragment() {
         binding = inflate(
             inflater, R.layout.fragment_home, container, false
         )
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -56,24 +53,20 @@ class ExercisesFragment : Fragment() {
         })
 
         binding.addExercise.setOnClickListener {
-            val exerciseDialog = layoutInflater.inflate(R.layout.add_exercise_dialog, null)
-            val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
-                .setTitle("Add Exercise")
-                .setView(exerciseDialog)
-                .setPositiveButton("Save") { _, _ ->
-                    val exerciseName =
-                        exerciseDialog.findViewById<TextInputEditText>(R.id.exerciseName).text.toString()
-                    val exerciseType =
-                        exerciseDialog.findViewById<TextInputEditText>(R.id.exerciseType).text.toString()
-                    val exerciseBodyPart =
-                        exerciseDialog.findViewById<TextInputEditText>(R.id.exerciseBodyPart).text.toString()
-
-                    val exercise = Exercise(0, exerciseName, exerciseType, exerciseBodyPart)
-                    viewModel.addNewExercise(exercise)
-                }
-                .setNegativeButton("Cancel") { _, _ -> }
-            materialAlertDialogBuilder.show()
+            AddExerciseDialog().show(parentFragmentManager, "TAG")
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.exercises_fragment_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (R.id.menu_delete_all == item.itemId) {
+            viewModel.nukeExercisesTable()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private val itemTouchHelperCallback =

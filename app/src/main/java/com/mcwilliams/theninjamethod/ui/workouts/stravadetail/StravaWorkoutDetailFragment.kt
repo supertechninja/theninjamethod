@@ -14,6 +14,7 @@ import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.utils.extensions.getMiles
+import com.mcwilliams.theninjamethod.utils.extensions.getTimeString
 import com.mcwilliams.theninjamethod.utils.extensions.round
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.strava_workout_detail_fragment.*
@@ -39,12 +40,20 @@ class StravaWorkoutDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progress_bar.visibility = View.VISIBLE
+        content_view.visibility = View.GONE
+
         viewModel.getDetailedActivities(workout.id)
         viewModel.detailedActivity.observe(viewLifecycleOwner, Observer { stravaDetail ->
             stravaDetailObj = stravaDetail
             workout_name.text = stravaDetail.name
 
-            map_view.load(getMapUrl(stravaDetail.map.summary_polyline))
+            if (stravaDetail.map!!.summary_polyline.isNullOrEmpty()) {
+                map_view.visibility = View.GONE
+            } else {
+                map_view.load(getMapUrl(stravaDetail.map.summary_polyline!!))
+            }
+
             workout_date.text = stravaDetail.formattedDate
 
             distance.text = stravaDetail.miles
@@ -59,21 +68,28 @@ class StravaWorkoutDetailFragment : Fragment() {
                 heartIcon.visibility = View.GONE
             }
 
-            stravaDetail.splits_standard.forEach {
-                val splitsRow = layoutInflater.inflate(R.layout.strava_split_row, null)
+            if (stravaDetail.splits_standard.isNullOrEmpty()) {
+                llsplits.visibility = View.GONE
+            } else {
+                stravaDetail.splits_standard.forEach {
+                    val splitsRow = layoutInflater.inflate(R.layout.strava_split_row, null)
 
-                val splitCount = splitsRow.findViewById<MaterialTextView>(R.id.split_count)
-                splitCount.text = it.split.toString()
+                    val splitCount = splitsRow.findViewById<MaterialTextView>(R.id.split_count)
+                    splitCount.text = it.split.toString()
 
-                val splitDistance = splitsRow.findViewById<MaterialTextView>(R.id.split_distance)
-                splitDistance.text = it.distance.getMiles().round(2).toString() + " mi"
+                    val splitDistance =
+                        splitsRow.findViewById<MaterialTextView>(R.id.split_distance)
+                    splitDistance.text = it.distance.getMiles().round(2).toString() + " mi"
 
-                val splitTime = splitsRow.findViewById<MaterialTextView>(R.id.split_time)
-                val movingTime = "${it.moving_time / 60}m ${it.moving_time % 60}s"
-                splitTime.text = movingTime
+                    val splitTime = splitsRow.findViewById<MaterialTextView>(R.id.split_time)
+                    splitTime.text = it.moving_time.getTimeString()
 
-                llsplits.addView(splitsRow)
+                    llsplits.addView(splitsRow)
+                }
             }
+
+            progress_bar.visibility = View.GONE
+            content_view.visibility = View.VISIBLE
         })
     }
 

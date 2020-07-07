@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.stravadetail
+package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
 
 import android.content.Context
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
@@ -28,15 +28,18 @@ class StravaWorkoutRepository @Inject constructor(
         val workoutList = mutableListOf<Workout>()
         stravaWorkouts.forEach {
 
-            val date = it.start_date.getDate()
-            val time = it.start_date.getTime()
+            val date = it.start_date_local.getDate()
+            val time = it.start_date_local.getTime()
 
-            val movingTime = "${it.moving_time / 60}m ${it.moving_time % 60}s"
+            val movingTime = it.moving_time.getTimeString()
             val miles = it.distance.getMiles()
-            val milesString = "$miles mi"
 
             val milesPerHour = (it.average_speed * 2.237).round(2)
 
+            val pace = it.moving_time.getPaceFromMovingTime(it.distance)
+            val milesString = "${miles}mi"
+
+            //Set non-api app properties
             it.formattedDate = getDateTimeDisplayString(date, time)
             it.duration = movingTime
             it.miles = milesString
@@ -44,11 +47,11 @@ class StravaWorkoutRepository @Inject constructor(
             val workoutItem =
                 Workout(
                     date,
-                    time.get12HrTime(),
+                    time.toString(),
                     it.name,
                     WorkoutType.STRAVA,
                     milesString,
-                    "$movingTime Pace: $milesPerHour mph",
+                    movingTime,
                     it.id
                 )
 

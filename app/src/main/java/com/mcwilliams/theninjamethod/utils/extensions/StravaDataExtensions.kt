@@ -21,6 +21,17 @@ fun String.getTime(): LocalTime {
     return localDateTime.toLocalTime()
 }
 
+//Calculates pace from the moving time with the distance as an arguement
+fun Int.getPaceFromMovingTime(distance: Float): String {
+    val secondsPerMile = this / (distance / 1609)
+    return secondsPerMile.toInt().getTimeString()
+}
+
+//Returns time based on seconds passed in
+fun Int.getTimeString(): String {
+    return "${(this / 60)}:${(this % 60)}"
+}
+
 fun LocalTime.get12HrTime(): String {
     val pattern = "hh:mm a"
     return this.format(DateTimeFormatter.ofPattern(pattern))
@@ -33,7 +44,7 @@ fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDo
 fun String.fixCase(): String = this.toLowerCase().capitalize()
 
 fun getDateTimeDisplayString(date: LocalDate, time: LocalTime): String =
-    "${date.dayOfWeek.name.fixCase()}, ${date.month.name.fixCase()} ${date.dayOfMonth}, ${date.year} at ${time.get12HrTime()}"
+    "${date.dayOfWeek.name.fixCase()}, ${date.month.name.fixCase()} ${date.dayOfMonth}, ${date.year} at ${time}"
 
 //fun totalWeightLifted(sets: List<WorkoutSet>) : String {
 //    var totalAmountLifted = 0

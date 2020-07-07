@@ -9,24 +9,12 @@ import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
-import com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutRepository
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import kotlin.collections.List
-import kotlin.collections.MutableList
-import kotlin.collections.MutableMap
-import kotlin.collections.distinctBy
-import kotlin.collections.flatten
-import kotlin.collections.forEach
-import kotlin.collections.mutableListOf
-import kotlin.collections.mutableMapOf
 import kotlin.collections.set
-import kotlin.collections.sortedByDescending
-import kotlin.collections.toList
-import kotlin.collections.toMutableList
 
 class WorkoutListViewModel @ViewModelInject constructor(
     sessionRepo: SessionRepository,

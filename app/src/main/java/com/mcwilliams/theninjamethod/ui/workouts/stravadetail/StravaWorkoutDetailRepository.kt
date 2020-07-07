@@ -17,8 +17,8 @@ class StravaWorkoutDetailRepository @Inject constructor(
     }
 
     private fun mapStravaWorkouts(stravaWorkout: StravaActivityDetail): StravaActivityDetail {
-        val date = stravaWorkout.start_date.getDate()
-        val time = stravaWorkout.start_date.getTime()
+        val date = stravaWorkout.start_date_local.getDate()
+        val time = stravaWorkout.start_date_local.getTime()
 
         val movingTime = "${stravaWorkout.moving_time / 60}m ${stravaWorkout.moving_time % 60}s"
         val miles = stravaWorkout.distance.getMiles()

@@ -3,6 +3,7 @@ package com.mcwilliams.theninjamethod.ui.startworkout
 import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -10,11 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.ui.exercises.AddExerciseDialog
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutSet
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
@@ -51,7 +51,7 @@ class StartWorkoutFragment : Fragment() {
         })
 
         //kotlin synthetics for accessing root views
-        val addExercise = view.findViewById<ExtendedFloatingActionButton>(R.id.add_exercise)
+        val addExercise = view.findViewById<MaterialButton>(R.id.add_exercise)
         addExercise.setOnClickListener {
             exerciseName = "SELECT EXERCISE"
 
@@ -73,33 +73,7 @@ class StartWorkoutFragment : Fragment() {
                 builder.setItems(arrayOfExercises) { _, which ->
                     //Set the name of the exercise in the UI
                     if (arrayOfExercises[which] == "New") {
-                        val newExerciseView =
-                            layoutInflater.inflate(R.layout.add_exercise_dialog, null)
-                        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(context)
-                            .setTitle("Add Exercise")
-                            .setView(newExerciseView)
-                            .setPositiveButton("Save") { _, _ ->
-                                //do something
-                                val exerciseName =
-                                    newExerciseView.findViewById<TextInputEditText>(R.id.exerciseName).text.toString()
-                                exerciseNameView.text = exerciseName
-                                //TODO limit type to prefill
-                                val exerciseType =
-                                    newExerciseView.findViewById<TextInputEditText>(R.id.exerciseType).text.toString()
-                                val exerciseBodyPart =
-                                    newExerciseView.findViewById<TextInputEditText>(R.id.exerciseBodyPart).text.toString()
-
-                                //Add new exercise to db in background
-                                startWorkoutViewModel.addNewExercise(
-                                    com.mcwilliams.theninjamethod.ui.exercises.db.Exercise(
-                                        0,
-                                        exerciseName,
-                                        exerciseType,
-                                        exerciseBodyPart
-                                    )
-                                )
-                            }
-                        materialAlertDialogBuilder.show()
+                        AddExerciseDialog().show(parentFragmentManager, "TAG")
                     } else {
                         exerciseNameView.text = arrayOfExercises[which]
                     }
@@ -126,7 +100,7 @@ class StartWorkoutFragment : Fragment() {
                     addExerciseViewLayout.findViewById<LinearLayout>(R.id.exercise_sets)
                 exerciseSets.addView(addWorkoutSetLayout)
 
-
+                scrollViewContainer.scrollToBottom()
             }
 
             exerciseListView = view.findViewById(R.id.exercise_list)
@@ -136,6 +110,8 @@ class StartWorkoutFragment : Fragment() {
             startWorkoutViewModel.didSaveWorkout.observe(viewLifecycleOwner, Observer {
                 if (it) goBack()
             })
+
+            scrollViewContainer.scrollToBottom()
         }
     }
 
@@ -198,3 +174,9 @@ class StartWorkoutFragment : Fragment() {
     }
 }
 
+fun ScrollView.scrollToBottom() {
+    val lastChild = getChildAt(childCount - 1)
+    val bottom = lastChild.bottom + paddingBottom
+    val delta = bottom - (scrollY + height)
+    smoothScrollBy(0, delta)
+}

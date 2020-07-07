@@ -67,7 +67,18 @@ class WorkoutListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 val workoutItemView =
                     WorkoutCardItemViewBinding.inflate(LayoutInflater.from(holder.itemView.context))
                 workoutItemView.workoutName.text = workout.workoutName
-                workoutItemView.workoutDuration.text = workout.stravaTime
+
+                if (workout.workoutType == WorkoutType.STRAVA) {
+                    workoutItemView.distanceLabel.text = "Distance"
+                    workoutItemView.durationLabel.text = "Duration"
+                } else {
+                    workoutItemView.distanceLabel.text = "Weight Lifted"
+                    workoutItemView.durationLabel.text = "Duration"
+                }
+
+                workoutItemView.duration.text = workout.stravaTime
+                workoutItemView.distance.text = workout.stravaDistance
+
                 workoutItemView.root.setOnClickListener {
                     onWorkoutClicked(
                         workoutItemView.root,
