@@ -57,7 +57,7 @@ class ManualWorkoutDetailFragment : Fragment() {
             workout_date.text =
                 "${date.dayOfWeek.name.fixCase()}, ${date.month.name.fixCase()} ${date.dayOfMonth}, ${date.year}"
 
-            for (exercise in it.exercises) {
+            for (exercise in it.exercises!!) {
                 val exerciseRow =
                     layoutInflater.inflate(R.layout.workout_detail_exercise_header_row, null)
                 val exerciseName =
@@ -65,13 +65,13 @@ class ManualWorkoutDetailFragment : Fragment() {
                 exerciseName.text = exercise.exerciseName
                 exercises_and_sets.addView(exerciseRow)
 
-                totalWeightLifted(exercise.sets)
+                totalWeightLifted(exercise.sets!!)
 
                 exercise.sets.forEach {
                     val setRow = layoutInflater.inflate(R.layout.workout_detail_sets_row, null)
 
                     val setNumber = setRow.findViewById<MaterialTextView>(R.id.set_count_detail)
-                    setNumber.text = it.index
+                    setNumber.text = it.index.toString()
                     val setRepsAndWeight =
                         setRow.findViewById<MaterialTextView>(R.id.reps_and_weight_count)
                     setRepsAndWeight.text = "${it.weight}lbs x ${it.reps}"

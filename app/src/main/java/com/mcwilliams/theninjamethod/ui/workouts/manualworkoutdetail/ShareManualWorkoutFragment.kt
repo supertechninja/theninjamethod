@@ -48,7 +48,7 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
         totalWeightLifted.text =
             "Weight Lifted: ${NumberFormat.getNumberInstance(Locale.US).format(amountLifted)}lbs"
 
-        for (exercise in workout.exercises) {
+        for (exercise in workout.exercises!!) {
 
             val shareExerciseSummary =
                 layoutInflater.inflate(R.layout.share_workout_exercise_summary, null)
@@ -57,7 +57,7 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
             val exerciseName = exercise.exerciseName
 
             var setsSummary = ""
-            for (set in exercise.sets) {
+            for (set in exercise.sets!!) {
                 setsSummary += "${set.reps}x${set.weight}lbs, "
             }
 

@@ -81,7 +81,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
             val exercisesListLayout =
                 manualWorkoutCardView.findViewById<LinearLayout>(R.id.llexercises)
 
-            for (exercise in it.exercises) {
+            for (exercise in it.exercises!!) {
 
                 val shareExerciseSummary =
                     layoutInflater.inflate(R.layout.share_workout_exercise_summary, null)
@@ -90,7 +90,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
                 val exerciseName = exercise.exerciseName
 
                 var setsSummary = ""
-                for (set in exercise.sets) {
+                for (set in exercise.sets!!) {
                     setsSummary += "${set.reps}x${set.weight}lbs, "
                 }
 

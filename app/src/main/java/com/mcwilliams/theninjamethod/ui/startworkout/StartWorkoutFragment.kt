@@ -1,26 +1,23 @@
 package com.mcwilliams.theninjamethod.ui.startworkout
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.ScrollView
-import androidx.appcompat.app.AlertDialog
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.exercises.AddExerciseDialog
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutSet
-import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_start_workout.*
-import java.time.LocalDate
 
 
 @AndroidEntryPoint
@@ -30,7 +27,7 @@ class StartWorkoutFragment : Fragment() {
     lateinit var exerciseListView: LinearLayout
     lateinit var loadedExercises: List<com.mcwilliams.theninjamethod.ui.exercises.db.Exercise>
 
-    private val startWorkoutViewModel: StartWorkoutViewModel by viewModels()
+    private val startWorkoutViewModel: StartWorkoutViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,74 +41,47 @@ class StartWorkoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Observing the list of exercises to choose from during a workout
         startWorkoutViewModel.listOfExercises.observe(viewLifecycleOwner, Observer { exercistList ->
             if (!exercistList.isNullOrEmpty()) {
                 loadedExercises = exercistList
             }
         })
 
-        //kotlin synthetics for accessing root views
-        val addExercise = view.findViewById<MaterialButton>(R.id.add_exercise)
-        addExercise.setOnClickListener {
-            exerciseName = "SELECT EXERCISE"
-
-            val addExerciseViewLayout = layoutInflater.inflate(R.layout.add_exercise_row_view, null)
-            val exerciseNameView =
-                addExerciseViewLayout.findViewById<MaterialTextView>(R.id.exercise_name)
-            exerciseNameView.text = exerciseName
-
-            exerciseNameView.setOnClickListener {
-                //Setup exercise picker dialog or full screen dialog or bottom sheet
-                val builder: AlertDialog.Builder = AlertDialog.Builder(it.context)
-                builder.setTitle("Choose Exercise")
-                val exerciseNames = mutableListOf<String>()
-                exerciseNames.add(0, "New")
-                for (exercise in loadedExercises) {
-                    exerciseNames.add(exercise.exerciseName)
+        //Observes changes to workout as the workout is built
+        startWorkoutViewModel.workout.observe(viewLifecycleOwner, Observer { workout ->
+            workout_name.setText(workout.workoutName)
+            exercise_list.removeAllViews()
+            if (!workout.exercises.isNullOrEmpty()) {
+                workout.exercises!!.forEach { exercise ->
+                    drawExerciseRow(false, exercise)
                 }
-                val arrayOfExercises = exerciseNames.toTypedArray()
-                builder.setItems(arrayOfExercises) { _, which ->
-                    //Set the name of the exercise in the UI
-                    if (arrayOfExercises[which] == "New") {
-                        AddExerciseDialog().show(parentFragmentManager, "TAG")
-                    } else {
-                        exerciseNameView.text = arrayOfExercises[which]
-                    }
-                }
-                val dialog: AlertDialog = builder.create()
-                dialog.show()
+            } else {
+                drawExerciseRow(true, null)
             }
+        })
 
-            var setCounter = 0
+        startWorkoutViewModel.didSaveWorkout.observe(viewLifecycleOwner, Observer {
+            if (it) goBack()
+        })
 
-            val addSet = addExerciseViewLayout.findViewById<MaterialButton>(R.id.add_set)
-            addSet.setOnClickListener {
-                val addWorkoutSetLayout =
-                    layoutInflater.inflate(R.layout.add_exercise_sets_row_view, null)
-
-                val setCount = addWorkoutSetLayout.findViewById<MaterialTextView>(R.id.set_count)
-                setCounter = setCounter.inc()
-                setCount.text = setCounter.toString()
-
-                val weight = addWorkoutSetLayout.findViewById<TextInputEditText>(R.id.weight_amount)
-                weight.requestFocus()
-
-                val exerciseSets =
-                    addExerciseViewLayout.findViewById<LinearLayout>(R.id.exercise_sets)
-                exerciseSets.addView(addWorkoutSetLayout)
-
-                scrollViewContainer.scrollToBottom()
+        workout_name.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                startWorkoutViewModel.createWorkout(workout_name.text.toString())
+                val inputMethodManager =
+                    requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                true
+            } else {
+                false
             }
+        }
 
-            exerciseListView = view.findViewById(R.id.exercise_list)
-            exerciseListView.addView(addExerciseViewLayout)
-
-            //Observes if workouts save to db before navigating
-            startWorkoutViewModel.didSaveWorkout.observe(viewLifecycleOwner, Observer {
-                if (it) goBack()
-            })
-
-            scrollViewContainer.scrollToBottom()
+        add_exercise.setOnClickListener {
+            ChooseExerciseDialogFragment(loadedExercises).show(
+                parentFragmentManager,
+                ""
+            )
         }
     }
 
@@ -123,8 +93,7 @@ class StartWorkoutFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (R.id.menu_done == item.itemId) {
-            val workoutToAdd = getWorkoutObject()
-            startWorkoutViewModel.saveWorkout(workoutToAdd)
+            startWorkoutViewModel.saveWorkout()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -133,44 +102,92 @@ class StartWorkoutFragment : Fragment() {
         Navigation.findNavController(exerciseListView).popBackStack()
     }
 
-    private fun getWorkoutObject(): Workout {
-        val exerciseList = mutableListOf<Exercise>()
-        for (exerciseRow in exerciseListView.children) {
-            val exerciseName = exerciseRow.findViewById<MaterialTextView>(R.id.exercise_name)
+    private fun drawExerciseRow(isFirstDraw: Boolean, exercise: Exercise?) {
+        val addExerciseViewLayout =
+            layoutInflater.inflate(R.layout.add_exercise_row_view, null)
+        val exerciseNameView =
+            addExerciseViewLayout.findViewById<MaterialTextView>(R.id.exercise_name)
 
-            val sets = mutableListOf<WorkoutSet>()
-            val setsRowView = exerciseRow.findViewById<LinearLayout>(R.id.exercise_sets)
-
-            for (setsRow in setsRowView.children) {
-                val setCount = setsRow.findViewById<MaterialTextView>(R.id.set_count)
-                val weight = setsRow.findViewById<TextInputEditText>(R.id.weight_amount)
-                val reps = setsRow.findViewById<TextInputEditText>(R.id.rep_count)
-
-                sets.add(
-                    WorkoutSet(
-                        setCount.text.toString(),
-                        weight.text.toString(),
-                        reps.text.toString()
-                    )
-                )
-            }
-
-            val exercise =
-                Exercise(
-                    exerciseName.text.toString(),
-                    "",
-                    "",
-                    sets
-                )
-            exerciseList.add(exercise)
+        if (isFirstDraw) {
+            exerciseNameView.text = "Choose exercise"
+        } else {
+            exerciseNameView.text = exercise!!.exerciseName
+        }
+        exerciseNameView.setOnClickListener {
+            //Setup exercise picker dialog or full screen dialog or bottom sheet
+            ChooseExerciseDialogFragment(loadedExercises).show(
+                parentFragmentManager,
+                ""
+            )
         }
 
-        return Workout(
-            0,
-            workout_name.text.toString(),
-            LocalDate.now().toString(),
-            exerciseList
-        )
+        if (exercise != null) {
+            if (!exercise!!.sets.isNullOrEmpty()) {
+                exercise.sets!!.forEach {
+                    val addWorkoutSetLayout =
+                        layoutInflater.inflate(R.layout.add_exercise_sets_row_view, null)
+
+                    val setCount =
+                        addWorkoutSetLayout.findViewById<MaterialTextView>(R.id.set_count)
+                    setCount.text = it.index.toString()
+
+                    //Shows weight field and sets the text if any
+                    val weight =
+                        addWorkoutSetLayout.findViewById<TextInputEditText>(R.id.weight_amount)
+                    if (it.weight.isEmpty()) {
+                        weight.requestFocus()
+                    } else {
+                        weight.setText(it.weight)
+                    }
+
+                    //Shows reps field and sets the text if any
+                    val reps = addWorkoutSetLayout.findViewById<TextInputEditText>(R.id.rep_count)
+                    if (it.reps.isNotEmpty()) {
+                        reps.setText(it.reps)
+                    }
+
+                    weight.setOnEditorActionListener { v, actionId, event ->
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            startWorkoutViewModel.updateSetInExercise(
+                                it.index,
+                                weight.text.toString(),
+                                reps.text.toString(),
+                                exercise.exerciseName
+                            )
+                            true
+                        } else {
+                            false
+                        }
+                    }
+
+                    reps.setOnEditorActionListener { v, actionId, event ->
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            startWorkoutViewModel.updateSetInExercise(
+                                it.index,
+                                weight.text.toString(),
+                                reps.text.toString(),
+                                exercise.exerciseName
+                            )
+                            true
+                        } else {
+                            false
+                        }
+                    }
+
+                    val exerciseSets =
+                        addExerciseViewLayout.findViewById<LinearLayout>(R.id.exercise_sets)
+                    exerciseSets.addView(addWorkoutSetLayout)
+                }
+            }
+        }
+
+        val addSet = addExerciseViewLayout.findViewById<MaterialButton>(R.id.add_set)
+        addSet.setOnClickListener {
+            startWorkoutViewModel.addNewSetToExerciseToWorkout(exercise!!.exerciseName)
+//            scrollViewContainer.scrollToBottom()
+        }
+
+        exercise_list.addView(addExerciseViewLayout)
     }
 }
 
@@ -180,3 +197,4 @@ fun ScrollView.scrollToBottom() {
     val delta = bottom - (scrollY + height)
     smoothScrollBy(0, delta)
 }
+
