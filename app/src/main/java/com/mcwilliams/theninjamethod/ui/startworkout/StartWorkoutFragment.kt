@@ -53,14 +53,16 @@ class StartWorkoutFragment : Fragment() {
 
         //Observes changes to workout as the workout is built
         startWorkoutViewModel.workout.observe(viewLifecycleOwner, Observer { workout ->
-            workout_name.setText(workout.workoutName)
-            exercise_list.removeAllViews()
-            if (!workout.exercises.isNullOrEmpty()) {
-                workout.exercises!!.forEach { exercise ->
-                    drawExerciseRow(false, exercise)
+            if (workout != null) {
+                workout_name.setText(workout.workoutName)
+                exercise_list.removeAllViews()
+                if (!workout.exercises.isNullOrEmpty()) {
+                    workout.exercises!!.forEach { exercise ->
+                        drawExerciseRow(false, exercise)
+                    }
+                } else {
+                    drawExerciseRow(true, null)
                 }
-            } else {
-                drawExerciseRow(true, null)
             }
         })
 
@@ -81,11 +83,21 @@ class StartWorkoutFragment : Fragment() {
             }
         }
 
+        workout_name.setSelectAllOnFocus(true)
+
         add_exercise.setOnClickListener {
-            ChooseExerciseDialogFragment(loadedExercises).show(
-                parentFragmentManager,
-                ""
-            )
+            if (workout_name.text.toString() == "Set Workout Name") {
+                Snackbar.make(it, "Set Workout Name First", Snackbar.LENGTH_SHORT).show()
+            } else {
+                ChooseExerciseDialogFragment(loadedExercises).show(
+                    parentFragmentManager,
+                    ""
+                )
+            }
+        }
+
+        cancel_workout.setOnClickListener {
+            startWorkoutViewModel.cancelWorkout()
         }
     }
 
@@ -145,10 +157,10 @@ class StartWorkoutFragment : Fragment() {
                     //Shows weight field and sets the text if any
                     val weight =
                         addWorkoutSetLayout.findViewById<TextInputEditText>(R.id.weight_amount)
+                    weight.setText(it.weight)
+
                     if (it.weight.isEmpty()) {
                         weight.requestFocus()
-                    } else {
-                        weight.setText(it.weight)
                     }
 
                     //Shows reps field and sets the text if any
@@ -170,6 +182,17 @@ class StartWorkoutFragment : Fragment() {
                             false
                         }
                     }
+//
+//                    weight.setOnFocusChangeListener { view, focusChange ->
+//                        if (!focusChange) {
+//                            startWorkoutViewModel.updateSetInExercise(
+//                                it.index,
+//                                weight.text.toString(),
+//                                reps.text.toString(),
+//                                exercise.exerciseName
+//                            )
+//                        }
+//                    }
 
                     reps.setOnEditorActionListener { v, actionId, event ->
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -185,21 +208,34 @@ class StartWorkoutFragment : Fragment() {
                         }
                     }
 
+//                    reps.setOnFocusChangeListener { view, focusChange ->
+//                        if (!focusChange) {
+//                            startWorkoutViewModel.updateSetInExercise(
+//                                it.index,
+//                                weight.text.toString(),
+//                                reps.text.toString(),
+//                                exercise.exerciseName
+//                            )
+//                        }
+//                    }
+
+                    val addSet = addExerciseViewLayout.findViewById<MaterialButton>(R.id.add_set)
+                    addSet.setOnClickListener { view ->
+                        startWorkoutViewModel.updateSetInExercise(
+                            it.index,
+                            weight.text.toString(),
+                            reps.text.toString(),
+                            exercise.exerciseName
+                        )
+                        startWorkoutViewModel.addNewSetToExerciseToWorkout(exercise.exerciseName)
+//            scrollViewContainer.scrollToBottom()
+                    }
+
                     val exerciseSets =
                         addExerciseViewLayout.findViewById<LinearLayout>(R.id.exercise_sets)
                     exerciseSets.addView(addWorkoutSetLayout)
                 }
             }
-        }
-
-        val addSet = addExerciseViewLayout.findViewById<MaterialButton>(R.id.add_set)
-        addSet.setOnClickListener {
-            if (exercise == null) {
-                Snackbar.make(it, "Select an exercise first", Snackbar.LENGTH_SHORT).show()
-            } else {
-                startWorkoutViewModel.addNewSetToExerciseToWorkout(exercise.exerciseName)
-            }
-//            scrollViewContainer.scrollToBottom()
         }
 
         exercise_list.addView(addExerciseViewLayout)

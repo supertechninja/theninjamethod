@@ -23,13 +23,13 @@ class StartWorkoutViewModel @ViewModelInject constructor(
     //List of exercises from DB to add to a workout
     var listOfExercises: LiveData<List<Exercise>>
 
-    private var _didSaveWorkout = MutableLiveData<Boolean>()
+    var _didSaveWorkout = MutableLiveData<Boolean>()
     var didSaveWorkout: LiveData<Boolean> = _didSaveWorkout
 
     private var _exercise = MutableLiveData<String>()
     var exercise: MutableLiveData<String> = _exercise
 
-    private var _workout = MutableLiveData<Workout>()
+    var _workout = MutableLiveData<Workout>()
     var workout: MutableLiveData<Workout> = _workout
 
     var workoutInProgress: Workout? = null
@@ -63,7 +63,7 @@ class StartWorkoutViewModel @ViewModelInject constructor(
         val newExercise =
             com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise(
                 s,
-                mutableListOf()
+                mutableListOf(WorkoutSet(1, "", ""))
             )
         listOfExercisesPerformed.add(newExercise)
         workoutInProgress!!.exercises = listOfExercisesPerformed
@@ -90,5 +90,10 @@ class StartWorkoutViewModel @ViewModelInject constructor(
         _workout.postValue(workoutInProgress)
     }
 
+    fun cancelWorkout() {
+        workoutInProgress = null
+        _workout.postValue(workoutInProgress)
+        _didSaveWorkout.postValue(true)
+    }
 
 }

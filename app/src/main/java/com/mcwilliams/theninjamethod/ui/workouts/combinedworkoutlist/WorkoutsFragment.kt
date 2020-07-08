@@ -69,17 +69,16 @@ class WorkoutsFragment : Fragment() {
         }
 
         startWorkout.setOnClickListener {
+            startWorkoutViewModel._didSaveWorkout.postValue(false)
             Navigation.findNavController(it).navigate(R.id.navigate_to_start_workout)
         }
 
         if (startWorkoutViewModel.workoutInProgress != null) {
             Snackbar.make(requireView(), "Workout In Progress", Snackbar.LENGTH_INDEFINITE)
-                .setAction(
-                    "View", View.OnClickListener {
-                        Navigation.findNavController(requireView())
-                            .navigate(R.id.navigate_to_start_workout)
-                    }
-                ).show()
+                .setAction("Resume") {
+                    Navigation.findNavController(requireView())
+                        .navigate(R.id.navigate_to_start_workout)
+                }.show()
         }
     }
 
