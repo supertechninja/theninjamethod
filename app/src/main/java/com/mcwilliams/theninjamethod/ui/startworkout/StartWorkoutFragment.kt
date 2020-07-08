@@ -1,11 +1,12 @@
 package com.mcwilliams.theninjamethod.ui.startworkout
 
 import android.app.Activity
-import android.graphics.Typeface
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.core.content.ContextCompat
@@ -18,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_start_workout.*
@@ -58,10 +60,8 @@ class StartWorkoutFragment : Fragment() {
                 exercise_list.removeAllViews()
                 if (!workout.exercises.isNullOrEmpty()) {
                     workout.exercises!!.forEach { exercise ->
-                        drawExerciseRow(false, exercise)
+                        drawExerciseRow(exercise)
                     }
-                } else {
-                    drawExerciseRow(true, null)
                 }
             }
         })
@@ -118,33 +118,27 @@ class StartWorkoutFragment : Fragment() {
         Navigation.findNavController(requireView()).popBackStack()
     }
 
-    private fun drawExerciseRow(isFirstDraw: Boolean, exercise: Exercise?) {
+    private fun drawExerciseRow(exercise: Exercise?) {
         val addExerciseViewLayout =
             layoutInflater.inflate(R.layout.add_exercise_row_view, null)
         val exerciseNameView =
             addExerciseViewLayout.findViewById<MaterialTextView>(R.id.exercise_name)
 
-        if (isFirstDraw) {
-            exerciseNameView.text = "CHOOSE EXERCISE"
-            exerciseNameView.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.color_secondary
-                )
-            )
-            exerciseNameView.setTypeface(null, Typeface.BOLD)
-        } else {
-            exerciseNameView.text = exercise!!.exerciseName
-        }
-        exerciseNameView.setOnClickListener {
-            //Setup exercise picker dialog or full screen dialog or bottom sheet
-            ChooseExerciseDialogFragment(loadedExercises).show(
-                parentFragmentManager,
-                ""
-            )
-        }
+//        if (isFirstDraw) {
+//            exerciseNameView.text = "CHOOSE EXERCISE"
+//            exerciseNameView.setTextColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.color_secondary
+//                )
+//            )
+//            exerciseNameView.setTypeface(null, Typeface.BOLD)
+//        } else {
+
+//        }
 
         if (exercise != null) {
+            exerciseNameView.text = exercise!!.exerciseName
             if (!exercise!!.sets.isNullOrEmpty()) {
                 exercise.sets!!.forEach {
                     val addWorkoutSetLayout =
@@ -167,6 +161,37 @@ class StartWorkoutFragment : Fragment() {
                     val reps = addWorkoutSetLayout.findViewById<TextInputEditText>(R.id.rep_count)
                     if (it.reps.isNotEmpty()) {
                         reps.setText(it.reps)
+                    }
+
+                    //Modify weight label based on exercise type
+                    val weightLabel =
+                        addExerciseViewLayout.findViewById<MaterialTextView>(R.id.weight_label)
+                    when (exercise.definedExerciseType) {
+                        ExerciseType.bodyweight -> {
+                            weightLabel.text = "(+LBS)"
+                        }
+                        else -> {
+                        }
+                    }
+
+                    val saveSet = addWorkoutSetLayout.findViewById<ImageView>(R.id.save_set)
+                    saveSet.setOnClickListener { view ->
+                        startWorkoutViewModel.updateSetInExercise(
+                            it.index,
+                            weight.text.toString(),
+                            reps.text.toString(),
+                            exercise.exerciseName
+                        )
+                    }
+
+                    if (it.weight.isNotEmpty() && it.reps.isNotEmpty()) {
+                        saveSet.imageTintList =
+                            ColorStateList.valueOf(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.green
+                                )
+                            );
                     }
 
                     weight.setOnEditorActionListener { v, actionId, event ->
@@ -239,6 +264,7 @@ class StartWorkoutFragment : Fragment() {
         }
 
         exercise_list.addView(addExerciseViewLayout)
+        exercise_list.requestFocus()
     }
 }
 

@@ -32,7 +32,12 @@ class ChooseExerciseDialogFragment(private val listOfExercise: List<Exercise>) :
                 if (arrayOfExercises[which] == "New") {
                     AddExerciseDialog().show(parentFragmentManager, "TAG")
                 } else {
-                    startWorkoutViewModel.addExerciseToWorkout(arrayOfExercises[which])
+                    val exercise = arrayOfExercises[which]
+                    val exerciseObj = listOfExercise.find { it.exerciseName == exercise }
+                    startWorkoutViewModel.addExerciseToWorkout(
+                        exerciseObj!!.exerciseName,
+                        exerciseObj.definedExerciseType!!
+                    )
                 }
             }
             // Add customization options here

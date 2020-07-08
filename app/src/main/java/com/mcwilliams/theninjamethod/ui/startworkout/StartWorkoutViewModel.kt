@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
+import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutSet
@@ -59,10 +60,14 @@ class StartWorkoutViewModel @ViewModelInject constructor(
     }
 
     //Create an exercise with an empty list of sets
-    fun addExerciseToWorkout(s: String) {
+    fun addExerciseToWorkout(
+        s: String,
+        definedExerciseType: ExerciseType
+    ) {
         val newExercise =
             com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise(
                 s,
+                definedExerciseType,
                 mutableListOf(WorkoutSet(1, "", ""))
             )
         listOfExercisesPerformed.add(newExercise)
