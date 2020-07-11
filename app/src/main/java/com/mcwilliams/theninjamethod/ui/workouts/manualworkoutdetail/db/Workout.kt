@@ -10,7 +10,7 @@ import java.io.Serializable
 @Entity
 data class Workout(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    @ColumnInfo(name = "workout_name") val workoutName: String,
+    @ColumnInfo(name = "workout_name") var workoutName: String,
     @ColumnInfo(name = "workout_date") val workoutDate: String,
     @TypeConverters(ExerciseTypeConverter::class)
     var exercises: MutableList<Exercise>? = mutableListOf()

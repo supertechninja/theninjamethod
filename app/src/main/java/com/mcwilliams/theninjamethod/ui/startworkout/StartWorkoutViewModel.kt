@@ -59,6 +59,11 @@ class StartWorkoutViewModel @ViewModelInject constructor(
         _workout.postValue(workoutInProgress)
     }
 
+    fun updateWorkoutName(workoutName: String) {
+        workoutInProgress!!.workoutName = workoutName
+        _workout.postValue(workoutInProgress)
+    }
+
     //Create an exercise with an empty list of sets
     fun addExerciseToWorkout(
         s: String,

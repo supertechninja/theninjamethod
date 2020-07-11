@@ -21,8 +21,10 @@ import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise
+import com.mcwilliams.theninjamethod.utils.OnSwipeTouchListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_start_workout.*
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -45,6 +47,9 @@ class StartWorkoutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val timeOfDay = getTimeOfDay()
+        startWorkoutViewModel.createWorkout(timeOfDay)
 
         //Observing the list of exercises to choose from during a workout
         startWorkoutViewModel.listOfExercises.observe(viewLifecycleOwner, Observer { exercistList ->
@@ -72,7 +77,7 @@ class StartWorkoutFragment : Fragment() {
 
         workout_name.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                startWorkoutViewModel.createWorkout(workout_name.text.toString())
+                startWorkoutViewModel.updateWorkoutName(workout_name.text.toString())
                 val inputMethodManager =
                     requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
@@ -258,6 +263,19 @@ class StartWorkoutFragment : Fragment() {
 
                     val exerciseSets =
                         addExerciseViewLayout.findViewById<LinearLayout>(R.id.exercise_sets)
+                    addWorkoutSetLayout.setOnTouchListener(object : OnSwipeTouchListener() {
+                        override fun onSwipeLeft() {
+                            Snackbar.make(
+                                addExerciseViewLayout,
+                                "Are you sure you want to delete?",
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        override fun onSwipeRight() {
+
+                        }
+                    })
                     exerciseSets.addView(addWorkoutSetLayout)
                 }
             }
@@ -273,5 +291,24 @@ fun ScrollView.scrollToBottom() {
     val bottom = lastChild.bottom + paddingBottom
     val delta = bottom - (scrollY + height)
     smoothScrollBy(0, delta)
+}
+
+fun getTimeOfDay(): String {
+    val c: Calendar = Calendar.getInstance()
+    return when (c.get(Calendar.HOUR_OF_DAY)) {
+        in 0..11 -> {
+            return "Morning Workout"
+        }
+        in 12..15 -> {
+            return "Afternoon Workout"
+        }
+        in 16..20 -> {
+            return "Evening Workout"
+        }
+        in 21..23 -> {
+            return "Nighttime Workout"
+        }
+        else -> "Workout Name"
+    }
 }
 
