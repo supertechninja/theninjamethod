@@ -15,13 +15,13 @@ import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.FragmentCombinedWorkoutDetailBinding
+import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutSet
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_combined_workout_detail.*
-import kotlinx.android.synthetic.main.strava_workout_detail_fragment.*
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.util.*
@@ -53,15 +53,34 @@ class CombinedWorkoutDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val workout = combinedWorkout.second
-        workout.forEach {
-            when (it.workoutType) {
+        val listOfStravaWorkouts: MutableList<Workout> = mutableListOf()
+        val listOfManualWorkouts: MutableList<Workout> = mutableListOf()
+        for (workout in combinedWorkout.second) {
+            when (workout.workoutType) {
                 WorkoutType.LIFTING -> {
-                    viewModel.getManualWorkoutDetail(it.id)
+                    listOfManualWorkouts.add(workout)
                 }
                 WorkoutType.STRAVA -> {
-                    viewModel.getDetailedActivities(it.id)
+                    listOfStravaWorkouts.add(workout)
                 }
+            }
+        }
+
+        if (listOfManualWorkouts.isNotEmpty()) {
+            if (listOfManualWorkouts.size > 1) {
+//            val ids = listOfStravaWorkouts.map { it.id }
+//            viewModel.getManualWorkoutDetail(ids)
+            } else {
+                viewModel.getManualWorkoutDetail(listOfManualWorkouts[0].id)
+            }
+        }
+
+        if (listOfStravaWorkouts.isNotEmpty()) {
+            if (listOfStravaWorkouts.size > 1) {
+                val ids = listOfStravaWorkouts.map { it.id }
+                viewModel.getMultipleDetailedActivities(ids)
+            } else {
+                viewModel.getDetailedActivities(listOfStravaWorkouts[0].id)
             }
         }
 
@@ -112,36 +131,47 @@ class CombinedWorkoutDetailFragment : Fragment() {
 
         viewModel.detailedActivity.observe(viewLifecycleOwner, Observer { stravaDetail ->
             //load strava workout
-            val stravaWorkoutCardview =
-                layoutInflater.inflate(R.layout.combined_strava_workout_cardview, null)
-
-            val workoutName =
-                stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.workout_name)
-            workoutName.text = stravaDetail.name
-
-            val mapView =
-                stravaWorkoutCardview.findViewById<ImageView>(R.id.map_view)
-
-            if (stravaDetail.map!!.summary_polyline.isNullOrEmpty()) {
-                map_view.visibility = View.GONE
-            } else {
-                map_view.load(getMapUrl(stravaDetail.map.summary_polyline!!))
-            }
-
-            val workoutDistance =
-                stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.distance)
-            workoutDistance.text = stravaDetail.miles
-
-            val workoutDuration =
-                stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.workout_duration)
-            workoutDuration.text = stravaDetail.miles
-
-            val caloriesBurned =
-                stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.calories_burned)
-            caloriesBurned.text = stravaDetail.calories.toString()
-
-            workout_card_container.addView(stravaWorkoutCardview)
+            drawStravaDetailCards(stravaDetail)
         })
+
+        viewModel.detailedActivities.observe(viewLifecycleOwner, Observer { stravaDetail ->
+            //load strava workout
+            stravaDetail.forEach {
+                drawStravaDetailCards(it)
+            }
+        })
+    }
+
+    fun drawStravaDetailCards(stravaDetail: StravaActivityDetail) {
+        val stravaWorkoutCardview =
+            layoutInflater.inflate(R.layout.combined_strava_workout_cardview, null)
+
+        val workoutName =
+            stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.workout_name)
+        workoutName.text = stravaDetail.name
+
+        val mapView =
+            stravaWorkoutCardview.findViewById<ImageView>(R.id.map_view)
+
+        if (stravaDetail.map!!.summary_polyline.isNullOrEmpty()) {
+            mapView.visibility = View.GONE
+        } else {
+            mapView.load(getMapUrl(stravaDetail.map.summary_polyline!!))
+        }
+
+        val workoutDistance =
+            stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.distance)
+        workoutDistance.text = stravaDetail.miles
+
+        val workoutDuration =
+            stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.workout_duration)
+        workoutDuration.text = stravaDetail.duration
+
+        val caloriesBurned =
+            stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.calories_burned)
+        caloriesBurned.text = stravaDetail.calories.toString()
+
+        workout_card_container.addView(stravaWorkoutCardview)
     }
 
     fun getMapUrl(polyline: String): String {

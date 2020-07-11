@@ -20,6 +20,9 @@ class CombinedWorkoutViewModel @ViewModelInject constructor(
     var _detailedActivity: MutableLiveData<StravaActivityDetail> = MutableLiveData()
     var detailedActivity: LiveData<StravaActivityDetail> = _detailedActivity
 
+    var _detailedActivities: MutableLiveData<List<StravaActivityDetail>> = MutableLiveData()
+    var detailedActivities: LiveData<List<StravaActivityDetail>> = _detailedActivities
+
     var _workout: MutableLiveData<Workout> = MutableLiveData()
     var workout: LiveData<Workout> = _workout
 
@@ -32,4 +35,10 @@ class CombinedWorkoutViewModel @ViewModelInject constructor(
         detailedActivity =
             stravaDetailRepository.getStravaItemDetail(id).toLiveData(rootDisposable) { it }
     }
+
+    fun getMultipleDetailedActivities(id: List<Number>) {
+        detailedActivities =
+            stravaDetailRepository.getMultipleStravaDetails(id).toLiveData(rootDisposable) { it }
+    }
+
 }

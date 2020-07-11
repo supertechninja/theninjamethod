@@ -32,6 +32,11 @@ fun Int.getTimeString(): String {
     return "${(this / 60)}:${(this % 60)}"
 }
 
+//Returns time based on seconds passed in
+fun Int.getTimeFloat(): Float {
+    return "${(this / 60)}.${((this % 60))}".toFloat()
+}
+
 fun LocalTime.get12HrTime(): String {
     val pattern = "hh:mm a"
     return this.format(DateTimeFormatter.ofPattern(pattern))
