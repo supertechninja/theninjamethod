@@ -10,8 +10,15 @@ import java.io.Serializable
 @Entity
 data class Workout(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    @ColumnInfo(name = "workout_name") val workoutName: String,
+    @ColumnInfo(name = "workout_name") var workoutName: String,
     @ColumnInfo(name = "workout_date") val workoutDate: String,
     @TypeConverters(ExerciseTypeConverter::class)
-    val exercises: List<Exercise>
-) : Serializable
+    var exercises: MutableList<Exercise>? = mutableListOf()
+) : Serializable {
+    constructor(id: Int, workoutName: String, workoutDate: String) : this(
+        id,
+        workoutName,
+        workoutDate,
+        null
+    )
+}

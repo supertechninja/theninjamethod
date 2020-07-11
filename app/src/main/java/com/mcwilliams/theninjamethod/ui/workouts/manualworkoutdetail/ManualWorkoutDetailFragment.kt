@@ -12,6 +12,7 @@ import androidx.navigation.Navigation
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.WorkoutDetailFragmentBinding
+import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutSet
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
@@ -57,7 +58,9 @@ class ManualWorkoutDetailFragment : Fragment() {
             workout_date.text =
                 "${date.dayOfWeek.name.fixCase()}, ${date.month.name.fixCase()} ${date.dayOfMonth}, ${date.year}"
 
-            for (exercise in it.exercises) {
+            exercises_and_sets.removeAllViews()
+            for (exercise in it.exercises!!) {
+
                 val exerciseRow =
                     layoutInflater.inflate(R.layout.workout_detail_exercise_header_row, null)
                 val exerciseName =
@@ -65,22 +68,38 @@ class ManualWorkoutDetailFragment : Fragment() {
                 exerciseName.text = exercise.exerciseName
                 exercises_and_sets.addView(exerciseRow)
 
-                totalWeightLifted(exercise.sets)
+                totalWeightLifted(exercise.sets!!)
 
-                exercise.sets.forEach {
+                exercise.sets.forEach { exerciseSet ->
                     val setRow = layoutInflater.inflate(R.layout.workout_detail_sets_row, null)
 
                     val setNumber = setRow.findViewById<MaterialTextView>(R.id.set_count_detail)
-                    setNumber.text = it.index
+                    setNumber.text = exerciseSet.index.toString()
                     val setRepsAndWeight =
                         setRow.findViewById<MaterialTextView>(R.id.reps_and_weight_count)
-                    setRepsAndWeight.text = "${it.weight}lbs x ${it.reps}"
+
+                    when (exercise.definedExerciseType) {
+                        ExerciseType.bodyweight -> {
+                            if (exerciseSet.weight.toInt() > 0) {
+                                setRepsAndWeight.text =
+                                    "+${exerciseSet.weight}lbs x ${exerciseSet.reps}"
+                            } else {
+                                setRepsAndWeight.text = "${exerciseSet.reps} reps"
+                            }
+                        }
+                        else -> {
+                            setRepsAndWeight.text = "${exerciseSet.weight}lbs x ${exerciseSet.reps}"
+                        }
+                    }
 
                     val onRepMaxTextView =
                         setRow.findViewById<MaterialTextView>(R.id.one_rep_max_value)
-                    val oneRepMax =
-                        (it.weight.toInt() / (1.0278 - (0.0278 * it.reps.toInt()))).toInt()
-                    onRepMaxTextView.text = oneRepMax.toString() + "lbs"
+
+                    if (exerciseSet.weight.isNotEmpty() && exerciseSet.reps.isNotEmpty()) {
+                        val oneRepMax =
+                            (exerciseSet.weight.toInt() / (1.0278 - (0.0278 * exerciseSet.reps.toInt()))).toInt()
+                        onRepMaxTextView.text = oneRepMax.toString() + "lbs"
+                    }
 
                     exercises_and_sets.addView(setRow)
                 }
@@ -114,7 +133,9 @@ class ManualWorkoutDetailFragment : Fragment() {
 
     private fun totalWeightLifted(sets: List<WorkoutSet>) {
         sets.forEach {
-            totalAmountLifted += (it.weight.toInt() * it.reps.toInt())
+            if (it.weight.isNotEmpty() && it.reps.isNotEmpty()) {
+                totalAmountLifted += (it.weight.toInt() * it.reps.toInt())
+            }
         }
     }
 }

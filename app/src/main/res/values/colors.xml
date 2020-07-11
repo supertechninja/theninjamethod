@@ -39,4 +39,5 @@
     <color name="color_on_error">#ffffff</color>
 
     <color name="card_background">#2E2E2E</color>
+    <color name="green">#008000</color>
 </resources>

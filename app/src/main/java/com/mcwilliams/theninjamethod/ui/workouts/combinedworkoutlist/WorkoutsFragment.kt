@@ -7,12 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_workouts.*
 
@@ -23,6 +25,7 @@ class WorkoutsFragment : Fragment() {
     private var errorSnackbar: Snackbar? = null
 
     private val viewModel: WorkoutListViewModel by viewModels()
+    private val startWorkoutViewModel: StartWorkoutViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +69,16 @@ class WorkoutsFragment : Fragment() {
         }
 
         startWorkout.setOnClickListener {
+            startWorkoutViewModel._didSaveWorkout.postValue(false)
             Navigation.findNavController(it).navigate(R.id.navigate_to_start_workout)
+        }
+
+        if (startWorkoutViewModel.workoutInProgress != null) {
+            Snackbar.make(requireView(), "Workout In Progress", Snackbar.LENGTH_INDEFINITE)
+                .setAction("Resume") {
+                    Navigation.findNavController(requireView())
+                        .navigate(R.id.navigate_to_start_workout)
+                }.show()
         }
     }
 

@@ -13,11 +13,12 @@ import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
-import com.mcwilliams.theninjamethod.utils.extensions.getMiles
+import com.mcwilliams.theninjamethod.utils.extensions.getTimeFloat
 import com.mcwilliams.theninjamethod.utils.extensions.getTimeString
-import com.mcwilliams.theninjamethod.utils.extensions.round
+import com.robinhood.spark.SparkAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.strava_workout_detail_fragment.*
+
 
 @AndroidEntryPoint
 class StravaWorkoutDetailFragment : Fragment() {
@@ -68,23 +69,39 @@ class StravaWorkoutDetailFragment : Fragment() {
                 heartIcon.visibility = View.GONE
             }
 
+            var splitsPaceArray: MutableList<Float> = mutableListOf()
+
             if (stravaDetail.splits_standard.isNullOrEmpty()) {
                 llsplits.visibility = View.GONE
             } else {
                 stravaDetail.splits_standard.forEach {
-                    val splitsRow = layoutInflater.inflate(R.layout.strava_split_row, null)
+                    if ((it.distance > 50.00)) {
+                        val splitsRow = layoutInflater.inflate(R.layout.strava_split_row, null)
 
-                    val splitCount = splitsRow.findViewById<MaterialTextView>(R.id.split_count)
-                    splitCount.text = it.split.toString()
+                        val splitCount = splitsRow.findViewById<MaterialTextView>(R.id.split_count)
+                        splitCount.text = it.split.toString()
 
-                    val splitDistance =
-                        splitsRow.findViewById<MaterialTextView>(R.id.split_distance)
-                    splitDistance.text = it.distance.getMiles().round(2).toString() + " mi"
+                        val splitDistance =
+                            splitsRow.findViewById<MaterialTextView>(R.id.split_distance)
+                        splitDistance.text = it.moving_time.getTimeString()
 
-                    val splitTime = splitsRow.findViewById<MaterialTextView>(R.id.split_time)
-                    splitTime.text = it.moving_time.getTimeString()
+                        val splitTime = splitsRow.findViewById<MaterialTextView>(R.id.split_time)
+                        splitTime.text = it.average_heartrate.toInt().toString() + " bpm"
 
-                    llsplits.addView(splitsRow)
+                        splitsPaceArray.add(it.moving_time.getTimeFloat())
+
+                        llsplits.addView(splitsRow)
+                    }
+                }
+            }
+
+            if (stravaDetail.splits_standard.isNullOrEmpty()) {
+                sparkview.visibility = View.GONE
+            } else {
+                sparkview.adapter = MyAdapter(splitsPaceArray.toFloatArray())
+                sparkview.isScrubEnabled = true
+                sparkview.setScrubListener { value ->
+                    split_detail.text = getString(R.string.scrub_format, value)
                 }
             }
 
@@ -115,3 +132,20 @@ class StravaWorkoutDetailFragment : Fragment() {
 
 
 }
+
+
+class MyAdapter(private val yData: FloatArray) : SparkAdapter() {
+    override fun getCount(): Int {
+        return yData.size
+    }
+
+    override fun getItem(index: Int): Any {
+        return yData[index]
+    }
+
+    override fun getY(index: Int): Float {
+        return yData[index]
+    }
+}
+
+

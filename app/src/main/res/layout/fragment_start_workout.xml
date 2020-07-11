@@ -5,22 +5,36 @@
     android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/scrollViewContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/scrollViewContainer">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="16dp">
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/workout_name"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:hint="Workout Name"
+                android:id="@+id/workout_name_layout"
+                app:boxBackgroundMode="none"
+                app:boxStrokeColor="@null"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="wrap_content"
+                    android:id="@+id/workout_name"
+                    android:text="Set Workout Name"
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:id="@+id/exercise_list"
@@ -30,18 +44,29 @@
                 android:layout_marginBottom="32dp"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/workout_name" />
+                app:layout_constraintTop_toBottomOf="@id/workout_name_layout" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_exercise"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Add Exercise"
-                android:id="@+id/add_exercise"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/exercise_list"
-                android:paddingBottom="40dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/exercise_list" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel_workout"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textColor="@color/color_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="40dp"
+                android:text="Cancel Workout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_exercise" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.ShareWorkoutImageBinding
+import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
 import com.muddzdev.quickshot.QuickShot
 import kotlinx.android.synthetic.main.share_workout_image.*
@@ -48,7 +49,7 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
         totalWeightLifted.text =
             "Weight Lifted: ${NumberFormat.getNumberInstance(Locale.US).format(amountLifted)}lbs"
 
-        for (exercise in workout.exercises) {
+        for (exercise in workout.exercises!!) {
 
             val shareExerciseSummary =
                 layoutInflater.inflate(R.layout.share_workout_exercise_summary, null)
@@ -57,8 +58,20 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
             val exerciseName = exercise.exerciseName
 
             var setsSummary = ""
-            for (set in exercise.sets) {
-                setsSummary += "${set.reps}x${set.weight}lbs, "
+            for (set in exercise.sets!!) {
+                val weightAndRepsString = when (exercise.definedExerciseType) {
+                    ExerciseType.bodyweight -> {
+                        if (set.weight.toInt() > 0) {
+                            "${set.reps}x +${set.weight}lbs, "
+                        } else {
+                            "${set.reps} reps, "
+                        }
+                    }
+                    else -> {
+                        "${set.reps}x${set.weight}lbs, "
+                    }
+                }
+                setsSummary += weightAndRepsString
             }
 
             val setsSummaryFormatted = setsSummary.substring(0, (setsSummary.length - 2))
