@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,9 +20,13 @@ import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.AccessScope
 import com.mcwilliams.theninjamethod.strava.ApprovalPrompt
 import com.mcwilliams.theninjamethod.strava.StravaLogin
+import com.mcwilliams.theninjamethod.strava.model.athlete.ActivityTotal
 import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
+import kotlinx.android.synthetic.main.fragment_settings.athleteName
+import kotlinx.android.synthetic.main.fragment_settings.btnLogin2Strava
+import kotlinx.android.synthetic.main.fragment_settings.view.*
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -41,17 +46,30 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.detailedAthlete.observe(viewLifecycleOwner, Observer { dathlete ->
-            detailed_athlete.text = dathlete.toString()
+            profile_zone.visibility = View.VISIBLE
             profile_picture.load(dathlete.profile_medium)
-            detailed_athlete.hideOtherViews()
+            athleteName.text = "${dathlete.firstname} ${dathlete.lastname}"
+            username.text = dathlete.username
+            location.text = "${dathlete.city}, ${dathlete.state}, ${dathlete.country}"
+        })
+
+        viewModel.activityStats.observe(viewLifecycleOwner, Observer { stats ->
+            totals_sv.visibility = View.VISIBLE
+            addTotalView("All Ride Totals", stats.all_ride_totals)
+            addTotalView("All Run Totals", stats.all_run_totals)
+            addTotalView("All Swim Totals", stats.all_swim_totals)
+            addTotalView("Recent Ride Totals", stats.recent_ride_totals)
+            addTotalView("Recent Run Totals", stats.recent_run_totals)
+            addTotalView("Recent Swim Totals", stats.recent_swim_totals)
+            addTotalView("YTD Ride Totals", stats.ytd_ride_totals)
+            addTotalView("YTD Run Totals", stats.ytd_run_totals)
+            addTotalView("YTD Swim Totals", stats.ytd_swim_totals)
         })
 
         viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
             if (it) {
                 btnLogin2Strava.visibility = View.GONE
-                athleteName.visibility = View.GONE
                 loginWebview.visibility = View.GONE
-                detailed_athlete.visibility = View.VISIBLE
                 viewModel.loadDetailedAthlete()
             } else {
                 btnLogin2Strava.visibility = View.VISIBLE
@@ -72,6 +90,12 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    private fun addTotalView(title: String, at: ActivityTotal) {
+        context?.let {
+            totals.addView(ActivityTotalCard(it,  title, at, null, 0))
+        }
+    }
+
     //Called after permission granted in webview auth
     private fun handleStravaLogin(code: String) {
         viewModel.loginAthlete(code)
@@ -79,8 +103,7 @@ class SettingsFragment : Fragment() {
 
     private fun View.hideOtherViews() {
         btnLogin2Strava.visibility = View.GONE
-        athleteName.visibility = View.GONE
-        detailed_athlete.visibility = View.GONE
+        profile_zone.visibility = View.GONE
         loginWebview.visibility = View.GONE
         this.visibility = View.VISIBLE
     }

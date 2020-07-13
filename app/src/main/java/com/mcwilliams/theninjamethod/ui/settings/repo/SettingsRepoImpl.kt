@@ -6,6 +6,7 @@ import com.mcwilliams.theninjamethod.strava.api.Session
 import com.mcwilliams.theninjamethod.strava.GrantType
 import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
+import com.mcwilliams.theninjamethod.strava.model.athlete.ActivityStats
 import com.mcwilliams.theninjamethod.strava.model.athlete.StravaAthlete
 import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +26,11 @@ class SettingsRepoImpl @Inject constructor(
     override suspend fun fetchAthlete(): Result<StravaAthlete?> = withContext(Dispatchers.IO) {
         val request = athleteApi.getAthlete()
         Log.i("CHRIS", "fetchAthlete has a result")
+        Result.Success(request)
+    }
+
+    override suspend fun fetchAthleteStats(id: Long): Result<ActivityStats?> = withContext(Dispatchers.IO) {
+        val request = athleteApi.getActivityStats(id)
         Result.Success(request)
     }
 
