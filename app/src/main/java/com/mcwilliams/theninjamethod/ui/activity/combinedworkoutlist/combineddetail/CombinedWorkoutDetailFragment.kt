@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.combineddetail
+package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.combineddetail
 
 import android.os.Bundle
 import android.view.*
@@ -16,9 +16,10 @@ import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.FragmentCombinedWorkoutDetailBinding
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutSet
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutSet
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutType
+import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_combined_workout_detail.*
@@ -110,22 +111,40 @@ class CombinedWorkoutDetailFragment : Fragment() {
 
                 var setsSummary = ""
                 for (set in exercise.sets!!) {
-                    setsSummary += "${set.reps}x${set.weight}lbs, "
+                    val weightAndRepsString = when (exercise.definedExerciseType) {
+                        ExerciseType.bodyweight -> {
+                            if (set.weight.toInt() > 0) {
+                                "${set.reps}x +${set.weight}lbs, "
+                            } else {
+                                "${set.reps}, "
+                            }
+                        }
+                        else -> {
+                            "${set.reps}x${set.weight}lbs, "
+                        }
+                    }
+                    setsSummary += weightAndRepsString
+
                 }
+
+                val setsSummaryFormatted = setsSummary.substring(0, (setsSummary.length - 2))
+                exerciseSummary.text = "$exerciseName: $setsSummaryFormatted"
 
                 totalWeightLifted(exercise.sets)
 
-                val setsSummaryFormatted = setsSummary.substring(0, (setsSummary.length - 2))
-
-                exerciseSummary.text = "$exerciseName: $setsSummaryFormatted"
                 exercisesListLayout.addView(shareExerciseSummary)
             }
 
             val workoutWeightLifted =
                 manualWorkoutCardView.findViewById<MaterialTextView>(R.id.tvWeightLifted)
-            workoutWeightLifted.text =
-                NumberFormat.getNumberInstance(Locale.US).format(totalAmountLifted) + "lbs lifted"
 
+            if (totalAmountLifted > 0) {
+                workoutWeightLifted.text =
+                    NumberFormat.getNumberInstance(Locale.US)
+                        .format(totalAmountLifted) + "lbs lifted"
+            } else {
+                workoutWeightLifted.visibility = View.GONE
+            }
             workout_card_container.addView(manualWorkoutCardView)
         })
 
@@ -186,7 +205,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (R.id.menu_share == item.itemId) {
             val bundle = bundleOf(
-                "workout" to combinedWorkout
+                "manualworkout" to combinedWorkout
             )
             Navigation.findNavController(rootView.root)
                 .navigate(R.id.navigate_to_share_combined_workout, bundle)

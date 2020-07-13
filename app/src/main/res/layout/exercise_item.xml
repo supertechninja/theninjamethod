@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="exerciseViewModel"
             type="com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseViewModel" />
@@ -15,19 +18,32 @@
         <TextView
             android:id="@+id/exercise_title"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceBody1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:mutableText="@{exerciseViewModel.getExerciseTitle()}" />
+            app:mutableText="@{exerciseViewModel.getExerciseTitle()}"
+            tools:text="Muscle Ups" />
+
+        <TextView
+            android:id="@+id/exercise_muscle_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:layout_marginTop="3dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/exercise_title"
+            app:mutableText="@{exerciseViewModel.getBodyPart()}"
+            tools:text="Shoulders" />
 
         <TextView
             android:id="@+id/exercise_body"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:textAppearance="?attr/textAppearanceBody1"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceHeadline6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:mutableText="@{exerciseViewModel.getExerciseBody()}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

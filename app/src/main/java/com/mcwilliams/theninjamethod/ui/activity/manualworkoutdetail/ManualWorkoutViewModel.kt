@@ -1,11 +1,11 @@
-package com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail
+package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
 import kotlinx.coroutines.launch
 
 class ManualWorkoutViewModel @ViewModelInject constructor(

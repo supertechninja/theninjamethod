@@ -5,12 +5,12 @@ import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import com.mcwilliams.theninjamethod.strava.api.Session
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.StravaWorkoutRepository
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
+import com.mcwilliams.theninjamethod.ui.activity.stravadetail.StravaWorkoutDetailRepository
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepoImpl
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.StravaWorkoutRepository
-import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
-import com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutDetailRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

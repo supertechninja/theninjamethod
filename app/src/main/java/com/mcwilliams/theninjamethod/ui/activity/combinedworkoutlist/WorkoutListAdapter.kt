@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
+package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.StravaWorkoutItemBinding
 import com.mcwilliams.theninjamethod.databinding.WorkoutCardItemViewBinding
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutType
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import java.time.LocalDate
 

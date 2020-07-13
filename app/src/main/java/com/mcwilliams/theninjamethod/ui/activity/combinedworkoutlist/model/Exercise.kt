@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model
+package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model
 
 import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 

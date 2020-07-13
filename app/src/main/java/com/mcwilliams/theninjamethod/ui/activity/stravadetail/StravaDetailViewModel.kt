@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.stravadetail
+package com.mcwilliams.theninjamethod.ui.activity.stravadetail
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData

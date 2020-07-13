@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail
+package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail
 
 import android.os.Bundle
 import android.util.Log
@@ -12,9 +12,9 @@ import androidx.navigation.Navigation
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.WorkoutDetailFragmentBinding
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutSet
 import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutSet
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.workout_detail_fragment.*
@@ -27,7 +27,7 @@ class ManualWorkoutDetailFragment : Fragment() {
 
     private lateinit var binding: WorkoutDetailFragmentBinding
     lateinit var workout: Workout
-    lateinit var detailedWorkout: com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
+    lateinit var detailedWorkout: com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
     private val viewModel: ManualWorkoutViewModel by viewModels()
     private var totalAmountLifted = 0
 

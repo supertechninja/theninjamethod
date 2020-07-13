@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
+package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
 import android.os.Bundle
 import android.util.Log

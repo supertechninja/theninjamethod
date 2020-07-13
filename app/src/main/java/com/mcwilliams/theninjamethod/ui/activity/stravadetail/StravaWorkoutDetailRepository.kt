@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.stravadetail
+package com.mcwilliams.theninjamethod.ui.activity.stravadetail
 
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail

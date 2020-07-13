@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.stravadetail
+package com.mcwilliams.theninjamethod.ui.activity.stravadetail
 
 import android.os.Bundle
 import android.view.*
@@ -12,7 +12,7 @@ import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.utils.extensions.getTimeFloat
 import com.mcwilliams.theninjamethod.utils.extensions.getTimeString
 import com.robinhood.spark.SparkAdapter

@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
+package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.theninjamethod.strava.SessionRepository
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction

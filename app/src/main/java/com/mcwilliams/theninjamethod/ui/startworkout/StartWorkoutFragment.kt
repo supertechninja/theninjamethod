@@ -19,8 +19,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise
 import com.mcwilliams.theninjamethod.utils.OnSwipeTouchListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_start_workout.*

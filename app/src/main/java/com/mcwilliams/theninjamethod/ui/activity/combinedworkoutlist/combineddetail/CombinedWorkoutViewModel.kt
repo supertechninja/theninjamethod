@@ -1,14 +1,14 @@
-package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.combineddetail
+package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.combineddetail
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
+import com.mcwilliams.theninjamethod.ui.activity.stravadetail.StravaWorkoutDetailRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
-import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
-import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutDetailRepository
 import io.reactivex.disposables.CompositeDisposable
 
 class CombinedWorkoutViewModel @ViewModelInject constructor(

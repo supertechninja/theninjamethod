@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail
+package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail
 
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.databinding.ShareWorkoutImageBinding
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
 import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
-import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
 import com.muddzdev.quickshot.QuickShot
 import kotlinx.android.synthetic.main.share_workout_image.*
 import java.text.NumberFormat
@@ -50,7 +50,6 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
             "Weight Lifted: ${NumberFormat.getNumberInstance(Locale.US).format(amountLifted)}lbs"
 
         for (exercise in workout.exercises!!) {
-
             val shareExerciseSummary =
                 layoutInflater.inflate(R.layout.share_workout_exercise_summary, null)
             val exerciseSummary =
@@ -64,7 +63,7 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
                         if (set.weight.toInt() > 0) {
                             "${set.reps}x +${set.weight}lbs, "
                         } else {
-                            "${set.reps} reps, "
+                            "${set.reps}, "
                         }
                     }
                     else -> {

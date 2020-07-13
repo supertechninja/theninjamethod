@@ -1,9 +1,9 @@
-package com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db
+package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Exercise
 import java.lang.reflect.Type
 import java.util.*
 

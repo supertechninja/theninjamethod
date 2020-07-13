@@ -5,13 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutSet
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
 import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutSet
-import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutsRepository
-import com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db.Workout
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -34,7 +34,7 @@ class StartWorkoutViewModel @ViewModelInject constructor(
     var workout: MutableLiveData<Workout> = _workout
 
     var workoutInProgress: Workout? = null
-    var listOfExercisesPerformed: MutableList<com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise> =
+    var listOfExercisesPerformed: MutableList<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Exercise> =
         mutableListOf()
 
     var compositeDisposable = CompositeDisposable()
@@ -70,7 +70,7 @@ class StartWorkoutViewModel @ViewModelInject constructor(
         definedExerciseType: ExerciseType
     ) {
         val newExercise =
-            com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise(
+            com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Exercise(
                 s,
                 definedExerciseType,
                 mutableListOf(WorkoutSet(1, "", ""))

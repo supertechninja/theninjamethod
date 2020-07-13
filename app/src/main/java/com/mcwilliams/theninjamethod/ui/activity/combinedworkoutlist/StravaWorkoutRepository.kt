@@ -1,10 +1,10 @@
-package com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist
+package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
 import android.content.Context
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import com.mcwilliams.theninjamethod.strava.model.activites.ActivitesItem
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Workout
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.WorkoutType
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutType
 import com.mcwilliams.theninjamethod.utils.extensions.*
 import io.reactivex.Observable
 import javax.inject.Inject

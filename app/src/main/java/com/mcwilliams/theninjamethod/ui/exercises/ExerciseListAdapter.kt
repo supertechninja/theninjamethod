@@ -12,7 +12,7 @@ import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseViewModel
 
 class ExerciseListAdapter() : RecyclerView.Adapter<ExerciseListAdapter.ViewHolder>() {
 
-    private lateinit var exerciseList: List<Exercise>
+    private lateinit var exerciseList: MutableList<Exercise>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ExerciseItemBinding = DataBindingUtil.inflate(
@@ -34,7 +34,10 @@ class ExerciseListAdapter() : RecyclerView.Adapter<ExerciseListAdapter.ViewHolde
         return exerciseList
     }
 
-    fun updatePostList(postList: List<Exercise>) {
+    fun updatePostList(postList: MutableList<Exercise>) {
+        if (::exerciseList.isInitialized) {
+            this.exerciseList.clear()
+        }
         this.exerciseList = postList
         notifyDataSetChanged()
     }

@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db
+package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db
 
 import android.content.Context
 import androidx.room.Database

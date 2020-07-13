@@ -1,10 +1,10 @@
-package com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.db
+package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.model.Exercise
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Exercise
 import java.io.Serializable
 
 @Entity
