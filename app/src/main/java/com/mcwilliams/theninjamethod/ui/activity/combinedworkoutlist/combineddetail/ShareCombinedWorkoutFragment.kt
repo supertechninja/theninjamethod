@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.databinding.ShareStravaWorkoutImageBinding
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
 import com.muddzdev.quickshot.QuickShot
 import kotlinx.android.synthetic.main.share_workout_image.*
@@ -18,8 +17,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 class ShareCombinedWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
-    lateinit var binding: ShareStravaWorkoutImageBinding
     lateinit var workout: Pair<LocalDate, MutableList<Workout>>
+    lateinit var rootView: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,10 +27,7 @@ class ShareCombinedWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
     ): View? {
         workout = arguments?.getSerializable("workout") as Pair<LocalDate, MutableList<Workout>>
 
-        binding = DataBindingUtil.inflate(
-            inflater, R.layout.share_strava_workout_image, container, false
-        )
-        return binding.root
+        return inflater.inflate(R.layout.share_strava_workout_image, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +36,8 @@ class ShareCombinedWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
         btnShare.setOnClickListener {
             share()
         }
+
+        rootView = view.findViewById(R.id.rootView)
     }
 
     fun getMapUrl(polyline: String): String {
@@ -47,7 +45,7 @@ class ShareCombinedWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
     }
 
     private fun share() {
-        QuickShot.of(binding.rootView).setResultListener(this)
+        QuickShot.of(rootView).setResultListener(this)
             .setFilename("ninja-method-${LocalDateTime.now()}")
             .setPath("NinjaMethod")
             .toJPG()

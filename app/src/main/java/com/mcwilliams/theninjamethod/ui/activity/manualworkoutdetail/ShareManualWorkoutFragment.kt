@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.databinding.ShareWorkoutImageBinding
 import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
 import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.muddzdev.quickshot.QuickShot
@@ -20,9 +19,9 @@ import java.time.LocalDateTime
 import java.util.*
 
 class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
-    lateinit var binding: ShareWorkoutImageBinding
     lateinit var workout: Workout
     var amountLifted: Int = 0
+    lateinit var rootView: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,10 +31,7 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
         workout = arguments?.getSerializable("workout") as Workout
         amountLifted = arguments?.getInt("amountLifted")!!
 
-        binding = DataBindingUtil.inflate(
-            inflater, R.layout.share_workout_image, container, false
-        )
-        return binding.root
+        return inflater.inflate(R.layout.share_workout_image, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,6 +41,8 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
         workoutName.text = workout.workoutName
 
         val totalWeightLifted = view.findViewById<MaterialTextView>(R.id.workout_weight_lifted)
+
+        rootView = view.findViewById(R.id.rootView)
 
         totalWeightLifted.text =
             "Weight Lifted: ${NumberFormat.getNumberInstance(Locale.US).format(amountLifted)}lbs"
@@ -85,7 +83,7 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
     }
 
     private fun share() {
-        QuickShot.of(binding.rootView).setResultListener(this)
+        QuickShot.of(rootView).setResultListener(this)
             .setFilename("ninja-method-${LocalDateTime.now()}")
             .setPath("NinjaMethod")
             .toJPG()

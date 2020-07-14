@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -14,7 +14,6 @@ import coil.api.load
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.databinding.FragmentCombinedWorkoutDetailBinding
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutSet
@@ -30,9 +29,9 @@ import java.util.*
 @AndroidEntryPoint
 class CombinedWorkoutDetailFragment : Fragment() {
     lateinit var combinedWorkout: Pair<LocalDate, MutableList<Workout>>
-    lateinit var rootView: FragmentCombinedWorkoutDetailBinding
     private val viewModel: CombinedWorkoutViewModel by viewModels()
     var totalAmountLifted = 0
+    lateinit var rootView: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,13 +41,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
         combinedWorkout =
             arguments?.getSerializable("workoutSummary") as Pair<LocalDate, MutableList<Workout>>
         setHasOptionsMenu(true)
-        rootView = DataBindingUtil.inflate(
-            layoutInflater,
-            R.layout.fragment_combined_workout_detail,
-            container,
-            false
-        )
-        return rootView.root
+        return inflater.inflate(R.layout.fragment_combined_workout_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,7 +78,10 @@ class CombinedWorkoutDetailFragment : Fragment() {
             }
         }
 
-        rootView.workoutName.text = combinedWorkout.first.dayOfWeek.name.fixCase() +
+        rootView = view.findViewById(R.id.rootView)
+
+        val workoutName = view.findViewById<MaterialTextView>(R.id.workout_name)
+        workoutName.text = combinedWorkout.first.dayOfWeek.name.fixCase() +
                 ", " + combinedWorkout.first.month.name.fixCase() + " " + combinedWorkout.first.dayOfMonth
 
         viewModel.workout.observe(viewLifecycleOwner, Observer {
@@ -207,7 +203,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
             val bundle = bundleOf(
                 "manualworkout" to combinedWorkout
             )
-            Navigation.findNavController(rootView.root)
+            Navigation.findNavController(rootView)
                 .navigate(R.id.navigate_to_share_combined_workout, bundle)
         }
         return super.onOptionsItemSelected(item)
