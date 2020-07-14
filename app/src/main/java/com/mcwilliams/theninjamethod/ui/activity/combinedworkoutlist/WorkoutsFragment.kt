@@ -1,5 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +15,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
 import com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_workouts.*
@@ -27,6 +31,8 @@ class WorkoutsFragment : Fragment() {
     private val viewModel: WorkoutListViewModel by viewModels()
     private val startWorkoutViewModel: StartWorkoutViewModel by activityViewModels()
 
+    private lateinit var preferences: SharedPreferences
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,6 +43,15 @@ class WorkoutsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        preferences = requireContext().getSharedPreferences(
+            requireContext().getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )
+        if (!preferences.getBoolean("hasRetrievedRoutines", false)) {
+            setupRoutines()
+            preferences.edit().putBoolean("hasRetrievedRoutines", true).apply()
+        }
 
         workout_list.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -80,6 +95,14 @@ class WorkoutsFragment : Fragment() {
                         .navigate(R.id.navigate_to_start_workout)
                 }.show()
         }
+    }
+
+    private fun setupRoutines() {
+        val jsonfile: String =
+            requireActivity().assets.open("routines.json").bufferedReader().use { it.readText() }
+        val gson = Gson()
+        val workout = gson.fromJson(jsonfile, Workout::class.java)
+        viewModel.prePopulateRoutines(workout)
     }
 
     private fun showError(@StringRes errorMessage: Int) {

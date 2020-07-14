@@ -9,6 +9,7 @@ import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
+import com.mcwilliams.theninjamethod.ui.routines.RoutinesRepository
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
@@ -19,7 +20,8 @@ import kotlin.collections.set
 class WorkoutListViewModel @ViewModelInject constructor(
     sessionRepo: SessionRepository,
     stravaWorkoutRepository: StravaWorkoutRepository,
-    private val manualWorkoutsRepository: ManualWorkoutsRepository
+    private val manualWorkoutsRepository: ManualWorkoutsRepository,
+    private val routinesRepository: RoutinesRepository
 ) : ViewModel() {
     var isRefreshing: Boolean = false
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
@@ -91,5 +93,18 @@ class WorkoutListViewModel @ViewModelInject constructor(
 
     private fun onRetrievePostListError() {
 //        errorMessage.value = R.string.exercise_error
+    }
+
+    fun prePopulateRoutines(workout: com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout?) {
+        nukeTabe()
+        viewModelScope.launch {
+            workout?.let { routinesRepository.addRoutine(it) }
+        }
+    }
+
+    fun nukeTabe() {
+        viewModelScope.launch {
+            routinesRepository.nukeTable()
+        }
     }
 }

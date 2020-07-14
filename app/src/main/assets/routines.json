@@ -1,0 +1,71 @@
+{
+  "id": 0,
+  "workoutName": "Heavy Leg Workout",
+  "workoutDate": "",
+  "exercises": [
+    {
+      "definedExerciseType": "bodyweight",
+      "exerciseBodyPart": "workoutDate",
+      "exerciseName": "Pull-ups",
+      "exerciseType": "",
+      "sets": [
+        {
+          "index": 1,
+          "reps": "8",
+          "weight": "0"
+        },
+        {
+          "index": 2,
+          "reps": "10",
+          "weight": "0"
+        },
+        {
+          "index": 3,
+          "reps": "12",
+          "weight": "0"
+        }
+      ]
+    },
+    {
+      "definedExerciseType": "bodyweight",
+      "exerciseBodyPart": "workoutDate",
+      "exerciseName": "Inverted Rows",
+      "exerciseType": "",
+      "sets": [
+        {
+          "index": 1,
+          "reps": "12",
+          "weight": "0"
+        },
+        {
+          "index": 2,
+          "reps": "12",
+          "weight": "0"
+        },
+        {
+          "index": 3,
+          "reps": "12",
+          "weight": "0"
+        }
+      ]
+    },
+    {
+      "definedExerciseType": "bodyweight",
+      "exerciseBodyPart": "workoutDate",
+      "exerciseName": "Vertical Limit Pullups",
+      "exerciseType": "",
+      "sets": [
+        {
+          "index": 1,
+          "reps": "5",
+          "weight": "0"
+        },
+        {
+          "index": 2,
+          "reps": "5",
+          "weight": "0"
+        }
+      ]
+    }
+  ]
+}
