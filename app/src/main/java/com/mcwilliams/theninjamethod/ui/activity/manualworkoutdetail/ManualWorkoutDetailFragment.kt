@@ -3,15 +3,14 @@ package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.databinding.WorkoutDetailFragmentBinding
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutSet
 import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
@@ -24,12 +23,11 @@ import java.util.*
 
 @AndroidEntryPoint
 class ManualWorkoutDetailFragment : Fragment() {
-
-    private lateinit var binding: WorkoutDetailFragmentBinding
     lateinit var workout: Workout
     lateinit var detailedWorkout: com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
     private val viewModel: ManualWorkoutViewModel by viewModels()
     private var totalAmountLifted = 0
+    lateinit var rootView: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,17 +35,14 @@ class ManualWorkoutDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         workout = arguments?.getSerializable("workout") as Workout
-
         setHasOptionsMenu(true)
-
-        binding = DataBindingUtil.inflate(
-            inflater, R.layout.workout_detail_fragment, container, false
-        )
-        return binding.root
+        return inflater.inflate(R.layout.workout_detail_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        rootView = view.findViewById(R.id.rootView)
 
         viewModel.workout.observe(viewLifecycleOwner, Observer {
             Log.d("TAG", "onViewCreated: ${it.workoutName}")
@@ -119,13 +114,13 @@ class ManualWorkoutDetailFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (R.id.menu_delete == item.itemId) {
             viewModel.deleteWorkout()
-            Navigation.findNavController(binding.root).popBackStack()
+            Navigation.findNavController(rootView).popBackStack()
         } else if (R.id.menu_share == item.itemId) {
             val bundle = bundleOf(
                 "workout" to detailedWorkout,
                 "amountLifted" to totalAmountLifted
             )
-            Navigation.findNavController(binding.root)
+            Navigation.findNavController(rootView)
                 .navigate(R.id.navigate_to_share_workout, bundle)
         }
         return super.onOptionsItemSelected(item)

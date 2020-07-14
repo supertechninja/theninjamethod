@@ -5,22 +5,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.databinding.ShareStravaWorkoutImageBinding
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.muddzdev.quickshot.QuickShot
-import kotlinx.android.synthetic.main.share_workout_image.*
 import java.time.LocalDateTime
 import kotlin.math.roundToInt
 
 class ShareStravaWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
-    lateinit var binding: ShareStravaWorkoutImageBinding
     lateinit var workout: StravaActivityDetail
+    lateinit var rootView: ConstraintLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,25 +29,30 @@ class ShareStravaWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
     ): View? {
         workout = arguments?.getSerializable("workout") as StravaActivityDetail
 
-        binding = DataBindingUtil.inflate(
-            inflater, R.layout.share_strava_workout_image, container, false
-        )
-        return binding.root
+        return inflater.inflate(R.layout.share_strava_workout_image, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.workoutName.text = workout.name
+        rootView = view.findViewById(R.id.rootView)
+
+        val workoutName = view.findViewById<MaterialTextView>(R.id.workout_name)
+        workoutName.text = workout.name
 //        binding.mapView.load(getMapUrl(workout.map.summary_polyline))
 
-        binding.distance.text = workout.miles
-        binding.workoutDuration.text = workout.duration
+        val distance = view.findViewById<MaterialTextView>(R.id.distance)
+        distance.text = workout.miles
 
-        binding.caloriesBurned.text = workout.calories.toString()
+        val duration = view.findViewById<MaterialTextView>(R.id.workout_duration)
+        duration.text = workout.duration
 
+        val caloriesBurned = view.findViewById<MaterialTextView>(R.id.calories_burned)
+        caloriesBurned.text = workout.calories.toString()
+
+        val llSplits = view.findViewById<LinearLayout>(R.id.splits)
         if (workout.splits_standard.isNullOrEmpty()) {
-            binding.splits.visibility = View.GONE
+            llSplits.visibility = View.GONE
         } else {
             workout.splits_standard!!.forEach {
                 if ((it.distance > 10.00)) {
@@ -63,11 +68,12 @@ class ShareStravaWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
                     val splitTime = splitsRow.findViewById<MaterialTextView>(R.id.split_heart_rate)
                     splitTime.text = it.average_heartrate.roundToInt().toString()
 
-                    binding.splits.addView(splitsRow)
+                    llSplits.addView(splitsRow)
                 }
             }
         }
 
+        val btnShare = view.findViewById<MaterialButton>(R.id.btnShare)
         btnShare.setOnClickListener {
             share()
         }
@@ -78,7 +84,7 @@ class ShareStravaWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
     }
 
     private fun share() {
-        QuickShot.of(binding.rootView).setResultListener(this)
+        QuickShot.of(rootView).setResultListener(this)
             .setFilename("ninja-method-${LocalDateTime.now()}")
             .setPath("NinjaMethod")
             .toJPG()

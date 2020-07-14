@@ -3,11 +3,11 @@ package com.mcwilliams.theninjamethod.ui.exercises
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.*
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
-import androidx.databinding.DataBindingUtil.inflate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,57 +16,56 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
+import com.google.android.material.chip.ChipGroup
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.databinding.FragmentHomeBinding
 import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
 
 
 @AndroidEntryPoint
 class ExercisesFragment : Fragment() {
-
-    private lateinit var binding: FragmentHomeBinding
     private val viewModel: ExerciseListViewModel by viewModels()
     private val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
     private var exerciseList: MutableList<Exercise> = mutableListOf()
     var didSaveMasterList: Boolean = false
+    lateinit var chipsGroup: ChipGroup
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = inflate(
-            inflater, R.layout.fragment_home, container, false
-        )
         setHasOptionsMenu(true)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.exerciseList.layoutManager =
+        val rvExerciseList = view.findViewById<RecyclerView>(R.id.exercise_list)
+        rvExerciseList.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
-        binding.exerciseListViewModel = viewModel
-        binding.exerciseList.adapter = exerciseListAdapter
+//        binding.exerciseListViewModel = viewModel
+        rvExerciseList.adapter = exerciseListAdapter
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(binding.exerciseList)
+        itemTouchHelper.attachToRecyclerView(rvExerciseList)
 
+        val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
         viewModel.exerciseList.observe(viewLifecycleOwner, Observer {
             if (!didSaveMasterList) {
                 exerciseList = it.toMutableList()
                 didSaveMasterList = true
             }
             exerciseListAdapter.updatePostList(it.toMutableList())
-            binding.progressBar.visibility = View.GONE
+            progressBar.visibility = View.GONE
         })
 
+        chipsGroup = view.findViewById<ChipGroup>(R.id.chips_group)
         ExerciseType.values().forEach {
             val chip = Chip(requireContext())
             val chipDrawable = ChipDrawable.createFromAttributes(
@@ -91,16 +90,19 @@ class ExercisesFragment : Fragment() {
                 )
             )
             chip.text = it.exerciseType
-            binding.chipsGroup.addView(chip)
+
+
+            chipsGroup.addView(chip)
         }
 
-        binding.chipsGroup.forEach { child ->
+        chipsGroup.forEach { child ->
             (child as? Chip)?.setOnCheckedChangeListener { _, _ ->
                 registerFilterChanged()
             }
         }
 
-        binding.addExercise.setOnClickListener {
+        val addExercise = view.findViewById<FloatingActionButton>(R.id.addExercise)
+        addExercise.setOnClickListener {
             AddExerciseDialog().show(parentFragmentManager, "TAG")
         }
     }
@@ -140,10 +142,10 @@ class ExercisesFragment : Fragment() {
 
     private fun showFilterChips() {
         // Prepare the View for the animation
-        chips_group.visibility = View.VISIBLE;
-        chips_group.alpha = 0.0f;
-        chips_group.animate().setDuration(300)
-            .translationY(chips_group.height.toFloat())
+        chipsGroup.visibility = View.VISIBLE;
+        chipsGroup.alpha = 0.0f;
+        chipsGroup.animate().setDuration(300)
+            .translationY(chipsGroup.height.toFloat())
             .alpha(1.0f)
             .setListener(null);
     }
@@ -173,11 +175,11 @@ class ExercisesFragment : Fragment() {
         }
 
     private fun registerFilterChanged() {
-        val ids = binding.chipsGroup.checkedChipIds
+        val ids = chipsGroup.checkedChipIds
         val titles = mutableListOf<CharSequence>()
 
         ids.forEach { id ->
-            titles.add(binding.chipsGroup.findViewById<Chip>(id).text)
+            titles.add(chipsGroup.findViewById<Chip>(id).text)
         }
 
         if (titles.isNotEmpty()) {
