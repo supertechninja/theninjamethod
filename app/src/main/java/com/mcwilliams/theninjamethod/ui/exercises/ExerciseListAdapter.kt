@@ -1,29 +1,35 @@
 package com.mcwilliams.theninjamethod.ui.exercises
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.databinding.ExerciseItemBinding
 import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
-import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseViewModel
+import kotlin.random.Random
 
 
 class ExerciseListAdapter() : RecyclerView.Adapter<ExerciseListAdapter.ViewHolder>() {
 
-    private lateinit var exerciseList: List<Exercise>
+    private lateinit var exerciseList: MutableList<Exercise>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ExerciseItemBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.exercise_item, parent, false
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.exercise_item, parent, false)
         )
-        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(exerciseList[position])
+        val exercise = exerciseList[position]
+        holder.exerciseName.text = exercise.exerciseName
+        holder.exercisePerformedCount.text = Random.nextInt(0, 10).toString()
+
+        if (!exercise.exerciseBodyPart.isNullOrEmpty()) {
+            holder.exerciseBodyPart.text = exercise.exerciseBodyPart
+        } else {
+            holder.exerciseBodyPart.text = ""
+        }
     }
 
     override fun getItemCount(): Int {
@@ -34,18 +40,17 @@ class ExerciseListAdapter() : RecyclerView.Adapter<ExerciseListAdapter.ViewHolde
         return exerciseList
     }
 
-    fun updatePostList(postList: List<Exercise>) {
+    fun updatePostList(postList: MutableList<Exercise>) {
+        if (::exerciseList.isInitialized) {
+            this.exerciseList.clear()
+        }
         this.exerciseList = postList
         notifyDataSetChanged()
     }
 
-    class ViewHolder(private val binding: ExerciseItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        private val viewModel = ExerciseViewModel()
-        fun bind(post: Exercise) {
-            // ...
-            viewModel.bind(post)
-            binding.exerciseViewModel = viewModel
-        }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val exerciseName = itemView.findViewById<MaterialTextView>(R.id.exercise_title)
+        val exercisePerformedCount = itemView.findViewById<MaterialTextView>(R.id.exercise_count)
+        val exerciseBodyPart = itemView.findViewById<MaterialTextView>(R.id.exercise_muscle_group)
     }
 }

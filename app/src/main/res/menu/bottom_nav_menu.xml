@@ -5,7 +5,12 @@
     <item
         android:id="@+id/navigation_workouts"
         android:icon="@drawable/ic_running_icon"
-        android:title="@string/title_dashboard" />
+        android:title="Activity" />
+
+    <item
+        android:id="@+id/navigation_routines"
+        android:icon="@drawable/ic_routine_icon"
+        android:title="Routines" />
 
     <item
         android:id="@+id/navigation_exercises"

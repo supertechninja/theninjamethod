@@ -47,7 +47,7 @@ class ExerciseRepository @Inject constructor(
     }
 
     fun getExercises(): Flowable<List<Exercise>>? {
-        return exerciseDao!!.getAllFlow()
+        return exerciseDao!!.getAllFlow().map { it.sortedBy { exercise -> exercise.exerciseName } }
     }
 
     suspend fun deleteExercise(exercise: Exercise) {

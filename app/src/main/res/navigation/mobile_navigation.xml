@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/navigation_workouts"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.WorkoutsFragment"
-        android:label="@string/title_dashboard"
+        android:name="com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.WorkoutsFragment"
+        android:label="Activity"
         tools:layout="@layout/fragment_workouts">
 
         <action
@@ -29,6 +29,11 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navigation_routines"
+        android:name="com.mcwilliams.theninjamethod.ui.routines.RoutinesFragment"
+        android:label="Routines" />
+
+    <fragment
         android:id="@+id/navigation_start_workout"
         android:name="com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutFragment"
         android:label="Start Workout"
@@ -36,7 +41,7 @@
 
     <fragment
         android:id="@+id/navigation_combined_workout_detail"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.combineddetail.CombinedWorkoutDetailFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.combineddetail.CombinedWorkoutDetailFragment"
         android:label="Daily Workout Summary"
         tools:layout="@layout/fragment_start_workout">
 
@@ -47,13 +52,13 @@
 
     <fragment
         android:id="@+id/navigation_share_combined_workout"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.combinedworkoutlist.combineddetail.ShareCombinedWorkoutFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.combineddetail.ShareCombinedWorkoutFragment"
         android:label="Share Workout"
         tools:layout="@layout/fragment_start_workout" />
 
     <fragment
         android:id="@+id/manual_workout_detail"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ManualWorkoutDetailFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutDetailFragment"
         android:label="Workout Details"
         tools:layout="@layout/workout_detail_fragment">
 
@@ -64,13 +69,13 @@
 
     <fragment
         android:id="@+id/share_workout"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.manualworkoutdetail.ShareManualWorkoutFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ShareManualWorkoutFragment"
         android:label="Share Workout"
         tools:layout="@layout/workout_detail_fragment" />
 
     <fragment
         android:id="@+id/strava_workout_detail"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.stravadetail.StravaWorkoutDetailFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.activity.stravadetail.StravaWorkoutDetailFragment"
         android:label="Strava Workout Detail"
         tools:layout="@layout/workout_detail_fragment">
         <action
@@ -80,7 +85,7 @@
 
     <fragment
         android:id="@+id/share_strava_workout"
-        android:name="com.mcwilliams.theninjamethod.ui.workouts.stravadetail.ShareStravaWorkoutFragment"
+        android:name="com.mcwilliams.theninjamethod.ui.activity.stravadetail.ShareStravaWorkoutFragment"
         android:label="Share Workout"
         tools:layout="@layout/workout_detail_fragment" />
 
