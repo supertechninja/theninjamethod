@@ -1,2 +1,3 @@
 rootProject.name='The Ninja Method'
 include ':app'
+include ':app-ui'
