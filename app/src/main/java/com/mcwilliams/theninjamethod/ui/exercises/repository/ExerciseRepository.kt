@@ -16,7 +16,7 @@ import kotlin.coroutines.CoroutineContext
 class ExerciseRepository @Inject constructor(
     val context: Context,
     private val exerciseApi: ExerciseApi
-) : CoroutineScope {
+) : CoroutineScope, IExerciseRepository {
 
     private val preferences: SharedPreferences = context.getSharedPreferences(
         context.getString(R.string.preference_file_key),
@@ -37,7 +37,7 @@ class ExerciseRepository @Inject constructor(
     }
 
     //On initialization of the repository fetch remote exercises to be stored
-    private suspend fun getRemoteExercises() {
+    override suspend fun getRemoteExercises() {
         val data = exerciseApi.getExercises()
         data.exercises.forEach {
             it.definedExerciseType = ExerciseType.valueOf(it.exerciseType!!)
@@ -46,23 +46,23 @@ class ExerciseRepository @Inject constructor(
         preferences.edit().putBoolean("hasRetrievedExercises", true).apply()
     }
 
-    fun getExercises(): Flowable<List<Exercise>>? {
+    override fun getExercises(): Flowable<List<Exercise>>? {
         return exerciseDao!!.getAllFlow().map { it.sortedBy { exercise -> exercise.exerciseName } }
     }
 
-    suspend fun deleteExercise(exercise: Exercise) {
+    override suspend fun deleteExercise(exercise: Exercise) {
         withContext(Dispatchers.IO) {
             exerciseDao?.delete(exercise)
         }
     }
 
-    suspend fun addExercises(exercise: Exercise) {
+    override suspend fun addExercises(exercise: Exercise) {
         withContext(Dispatchers.IO) {
             exerciseDao?.insertAll(exercise)
         }
     }
 
-    suspend fun nukeTable() {
+    override suspend fun nukeTable() {
         exerciseDao?.nukeTable()
         preferences.edit().putBoolean("hasRetrievedExercises", false).apply()
     }

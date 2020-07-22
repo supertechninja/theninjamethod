@@ -11,20 +11,20 @@ import javax.inject.Singleton
 @Singleton
 class StravaWorkoutDetailRepository @Inject constructor(
     private val athleteApi: AthleteApi
-) {
+) : IStravaWorkoutDetailRepository {
     //Return Detail Strava Activity to render the activity detail
-    fun getStravaItemDetail(id: Number): Observable<StravaActivityDetail> {
+    override fun getStravaItemDetail(id: Number): Observable<StravaActivityDetail> {
         return athleteApi.getActivityDetail(id, true).map { mapStravaWorkouts(it) }
     }
 
-    fun getMultipleStravaDetails(id: List<Number>): Observable<List<StravaActivityDetail>> {
+    override fun getMultipleStravaDetails(id: List<Number>): Observable<List<StravaActivityDetail>> {
         return Observable.zip(
             getStravaItemDetail(id[0]),
             getStravaItemDetail(id[1]),
             BiFunction { detail1, detail2 -> mutableListOf(detail1, detail2) })
     }
 
-    private fun mapStravaWorkouts(stravaWorkout: StravaActivityDetail): StravaActivityDetail {
+    override fun mapStravaWorkouts(stravaWorkout: StravaActivityDetail): StravaActivityDetail {
         val date = stravaWorkout.start_date_local.getDate()
         val time = stravaWorkout.start_date_local.getTime()
 

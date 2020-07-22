@@ -15,10 +15,11 @@ abstract class RoutinesDatabase : RoomDatabase() {
 
     companion object {
 
-        @Volatile
         private var INSTANCE: RoutinesDatabase? = null
 
-        fun getDatabase(context: Context): RoutinesDatabase? {
+        @JvmStatic
+        @Synchronized
+        fun getDatabase(context: Context): RoutinesDatabase {
             if (INSTANCE == null) {
                 synchronized(RoutinesDatabase::class.java) {
                     if (INSTANCE == null) {
@@ -31,7 +32,7 @@ abstract class RoutinesDatabase : RoomDatabase() {
                     }
                 }
             }
-            return INSTANCE
+            return INSTANCE!!
         }
     }
 }

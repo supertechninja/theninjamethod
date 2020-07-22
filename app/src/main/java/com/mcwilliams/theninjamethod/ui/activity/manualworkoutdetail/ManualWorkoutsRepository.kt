@@ -13,7 +13,8 @@ import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class ManualWorkoutsRepository @Inject constructor(val context: Context) : CoroutineScope {
+class ManualWorkoutsRepository @Inject constructor(val context: Context) : CoroutineScope,
+    IManualWorkoutsRepository {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
@@ -29,21 +30,21 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
     }
 
     //check cache workouts before reading db (reading db is heavy)
-    fun getWorkouts(): Flowable<List<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout>> {
+    override fun getWorkouts(): Flowable<List<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout>> {
         return workoutDao?.getAll()!!.map { mapManualWorkoutToUiWorkout(it) }
     }
 
-    fun getWorkoutDetail(id: Number): Workout? {
+    override fun getWorkoutDetail(id: Number): Workout? {
         return manualWorkoutList.find { it.id == id }
     }
 
-    suspend fun deleteWorkout(workout: Workout) {
+    override suspend fun deleteWorkout(workout: Workout) {
         withContext(Dispatchers.IO) {
             workoutDao?.delete(workout)
         }
     }
 
-    private fun mapManualWorkoutToUiWorkout(workoutList: List<Workout>): List<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout> {
+    override fun mapManualWorkoutToUiWorkout(workoutList: List<Workout>): List<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout> {
         val workoutUiObjList =
             mutableListOf<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout>()
         manualWorkoutList = workoutList
@@ -65,14 +66,14 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
     }
 
 
-    suspend fun addWorkout(workout: Workout) {
+    override suspend fun addWorkout(workout: Workout) {
         manualWorkoutList = listOf()
         withContext(Dispatchers.IO) {
             workoutDao?.insertAll(workout)
         }
     }
 
-    suspend fun nukeTable() = workoutDao?.nukeTable()
+    override suspend fun nukeTable() = workoutDao?.nukeTable()
 
     //TODO need to expose refresh to invalidate in-mem workouts
 }

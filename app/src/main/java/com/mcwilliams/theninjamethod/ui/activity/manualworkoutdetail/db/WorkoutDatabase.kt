@@ -14,7 +14,6 @@ abstract class WorkoutDatabase : RoomDatabase() {
 
     companion object {
 
-        @Volatile
         private var INSTANCE: WorkoutDatabase? = null
 
 //        val MIGRATION_1_2: Migration = object : Migration(1, 2) {
@@ -25,21 +24,22 @@ abstract class WorkoutDatabase : RoomDatabase() {
 //                )
 //            }
 //        }
-
-        fun getDatabase(context: Context): WorkoutDatabase? {
+@JvmStatic
+@Synchronized
+fun getDatabase(context: Context): WorkoutDatabase {
+    if (INSTANCE == null) {
+        synchronized(WorkoutDatabase::class.java) {
             if (INSTANCE == null) {
-                synchronized(WorkoutDatabase::class.java) {
-                    if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(
-                            context.applicationContext,
-                            WorkoutDatabase::class.java, "workout_database"
-                        )
-                            .fallbackToDestructiveMigration()
-                            .build()
-                    }
+                INSTANCE = Room.databaseBuilder(
+                    context.applicationContext,
+                    WorkoutDatabase::class.java, "workout_database"
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
+            }
                 }
             }
-            return INSTANCE
+    return INSTANCE!!
         }
     }
 }

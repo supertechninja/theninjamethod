@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Exercise
-import java.io.Serializable
 
 @Entity
 data class Workout(
@@ -18,7 +17,7 @@ data class Workout(
     @ColumnInfo(name = "workout_calories_burned") var caloriesBurned: String?,
     @TypeConverters(ExerciseTypeConverter::class)
     var exercises: MutableList<Exercise>? = mutableListOf()
-) : Serializable {
+) {
     constructor(id: Int, workoutName: String, workoutDate: String) : this(
         id,
         workoutName,

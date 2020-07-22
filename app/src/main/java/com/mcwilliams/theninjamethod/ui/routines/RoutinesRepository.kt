@@ -13,7 +13,8 @@ import java.time.LocalDate
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class RoutinesRepository @Inject constructor(val context: Context) : CoroutineScope {
+class RoutinesRepository @Inject constructor(val context: Context) : CoroutineScope,
+    IRoutinesRepository {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
@@ -29,21 +30,21 @@ class RoutinesRepository @Inject constructor(val context: Context) : CoroutineSc
     }
 
     //check cache workouts before reading db (reading db is heavy)
-    fun getWorkouts(): Flowable<List<Workout>> {
+    override fun getWorkouts(): Flowable<List<Workout>> {
         return routineDao?.getAll()!!
     }
 
-    fun getWorkoutDetail(id: Number): Workout? {
+    override fun getWorkoutDetail(id: Number): Workout? {
         return manualWorkoutList.find { it.id == id }
     }
 
-    suspend fun deleteWorkout(workout: Workout) {
+    override suspend fun deleteWorkout(workout: Workout) {
         withContext(Dispatchers.IO) {
             routineDao?.delete(workout)
         }
     }
 
-    private fun mapManualWorkoutToUiWorkout(workoutList: List<Workout>): List<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout> {
+    override fun mapManualWorkoutToUiWorkout(workoutList: List<Workout>): List<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout> {
         val workoutUiObjList =
             mutableListOf<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout>()
         manualWorkoutList = workoutList
@@ -65,13 +66,13 @@ class RoutinesRepository @Inject constructor(val context: Context) : CoroutineSc
     }
 
 
-    suspend fun addRoutine(routine: Workout) {
+    override suspend fun addRoutine(routine: Workout) {
         withContext(Dispatchers.IO) {
             routineDao?.insertAll(routine)
         }
     }
 
-    suspend fun nukeTable() = routineDao?.nukeTable()
+    override suspend fun nukeTable() = routineDao?.nukeTable()
 
     //TODO need to expose refresh to invalidate in-mem workouts
 }

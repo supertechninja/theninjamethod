@@ -14,17 +14,17 @@ import javax.inject.Singleton
 class StravaWorkoutRepository @Inject constructor(
     val context: Context,
     private val athleteApi: AthleteApi
-) {
+) : IStravaWorkoutRepository {
 
     //Cache in memory the strava workouts
     private lateinit var listOfStravaWorkouts: List<ActivitesItem>
 
-    fun getStravaActivities(): Observable<List<Workout>> =
+    override fun getStravaActivities(): Observable<List<Workout>> =
         athleteApi.getAthleteActivities().map { mapStravaWorkouts(it) }
 
 
     //Return a list of strava workout summaries, a subset of the detail data needed to show the ui
-    private fun mapStravaWorkouts(stravaWorkouts: List<ActivitesItem>): List<Workout> {
+    override fun mapStravaWorkouts(stravaWorkouts: List<ActivitesItem>): List<Workout> {
         val workoutList = mutableListOf<Workout>()
         stravaWorkouts.forEach {
 

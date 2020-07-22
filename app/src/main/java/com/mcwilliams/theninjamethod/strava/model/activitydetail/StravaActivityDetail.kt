@@ -1,7 +1,5 @@
 package com.mcwilliams.theninjamethod.strava.model.activitydetail
 
-import java.io.Serializable
-
 data class StravaActivityDetail(
     val achievement_count: Int,
     val athlete: Athlete,
@@ -70,4 +68,4 @@ data class StravaActivityDetail(
     var formattedDate: String,
     var duration: String
 
-) : Serializable
+)
