@@ -53,6 +53,9 @@ class ManualWorkoutDetailFragment : Fragment() {
             workout_date.text =
                 "${date.dayOfWeek.name.fixCase()}, ${date.month.name.fixCase()} ${date.dayOfMonth}, ${date.year}"
 
+            val workoutDuration = view.findViewById<MaterialTextView>(R.id.workout_duration)
+            workoutDuration.text = "Duration: ${it.workoutDuration}"
+
             exercises_and_sets.removeAllViews()
             for (exercise in it.exercises!!) {
 

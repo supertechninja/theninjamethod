@@ -51,10 +51,9 @@ fun String.fixCase(): String = this.toLowerCase().capitalize()
 fun getDateTimeDisplayString(date: LocalDate, time: LocalTime): String =
     "${date.dayOfWeek.name.fixCase()}, ${date.month.name.fixCase()} ${date.dayOfMonth}, ${date.year} at ${time}"
 
-//fun totalWeightLifted(sets: List<WorkoutSet>) : String {
-//    var totalAmountLifted = 0
-//    sets.forEach {
-//        totalAmountLifted += (it.weight.toInt() * it.reps.toInt())
-//    }
-//    return NumberFormat.getNumberInstance(Locale.US).format(totalAmountLifted)t
-//}
+fun Int.poundsToKg(): Int = (this / 2.205).toInt()
+
+fun caloriesBurned(met: Float, weight: Int, minutesWorkedOut: Int): Int {
+    val caloriesPerMinute = (met * 3.5 * weight.poundsToKg()) / 200
+    return (caloriesPerMinute * minutesWorkedOut).toInt()
+}

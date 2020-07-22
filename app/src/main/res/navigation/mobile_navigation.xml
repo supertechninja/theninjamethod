@@ -31,7 +31,11 @@
     <fragment
         android:id="@+id/navigation_routines"
         android:name="com.mcwilliams.theninjamethod.ui.routines.RoutinesFragment"
-        android:label="Routines" />
+        android:label="Routines">
+        <action
+            android:id="@+id/navigate_from_routines_to_start_workout"
+            app:destination="@+id/navigation_start_workout" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_start_workout"

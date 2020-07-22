@@ -11,6 +11,7 @@ data class Workout(
     val workoutName: String,
     var workoutType: WorkoutType,
     var stravaDistance: String,
+    var workoutCaloriesBurned: String,
     var stravaTime: String,
     var id: Number
 ) : Serializable

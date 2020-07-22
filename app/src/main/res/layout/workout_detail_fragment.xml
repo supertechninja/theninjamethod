@@ -50,6 +50,15 @@
                 app:layout_constraintStart_toEndOf="@+id/workout_date"
                 app:layout_constraintTop_toBottomOf="@+id/workout_name" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/workout_duration"
+                style="?attr/textAppearanceSubtitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/workout_name" />
+
             <LinearLayout
                 android:id="@+id/exercises_and_sets"
                 android:layout_width="match_parent"

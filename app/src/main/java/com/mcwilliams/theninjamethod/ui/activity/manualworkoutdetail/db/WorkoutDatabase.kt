@@ -6,7 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = arrayOf(Workout::class), version = 1)
+
+@Database(entities = arrayOf(Workout::class), version = 5)
 @TypeConverters(ExerciseTypeConverter::class)
 abstract class WorkoutDatabase : RoomDatabase() {
     abstract fun workoutDao(): WorkoutDao
@@ -16,6 +17,15 @@ abstract class WorkoutDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: WorkoutDatabase? = null
 
+//        val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+//            override fun migrate(database: SupportSQLiteDatabase) {
+//                database.execSQL(
+//                    "ALTER TABLE workout "
+//                            + " ADD COLUMN workout_difficulty TEXT"
+//                )
+//            }
+//        }
+
         fun getDatabase(context: Context): WorkoutDatabase? {
             if (INSTANCE == null) {
                 synchronized(WorkoutDatabase::class.java) {
@@ -24,6 +34,7 @@ abstract class WorkoutDatabase : RoomDatabase() {
                             context.applicationContext,
                             WorkoutDatabase::class.java, "workout_database"
                         )
+                            .fallbackToDestructiveMigration()
                             .build()
                     }
                 }

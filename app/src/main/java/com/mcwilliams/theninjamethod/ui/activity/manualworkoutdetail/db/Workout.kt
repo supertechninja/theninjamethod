@@ -12,6 +12,10 @@ data class Workout(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "workout_name") var workoutName: String,
     @ColumnInfo(name = "workout_date") val workoutDate: String,
+    @ColumnInfo(name = "workout_difficulty") val workoutDifficulty: String?,
+    @ColumnInfo(name = "workout_duration") var workoutDuration: String?,
+    @ColumnInfo(name = "workout_total_weight") var workoutTotalWeight: String?,
+    @ColumnInfo(name = "workout_calories_burned") var caloriesBurned: String?,
     @TypeConverters(ExerciseTypeConverter::class)
     var exercises: MutableList<Exercise>? = mutableListOf()
 ) : Serializable {
@@ -19,6 +23,10 @@ data class Workout(
         id,
         workoutName,
         workoutDate,
+        null,
+        null,
+        null,
+        null,
         null
     )
 }

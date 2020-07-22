@@ -4,5 +4,6 @@
     <item
         android:id="@+id/menu_done"
         android:title="Save"
+        android:iconTint="@color/color_on_background"
         app:showAsAction="always|withText" />
 </menu>

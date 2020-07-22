@@ -62,6 +62,9 @@ class ExerciseRepository @Inject constructor(
         }
     }
 
-    suspend fun nukeTable() = exerciseDao?.nukeTable()
+    suspend fun nukeTable() {
+        exerciseDao?.nukeTable()
+        preferences.edit().putBoolean("hasRetrievedExercises", false).apply()
+    }
 
 }

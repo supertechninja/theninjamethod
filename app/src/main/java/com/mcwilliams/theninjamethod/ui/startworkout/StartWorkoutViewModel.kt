@@ -12,9 +12,11 @@ import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
+import com.mcwilliams.theninjamethod.utils.extensions.caloriesBurned
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalTime
 
 class StartWorkoutViewModel @ViewModelInject constructor(
     private val manualWorkoutsRepository: ManualWorkoutsRepository,
@@ -42,13 +44,17 @@ class StartWorkoutViewModel @ViewModelInject constructor(
     init {
         listOfExercises = exerciseRepository.getExercises()!!.toObservable()
             .toLiveData(compositeDisposable) { it }
-
     }
 
-    fun saveWorkout() {
+    fun saveWorkout(workoutDuration: String) {
+        val time = LocalTime.parse(workoutDuration)
+        workoutInProgress!!.workoutDuration = workoutDuration
+        workoutInProgress!!.caloriesBurned = caloriesBurned(3.5f, 180, time.minute).toString()
+        workoutInProgress!!.workoutTotalWeight = calculateTotalWeightLifted().toString()
         viewModelScope.launch {
             manualWorkoutsRepository.addWorkout(workoutInProgress!!)
             _didSaveWorkout.postValue(true)
+            listOfExercisesPerformed.clear()
             workoutInProgress = null
         }
     }
@@ -56,6 +62,11 @@ class StartWorkoutViewModel @ViewModelInject constructor(
     //Create empty workout obj
     fun createWorkout(workoutName: String) {
         workoutInProgress = Workout(0, workoutName, LocalDate.now().toString())
+        _workout.postValue(workoutInProgress)
+    }
+
+    fun createWorkoutFromRoutine(workout: Workout) {
+        workoutInProgress = workout
         _workout.postValue(workoutInProgress)
     }
 
@@ -69,11 +80,16 @@ class StartWorkoutViewModel @ViewModelInject constructor(
         s: String,
         definedExerciseType: ExerciseType
     ) {
+        var startingWeight = ""
+        if (definedExerciseType == ExerciseType.bodyweight) {
+            startingWeight = "0"
+        }
+
         val newExercise =
             com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Exercise(
                 s,
                 definedExerciseType,
-                mutableListOf(WorkoutSet(1, "", ""))
+                mutableListOf(WorkoutSet(1, startingWeight, ""))
             )
         listOfExercisesPerformed.add(newExercise)
         workoutInProgress!!.exercises = listOfExercisesPerformed
@@ -90,7 +106,7 @@ class StartWorkoutViewModel @ViewModelInject constructor(
         _workout.postValue(workoutInProgress)
     }
 
-    //Update set in exercise with values from UI, Finds the exercise in the workout by exerciseName,
+    // Update set in exercise with values from UI, Finds the exercise in the workout by exerciseName,
     // then finds the sets based on index
     fun updateSetInExercise(index: Int, weight: String, reps: String, exercise: String) {
         workoutInProgress!!.exercises!!.find { it.exerciseName == exercise }!!
@@ -104,6 +120,21 @@ class StartWorkoutViewModel @ViewModelInject constructor(
         workoutInProgress = null
         _workout.postValue(workoutInProgress)
         _didSaveWorkout.postValue(true)
+    }
+
+    fun calculateTotalWeightLifted(): Int {
+        var totalWeight = 0
+        workoutInProgress!!.exercises!!.forEach { exercise ->
+            exercise.sets!!.forEach {
+                totalWeight += if (exercise.definedExerciseType == ExerciseType.bodyweight) {
+                    //TODO read BW from profile
+                    (180 * it.reps.toInt())
+                } else {
+                    (it.weight.toInt() * it.reps.toInt())
+                }
+            }
+        }
+        return totalWeight
     }
 
 }

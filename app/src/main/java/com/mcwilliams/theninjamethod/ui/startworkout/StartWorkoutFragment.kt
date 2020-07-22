@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Chronometer
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -30,8 +31,10 @@ import java.util.*
 @AndroidEntryPoint
 class StartWorkoutFragment : Fragment() {
 
+    var workout: com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout? = null
     lateinit var exerciseName: String
     lateinit var exerciseListView: LinearLayout
+    lateinit var chronometer: Chronometer
     lateinit var loadedExercises: List<com.mcwilliams.theninjamethod.ui.exercises.db.Exercise>
 
     private val startWorkoutViewModel: StartWorkoutViewModel by activityViewModels()
@@ -41,6 +44,11 @@ class StartWorkoutFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        arguments?.let {
+            workout =
+                arguments?.getSerializable("workout") as com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
+        }
+
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_start_workout, container, false)
     }
@@ -49,7 +57,15 @@ class StartWorkoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val timeOfDay = getTimeOfDay()
-        startWorkoutViewModel.createWorkout(timeOfDay)
+
+        chronometer = view.findViewById(R.id.chronometer)
+        chronometer.start()
+
+        if (workout != null) {
+            startWorkoutViewModel.createWorkoutFromRoutine(workout!!)
+        } else {
+            startWorkoutViewModel.createWorkout(timeOfDay)
+        }
 
         //Observing the list of exercises to choose from during a workout
         startWorkoutViewModel.listOfExercises.observe(viewLifecycleOwner, Observer { exercistList ->
@@ -114,7 +130,8 @@ class StartWorkoutFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (R.id.menu_done == item.itemId) {
-            startWorkoutViewModel.saveWorkout()
+            chronometer.stop()
+            startWorkoutViewModel.saveWorkout(chronometer.text.toString())
         }
         return super.onOptionsItemSelected(item)
     }
@@ -128,19 +145,6 @@ class StartWorkoutFragment : Fragment() {
             layoutInflater.inflate(R.layout.add_exercise_row_view, null)
         val exerciseNameView =
             addExerciseViewLayout.findViewById<MaterialTextView>(R.id.exercise_name)
-
-//        if (isFirstDraw) {
-//            exerciseNameView.text = "CHOOSE EXERCISE"
-//            exerciseNameView.setTextColor(
-//                ContextCompat.getColor(
-//                    requireContext(),
-//                    R.color.color_secondary
-//                )
-//            )
-//            exerciseNameView.setTypeface(null, Typeface.BOLD)
-//        } else {
-
-//        }
 
         if (exercise != null) {
             exerciseNameView.text = exercise!!.exerciseName

@@ -44,6 +44,11 @@ class StravaWorkoutRepository @Inject constructor(
             it.duration = movingTime
             it.miles = milesString
 
+            var calories = ""
+            it.calories?.let { stravaCalories ->
+                calories = stravaCalories.toString()
+            }
+
             val workoutItem =
                 Workout(
                     date,
@@ -51,6 +56,7 @@ class StravaWorkoutRepository @Inject constructor(
                     it.name,
                     WorkoutType.STRAVA,
                     milesString,
+                    calories,
                     movingTime,
                     it.id
                 )

@@ -9,10 +9,12 @@
     <item
         android:id="@+id/menu_sort"
         android:title="Sort"
+        android:iconTint="@color/color_on_background"
         android:icon="@android:drawable/ic_menu_sort_by_size"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_delete_all"
         android:title="Delete All"
+        android:iconTint="@color/color_on_background"
         app:showAsAction="never" />
 </menu>

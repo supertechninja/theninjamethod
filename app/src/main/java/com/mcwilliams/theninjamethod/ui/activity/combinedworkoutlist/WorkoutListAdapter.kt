@@ -1,9 +1,13 @@
 package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
@@ -40,22 +44,48 @@ class WorkoutListAdapter() : RecyclerView.Adapter<WorkoutListAdapter.ViewHolder>
             val workoutName = workoutItemView.findViewById<MaterialTextView>(R.id.workout_name)
             workoutName.text = workout.workoutName
 
-            val distanceLabel = workoutItemView.findViewById<MaterialTextView>(R.id.distance_label)
-            val durationLabel = workoutItemView.findViewById<MaterialTextView>(R.id.duration_label)
+            val distanceIcon = workoutItemView.findViewById<AppCompatImageView>(R.id.distance_icon)
+            val durationIcon = workoutItemView.findViewById<AppCompatImageView>(R.id.duration_icon)
 
-            if (workout.workoutType == WorkoutType.STRAVA) {
-                distanceLabel.text = "Distance"
-                durationLabel.text = "Duration"
-            } else {
-                distanceLabel.text = "Weight Lifted"
-                durationLabel.text = "Duration"
-            }
+            val caloriesBurnedLayout =
+                workoutItemView.findViewById<RelativeLayout>(R.id.rlCaloriesBurned)
+            val caloriesBurned =
+                workoutItemView.findViewById<MaterialTextView>(R.id.calories_burned)
 
             val distance = workoutItemView.findViewById<MaterialTextView>(R.id.distance)
             val duration = workoutItemView.findViewById<MaterialTextView>(R.id.duration)
 
             duration.text = workout.stravaTime
             distance.text = workout.stravaDistance
+
+            if (workout.workoutType == WorkoutType.STRAVA) {
+                distanceIcon.setImageResource(R.drawable.ic_distance)
+                durationIcon.setImageResource(R.drawable.ic_clock)
+            } else {
+                distanceIcon.setImageResource(R.drawable.ic_weight)
+                durationIcon.setImageResource(R.drawable.ic_clock)
+            }
+
+            if (workout.workoutCaloriesBurned.isNullOrEmpty()) {
+                caloriesBurnedLayout.visibility = View.GONE
+            } else {
+                caloriesBurned.text = workout.workoutCaloriesBurned
+            }
+
+            distanceIcon.imageTintList =
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.color_on_background
+                    )
+                )
+            durationIcon.imageTintList =
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        holder.itemView.context,
+                        R.color.color_on_background
+                    )
+                )
 
             workoutItemView.setOnClickListener {
                 holder.onWorkoutClicked(

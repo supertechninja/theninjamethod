@@ -56,6 +56,7 @@ class RoutinesRepository @Inject constructor(val context: Context) : CoroutineSc
                     WorkoutType.LIFTING,
                     "27,000lbs",
                     "50:00",
+                    "",
                     it.id
                 )
             )

@@ -12,6 +12,7 @@ data class ActivitesItem(
     val commute: Boolean,
     val device_watts: Boolean,
     val distance: Float,
+    val calories: Double?,
     val elapsed_time: Int,
     val end_latlng: Any,
     val external_id: String,

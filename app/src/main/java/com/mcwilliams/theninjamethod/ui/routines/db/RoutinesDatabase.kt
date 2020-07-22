@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.ExerciseTypeConverter
 import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
 
-@Database(entities = arrayOf(Workout::class), version = 1)
+@Database(entities = arrayOf(Workout::class), version = 5)
 @TypeConverters(ExerciseTypeConverter::class)
 abstract class RoutinesDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao
@@ -26,6 +26,7 @@ abstract class RoutinesDatabase : RoomDatabase() {
                             context.applicationContext,
                             RoutinesDatabase::class.java, "routines_database"
                         )
+                            .fallbackToDestructiveMigration()
                             .build()
                     }
                 }
