@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
@@ -42,6 +43,17 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
 
         val totalWeightLifted = view.findViewById<MaterialTextView>(R.id.workout_weight_lifted)
 
+        val switchWeightLifted = view.findViewById<SwitchMaterial>(R.id.switchWeightLifted)
+        switchWeightLifted.isChecked = true
+        switchWeightLifted.setOnCheckedChangeListener { compoundButton, boolean ->
+            if (boolean) {
+                totalWeightLifted.visibility = View.VISIBLE
+            } else {
+                totalWeightLifted.visibility = View.GONE
+            }
+        }
+
+
         rootView = view.findViewById(R.id.rootView)
 
         totalWeightLifted.text =
@@ -75,6 +87,19 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
 
             exerciseSummary.text = "$exerciseName: $setsSummaryFormatted"
             exercise_summary_layout.addView(shareExerciseSummary)
+        }
+
+        val workoutDuration = view.findViewById<MaterialTextView>(R.id.workout_duration)
+        workoutDuration.text = "Time: ${workout.workoutDuration}"
+
+        val switchDuration = view.findViewById<SwitchMaterial>(R.id.switchDuration)
+        switchDuration.isChecked = true
+        switchDuration.setOnCheckedChangeListener { compoundButton, boolean ->
+            if (boolean) {
+                workoutDuration.visibility = View.VISIBLE
+            } else {
+                workoutDuration.visibility = View.GONE
+            }
         }
 
         btnShare.setOnClickListener {

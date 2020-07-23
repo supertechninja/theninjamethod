@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
@@ -48,6 +50,25 @@ class ManualWorkoutDetailFragment : Fragment() {
             Log.d("TAG", "onViewCreated: ${it.workoutName}")
             detailedWorkout = it
             workout_name.text = it.workoutName
+            workout_name.setOnClickListener {
+                val inputView = layoutInflater.inflate(R.layout.workout_name_dialog, null)
+                val duration = inputView.findViewById<TextInputEditText>(R.id.tilWorkoutName)
+                duration.setText(detailedWorkout.workoutName)
+
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Edit Workout Name")
+                    .setView(inputView)
+                    .setPositiveButton("Save") { _, _ ->
+                        val duration =
+                            inputView.findViewById<TextInputEditText>(R.id.tilWorkoutName).text.toString()
+                        workout_name.text = duration
+                        detailedWorkout.workoutName = duration
+                        viewModel.updateWorkout(detailedWorkout)
+                    }
+                    .setNegativeButton("Cancel") { _, _ -> }
+                    // Add customization options here
+                    .create().show()
+            }
 
             val date = LocalDate.parse(it.workoutDate)
             workout_date.text =

@@ -1,9 +1,6 @@
 package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import io.reactivex.Flowable
 
 @Dao
@@ -17,6 +14,9 @@ interface WorkoutDao {
 //    @Query("SELECT * FROM user WHERE first_name LIKE :first AND " +
 //            "last_name LIKE :last LIMIT 1")
 //    fun findByName(first: String, last: String): User
+
+    @Update
+    suspend fun updateWorkout(workout: Workout)
 
     @Insert
     suspend fun insertAll(vararg users: Workout)
