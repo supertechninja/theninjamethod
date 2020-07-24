@@ -73,9 +73,9 @@
             android:layout_marginBottom="25dp"
             android:src="@mipmap/ic_launcher_foreground"
             android:tint="@android:color/white"
-            app:layout_constraintTop_toBottomOf="@+id/workout_duration"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/workout_duration" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/ninja_method_label"
@@ -92,39 +92,57 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/toggles"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rootView"
         android:layout_centerHorizontal="true"
-        android:id="@+id/toggles"
-        android:orientation="vertical"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
 
         <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchWeightLifted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weight Lifted"
-            android:layout_gravity="center"
-            android:id="@+id/switchWeightLifted" />
+            android:text="Weight Lifted" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Duration"
-            android:layout_marginTop="30dp"
-            android:layout_gravity="center"
-            android:id="@+id/switchDuration" />
+            android:layout_below="@+id/switchWeightLifted"
+            android:layout_marginTop="10dp"
+            android:text="Duration" />
 
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/cardColor"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/switchDuration"
+            android:layout_marginTop="20dp"
+            android:background="@color/card_background" />
 
-    </LinearLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/color_label"
+            style="?attr/textAppearanceBody2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/cardColor"
+            android:layout_alignBottom="@+id/cardColor"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/cardColor"
+            android:gravity="center_vertical"
+            android:text="Share Card Color" />
+
+    </RelativeLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/toggles"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="Share" />
 </RelativeLayout>

@@ -59,10 +59,8 @@ class ManualWorkoutDetailFragment : Fragment() {
                     .setTitle("Edit Workout Name")
                     .setView(inputView)
                     .setPositiveButton("Save") { _, _ ->
-                        val duration =
-                            inputView.findViewById<TextInputEditText>(R.id.tilWorkoutName).text.toString()
-                        workout_name.text = duration
-                        detailedWorkout.workoutName = duration
+                        workout_name.text = duration.text.toString()
+                        detailedWorkout.workoutName = duration.text.toString()
                         viewModel.updateWorkout(detailedWorkout)
                     }
                     .setNegativeButton("Cancel") { _, _ -> }
