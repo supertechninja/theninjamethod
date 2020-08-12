@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.ColorInt
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
 import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.muddzdev.quickshot.QuickShot
+import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.android.synthetic.main.share_workout_image.*
 import java.text.NumberFormat
 import java.time.LocalDateTime
@@ -22,6 +26,10 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
     lateinit var workout: Workout
     var amountLifted: Int = 0
     lateinit var rootView: ConstraintLayout
+
+    @ColorInt
+    var selectedColor: Int = ColorSheet.NO_COLOR
+    var noColorOption = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,9 +48,39 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
         val workoutName = view.findViewById<MaterialTextView>(R.id.workout_name)
         workoutName.text = workout.workoutName
 
+        rootView = view.findViewById(R.id.rootView)
+
+        val colors = resources.getIntArray(R.array.colors)
+        selectedColor = colors.first()
+        rootView.setBackgroundColor(selectedColor)
+
+        val cardColor = view.findViewById<AppCompatImageButton>(R.id.cardColor)
+        cardColor.setBackgroundColor(colors.first())
+        cardColor.setOnClickListener {
+            ColorSheet().cornerRadius(8)
+                .colorPicker(
+                    colors = colors,
+                    noColorOption = false,
+                    selectedColor = selectedColor,
+                    listener = { color ->
+                        selectedColor = color
+                        rootView.setBackgroundColor(selectedColor)
+                        cardColor.setBackgroundColor(selectedColor)
+                    })
+                .show(requireActivity().supportFragmentManager)
+        }
+
         val totalWeightLifted = view.findViewById<MaterialTextView>(R.id.workout_weight_lifted)
 
-        rootView = view.findViewById(R.id.rootView)
+        val switchWeightLifted = view.findViewById<SwitchMaterial>(R.id.switchWeightLifted)
+        switchWeightLifted.isChecked = true
+        switchWeightLifted.setOnCheckedChangeListener { compoundButton, boolean ->
+            if (boolean) {
+                totalWeightLifted.visibility = View.VISIBLE
+            } else {
+                totalWeightLifted.visibility = View.GONE
+            }
+        }
 
         totalWeightLifted.text =
             "Weight Lifted: ${NumberFormat.getNumberInstance(Locale.US).format(amountLifted)}lbs"
@@ -75,6 +113,19 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
 
             exerciseSummary.text = "$exerciseName: $setsSummaryFormatted"
             exercise_summary_layout.addView(shareExerciseSummary)
+        }
+
+        val workoutDuration = view.findViewById<MaterialTextView>(R.id.workout_duration)
+        workoutDuration.text = "Time: ${workout.workoutDuration}"
+
+        val switchDuration = view.findViewById<SwitchMaterial>(R.id.switchDuration)
+        switchDuration.isChecked = true
+        switchDuration.setOnCheckedChangeListener { compoundButton, boolean ->
+            if (boolean) {
+                workoutDuration.visibility = View.VISIBLE
+            } else {
+                workoutDuration.visibility = View.GONE
+            }
         }
 
         btnShare.setOnClickListener {

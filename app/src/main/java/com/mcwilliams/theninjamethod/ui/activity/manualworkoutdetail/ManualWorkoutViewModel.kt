@@ -24,6 +24,11 @@ class ManualWorkoutViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             manualWorkoutsRepository.deleteWorkout(workout.value!!)
         }
+    }
 
+    fun updateWorkout(workout: Workout) {
+        viewModelScope.launch {
+            manualWorkoutsRepository.updateWorkout(workout)
+        }
     }
 }

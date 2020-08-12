@@ -43,6 +43,12 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
         }
     }
 
+    suspend fun updateWorkout(workout: Workout) {
+        withContext(Dispatchers.IO) {
+            workoutDao?.updateWorkout(workout)
+        }
+    }
+
     private fun mapManualWorkoutToUiWorkout(workoutList: List<Workout>): List<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout> {
         val workoutUiObjList =
             mutableListOf<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout>()

@@ -40,4 +40,15 @@
 
     <color name="card_background">#DCDCDC</color>
     <color name="green">#008000</color>
+
+    <array name="colors">
+        <item>#2E2E2E</item>
+        <item>#F44336</item>
+        <item>#E91E63</item>
+        <item>#3F51B5</item>
+        <item>#1E88E5</item>
+        <item>#F4511E</item>
+        <item>#546E7A</item>
+        <item>#43A047</item>
+    </array>
 </resources>
