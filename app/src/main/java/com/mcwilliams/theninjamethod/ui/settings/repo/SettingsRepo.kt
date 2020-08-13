@@ -1,11 +1,10 @@
 package com.mcwilliams.theninjamethod.ui.settings.repo
 
-import com.mcwilliams.theninjamethod.network.Result
+import com.mcwilliams.appinf.model.Athlete
 import com.mcwilliams.theninjamethod.strava.model.athlete.StravaAthlete
-import com.mcwilliams.theninjamethod.ui.settings.data.Athlete
 
 interface SettingsRepo {
-    suspend fun authAthlete(code: String): Result<Athlete?>
+    suspend fun authAthlete(code: String): Athlete?
 
-    suspend fun fetchAthlete(): Result<StravaAthlete?>
+    suspend fun fetchAthlete(): StravaAthlete?
 }

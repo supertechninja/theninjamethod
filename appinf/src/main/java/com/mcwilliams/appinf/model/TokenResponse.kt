@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.settings.data
+package com.mcwilliams.appinf.model
 
 data class TokenResponse(
     val access_token: String,

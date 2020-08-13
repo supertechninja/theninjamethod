@@ -1,10 +1,9 @@
-package com.mcwilliams.theninjamethod.strava
+package com.mcwilliams.appinf
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.strava.api.Session
-import com.mcwilliams.theninjamethod.ui.settings.data.TokenResponse
+import com.mcwilliams.appinf.model.GrantType
+import com.mcwilliams.appinf.model.TokenResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

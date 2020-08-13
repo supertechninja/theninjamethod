@@ -1,6 +1,6 @@
-package com.mcwilliams.theninjamethod.strava
+package com.mcwilliams.appinf
 
-import com.mcwilliams.theninjamethod.ui.settings.data.TokenResponse
+import com.mcwilliams.appinf.model.TokenResponse
 
 interface ISessionRepository {
     suspend fun getFirstTokens(code: String): TokenResponse

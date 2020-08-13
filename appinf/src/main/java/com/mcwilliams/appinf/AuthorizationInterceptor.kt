@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.strava
+package com.mcwilliams.appinf
 
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor

@@ -5,8 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mcwilliams.theninjamethod.network.Result
-import com.mcwilliams.theninjamethod.strava.SessionRepository
+import com.mcwilliams.appinf.SessionRepository
 import com.mcwilliams.theninjamethod.strava.model.athlete.StravaAthlete
 import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
 import kotlinx.coroutines.launch
@@ -31,35 +30,14 @@ class SettingsViewModel @ViewModelInject constructor(
 
     fun loginAthlete(code: String) {
         viewModelScope.launch {
-            try {
-                when (val response = settingsRepo.authAthlete(code)) {
-                    is Result.Success -> {
-                        loadDetailedAthlete()
-                    }
-                    is Result.Error -> {
-                        _errorMessage.postValue(response.exception.toString())
-                    }
-                }
-            } catch (e: Exception) {
-                _errorMessage.postValue(e.message)
-            }
+            settingsRepo.authAthlete(code)
+            loadDetailedAthlete()
         }
     }
 
     fun loadDetailedAthlete() {
         viewModelScope.launch {
-            try {
-                when (val response = settingsRepo.fetchAthlete()) {
-                    is Result.Success -> {
-                        _detailedAthlete.postValue(response.data)
-                    }
-                    is Result.Error -> {
-                        _errorMessage.postValue(response.exception.toString())
-                    }
-                }
-            } catch (e: java.lang.Exception) {
-                _errorMessage.postValue(e.message)
-            }
+            _detailedAthlete.postValue(settingsRepo.fetchAthlete())
         }
     }
 

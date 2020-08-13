@@ -1,10 +1,10 @@
 package com.mcwilliams.theninjamethod.di.modules
 
 import android.content.Context
+import com.mcwilliams.appinf.Session
+import com.mcwilliams.appinf.SessionRepository
 import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
-import com.mcwilliams.theninjamethod.strava.SessionRepository
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
-import com.mcwilliams.theninjamethod.strava.api.Session
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.StravaWorkoutRepository
 import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.ui.activity.stravadetail.StravaWorkoutDetailRepository

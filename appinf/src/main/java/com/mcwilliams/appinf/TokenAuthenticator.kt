@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.strava
+package com.mcwilliams.appinf
 
 import android.util.Log
 import kotlinx.coroutines.runBlocking

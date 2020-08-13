@@ -12,10 +12,8 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.mcwilliams.appinf.model.StravaLogin
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.strava.AccessScope
-import com.mcwilliams.theninjamethod.strava.ApprovalPrompt
-import com.mcwilliams.theninjamethod.strava.StravaLogin
 
 class StravaWebAuthFragment : Fragment() {
 
@@ -41,8 +39,8 @@ class StravaWebAuthFragment : Fragment() {
     private fun loadLoginUrl(): String = StravaLogin.withContext(activity)
         .withClientID(CLIENT_ID)
         .withRedirectURI(redirectUrl)
-        .withApprovalPrompt(ApprovalPrompt.AUTO)
-        .withAccessScope(AccessScope.VIEW_PRIVATE_WRITE)
+        .withApprovalPrompt("auto")
+        .withAccessScope("activity:read,activity:write")
         .makeLoginURL()
 
 

@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.settings.data
+package com.mcwilliams.appinf.model
 
 data class Athlete(
     val badge_type_id: Int,

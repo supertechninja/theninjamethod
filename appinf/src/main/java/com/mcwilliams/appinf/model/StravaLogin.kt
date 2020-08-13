@@ -1,12 +1,12 @@
-package com.mcwilliams.theninjamethod.strava
+package com.mcwilliams.appinf.model
 
 import android.content.Context
 
 class StravaLogin(private val context: Context?) {
     private var clientID = 0
     private var redirectURI: String? = null
-    private var approvalPrompt: ApprovalPrompt? = null
-    private var accessScope: AccessScope? = null
+    private var approvalPrompt: String? = null
+    private var accessScope: String? = null
 
     fun withClientID(clientID: Int): StravaLogin {
         this.clientID = clientID
@@ -18,12 +18,12 @@ class StravaLogin(private val context: Context?) {
         return this
     }
 
-    fun withApprovalPrompt(approvalPrompt: ApprovalPrompt?): StravaLogin {
+    fun withApprovalPrompt(approvalPrompt: String?): StravaLogin {
         this.approvalPrompt = approvalPrompt
         return this
     }
 
-    fun withAccessScope(accessScope: AccessScope?): StravaLogin {
+    fun withAccessScope(accessScope: String?): StravaLogin {
         this.accessScope = accessScope
         return this
     }

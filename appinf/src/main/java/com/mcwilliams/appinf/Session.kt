@@ -1,6 +1,6 @@
-package com.mcwilliams.theninjamethod.strava.api
+package com.mcwilliams.appinf
 
-import com.mcwilliams.theninjamethod.ui.settings.data.TokenResponse
+import com.mcwilliams.appinf.model.TokenResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
