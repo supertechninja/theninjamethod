@@ -5,14 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Recomposer
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.setContent
 import androidx.core.util.Preconditions
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_settings.*
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -24,44 +30,23 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        val fragmentView = inflater.inflate(R.layout.frame_layout, container, false)
+        (fragmentView as ViewGroup).setContent(Recomposer.current()) {
+            SettingsLayout(fragmentView, viewModel)
+        }
+        return fragmentView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.detailedAthlete.observe(viewLifecycleOwner, Observer { dathlete ->
-            detailed_athlete.text = dathlete.toString()
-            detailed_athlete.hideOtherViews()
-        })
-
-        viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                btnLogin2Strava.visibility = View.GONE
-                athleteName.visibility = View.GONE
-                detailed_athlete.visibility = View.VISIBLE
-                viewModel.loadDetailedAthlete()
-            } else {
-                btnLogin2Strava.visibility = View.VISIBLE
-            }
-        })
-
-        button_log_off.setOnClickListener {
-            viewModel.logOff()
-        }
-
         parentFragmentManager.setFragmentResultListener(
             REQUEST_KEY,
             this,
-            FragmentResultListener { requestKey, result ->
+            { requestKey, result ->
                 onFragmentResult(requestKey, result)
             }
         )
-
-        btnLogin2Strava.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.navigate_to_strava_auth)
-        }
-
     }
 
     @SuppressLint("RestrictedApi")
@@ -71,16 +56,42 @@ class SettingsFragment : Fragment() {
         viewModel.loginAthlete(authCode!!)
     }
 
-
-    private fun View.hideOtherViews() {
-        btnLogin2Strava.visibility = View.GONE
-        athleteName.visibility = View.GONE
-        detailed_athlete.visibility = View.GONE
-        this.visibility = View.VISIBLE
-    }
-
     companion object {
-        private const val TAG = "SettingsFragment"
         private const val REQUEST_KEY = "authCode"
+    }
+}
+
+@Composable
+fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
+    val isLoggedIn by viewModel.isLoggedIn.observeAsState()
+
+    if (isLoggedIn!!) {
+        viewModel.loadDetailedAthlete()
+
+        val detailedAthlete by viewModel.detailedAthlete.observeAsState()
+        detailedAthlete?.let {
+            Column {
+                Text(
+                    text = "${detailedAthlete!!.firstname} ${detailedAthlete!!.lastname}",
+                    color = Color.White
+                )
+
+                Button(content = {
+                    Text("Log off")
+                }, onClick = {
+                    viewModel.logOff()
+                })
+            }
+        }
+
+
+    } else {
+        Column {
+            Button(content = {
+                Text("Log into Strava")
+            }, onClick = {
+                Navigation.findNavController(fragmentView).navigate(R.id.navigate_to_strava_auth)
+            })
+        }
     }
 }

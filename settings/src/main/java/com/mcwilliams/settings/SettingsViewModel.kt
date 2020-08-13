@@ -20,7 +20,7 @@ class SettingsViewModel @ViewModelInject constructor(
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
 
-    private var _isLoggedIn = MutableLiveData<Boolean>()
+    private var _isLoggedIn = MutableLiveData(false)
     var isLoggedIn: LiveData<Boolean> = _isLoggedIn
 
     init {
@@ -30,6 +30,7 @@ class SettingsViewModel @ViewModelInject constructor(
     fun loginAthlete(code: String) {
         viewModelScope.launch {
             settingsRepo.authAthlete(code)
+            _isLoggedIn.postValue(sessionRepository.isLoggedIn())
             loadDetailedAthlete()
         }
     }

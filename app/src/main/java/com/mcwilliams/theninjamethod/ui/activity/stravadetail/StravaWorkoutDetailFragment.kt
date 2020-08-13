@@ -7,9 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import coil.api.load
 import com.google.android.material.textview.MaterialTextView
-import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
@@ -52,7 +50,7 @@ class StravaWorkoutDetailFragment : Fragment() {
             if (stravaDetail.map!!.summary_polyline.isNullOrEmpty()) {
                 map_view.visibility = View.GONE
             } else {
-                map_view.load(getMapUrl(stravaDetail.map.summary_polyline!!))
+//                map_view.load(getMapUrl(stravaDetail.map.summary_polyline!!))
             }
 
             workout_date.text = stravaDetail.formattedDate
@@ -110,9 +108,9 @@ class StravaWorkoutDetailFragment : Fragment() {
         })
     }
 
-    fun getMapUrl(polyline: String): String {
-        return "https://maps.googleapis.com/maps/api/staticmap?size=700x350&scale=2&maptype=roadmap&path=enc:${polyline}&key=${BuildConfig.MAPS_API_KEY}"
-    }
+//    fun getMapUrl(polyline: String): String {
+//        return "https://maps.googleapis.com/maps/api/staticmap?size=700x350&scale=2&maptype=roadmap&path=enc:${polyline}&key=${BuildConfig.MAPS_API_KEY}"
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
