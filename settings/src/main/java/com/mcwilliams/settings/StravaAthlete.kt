@@ -1,9 +1,8 @@
-package com.mcwilliams.theninjamethod.strava.model.athlete
+package com.mcwilliams.settings
 
 data class StravaAthlete(
     val athlete_type: Int,
     val badge_type_id: Int,
-    val bikes: List<Bike>,
     val city: String,
     val clubs: List<Any>,
     val country: String,
@@ -24,7 +23,6 @@ data class StravaAthlete(
     val profile_medium: String,
     val resource_state: Int,
     val sex: String,
-    val shoes: List<Shoe>,
     val state: String,
     val updated_at: String,
     val username: String,

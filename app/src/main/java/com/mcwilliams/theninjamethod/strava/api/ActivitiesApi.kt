@@ -2,15 +2,12 @@ package com.mcwilliams.theninjamethod.strava.api
 
 import com.mcwilliams.theninjamethod.strava.model.activites.ActivitesItem
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
-import com.mcwilliams.theninjamethod.strava.model.athlete.StravaAthlete
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface AthleteApi {
-    @GET("athlete")
-    suspend fun getAthlete(): StravaAthlete
+interface ActivitiesApi {
 
     @GET("athlete/activities")
     fun getAthleteActivities(): Observable<List<ActivitesItem>>

@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.settings
+package com.mcwilliams.settings
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import com.mcwilliams.theninjamethod.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_settings.*
 

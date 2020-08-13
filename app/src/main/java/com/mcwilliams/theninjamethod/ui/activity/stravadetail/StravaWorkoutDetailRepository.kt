@@ -1,6 +1,6 @@
 package com.mcwilliams.theninjamethod.ui.activity.stravadetail
 
-import com.mcwilliams.theninjamethod.strava.api.AthleteApi
+import com.mcwilliams.theninjamethod.strava.api.ActivitiesApi
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.mcwilliams.theninjamethod.utils.extensions.*
 import io.reactivex.Observable
@@ -10,11 +10,11 @@ import javax.inject.Singleton
 
 @Singleton
 class StravaWorkoutDetailRepository @Inject constructor(
-    private val athleteApi: AthleteApi
+    private val activitiesApi: ActivitiesApi
 ) {
     //Return Detail Strava Activity to render the activity detail
     fun getStravaItemDetail(id: Number): Observable<StravaActivityDetail> {
-        return athleteApi.getActivityDetail(id, true).map { mapStravaWorkouts(it) }
+        return activitiesApi.getActivityDetail(id, true).map { mapStravaWorkouts(it) }
     }
 
     fun getMultipleStravaDetails(id: List<Number>): Observable<List<StravaActivityDetail>> {

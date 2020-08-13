@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.settings
+package com.mcwilliams.settings
 
 import android.annotation.TargetApi
 import android.net.Uri
@@ -13,7 +13,6 @@ import android.webkit.WebViewClient
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.mcwilliams.appinf.model.StravaLogin
-import com.mcwilliams.theninjamethod.R
 
 class StravaWebAuthFragment : Fragment() {
 

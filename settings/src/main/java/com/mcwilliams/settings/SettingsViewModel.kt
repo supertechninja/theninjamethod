@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.settings
+package com.mcwilliams.settings
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -6,8 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.appinf.SessionRepository
-import com.mcwilliams.theninjamethod.strava.model.athlete.StravaAthlete
-import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
+import com.mcwilliams.settings.repo.SettingsRepo
 import kotlinx.coroutines.launch
 
 class SettingsViewModel @ViewModelInject constructor(
@@ -22,7 +21,7 @@ class SettingsViewModel @ViewModelInject constructor(
     var errorMessage: LiveData<String> = _errorMessage
 
     private var _isLoggedIn = MutableLiveData<Boolean>()
-    var isLoggedIn : LiveData<Boolean> = _isLoggedIn
+    var isLoggedIn: LiveData<Boolean> = _isLoggedIn
 
     init {
         _isLoggedIn.postValue(sessionRepository.isLoggedIn())
@@ -41,7 +40,7 @@ class SettingsViewModel @ViewModelInject constructor(
         }
     }
 
-    fun logOff (){
+    fun logOff() {
         sessionRepository.logOff()
         _isLoggedIn.postValue(false)
     }

@@ -1,19 +1,23 @@
 package com.mcwilliams.appinf.di
 
+import android.content.Context
 import com.mcwilliams.appinf.AuthorizationInterceptor
 import com.mcwilliams.appinf.Session
+import com.mcwilliams.appinf.SessionRepository
 import com.mcwilliams.appinf.TokenAuthenticator
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
+import javax.inject.Singleton
 
 @InstallIn(ApplicationComponent::class)
 @Module
@@ -26,6 +30,14 @@ object NetworkModule {
     internal fun provideStravaSession(@Named("strava") retrofit: Retrofit): Session {
         return retrofit.create(Session::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun providesSessionRepository(
+        @ApplicationContext context: Context,
+        session: Session
+    ): SessionRepository =
+        SessionRepository(context, session)
 
     /**
      * a strava api makes the calls to the api and attaches the token to the header with an okhttp interceptor from the session. Session should have a
