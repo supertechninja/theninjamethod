@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
 import com.muddzdev.quickshot.QuickShot
@@ -40,9 +39,9 @@ class ShareCombinedWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
         rootView = view.findViewById(R.id.rootView)
     }
 
-    fun getMapUrl(polyline: String): String {
-        return "https://maps.googleapis.com/maps/api/staticmap?size=600x300&scale=2&maptype=roadmap&path=enc:${polyline}&key=${BuildConfig.MAPS_API_KEY}"
-    }
+//    fun getMapUrl(polyline: String): String {
+//        return "https://maps.googleapis.com/maps/api/staticmap?size=600x300&scale=2&maptype=roadmap&path=enc:${polyline}&key=${BuildConfig.MAPS_API_KEY}"
+//    }
 
     private fun share() {
         QuickShot.of(rootView).setResultListener(this)

@@ -2,16 +2,12 @@ package com.mcwilliams.theninjamethod.di.modules
 
 import android.content.Context
 import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
-import com.mcwilliams.theninjamethod.strava.SessionRepository
-import com.mcwilliams.theninjamethod.strava.api.AthleteApi
-import com.mcwilliams.theninjamethod.strava.api.Session
+import com.mcwilliams.theninjamethod.strava.api.ActivitiesApi
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.StravaWorkoutRepository
 import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.ui.activity.stravadetail.StravaWorkoutDetailRepository
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.routines.RoutinesRepository
-import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepo
-import com.mcwilliams.theninjamethod.ui.settings.repo.SettingsRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,36 +19,26 @@ import javax.inject.Singleton
 @Module(includes = [NetworkModule::class])
 class AppModule {
 
-    @Provides
-    @Singleton
-    fun provideSettingsRepository(settingsRepoImpl: SessionRepository, athleteApi: AthleteApi) : SettingsRepo =
-        SettingsRepoImpl(settingsRepoImpl, athleteApi)
+
 
     @Provides
     @Singleton
     fun provideWorkoutRepository(
         @ApplicationContext context: Context,
-        athleteApi: AthleteApi
+        activitiesApi: ActivitiesApi
     ): StravaWorkoutRepository =
         StravaWorkoutRepository(
             context,
-            athleteApi
+            activitiesApi
         )
 
     @Provides
     @Singleton
-    fun provideStravaDetailRepository(athleteApi: AthleteApi): StravaWorkoutDetailRepository =
+    fun provideStravaDetailRepository(activitiesApi: ActivitiesApi): StravaWorkoutDetailRepository =
         StravaWorkoutDetailRepository(
-            athleteApi
+            activitiesApi
         )
 
-    @Provides
-    @Singleton
-    fun providesSessionRepository(
-        @ApplicationContext context: Context,
-        session: Session
-    ): SessionRepository =
-        SessionRepository(context, session)
 
     @Provides
     @Singleton

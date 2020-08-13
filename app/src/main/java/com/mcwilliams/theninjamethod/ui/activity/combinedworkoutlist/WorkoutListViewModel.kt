@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mcwilliams.theninjamethod.strava.SessionRepository
+import com.mcwilliams.appinf.SessionRepository
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData

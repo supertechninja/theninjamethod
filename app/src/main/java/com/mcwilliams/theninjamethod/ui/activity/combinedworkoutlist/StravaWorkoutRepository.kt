@@ -1,7 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
 import android.content.Context
-import com.mcwilliams.theninjamethod.strava.api.AthleteApi
+import com.mcwilliams.theninjamethod.strava.api.ActivitiesApi
 import com.mcwilliams.theninjamethod.strava.model.activites.ActivitesItem
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutType
@@ -13,14 +13,14 @@ import javax.inject.Singleton
 @Singleton
 class StravaWorkoutRepository @Inject constructor(
     val context: Context,
-    private val athleteApi: AthleteApi
+    private val activitiesApi: ActivitiesApi
 ) {
 
     //Cache in memory the strava workouts
     private lateinit var listOfStravaWorkouts: List<ActivitesItem>
 
     fun getStravaActivities(): Observable<List<Workout>> =
-        athleteApi.getAthleteActivities().map { mapStravaWorkouts(it) }
+        activitiesApi.getAthleteActivities().map { mapStravaWorkouts(it) }
 
 
     //Return a list of strava workout summaries, a subset of the detail data needed to show the ui
