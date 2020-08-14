@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.appinf.SessionRepository
-import com.mcwilliams.settings.model.ActivityTotal
+import com.mcwilliams.settings.model.AthleteStats
 import com.mcwilliams.settings.model.StravaAthlete
 import com.mcwilliams.settings.repo.SettingsRepo
 import kotlinx.coroutines.launch
@@ -19,10 +19,8 @@ class SettingsViewModel @ViewModelInject constructor(
     private var _detailedAthlete = MutableLiveData<StravaAthlete>()
     var detailedAthlete: LiveData<StravaAthlete> = _detailedAthlete
 
-    private var _athleteStats =
-        MutableLiveData<MutableList<Pair<String, MutableList<ActivityTotal?>>>>()
-    var athleteStats: LiveData<MutableList<Pair<String, MutableList<ActivityTotal?>>>> =
-        _athleteStats
+    private var _athleteStats = MutableLiveData<AthleteStats>()
+    var athleteStats: LiveData<AthleteStats> = _athleteStats
 
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
@@ -46,36 +44,7 @@ class SettingsViewModel @ViewModelInject constructor(
         viewModelScope.launch {
             val detailedAthlete = settingsRepo.fetchAthlete()
             _detailedAthlete.postValue(detailedAthlete!!)
-
-
-            val athleteStats = settingsRepo.fetchAthleteStats(detailedAthlete.id.toString())
-
-            val statsByType: MutableList<Pair<String, MutableList<ActivityTotal?>>> =
-                mutableListOf()
-
-            val rideStats = mutableListOf(
-                athleteStats?.recent_ride_totals,
-                athleteStats?.ytd_ride_totals,
-                athleteStats?.all_ride_totals
-            )
-
-            val runStats = mutableListOf(
-                athleteStats?.recent_run_totals,
-                athleteStats?.ytd_run_totals,
-                athleteStats?.all_run_totals
-            )
-
-            val swimStats = mutableListOf(
-                athleteStats?.recent_swim_totals,
-                athleteStats?.ytd_swim_totals,
-                athleteStats?.all_swim_totals
-            )
-
-            statsByType.add(Pair("Ride", rideStats))
-            statsByType.add(Pair("Run", runStats))
-            statsByType.add(Pair("Swim", swimStats))
-
-            _athleteStats.postValue(statsByType)
+            _athleteStats.postValue(settingsRepo.fetchAthleteStats(detailedAthlete.id.toString()))
         }
     }
 

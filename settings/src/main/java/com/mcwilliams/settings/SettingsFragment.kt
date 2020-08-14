@@ -10,13 +10,9 @@ import androidx.compose.foundation.ContentGravity
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Recomposer
-import androidx.compose.runtime.getValue
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +23,7 @@ import androidx.core.util.Preconditions
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.mcwilliams.settings.model.ActivityTotal
 import dagger.hilt.android.AndroidEntryPoint
 import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlin.math.roundToInt
@@ -111,44 +108,54 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
                     )
                 }
 
+                Text(
+                    text = "Strava Stats",
+                    style = MaterialTheme.typography.h6,
+                    modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
+                    color = Color.White
+                )
+
                 val athleteStats by viewModel.athleteStats.observeAsState()
                 athleteStats?.let {
-                    it.forEach { athleteStat ->
-                        Text(
-                            athleteStat.first,
-                            modifier = Modifier.padding(vertical = 8.dp),
-                            style = MaterialTheme.typography.h6,
-                            color = Color.White
-                        )
 
-                        athleteStat.second.forEachIndexed { index, activityTotal ->
-                            when (index) {
-                                0 -> {
-                                    Text(
-                                        "Recent: ${(activityTotal?.distance?.div(1609))?.roundToInt()} miles",
-                                        color = Color.White,
-                                        style = MaterialTheme.typography.body1
-                                    )
-                                }
-                                1 -> {
-                                    Text(
-                                        "Year to Date: ${(activityTotal?.distance?.div(1609))?.roundToInt()} miles",
-                                        color = Color.White,
-                                        style = MaterialTheme.typography.body1
-                                    )
-                                }
-                                2 -> {
-                                    Text(
-                                        "All-time: ${(activityTotal?.distance?.div(1609))?.roundToInt()} miles",
-                                        color = Color.White,
-                                        style = MaterialTheme.typography.body1
-                                    )
+                    var screenState by state { 0 }
 
-                                }
-                            }
+                    Tabs(
+                        selectedTab = screenState,
+                        onSelected = { index ->
+                            screenState = index
+                        }
+                    )
+
+                    when (screenState) {
+                        0 -> {
+                            ShowStatsByType(
+                                listOf(
+                                    it.recent_ride_totals,
+                                    it.ytd_ride_totals,
+                                    it.all_ride_totals
+                                )
+                            )
+                        }
+                        1 -> {
+                            ShowStatsByType(
+                                listOf(
+                                    it.recent_run_totals,
+                                    it.ytd_run_totals,
+                                    it.all_run_totals
+                                )
+                            )
+                        }
+                        2 -> {
+                            ShowStatsByType(
+                                listOf(
+                                    it.recent_swim_totals,
+                                    it.ytd_swim_totals,
+                                    it.all_swim_totals
+                                )
+                            )
                         }
                     }
-
                 }
 
                 Button(content = {
@@ -167,4 +174,81 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
             })
         }
     }
+}
+
+@Composable
+fun Tabs(
+    selectedTab: Int,
+    onSelected: (Int) -> Unit
+) {
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        modifier = Modifier.wrapContentHeight().padding(top = 8.dp),
+    ) {
+        TabRow(
+            items = listOf(
+                "Ride", "Run", "Swim"
+            ),
+            backgroundColor = Color(0xFF059EDC),
+            selectedIndex = selectedTab,
+            tab = { index, string ->
+                Tab(
+                    text = { Text(string) },
+                    selected = selectedTab == index,
+                    onSelected = {
+                        onSelected(index)
+                    },
+                    activeColor = Color.White,
+                    inactiveColor = Color.LightGray
+                )
+            }
+        )
+    }
+}
+
+@Composable
+fun ShowStatsByType(activites: List<ActivityTotal>) {
+    Column {
+        val weekly = activites[0]
+        val yealy = activites[1]
+        val alltime = activites[2]
+
+        formattedHeaderText("AVG WEEKLY ACTIVITY")
+        formattedText("Runs: ${weekly.count}")
+        formattedText("Time: ${weekly.moving_time.getTimeString()}")
+        formattedText("Distance: ${weekly.distance.div(1609).roundToInt()} mi")
+
+        formattedHeaderText("YEAR TO DATE")
+        formattedText("Runs: ${yealy.count}")
+        formattedText("Time: ${yealy.moving_time.getTimeString()}")
+        formattedText("Distance: ${yealy.distance.div(1609).roundToInt()} mi")
+
+        formattedHeaderText("ALL TIME")
+        formattedText("Runs: ${alltime.count}")
+        formattedText("Distance: ${alltime.distance.div(1609).roundToInt()} mi")
+    }
+}
+
+@Composable
+fun formattedText(text: String) {
+    Text(
+        text, modifier = Modifier.padding(top = 2.dp, bottom = 2.dp),
+        color = Color.White,
+        style = MaterialTheme.typography.body2
+    )
+}
+
+@Composable
+fun formattedHeaderText(text: String) {
+    Text(
+        text, modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
+        color = Color.White,
+        style = MaterialTheme.typography.body1
+    )
+}
+
+
+//Returns time based on seconds passed in
+fun Int.getTimeString(): String {
+    return "${(this / 60)}:${(this % 60)}"
 }
