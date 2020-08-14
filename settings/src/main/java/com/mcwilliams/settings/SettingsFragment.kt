@@ -48,6 +48,8 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.loadDetailedAthlete()
+
         parentFragmentManager.setFragmentResultListener(
             REQUEST_KEY,
             this,
@@ -74,7 +76,6 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
 
     if (isLoggedIn!!) {
-        viewModel.loadDetailedAthlete()
 
         val detailedAthlete by viewModel.detailedAthlete.observeAsState()
         detailedAthlete?.let {
