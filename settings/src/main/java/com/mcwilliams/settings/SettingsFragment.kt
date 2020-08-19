@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.Box
-import androidx.compose.foundation.ContentGravity
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -16,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.unit.dp
 import androidx.core.util.Preconditions
@@ -25,7 +22,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.mcwilliams.settings.model.ActivityTotal
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
@@ -85,20 +81,20 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
                         shape = CircleShape, modifier = Modifier.preferredWidth(100.dp)
                             .preferredHeight(100.dp)
                     ) {
-                        CoilImage(
-                            data = it.profile,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.preferredWidth(100.dp)
-                                .preferredHeight(100.dp),
-                            loading = {
-                                Box(
-                                    modifier = Modifier.fillMaxSize(),
-                                    gravity = ContentGravity.Center
-                                ) {
-                                    CircularProgressIndicator()
-                                }
-                            }
-                        )
+//                        CoilImage(
+//                            data = it.profile,
+//                            contentScale = ContentScale.Crop,
+//                            modifier = Modifier.preferredWidth(100.dp)
+//                                .preferredHeight(100.dp),
+//                            loading = {
+//                                Box(
+//                                    modifier = Modifier.fillMaxSize(),
+//                                    gravity = ContentGravity.Center
+//                                ) {
+//                                    CircularProgressIndicator()
+//                                }
+//                            }
+//                        )
                     }
 
                     Text(
@@ -119,7 +115,7 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
                 val athleteStats by viewModel.athleteStats.observeAsState()
                 athleteStats?.let {
 
-                    var screenState by state { 0 }
+                    var screenState by remember { mutableStateOf(0) }
 
                     Tabs(
                         selectedTab = screenState,
@@ -186,24 +182,20 @@ fun Tabs(
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier.wrapContentHeight().padding(top = 8.dp),
     ) {
-        TabRow(
-            items = listOf(
+        TabRow(selectedTabIndex = selectedTab, backgroundColor = Color(0xFF059EDC)) {
+            val tabTitles = listOf(
                 "Ride", "Run", "Swim"
-            ),
-            backgroundColor = Color(0xFF059EDC),
-            selectedIndex = selectedTab,
-            tab = { index, string ->
+            )
+            tabTitles.forEachIndexed { index, title ->
                 Tab(
-                    text = { Text(string) },
+                    text = { Text(title) },
                     selected = selectedTab == index,
-                    onSelected = {
-                        onSelected(index)
-                    },
-                    activeColor = Color.White,
-                    inactiveColor = Color.LightGray
+                    onClick = { onSelected(index) },
+                    selectedContentColor = Color.Black,
+                    unselectedContentColor = Color.LightGray
                 )
             }
-        )
+        }
     }
 }
 
