@@ -18,9 +18,9 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.mcwilliams.data.exercisedb.DbExercise
+import com.mcwilliams.data.exercisedb.model.ExerciseType
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
-import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +29,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ExercisesFragment : Fragment() {
     private val viewModel: ExerciseListViewModel by viewModels()
     private val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
-    private var exerciseList: MutableList<Exercise> = mutableListOf()
+    private var exerciseList: MutableList<DbExercise> = mutableListOf()
     var didSaveMasterList: Boolean = false
     lateinit var chipsGroup: ChipGroup
 
@@ -183,7 +183,7 @@ class ExercisesFragment : Fragment() {
         }
 
         if (titles.isNotEmpty()) {
-            val allFilteredExerciseList: MutableList<List<Exercise>> = mutableListOf()
+            val allFilteredExerciseList: MutableList<List<DbExercise>> = mutableListOf()
             titles.forEach { exerciseChip: CharSequence ->
                 val exerciseList =
                     exerciseList.filter { it.definedExerciseType!!.name == exerciseChip }

@@ -73,6 +73,7 @@ dependencies {
 
     implementation project(':appinf')
     implementation project(':settings')
+    implementation project(':data')
 
     def room_version = "2.2.5"
 

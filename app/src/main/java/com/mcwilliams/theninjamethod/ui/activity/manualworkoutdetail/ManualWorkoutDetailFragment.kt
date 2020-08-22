@@ -12,10 +12,11 @@ import androidx.navigation.Navigation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
+import com.mcwilliams.data.exercisedb.model.ExerciseType
+import com.mcwilliams.data.exercisedb.model.WorkoutSet
+import com.mcwilliams.data.workoutdb.SimpleWorkout
+import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutSet
-import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.workout_detail_fragment.*
@@ -25,8 +26,8 @@ import java.util.*
 
 @AndroidEntryPoint
 class ManualWorkoutDetailFragment : Fragment() {
-    lateinit var workout: Workout
-    lateinit var detailedWorkout: com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
+    lateinit var workout: SimpleWorkout
+    lateinit var detailedWorkout: Workout
     private val viewModel: ManualWorkoutViewModel by viewModels()
     private var totalAmountLifted = 0
     lateinit var rootView: ConstraintLayout
@@ -36,7 +37,7 @@ class ManualWorkoutDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        workout = arguments?.getSerializable("workout") as Workout
+        workout = arguments?.getSerializable("workout") as SimpleWorkout
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.workout_detail_fragment, container, false)
     }
@@ -87,7 +88,7 @@ class ManualWorkoutDetailFragment : Fragment() {
 
                 totalWeightLifted(exercise.sets!!)
 
-                exercise.sets.forEach { exerciseSet ->
+                exercise.sets!!.forEach { exerciseSet ->
                     val setRow = layoutInflater.inflate(R.layout.workout_detail_sets_row, null)
 
                     val setNumber = setRow.findViewById<MaterialTextView>(R.id.set_count_detail)

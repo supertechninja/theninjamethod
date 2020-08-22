@@ -1,10 +1,7 @@
-package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail
+package com.mcwilliams.data
 
 import android.content.Context
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutType
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.WorkoutDao
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.WorkoutDatabase
+import com.mcwilliams.data.workoutdb.*
 import io.reactivex.Flowable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +26,7 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
     }
 
     //check cache workouts before reading db (reading db is heavy)
-    fun getWorkouts(): Flowable<List<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout>> {
+    fun getWorkouts(): Flowable<List<SimpleWorkout>> {
         return workoutDao?.getAll()!!.map { mapManualWorkoutToUiWorkout(it) }
     }
 
@@ -49,13 +46,13 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
         }
     }
 
-    private fun mapManualWorkoutToUiWorkout(workoutList: List<Workout>): List<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout> {
+    private fun mapManualWorkoutToUiWorkout(workoutList: List<Workout>): List<SimpleWorkout> {
         val workoutUiObjList =
-            mutableListOf<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout>()
+            mutableListOf<SimpleWorkout>()
         manualWorkoutList = workoutList
         workoutList.forEach {
             workoutUiObjList.add(
-                com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout(
+                SimpleWorkout(
                     LocalDate.parse(it.workoutDate),
                     "",
                     it.workoutName,

@@ -2,12 +2,12 @@ package com.mcwilliams.theninjamethod.ui.exercises.repository
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.mcwilliams.data.exercisedb.DbExercise
+import com.mcwilliams.data.exercisedb.ExerciseDao
+import com.mcwilliams.data.exercisedb.ExerciseDatabase
+import com.mcwilliams.data.exercisedb.model.ExerciseType
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
-import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
-import com.mcwilliams.theninjamethod.ui.exercises.db.ExerciseDao
-import com.mcwilliams.theninjamethod.ui.exercises.db.ExerciseDatabase
-import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import io.reactivex.Flowable
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -46,17 +46,17 @@ class ExerciseRepository @Inject constructor(
         preferences.edit().putBoolean("hasRetrievedExercises", true).apply()
     }
 
-    fun getExercises(): Flowable<List<Exercise>>? {
+    fun getExercises(): Flowable<List<DbExercise>>? {
         return exerciseDao!!.getAllFlow().map { it.sortedBy { exercise -> exercise.exerciseName } }
     }
 
-    suspend fun deleteExercise(exercise: Exercise) {
+    suspend fun deleteExercise(exercise: DbExercise) {
         withContext(Dispatchers.IO) {
             exerciseDao?.delete(exercise)
         }
     }
 
-    suspend fun addExercises(exercise: Exercise) {
+    suspend fun addExercises(exercise: DbExercise) {
         withContext(Dispatchers.IO) {
             exerciseDao?.insertAll(exercise)
         }

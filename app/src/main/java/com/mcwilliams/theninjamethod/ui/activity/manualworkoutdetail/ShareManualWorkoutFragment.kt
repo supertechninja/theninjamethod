@@ -12,9 +12,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
+import com.mcwilliams.data.exercisedb.model.ExerciseType
+import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
-import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.muddzdev.quickshot.QuickShot
 import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.android.synthetic.main.share_workout_image.*

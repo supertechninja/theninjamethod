@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.exercises.model
+package com.mcwilliams.data.exercisedb.model
 
 enum class ExerciseType(val exerciseType: String) {
     bodyweight("bodyweight"),

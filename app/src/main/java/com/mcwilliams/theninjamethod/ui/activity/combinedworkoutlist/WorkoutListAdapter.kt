@@ -12,16 +12,15 @@ import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
+import com.mcwilliams.data.workoutdb.SimpleWorkout
+import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutType
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import java.time.LocalDate
 
-
 class WorkoutListAdapter() : RecyclerView.Adapter<WorkoutListAdapter.ViewHolder>() {
 
-    var workoutList: MutableList<Pair<LocalDate, MutableList<Workout>>> = mutableListOf()
+    var workoutList: MutableList<Pair<LocalDate, MutableList<SimpleWorkout>>> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -112,7 +111,7 @@ class WorkoutListAdapter() : RecyclerView.Adapter<WorkoutListAdapter.ViewHolder>
         return workoutList.size
     }
 
-    fun updateWorkoutList(workoutDates: MutableList<Pair<LocalDate, MutableList<Workout>>>) {
+    fun updateWorkoutList(workoutDates: MutableList<Pair<LocalDate, MutableList<SimpleWorkout>>>) {
         this.workoutList = workoutDates
         notifyDataSetChanged()
     }
@@ -129,7 +128,7 @@ class WorkoutListAdapter() : RecyclerView.Adapter<WorkoutListAdapter.ViewHolder>
 
         fun onWorkoutClicked(
             view: View,
-            workout: Workout
+            workout: SimpleWorkout
         ) {
             val bundle = bundleOf("workout" to workout)
             when (workout.workoutType) {

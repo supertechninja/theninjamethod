@@ -3,18 +3,18 @@ package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
+import com.mcwilliams.data.workoutdb.SimpleWorkout
 
 class WorkoutViewModel : ViewModel() {
-    private val workout = MutableLiveData<Workout>()
-    private lateinit var view : RecyclerView.ViewHolder
+    private val workout = MutableLiveData<SimpleWorkout>()
+    private lateinit var view: RecyclerView.ViewHolder
 
-    fun bind(workoutObj: Workout, holder: RecyclerView.ViewHolder) {
+    fun bind(workoutObj: SimpleWorkout, holder: RecyclerView.ViewHolder) {
         workout.value = workoutObj
         view = holder
     }
 
-    fun getWorkout(): MutableLiveData<Workout> {
+    fun getWorkout(): MutableLiveData<SimpleWorkout> {
         return workout
     }
 

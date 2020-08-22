@@ -8,15 +8,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
 import com.muddzdev.quickshot.QuickShot
 import kotlinx.android.synthetic.main.share_workout_image.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 class ShareCombinedWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
-    lateinit var workout: Pair<LocalDate, MutableList<Workout>>
+    lateinit var workout: Pair<LocalDate, MutableList<SimpleWorkout>>
     lateinit var rootView: ConstraintLayout
 
     override fun onCreateView(
@@ -24,7 +24,8 @@ class ShareCombinedWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        workout = arguments?.getSerializable("workout") as Pair<LocalDate, MutableList<Workout>>
+        workout =
+            arguments?.getSerializable("workout") as Pair<LocalDate, MutableList<SimpleWorkout>>
 
         return inflater.inflate(R.layout.share_strava_workout_image, container, false)
     }

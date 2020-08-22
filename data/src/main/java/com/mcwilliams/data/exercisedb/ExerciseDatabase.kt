@@ -1,13 +1,13 @@
-package com.mcwilliams.theninjamethod.ui.exercises.db
+package com.mcwilliams.data.exercisedb
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseHistoryTypeConverter
+import com.mcwilliams.data.exercisedb.model.ExerciseHistoryTypeConverter
 
-@Database(entities = arrayOf(Exercise::class), version = 3)
+@Database(entities = arrayOf(DbExercise::class), version = 4)
 @TypeConverters(ExerciseHistoryTypeConverter::class)
 abstract class ExerciseDatabase : RoomDatabase() {
     abstract fun exerciseDao(): ExerciseDao
@@ -25,6 +25,7 @@ abstract class ExerciseDatabase : RoomDatabase() {
                             context.applicationContext,
                             ExerciseDatabase::class.java, "exercise_database"
                         )
+                            .fallbackToDestructiveMigration()
                             .build()
                     }
                 }

@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.util.Preconditions
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.mcwilliams.settings.model.ActivityTotal
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +45,11 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loadDetailedAthlete()
+        viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                viewModel.loadDetailedAthlete()
+            }
+        })
 
         parentFragmentManager.setFragmentResultListener(
             REQUEST_KEY,

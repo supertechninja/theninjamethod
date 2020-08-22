@@ -4,7 +4,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
+import com.mcwilliams.data.exercisedb.DbExercise
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import io.reactivex.disposables.CompositeDisposable
@@ -14,7 +14,7 @@ class ExerciseListViewModel @ViewModelInject constructor(
     private val exerciseRepository: ExerciseRepository
 ) : ViewModel() {
 
-    var exerciseList: LiveData<List<Exercise>>
+    var exerciseList: LiveData<List<DbExercise>>
     var compositeDisposable = CompositeDisposable()
 
     init {
@@ -22,13 +22,13 @@ class ExerciseListViewModel @ViewModelInject constructor(
             .toLiveData(compositeDisposable) { it }
     }
 
-    fun addNewExercise(exercise: Exercise) {
+    fun addNewExercise(exercise: DbExercise) {
         viewModelScope.launch {
             exerciseRepository.addExercises(exercise)
         }
     }
 
-    fun deleteExercise(exercise: Exercise) {
+    fun deleteExercise(exercise: DbExercise) {
         viewModelScope.launch { exerciseRepository.deleteExercise(exercise) }
     }
 

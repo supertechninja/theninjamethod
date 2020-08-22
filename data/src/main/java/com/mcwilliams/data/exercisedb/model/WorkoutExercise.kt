@@ -1,8 +1,6 @@
-package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model
+package com.mcwilliams.data.exercisedb.model
 
-import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
-
-data class Exercise(
+data class WorkoutExercise(
     val exerciseName: String,
     val exerciseType: String,
     val exerciseBodyPart: String,
@@ -22,8 +20,8 @@ data class Exercise(
     )
 }
 
-data class Data(val exercises: List<Exercise>)
+data class Data(val exercises: List<WorkoutExercise>)
 
-data class AddExerciseRequest(val exercise: Exercise)
+data class AddExerciseRequest(val exercise: WorkoutExercise)
 
 data class WorkoutSet(val index: Int, var weight: String, var reps: String)

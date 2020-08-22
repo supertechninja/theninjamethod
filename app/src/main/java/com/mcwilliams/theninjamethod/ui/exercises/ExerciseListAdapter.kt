@@ -5,14 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
+import com.mcwilliams.data.exercisedb.DbExercise
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
 import kotlin.random.Random
 
 
 class ExerciseListAdapter() : RecyclerView.Adapter<ExerciseListAdapter.ViewHolder>() {
 
-    private lateinit var exerciseList: MutableList<Exercise>
+    private lateinit var exerciseList: MutableList<DbExercise>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -36,11 +36,11 @@ class ExerciseListAdapter() : RecyclerView.Adapter<ExerciseListAdapter.ViewHolde
         return if (::exerciseList.isInitialized) exerciseList.size else 0
     }
 
-    fun getExerciseList(): List<Exercise> {
+    fun getExerciseList(): List<DbExercise> {
         return exerciseList
     }
 
-    fun updatePostList(postList: MutableList<Exercise>) {
+    fun updatePostList(postList: MutableList<DbExercise>) {
         if (::exerciseList.isInitialized) {
             this.exerciseList.clear()
         }

@@ -1,4 +1,4 @@
-package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db
+package com.mcwilliams.data.workoutdb
 
 import androidx.room.*
 import io.reactivex.Flowable

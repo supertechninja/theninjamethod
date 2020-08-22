@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.appinf.SessionRepository
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
+import com.mcwilliams.data.ManualWorkoutsRepository
+import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import com.mcwilliams.theninjamethod.ui.routines.RoutinesRepository
 import io.reactivex.Observable
@@ -28,9 +28,9 @@ class WorkoutListViewModel @ViewModelInject constructor(
 
     val rootDisposable = CompositeDisposable()
 
-    var _workoutMapLiveData: MutableLiveData<MutableList<Pair<LocalDate, MutableList<Workout>>>> =
+    var _workoutMapLiveData: MutableLiveData<MutableList<Pair<LocalDate, MutableList<SimpleWorkout>>>> =
         MutableLiveData()
-    var workoutMapLiveData: LiveData<MutableList<Pair<LocalDate, MutableList<Workout>>>> =
+    var workoutMapLiveData: LiveData<MutableList<Pair<LocalDate, MutableList<SimpleWorkout>>>> =
         _workoutMapLiveData
 
     var _isLoading: MutableLiveData<Boolean> = MutableLiveData()
@@ -43,7 +43,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
                 Observable.combineLatest(
                     stravaWorkoutRepository.getStravaActivities(),
                     manualWorkoutsRepository.getWorkouts().toObservable(),
-                    BiFunction<List<Workout>, List<Workout>, List<Workout>> { strava, manual
+                    BiFunction<List<SimpleWorkout>, List<SimpleWorkout>, List<SimpleWorkout>> { strava, manual
                         ->
                         mutableListOf(strava, manual).flatten()
                     })
@@ -57,9 +57,9 @@ class WorkoutListViewModel @ViewModelInject constructor(
         }
     }
 
-    private fun onWorkoutsRetrived(wrkOutList: List<Workout>): MutableList<Pair<LocalDate, MutableList<Workout>>> {
+    private fun onWorkoutsRetrived(wrkOutList: List<SimpleWorkout>): MutableList<Pair<LocalDate, MutableList<SimpleWorkout>>> {
         //Group workouts by date to return
-        val dateKeyedWorkouts: MutableMap<LocalDate, MutableList<Workout>> = mutableMapOf()
+        val dateKeyedWorkouts: MutableMap<LocalDate, MutableList<SimpleWorkout>> = mutableMapOf()
         //sort the workout by date ascending
         val sortedWorkouts = wrkOutList.sortedByDescending { it.date }
         //get workouts by unique date
@@ -67,7 +67,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
 
         //creates a 1-date to many workout list
         for (date in listOfDates) {
-            val workoutsByDate: MutableList<Workout> = mutableListOf()
+            val workoutsByDate: MutableList<SimpleWorkout> = mutableListOf()
             sortedWorkouts.forEach {
                 if (it.date == date.date) {
                     workoutsByDate.add(it)
@@ -95,7 +95,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
 //        errorMessage.value = R.string.exercise_error
     }
 
-    fun prePopulateRoutines(workout: com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout?) {
+    fun prePopulateRoutines(workout: com.mcwilliams.data.workoutdb.Workout?) {
         nukeTabe()
         viewModelScope.launch {
             workout?.let { routinesRepository.addRoutine(it) }
