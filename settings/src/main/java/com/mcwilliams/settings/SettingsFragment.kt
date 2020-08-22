@@ -160,6 +160,17 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
                     }
                 }
 
+                val workoutsCount by viewModel.workoutHistory.observeAsState()
+                workoutsCount?.let {
+                    Text(
+                        text = "Workout Stats",
+                        color = Color.White,
+                        style = MaterialTheme.typography.h6,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                    )
+                    Text(text = "Total Workouts Tracked: $it", color = Color.White)
+                }
+
                 Button(content = {
                     Text("Log off")
                 }, onClick = {
@@ -167,6 +178,7 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
                 })
             }
         }
+
     } else {
         Column {
             Button(content = {

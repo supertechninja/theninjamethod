@@ -30,6 +30,11 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
         return workoutDao?.getAll()!!.map { mapManualWorkoutToUiWorkout(it) }
     }
 
+//    //check cache workouts before reading db (reading db is heavy)
+//    fun getWorkoutHistory(): Int {
+//        return workoutDao?.getAllHistory()!!.size
+//    }
+
     fun getWorkoutDetail(id: Number): Workout? {
         return manualWorkoutList.find { it.id == id }
     }
