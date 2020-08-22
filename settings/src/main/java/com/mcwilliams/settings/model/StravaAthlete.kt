@@ -1,4 +1,4 @@
-package com.mcwilliams.settings
+package com.mcwilliams.settings.model
 
 data class StravaAthlete(
     val athlete_type: Int,
@@ -26,5 +26,5 @@ data class StravaAthlete(
     val state: String,
     val updated_at: String,
     val username: String,
-    val weight: Int
+    val weight: Int?
 )

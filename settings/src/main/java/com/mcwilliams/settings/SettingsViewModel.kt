@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.appinf.SessionRepository
+import com.mcwilliams.settings.model.AthleteStats
+import com.mcwilliams.settings.model.StravaAthlete
 import com.mcwilliams.settings.repo.SettingsRepo
 import kotlinx.coroutines.launch
 
@@ -16,6 +18,9 @@ class SettingsViewModel @ViewModelInject constructor(
 
     private var _detailedAthlete = MutableLiveData<StravaAthlete>()
     var detailedAthlete: LiveData<StravaAthlete> = _detailedAthlete
+
+    private var _athleteStats = MutableLiveData<AthleteStats>()
+    var athleteStats: LiveData<AthleteStats> = _athleteStats
 
     private var _errorMessage = MutableLiveData<String>()
     var errorMessage: LiveData<String> = _errorMessage
@@ -37,7 +42,9 @@ class SettingsViewModel @ViewModelInject constructor(
 
     fun loadDetailedAthlete() {
         viewModelScope.launch {
-            _detailedAthlete.postValue(settingsRepo.fetchAthlete())
+            val detailedAthlete = settingsRepo.fetchAthlete()
+            _detailedAthlete.postValue(detailedAthlete!!)
+            _athleteStats.postValue(settingsRepo.fetchAthleteStats(detailedAthlete.id.toString()))
         }
     }
 
