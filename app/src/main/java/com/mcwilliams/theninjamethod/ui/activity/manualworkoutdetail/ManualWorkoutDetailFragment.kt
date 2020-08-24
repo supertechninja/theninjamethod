@@ -3,6 +3,7 @@ package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -47,10 +48,10 @@ class ManualWorkoutDetailFragment : Fragment() {
 
         rootView = view.findViewById(R.id.rootView)
 
-        viewModel.workout.observe(viewLifecycleOwner, Observer {
-            Log.d("TAG", "onViewCreated: ${it.workoutName}")
-            detailedWorkout = it
-            workout_name.text = it.workoutName
+        viewModel.workout.observe(viewLifecycleOwner, Observer { workout ->
+            Log.d("TAG", "onViewCreated: ${workout.workoutName}")
+            detailedWorkout = workout
+            workout_name.text = workout.workoutName
             workout_name.setOnClickListener {
                 val inputView = layoutInflater.inflate(R.layout.workout_name_dialog, null)
                 val duration = inputView.findViewById<TextInputEditText>(R.id.tilWorkoutName)
@@ -69,15 +70,15 @@ class ManualWorkoutDetailFragment : Fragment() {
                     .create().show()
             }
 
-            val date = LocalDate.parse(it.workoutDate)
+            val date = LocalDate.parse(workout.workoutDate)
             workout_date.text =
                 "${date.dayOfWeek.name.fixCase()}, ${date.month.name.fixCase()} ${date.dayOfMonth}, ${date.year}"
 
             val workoutDuration = view.findViewById<MaterialTextView>(R.id.workout_duration)
-            workoutDuration.text = "Duration: ${it.workoutDuration}"
+            workoutDuration.text = "Duration: ${workout.workoutDuration}"
 
             exercises_and_sets.removeAllViews()
-            for (exercise in it.exercises!!) {
+            for (exercise in workout.exercises!!) {
 
                 val exerciseRow =
                     layoutInflater.inflate(R.layout.workout_detail_exercise_header_row, null)
@@ -87,6 +88,17 @@ class ManualWorkoutDetailFragment : Fragment() {
                 exercises_and_sets.addView(exerciseRow)
 
                 totalWeightLifted(exercise.sets!!)
+
+                exerciseRow.setOnLongClickListener {
+                    workout.exercises!!.remove(exercise)
+                    viewModel.updateWorkout(workout)
+                    Toast.makeText(
+                        it.context,
+                        "${exercise.exerciseName} removed",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    true
+                }
 
                 exercise.sets!!.forEach { exerciseSet ->
                     val setRow = layoutInflater.inflate(R.layout.workout_detail_sets_row, null)
