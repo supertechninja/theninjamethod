@@ -12,12 +12,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import coil.api.load
 import com.google.android.material.textview.MaterialTextView
+import com.mcwilliams.data.exercisedb.model.ExerciseType
+import com.mcwilliams.data.exercisedb.model.WorkoutSet
+import com.mcwilliams.data.workoutdb.SimpleWorkout
+import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutSet
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutType
-import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_combined_workout_detail.*
@@ -27,7 +27,7 @@ import java.util.*
 
 @AndroidEntryPoint
 class CombinedWorkoutDetailFragment : Fragment() {
-    lateinit var combinedWorkout: Pair<LocalDate, MutableList<Workout>>
+    lateinit var combinedWorkout: Pair<LocalDate, MutableList<SimpleWorkout>>
     private val viewModel: CombinedWorkoutViewModel by viewModels()
     var totalAmountLifted = 0
     lateinit var rootView: ConstraintLayout
@@ -38,7 +38,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         combinedWorkout =
-            arguments?.getSerializable("workoutSummary") as Pair<LocalDate, MutableList<Workout>>
+            arguments?.getSerializable("workoutSummary") as Pair<LocalDate, MutableList<SimpleWorkout>>
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_combined_workout_detail, container, false)
     }
@@ -46,8 +46,8 @@ class CombinedWorkoutDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val listOfStravaWorkouts: MutableList<Workout> = mutableListOf()
-        val listOfManualWorkouts: MutableList<Workout> = mutableListOf()
+        val listOfStravaWorkouts: MutableList<SimpleWorkout> = mutableListOf()
+        val listOfManualWorkouts: MutableList<SimpleWorkout> = mutableListOf()
         for (workout in combinedWorkout.second) {
             when (workout.workoutType) {
                 WorkoutType.LIFTING -> {
@@ -126,7 +126,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
                 val setsSummaryFormatted = setsSummary.substring(0, (setsSummary.length - 2))
                 exerciseSummary.text = "$exerciseName: $setsSummaryFormatted"
 
-                totalWeightLifted(exercise.sets)
+                totalWeightLifted(exercise.sets!!)
 
                 exercisesListLayout.addView(shareExerciseSummary)
             }

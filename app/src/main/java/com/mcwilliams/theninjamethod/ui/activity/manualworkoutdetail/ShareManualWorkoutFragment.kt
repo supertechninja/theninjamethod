@@ -1,6 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail
 
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +10,13 @@ import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.text.bold
 import androidx.fragment.app.Fragment
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
+import com.mcwilliams.data.exercisedb.model.ExerciseType
+import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
-import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.muddzdev.quickshot.QuickShot
 import dev.sasikanth.colorsheet.ColorSheet
 import kotlinx.android.synthetic.main.share_workout_image.*
@@ -111,7 +113,12 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
 
             val setsSummaryFormatted = setsSummary.substring(0, (setsSummary.length - 2))
 
-            exerciseSummary.text = "$exerciseName: $setsSummaryFormatted"
+            val s = SpannableStringBuilder()
+                .bold { append(exerciseName) }
+                .append(": " + setsSummaryFormatted)
+
+
+            exerciseSummary.text = s
             exercise_summary_layout.addView(shareExerciseSummary)
         }
 

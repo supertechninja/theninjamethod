@@ -4,7 +4,6 @@ import android.content.Context
 import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.strava.api.ActivitiesApi
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.StravaWorkoutRepository
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.ui.activity.stravadetail.StravaWorkoutDetailRepository
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.routines.RoutinesRepository
@@ -18,8 +17,6 @@ import javax.inject.Singleton
 @InstallIn(ApplicationComponent::class)
 @Module(includes = [NetworkModule::class])
 class AppModule {
-
-
 
     @Provides
     @Singleton
@@ -37,14 +34,6 @@ class AppModule {
     fun provideStravaDetailRepository(activitiesApi: ActivitiesApi): StravaWorkoutDetailRepository =
         StravaWorkoutDetailRepository(
             activitiesApi
-        )
-
-
-    @Provides
-    @Singleton
-    fun providesManualWorkoutRepository(@ApplicationContext context: Context): ManualWorkoutsRepository =
-        ManualWorkoutsRepository(
-            context
         )
 
     @Provides

@@ -8,9 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.material.textview.MaterialTextView
+import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
 import com.mcwilliams.theninjamethod.utils.extensions.getTimeFloat
 import com.mcwilliams.theninjamethod.utils.extensions.getTimeString
 import com.robinhood.spark.SparkAdapter
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.strava_workout_detail_fragment.*
 
 @AndroidEntryPoint
 class StravaWorkoutDetailFragment : Fragment() {
-    lateinit var workout: Workout
+    lateinit var workout: SimpleWorkout
     private val viewModel: StravaDetailViewModel by viewModels()
     lateinit var rootView: View
     lateinit var stravaDetailObj: StravaActivityDetail
@@ -30,7 +30,7 @@ class StravaWorkoutDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        workout = arguments?.getSerializable("workout") as Workout
+        workout = arguments?.getSerializable("workout") as SimpleWorkout
         setHasOptionsMenu(true)
         rootView = inflater.inflate(R.layout.strava_workout_detail_fragment, container, false)
         return rootView

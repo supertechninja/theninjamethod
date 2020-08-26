@@ -4,7 +4,6 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import io.reactivex.disposables.CompositeDisposable
 
@@ -12,8 +11,8 @@ class RoutinesViewModel @ViewModelInject constructor(
     private val routinesRepository: RoutinesRepository
 ) : ViewModel() {
     val rootDisposable = CompositeDisposable()
-    var _workout: MutableLiveData<List<Workout>> = MutableLiveData()
-    var workout: LiveData<List<Workout>> = _workout
+    var _workout: MutableLiveData<List<com.mcwilliams.data.workoutdb.Workout>> = MutableLiveData()
+    var workout: LiveData<List<com.mcwilliams.data.workoutdb.Workout>> = _workout
 
     init {
         workout =

@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
 import com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_workouts.*
@@ -101,7 +100,7 @@ class WorkoutsFragment : Fragment() {
         val jsonfile: String =
             requireActivity().assets.open("routines.json").bufferedReader().use { it.readText() }
         val gson = Gson()
-        val workout = gson.fromJson(jsonfile, Workout::class.java)
+        val workout = gson.fromJson(jsonfile, com.mcwilliams.data.workoutdb.Workout::class.java)
         viewModel.prePopulateRoutines(workout)
     }
 

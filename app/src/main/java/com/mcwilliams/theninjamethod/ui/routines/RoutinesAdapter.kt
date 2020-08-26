@@ -9,12 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
 
 
 class RoutinesAdapter() : RecyclerView.Adapter<RoutinesAdapter.ViewHolder>() {
 
-    private lateinit var routinesList: MutableList<Workout>
+    private lateinit var routinesList: MutableList<com.mcwilliams.data.workoutdb.Workout>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -35,17 +34,17 @@ class RoutinesAdapter() : RecyclerView.Adapter<RoutinesAdapter.ViewHolder>() {
         return if (::routinesList.isInitialized) routinesList.size else 0
     }
 
-    fun getRoutinesList(): List<Workout> {
+    fun getRoutinesList(): List<com.mcwilliams.data.workoutdb.Workout> {
         return routinesList
     }
 
-    fun setRoutinesList(routineList: MutableList<Workout>) {
+    fun setRoutinesList(routineList: MutableList<com.mcwilliams.data.workoutdb.Workout>) {
         this.routinesList.clear()
         this.routinesList = routineList
         notifyDataSetChanged()
     }
 
-    fun updateRoutines(routineList: MutableList<Workout>) {
+    fun updateRoutines(routineList: MutableList<com.mcwilliams.data.workoutdb.Workout>) {
 //        if (::routinesList.isInitialized) {
 //            this.routinesList.clear()
 //        }

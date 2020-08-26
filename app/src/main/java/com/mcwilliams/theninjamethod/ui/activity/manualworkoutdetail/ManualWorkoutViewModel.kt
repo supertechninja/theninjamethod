@@ -5,7 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
+import com.mcwilliams.data.ManualWorkoutsRepository
+import com.mcwilliams.data.workoutdb.Workout
 import kotlinx.coroutines.launch
 
 class ManualWorkoutViewModel @ViewModelInject constructor(
@@ -14,10 +15,11 @@ class ManualWorkoutViewModel @ViewModelInject constructor(
 
     var _workout: MutableLiveData<Workout> = MutableLiveData()
     var workout: LiveData<Workout> = _workout
-
+    lateinit var currentWorkoutId: Number
 
     fun getManualWorkoutDetail(id: Number) {
-        _workout.postValue(manualWorkoutsRepository.getWorkoutDetail(id))
+        currentWorkoutId = id
+        _workout.postValue(manualWorkoutsRepository.getWorkoutDetail(currentWorkoutId))
     }
 
     fun deleteWorkout() {
@@ -29,6 +31,7 @@ class ManualWorkoutViewModel @ViewModelInject constructor(
     fun updateWorkout(workout: Workout) {
         viewModelScope.launch {
             manualWorkoutsRepository.updateWorkout(workout)
+            _workout.postValue(manualWorkoutsRepository.getWorkoutDetail(currentWorkoutId))
         }
     }
 }

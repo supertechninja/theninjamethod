@@ -19,9 +19,10 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
+import com.mcwilliams.data.exercisedb.DbExercise
+import com.mcwilliams.data.exercisedb.model.ExerciseType
+import com.mcwilliams.data.exercisedb.model.WorkoutExercise
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Exercise
-import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.utils.OnSwipeTouchListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_start_workout.*
@@ -31,11 +32,11 @@ import java.util.*
 @AndroidEntryPoint
 class StartWorkoutFragment : Fragment() {
 
-    var workout: com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout? = null
+    var workout: com.mcwilliams.data.workoutdb.Workout? = null
     lateinit var exerciseName: String
     lateinit var exerciseListView: LinearLayout
     lateinit var chronometer: Chronometer
-    lateinit var loadedExercises: List<com.mcwilliams.theninjamethod.ui.exercises.db.Exercise>
+    lateinit var loadedExercises: List<DbExercise>
 
     private val startWorkoutViewModel: StartWorkoutViewModel by activityViewModels()
 
@@ -46,7 +47,7 @@ class StartWorkoutFragment : Fragment() {
     ): View? {
         arguments?.let {
             workout =
-                arguments?.getSerializable("workout") as com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
+                arguments?.getSerializable("workout") as com.mcwilliams.data.workoutdb.Workout
         }
 
         setHasOptionsMenu(true)
@@ -140,7 +141,7 @@ class StartWorkoutFragment : Fragment() {
         Navigation.findNavController(requireView()).popBackStack()
     }
 
-    private fun drawExerciseRow(exercise: Exercise?) {
+    private fun drawExerciseRow(exercise: WorkoutExercise?) {
         val addExerciseViewLayout =
             layoutInflater.inflate(R.layout.add_exercise_row_view, null)
         val exerciseNameView =

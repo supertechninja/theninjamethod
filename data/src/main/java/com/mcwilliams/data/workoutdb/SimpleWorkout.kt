@@ -1,10 +1,10 @@
-package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model
+package com.mcwilliams.data.workoutdb
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.time.LocalDate
 
-data class Workout(
+data class SimpleWorkout(
     val date: LocalDate,
     val time: String,
     @SerializedName("exerciseName")
@@ -17,7 +17,7 @@ data class Workout(
 ) : Serializable
 
 data class WorkoutList(
-    val workouts: List<Workout>
+    val workouts: List<SimpleWorkout>
 )
 
 enum class WorkoutType {

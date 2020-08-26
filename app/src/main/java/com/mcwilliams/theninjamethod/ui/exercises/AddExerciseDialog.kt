@@ -8,9 +8,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+import com.mcwilliams.data.exercisedb.DbExercise
+import com.mcwilliams.data.exercisedb.model.ExerciseType
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
-import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,7 +57,7 @@ class AddExerciseDialog : DialogFragment() {
                 val exerciseBodyPart =
                     exerciseDialog.findViewById<TextInputEditText>(R.id.exerciseBodyPart).text.toString()
 
-                val exercise = Exercise(
+                val exercise = DbExercise(
                     0,
                     exerciseName,
                     exerciseTypeSelected,

@@ -4,9 +4,8 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mcwilliams.data.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
 import com.mcwilliams.theninjamethod.ui.activity.stravadetail.StravaWorkoutDetailRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import io.reactivex.disposables.CompositeDisposable
@@ -23,8 +22,8 @@ class CombinedWorkoutViewModel @ViewModelInject constructor(
     var _detailedActivities: MutableLiveData<List<StravaActivityDetail>> = MutableLiveData()
     var detailedActivities: LiveData<List<StravaActivityDetail>> = _detailedActivities
 
-    var _workout: MutableLiveData<Workout> = MutableLiveData()
-    var workout: LiveData<Workout> = _workout
+    var _workout: MutableLiveData<com.mcwilliams.data.workoutdb.Workout> = MutableLiveData()
+    var workout: LiveData<com.mcwilliams.data.workoutdb.Workout> = _workout
 
     fun getManualWorkoutDetail(id: Number) {
         _workout.postValue(manualWorkoutsRepository.getWorkoutDetail(id))

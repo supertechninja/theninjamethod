@@ -1,10 +1,10 @@
 package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
 import android.content.Context
+import com.mcwilliams.data.workoutdb.SimpleWorkout
+import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.strava.api.ActivitiesApi
 import com.mcwilliams.theninjamethod.strava.model.activites.ActivitesItem
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutType
 import com.mcwilliams.theninjamethod.utils.extensions.*
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -19,13 +19,13 @@ class StravaWorkoutRepository @Inject constructor(
     //Cache in memory the strava workouts
     private lateinit var listOfStravaWorkouts: List<ActivitesItem>
 
-    fun getStravaActivities(): Observable<List<Workout>> =
+    fun getStravaActivities(): Observable<List<SimpleWorkout>> =
         activitiesApi.getAthleteActivities().map { mapStravaWorkouts(it) }
 
 
     //Return a list of strava workout summaries, a subset of the detail data needed to show the ui
-    private fun mapStravaWorkouts(stravaWorkouts: List<ActivitesItem>): List<Workout> {
-        val workoutList = mutableListOf<Workout>()
+    private fun mapStravaWorkouts(stravaWorkouts: List<ActivitesItem>): List<SimpleWorkout> {
+        val workoutList = mutableListOf<SimpleWorkout>()
         stravaWorkouts.forEach {
 
             val date = it.start_date_local.getDate()
@@ -50,7 +50,7 @@ class StravaWorkoutRepository @Inject constructor(
             }
 
             val workoutItem =
-                Workout(
+                SimpleWorkout(
                     date,
                     time.toString(),
                     it.name,

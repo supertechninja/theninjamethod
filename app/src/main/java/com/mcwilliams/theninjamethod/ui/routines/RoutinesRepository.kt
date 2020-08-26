@@ -1,8 +1,9 @@
 package com.mcwilliams.theninjamethod.ui.routines
 
 import android.content.Context
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutType
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
+import com.mcwilliams.data.workoutdb.SimpleWorkout
+import com.mcwilliams.data.workoutdb.Workout
+import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.ui.routines.db.RoutineDao
 import com.mcwilliams.theninjamethod.ui.routines.db.RoutinesDatabase
 import io.reactivex.Flowable
@@ -21,7 +22,7 @@ class RoutinesRepository @Inject constructor(val context: Context) : CoroutineSc
     private var routineDao: RoutineDao?
 
     //in memory cache of workouts from db
-    private var manualWorkoutList = listOf<Workout>()
+    private var manualWorkoutList = listOf<com.mcwilliams.data.workoutdb.Workout>()
 
     init {
         val db = RoutinesDatabase.getDatabase(context)
@@ -29,27 +30,27 @@ class RoutinesRepository @Inject constructor(val context: Context) : CoroutineSc
     }
 
     //check cache workouts before reading db (reading db is heavy)
-    fun getWorkouts(): Flowable<List<Workout>> {
+    fun getWorkouts(): Flowable<List<com.mcwilliams.data.workoutdb.Workout>> {
         return routineDao?.getAll()!!
     }
 
-    fun getWorkoutDetail(id: Number): Workout? {
+    fun getWorkoutDetail(id: Number): com.mcwilliams.data.workoutdb.Workout? {
         return manualWorkoutList.find { it.id == id }
     }
 
-    suspend fun deleteWorkout(workout: Workout) {
+    suspend fun deleteWorkout(workout: com.mcwilliams.data.workoutdb.Workout) {
         withContext(Dispatchers.IO) {
             routineDao?.delete(workout)
         }
     }
 
-    private fun mapManualWorkoutToUiWorkout(workoutList: List<Workout>): List<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout> {
+    private fun mapManualWorkoutToUiWorkout(workoutList: List<Workout>): List<SimpleWorkout> {
         val workoutUiObjList =
-            mutableListOf<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout>()
+            mutableListOf<SimpleWorkout>()
         manualWorkoutList = workoutList
         workoutList.forEach {
             workoutUiObjList.add(
-                com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Workout(
+                SimpleWorkout(
                     LocalDate.parse(it.workoutDate),
                     "",
                     it.workoutName,
@@ -65,7 +66,7 @@ class RoutinesRepository @Inject constructor(val context: Context) : CoroutineSc
     }
 
 
-    suspend fun addRoutine(routine: Workout) {
+    suspend fun addRoutine(routine: com.mcwilliams.data.workoutdb.Workout) {
         withContext(Dispatchers.IO) {
             routineDao?.insertAll(routine)
         }

@@ -5,11 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.WorkoutSet
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutsRepository
-import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db.Workout
-import com.mcwilliams.theninjamethod.ui.exercises.db.Exercise
-import com.mcwilliams.theninjamethod.ui.exercises.model.ExerciseType
+import com.mcwilliams.data.ManualWorkoutsRepository
+import com.mcwilliams.data.exercisedb.DbExercise
+import com.mcwilliams.data.exercisedb.model.ExerciseType
+import com.mcwilliams.data.exercisedb.model.WorkoutExercise
+import com.mcwilliams.data.exercisedb.model.WorkoutSet
+import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import com.mcwilliams.theninjamethod.utils.extensions.caloriesBurned
@@ -24,7 +25,7 @@ class StartWorkoutViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     //List of exercises from DB to add to a workout
-    var listOfExercises: LiveData<List<Exercise>>
+    var listOfExercises: LiveData<List<DbExercise>>
 
     var _didSaveWorkout = MutableLiveData<Boolean>()
     var didSaveWorkout: LiveData<Boolean> = _didSaveWorkout
@@ -32,11 +33,11 @@ class StartWorkoutViewModel @ViewModelInject constructor(
     private var _exercise = MutableLiveData<String>()
     var exercise: MutableLiveData<String> = _exercise
 
-    var _workout = MutableLiveData<Workout>()
-    var workout: MutableLiveData<Workout> = _workout
+    var _workout = MutableLiveData<com.mcwilliams.data.workoutdb.Workout>()
+    var workout: MutableLiveData<com.mcwilliams.data.workoutdb.Workout> = _workout
 
-    var workoutInProgress: Workout? = null
-    var listOfExercisesPerformed: MutableList<com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Exercise> =
+    var workoutInProgress: com.mcwilliams.data.workoutdb.Workout? = null
+    var listOfExercisesPerformed: MutableList<WorkoutExercise> =
         mutableListOf()
 
     var compositeDisposable = CompositeDisposable()
@@ -86,7 +87,7 @@ class StartWorkoutViewModel @ViewModelInject constructor(
         }
 
         val newExercise =
-            com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Exercise(
+            WorkoutExercise(
                 s,
                 definedExerciseType,
                 mutableListOf(WorkoutSet(1, startingWeight, ""))
@@ -124,16 +125,16 @@ class StartWorkoutViewModel @ViewModelInject constructor(
 
     fun calculateTotalWeightLifted(): Int {
         var totalWeight = 0
-        workoutInProgress!!.exercises!!.forEach { exercise ->
-            exercise.sets!!.forEach {
-                totalWeight += if (exercise.definedExerciseType == ExerciseType.bodyweight) {
-                    //TODO read BW from profile
-                    (180 * it.reps.toInt())
-                } else {
-                    (it.weight.toInt() * it.reps.toInt())
-                }
-            }
-        }
+//        workoutInProgress!!.exercises!!.forEach { exercise ->
+//            exercise.sets!!.forEach {
+//                totalWeight += if (exercise.definedExerciseType == ExerciseType.bodyweight) {
+//                    //TODO read BW from profile
+//                    (180 * it.reps.toInt())
+//                } else {
+//                    (it.weight.toInt() * it.reps.toInt())
+//                }
+//            }
+//        }
         return totalWeight
     }
 

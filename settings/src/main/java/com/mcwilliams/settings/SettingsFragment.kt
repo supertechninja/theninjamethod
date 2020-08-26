@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.Box
+import androidx.compose.foundation.ContentGravity
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,14 +16,17 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.unit.dp
 import androidx.core.util.Preconditions
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.mcwilliams.settings.model.ActivityTotal
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
@@ -44,7 +49,11 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loadDetailedAthlete()
+        viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                viewModel.loadDetailedAthlete()
+            }
+        })
 
         parentFragmentManager.setFragmentResultListener(
             REQUEST_KEY,
@@ -81,20 +90,20 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
                         shape = CircleShape, modifier = Modifier.preferredWidth(100.dp)
                             .preferredHeight(100.dp)
                     ) {
-//                        CoilImage(
-//                            data = it.profile,
-//                            contentScale = ContentScale.Crop,
-//                            modifier = Modifier.preferredWidth(100.dp)
-//                                .preferredHeight(100.dp),
-//                            loading = {
-//                                Box(
-//                                    modifier = Modifier.fillMaxSize(),
-//                                    gravity = ContentGravity.Center
-//                                ) {
-//                                    CircularProgressIndicator()
-//                                }
-//                            }
-//                        )
+                        CoilImage(
+                            data = it.profile,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.preferredWidth(100.dp)
+                                .preferredHeight(100.dp),
+                            loading = {
+                                Box(
+                                    modifier = Modifier.fillMaxSize(),
+                                    gravity = ContentGravity.Center
+                                ) {
+                                    CircularProgressIndicator()
+                                }
+                            }
+                        )
                     }
 
                     Text(
@@ -118,6 +127,7 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
                     var screenState by remember { mutableStateOf(0) }
 
                     Tabs(
+                        tabTitles = listOf("Ride", "Run", "Swim"),
                         selectedTab = screenState,
                         onSelected = { index ->
                             screenState = index
@@ -155,6 +165,17 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
                     }
                 }
 
+                val workoutsCount by viewModel.workoutHistory.observeAsState()
+                workoutsCount?.let {
+                    Text(
+                        text = "Workout Stats",
+                        color = Color.White,
+                        style = MaterialTheme.typography.h6,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                    )
+                    Text(text = "Total Workouts Tracked: $it", color = Color.White)
+                }
+
                 Button(content = {
                     Text("Log off")
                 }, onClick = {
@@ -162,6 +183,7 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
                 })
             }
         }
+
     } else {
         Column {
             Button(content = {
@@ -175,6 +197,7 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
 
 @Composable
 fun Tabs(
+    tabTitles: List<String>,
     selectedTab: Int,
     onSelected: (Int) -> Unit
 ) {
@@ -183,9 +206,6 @@ fun Tabs(
         modifier = Modifier.wrapContentHeight().padding(top = 8.dp),
     ) {
         TabRow(selectedTabIndex = selectedTab, backgroundColor = Color(0xFF059EDC)) {
-            val tabTitles = listOf(
-                "Ride", "Run", "Swim"
-            )
             tabTitles.forEachIndexed { index, title ->
                 Tab(
                     text = { Text(title) },

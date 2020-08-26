@@ -1,10 +1,10 @@
-package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.db
+package com.mcwilliams.data.workoutdb
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.model.Exercise
+import com.mcwilliams.data.exercisedb.model.WorkoutExercise
 import java.io.Serializable
 
 @Entity
@@ -17,7 +17,7 @@ data class Workout(
     @ColumnInfo(name = "workout_total_weight") var workoutTotalWeight: String?,
     @ColumnInfo(name = "workout_calories_burned") var caloriesBurned: String?,
     @TypeConverters(ExerciseTypeConverter::class)
-    var exercises: MutableList<Exercise>? = mutableListOf()
+    var exercises: MutableList<WorkoutExercise>? = mutableListOf()
 ) : Serializable {
     constructor(id: Int, workoutName: String, workoutDate: String) : this(
         id,
