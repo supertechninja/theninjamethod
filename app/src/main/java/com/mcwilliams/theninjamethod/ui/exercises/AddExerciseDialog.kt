@@ -65,6 +65,7 @@ class AddExerciseDialog : DialogFragment() {
                     ExerciseType.valueOf(exerciseTypeSelected)
                 )
                 viewModel.addNewExercise(exercise)
+                viewModel._showDialog.postValue(false)
             }
             .setNegativeButton("Cancel") { _, _ -> }
             // Add customization options here

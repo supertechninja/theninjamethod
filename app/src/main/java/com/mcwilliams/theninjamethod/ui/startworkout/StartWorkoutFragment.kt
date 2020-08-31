@@ -25,7 +25,6 @@ import com.mcwilliams.data.exercisedb.model.WorkoutExercise
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.utils.OnSwipeTouchListener
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_start_workout.*
 import java.util.*
 
 
@@ -37,7 +36,7 @@ class StartWorkoutFragment : Fragment() {
     lateinit var exerciseListView: LinearLayout
     lateinit var chronometer: Chronometer
     lateinit var loadedExercises: List<DbExercise>
-
+    lateinit var exerciseList: LinearLayout
     private val startWorkoutViewModel: StartWorkoutViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -75,11 +74,14 @@ class StartWorkoutFragment : Fragment() {
             }
         })
 
+        val workoutName = view.findViewById<MaterialTextView>(R.id.workout_name)
+        exerciseList = view.findViewById(R.id.exercise_list)
+
         //Observes changes to workout as the workout is built
         startWorkoutViewModel.workout.observe(viewLifecycleOwner, Observer { workout ->
             if (workout != null) {
-                workout_name.setText(workout.workoutName)
-                exercise_list.removeAllViews()
+                workoutName.setText(workout.workoutName)
+                exerciseList.removeAllViews()
                 if (!workout.exercises.isNullOrEmpty()) {
                     workout.exercises!!.forEach { exercise ->
                         drawExerciseRow(exercise)
@@ -92,23 +94,24 @@ class StartWorkoutFragment : Fragment() {
             if (it) goBack()
         })
 
-        workout_name.setOnEditorActionListener { v, actionId, event ->
+        workoutName.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                startWorkoutViewModel.updateWorkoutName(workout_name.text.toString())
+                startWorkoutViewModel.updateWorkoutName(workoutName.text.toString())
                 val inputMethodManager =
                     requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                 inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-                workout_name.clearFocus()
+                workoutName.clearFocus()
                 true
             } else {
                 false
             }
         }
 
-        workout_name.setSelectAllOnFocus(true)
+        workoutName.setSelectAllOnFocus(true)
 
-        add_exercise.setOnClickListener {
-            if (workout_name.text.toString() == "Set Workout Name") {
+        val addExercise = view.findViewById<MaterialButton>(R.id.add_exercise)
+        addExercise.setOnClickListener {
+            if (workoutName.text.toString() == "Set Workout Name") {
                 Snackbar.make(it, "Set Workout Name First", Snackbar.LENGTH_SHORT).show()
             } else {
                 ChooseExerciseDialogFragment(loadedExercises).show(
@@ -118,7 +121,8 @@ class StartWorkoutFragment : Fragment() {
             }
         }
 
-        cancel_workout.setOnClickListener {
+        val cancelWorkout = view.findViewById<MaterialButton>(R.id.cancel_workout)
+        cancelWorkout.setOnClickListener {
             startWorkoutViewModel.cancelWorkout()
         }
     }
@@ -286,8 +290,8 @@ class StartWorkoutFragment : Fragment() {
             }
         }
 
-        exercise_list.addView(addExerciseViewLayout)
-        exercise_list.requestFocus()
+        exerciseListView.addView(addExerciseViewLayout)
+        exerciseListView.requestFocus()
     }
 }
 

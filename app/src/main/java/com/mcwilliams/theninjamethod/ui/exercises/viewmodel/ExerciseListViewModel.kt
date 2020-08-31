@@ -2,6 +2,7 @@ package com.mcwilliams.theninjamethod.ui.exercises.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.data.exercisedb.DbExercise
@@ -15,6 +16,13 @@ class ExerciseListViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     var exerciseList: LiveData<List<DbExercise>>
+
+    val _showDialog = MutableLiveData(false)
+    val showDialog = _showDialog
+
+    val _showChipFilters = MutableLiveData(false)
+    val showChipFilters = _showChipFilters
+
     var compositeDisposable = CompositeDisposable()
 
     init {

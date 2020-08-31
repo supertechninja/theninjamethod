@@ -3,6 +3,7 @@ package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
@@ -20,7 +21,6 @@ import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.workout_detail_fragment.*
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.util.*
@@ -51,8 +51,9 @@ class ManualWorkoutDetailFragment : Fragment() {
         viewModel.workout.observe(viewLifecycleOwner, Observer { workout ->
             Log.d("TAG", "onViewCreated: ${workout.workoutName}")
             detailedWorkout = workout
-            workout_name.text = workout.workoutName
-            workout_name.setOnClickListener {
+            val workoutName = view.findViewById<MaterialTextView>(R.id.workout_name)
+            workoutName.text = workout.workoutName
+            workoutName.setOnClickListener {
                 val inputView = layoutInflater.inflate(R.layout.workout_name_dialog, null)
                 val duration = inputView.findViewById<TextInputEditText>(R.id.tilWorkoutName)
                 duration.setText(detailedWorkout.workoutName)
@@ -61,7 +62,7 @@ class ManualWorkoutDetailFragment : Fragment() {
                     .setTitle("Edit Workout Name")
                     .setView(inputView)
                     .setPositiveButton("Save") { _, _ ->
-                        workout_name.text = duration.text.toString()
+                        workoutName.text = duration.text.toString()
                         detailedWorkout.workoutName = duration.text.toString()
                         viewModel.updateWorkout(detailedWorkout)
                     }
@@ -70,14 +71,16 @@ class ManualWorkoutDetailFragment : Fragment() {
                     .create().show()
             }
 
+            val workoutDate = view.findViewById<MaterialTextView>(R.id.workout_date)
             val date = LocalDate.parse(workout.workoutDate)
-            workout_date.text =
+            workoutDate.text =
                 "${date.dayOfWeek.name.fixCase()}, ${date.month.name.fixCase()} ${date.dayOfMonth}, ${date.year}"
 
             val workoutDuration = view.findViewById<MaterialTextView>(R.id.workout_duration)
             workoutDuration.text = "Duration: ${workout.workoutDuration}"
 
-            exercises_and_sets.removeAllViews()
+            val exercisesAndSets = view.findViewById<LinearLayout>(R.id.exercises_and_sets)
+            exercisesAndSets.removeAllViews()
             for (exercise in workout.exercises!!) {
 
                 val exerciseRow =
@@ -85,7 +88,7 @@ class ManualWorkoutDetailFragment : Fragment() {
                 val exerciseName =
                     exerciseRow.findViewById<MaterialTextView>(R.id.exercise_name_detail)
                 exerciseName.text = exercise.exerciseName
-                exercises_and_sets.addView(exerciseRow)
+                exercisesAndSets.addView(exerciseRow)
 
                 totalWeightLifted(exercise.sets!!)
 
@@ -131,10 +134,11 @@ class ManualWorkoutDetailFragment : Fragment() {
                         onRepMaxTextView.text = oneRepMax.toString() + "lbs"
                     }
 
-                    exercises_and_sets.addView(setRow)
+                    exercisesAndSets.addView(setRow)
                 }
             }
-            total_weight_lifted.text =
+            val totalWeightLifted = view.findViewById<MaterialTextView>(R.id.total_weight_lifted)
+            totalWeightLifted.text =
                 NumberFormat.getNumberInstance(Locale.US).format(totalAmountLifted) + "lbs lifted"
         })
 

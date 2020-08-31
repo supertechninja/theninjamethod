@@ -2,6 +2,10 @@ package com.mcwilliams.theninjamethod.ui.activity.stravadetail
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,9 +18,8 @@ import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityD
 import com.mcwilliams.theninjamethod.utils.extensions.getTimeFloat
 import com.mcwilliams.theninjamethod.utils.extensions.getTimeString
 import com.robinhood.spark.SparkAdapter
+import com.robinhood.spark.SparkView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.strava_workout_detail_fragment.*
-
 
 @AndroidEntryPoint
 class StravaWorkoutDetailFragment : Fragment() {
@@ -39,35 +42,54 @@ class StravaWorkoutDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        progress_bar.visibility = View.VISIBLE
-        content_view.visibility = View.GONE
+        val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
+        val contentView = view.findViewById<ConstraintLayout>(R.id.content_view)
+
+
+        progressBar.visibility = View.VISIBLE
+        contentView.visibility = View.GONE
 
         viewModel.getDetailedActivities(workout.id)
         viewModel.detailedActivity.observe(viewLifecycleOwner, Observer { stravaDetail ->
             stravaDetailObj = stravaDetail
-            workout_name.text = stravaDetail.name
+
+            val workoutName = view.findViewById<MaterialTextView>(R.id.workout_name)
+            workoutName.text = stravaDetail.name
+
+            val mapView = view.findViewById<ImageView>(R.id.map_view)
 
             if (stravaDetail.map!!.summary_polyline.isNullOrEmpty()) {
-                map_view.visibility = View.GONE
+                mapView.visibility = View.GONE
             } else {
 //                map_view.load(getMapUrl(stravaDetail.map.summary_polyline!!))
             }
 
-            workout_date.text = stravaDetail.formattedDate
+            val workoutDate = view.findViewById<MaterialTextView>(R.id.workout_date)
+            workoutDate.text = stravaDetail.formattedDate
 
+            val distance = view.findViewById<MaterialTextView>(R.id.distance)
             distance.text = stravaDetail.miles
-            workout_duration.text = stravaDetail.duration
 
-            calories_burned.text = stravaDetail.calories.toString()
+            val workoutDuration = view.findViewById<MaterialTextView>(R.id.workout_duration)
+            workoutDuration.text = stravaDetail.duration
+
+            val caloriesBurned = view.findViewById<MaterialTextView>(R.id.calories_burned)
+            caloriesBurned.text = stravaDetail.calories.toString()
+
+            val workoutHeartrate = view.findViewById<MaterialTextView>(R.id.workout_heartrate)
+            val heartIcon = view.findViewById<ImageView>(R.id.heartIcon)
 
             if (stravaDetail.has_heartrate) {
-                workout_heartrate.text = "${stravaDetail.average_heartrate} bpm"
+                workoutHeartrate.text = "${stravaDetail.average_heartrate} bpm"
             } else {
-                workout_heartrate.visibility = View.GONE
+                workoutHeartrate.visibility = View.GONE
                 heartIcon.visibility = View.GONE
             }
 
             var splitsPaceArray: MutableList<Float> = mutableListOf()
+
+
+            val llsplits = view.findViewById<LinearLayout>(R.id.llsplits)
 
             if (stravaDetail.splits_standard.isNullOrEmpty()) {
                 llsplits.visibility = View.GONE
@@ -93,18 +115,21 @@ class StravaWorkoutDetailFragment : Fragment() {
                 }
             }
 
+            val sparkview = view.findViewById<SparkView>(R.id.sparkview)
+            val splitDetail = view.findViewById<MaterialTextView>(R.id.split_detail)
+
             if (stravaDetail.splits_standard.isNullOrEmpty()) {
                 sparkview.visibility = View.GONE
             } else {
                 sparkview.adapter = MyAdapter(splitsPaceArray.toFloatArray())
                 sparkview.isScrubEnabled = true
                 sparkview.setScrubListener { value ->
-                    split_detail.text = getString(R.string.scrub_format, value)
+                    splitDetail.text = getString(R.string.scrub_format, value)
                 }
             }
 
-            progress_bar.visibility = View.GONE
-            content_view.visibility = View.VISIBLE
+            progressBar.visibility = View.GONE
+            contentView.visibility = View.VISIBLE
         })
     }
 
@@ -127,8 +152,6 @@ class StravaWorkoutDetailFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-
 }
 
 

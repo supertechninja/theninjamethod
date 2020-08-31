@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,13 +15,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_workouts.*
-
 
 @AndroidEntryPoint
 class WorkoutsFragment : Fragment() {
@@ -52,7 +54,8 @@ class WorkoutsFragment : Fragment() {
             preferences.edit().putBoolean("hasRetrievedRoutines", true).apply()
         }
 
-        workout_list.layoutManager =
+        val workoutList = view.findViewById<RecyclerView>(R.id.workout_list)
+        workoutList.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
         viewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
@@ -60,13 +63,14 @@ class WorkoutsFragment : Fragment() {
         })
 
         val workoutListAdapter = WorkoutListAdapter()
-        workout_list.adapter = workoutListAdapter
+        workoutList.adapter = workoutListAdapter
 
+        val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
         viewModel.isLoading.observe(viewLifecycleOwner, Observer {
             if (it) {
-                progress_bar.visibility = View.VISIBLE
+                progressBar.visibility = View.VISIBLE
             } else {
-                progress_bar.visibility = View.GONE
+                progressBar.visibility = View.GONE
             }
         })
 
@@ -78,10 +82,12 @@ class WorkoutsFragment : Fragment() {
             viewModel._isLoading.postValue(false)
         })
 
+        val swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipeContainer)
         swipeContainer.setOnRefreshListener {
             viewModel.refreshData()
         }
 
+        val startWorkout = view.findViewById<ExtendedFloatingActionButton>(R.id.startWorkout)
         startWorkout.setOnClickListener {
             startWorkoutViewModel._didSaveWorkout.postValue(false)
             Navigation.findNavController(it).navigate(R.id.navigate_to_start_workout)

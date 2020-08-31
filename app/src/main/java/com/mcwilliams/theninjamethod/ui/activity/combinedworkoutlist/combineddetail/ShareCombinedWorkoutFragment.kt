@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import com.google.android.material.button.MaterialButton
 import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.theninjamethod.R
 import com.muddzdev.quickshot.QuickShot
-import kotlinx.android.synthetic.main.share_workout_image.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -33,6 +33,7 @@ class ShareCombinedWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val btnShare = view.findViewById<MaterialButton>(R.id.btnShare)
         btnShare.setOnClickListener {
             share()
         }

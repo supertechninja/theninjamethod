@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.Box
 import androidx.compose.foundation.ContentGravity
 import androidx.compose.foundation.Text
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +16,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.setContent
@@ -86,25 +88,20 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
         detailedAthlete?.let {
             Column(modifier = Modifier.padding(16.dp).fillMaxHeight()) {
                 Row() {
-                    Card(
-                        shape = CircleShape, modifier = Modifier.preferredWidth(100.dp)
-                            .preferredHeight(100.dp)
-                    ) {
-                        CoilImage(
-                            data = it.profile,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.preferredWidth(100.dp)
-                                .preferredHeight(100.dp),
-                            loading = {
-                                Box(
-                                    modifier = Modifier.fillMaxSize(),
-                                    gravity = ContentGravity.Center
-                                ) {
-                                    CircularProgressIndicator()
-                                }
+                    CoilImage(
+                        data = it.profile,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.size(100.dp).clip(CircleShape)
+                            .border(1.dp, Color.White, CircleShape),
+                        loading = {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                gravity = ContentGravity.Center
+                            ) {
+                                CircularProgressIndicator()
                             }
-                        )
-                    }
+                        }
+                    )
 
                     Text(
                         text = "${it.firstname} ${it.lastname}",

@@ -6,12 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.text.bold
 import androidx.fragment.app.Fragment
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.data.exercisedb.model.ExerciseType
@@ -19,7 +21,6 @@ import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.R
 import com.muddzdev.quickshot.QuickShot
 import dev.sasikanth.colorsheet.ColorSheet
-import kotlinx.android.synthetic.main.share_workout_image.*
 import java.text.NumberFormat
 import java.time.LocalDateTime
 import java.util.*
@@ -87,6 +88,7 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
         totalWeightLifted.text =
             "Weight Lifted: ${NumberFormat.getNumberInstance(Locale.US).format(amountLifted)}lbs"
 
+        val exerciseSummaryLayout = view.findViewById<LinearLayout>(R.id.exercise_summary_layout)
         for (exercise in workout.exercises!!) {
             val shareExerciseSummary =
                 layoutInflater.inflate(R.layout.share_workout_exercise_summary, null)
@@ -119,7 +121,7 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
 
 
             exerciseSummary.text = s
-            exercise_summary_layout.addView(shareExerciseSummary)
+            exerciseSummaryLayout.addView(shareExerciseSummary)
         }
 
         val workoutDuration = view.findViewById<MaterialTextView>(R.id.workout_duration)
@@ -135,6 +137,7 @@ class ShareManualWorkoutFragment : Fragment(), QuickShot.QuickShotListener {
             }
         }
 
+        val btnShare = view.findViewById<MaterialButton>(R.id.btnShare)
         btnShare.setOnClickListener {
             share()
         }

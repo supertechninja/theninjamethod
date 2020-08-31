@@ -12,7 +12,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import com.mcwilliams.theninjamethod.R
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -45,9 +44,9 @@ class MainActivity : AppCompatActivity() {
             // you can check destination.id or destination.label and act based on that
             when (destination.id) {
                 R.id.navigation_start_workout -> {
-                    nav_view.visibility = View.GONE
+                    navView.visibility = View.GONE
                 }
-                else -> nav_view.visibility = View.VISIBLE
+                else -> navView.visibility = View.VISIBLE
             }
         }
     }

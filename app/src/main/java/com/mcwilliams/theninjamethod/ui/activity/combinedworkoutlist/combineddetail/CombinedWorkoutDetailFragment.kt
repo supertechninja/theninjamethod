@@ -20,7 +20,6 @@ import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_combined_workout_detail.*
 import java.text.NumberFormat
 import java.time.LocalDate
 import java.util.*
@@ -31,6 +30,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
     private val viewModel: CombinedWorkoutViewModel by viewModels()
     var totalAmountLifted = 0
     lateinit var rootView: ConstraintLayout
+    lateinit var workoutCardContainer: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,6 +78,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
         }
 
         rootView = view.findViewById(R.id.rootView)
+        workoutCardContainer = view.findViewById(R.id.workout_card_container)
 
         val workoutName = view.findViewById<MaterialTextView>(R.id.workout_name)
         workoutName.text = combinedWorkout.first.dayOfWeek.name.fixCase() +
@@ -141,7 +142,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
             } else {
                 workoutWeightLifted.visibility = View.GONE
             }
-            workout_card_container.addView(manualWorkoutCardView)
+            workoutCardContainer.addView(manualWorkoutCardView)
         })
 
         viewModel.detailedActivity.observe(viewLifecycleOwner, Observer { stravaDetail ->
@@ -186,7 +187,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
             stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.calories_burned)
         caloriesBurned.text = stravaDetail.calories.toString()
 
-        workout_card_container.addView(stravaWorkoutCardview)
+        workoutCardContainer.addView(stravaWorkoutCardview)
     }
 
     fun getMapUrl(polyline: String): String {
