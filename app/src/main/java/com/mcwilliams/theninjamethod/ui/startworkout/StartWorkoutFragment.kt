@@ -33,7 +33,6 @@ class StartWorkoutFragment : Fragment() {
 
     var workout: com.mcwilliams.data.workoutdb.Workout? = null
     lateinit var exerciseName: String
-    lateinit var exerciseListView: LinearLayout
     lateinit var chronometer: Chronometer
     lateinit var loadedExercises: List<DbExercise>
     lateinit var exerciseList: LinearLayout
@@ -74,7 +73,7 @@ class StartWorkoutFragment : Fragment() {
             }
         })
 
-        val workoutName = view.findViewById<MaterialTextView>(R.id.workout_name)
+        val workoutName = view.findViewById<TextInputEditText>(R.id.workout_name)
         exerciseList = view.findViewById(R.id.exercise_list)
 
         //Observes changes to workout as the workout is built
@@ -290,8 +289,8 @@ class StartWorkoutFragment : Fragment() {
             }
         }
 
-        exerciseListView.addView(addExerciseViewLayout)
-        exerciseListView.requestFocus()
+        exerciseList.addView(addExerciseViewLayout)
+        exerciseList.requestFocus()
     }
 }
 
@@ -321,3 +320,111 @@ fun getTimeOfDay(): String {
     }
 }
 
+//@ExperimentalFoundationApi
+//@Composable
+//fun StartWorkoutFrame() {
+//    val startWorkoutViewModel = viewModel(StartWorkoutViewModel::class.java)
+//    val workout by startWorkoutViewModel.workout.observeAsState()
+//
+//    val timeOfDay = getTimeOfDay()
+//    startWorkoutViewModel.updateWorkoutName(timeOfDay)
+//
+//    ScrollableColumn(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
+//
+//        if (workout != null) {
+//            var workoutName = remember { TextFieldValue(workout!!.workoutName) }
+//            BaseTextField(
+//                value = workoutName,
+//                onValueChange = {
+//                    workoutName = it
+//                    startWorkoutViewModel.updateWorkoutName(workoutName.text)
+//                },
+//                textStyle = MaterialTheme.typography.h6,
+//                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+//            )
+//
+//            AndroidChronometer()
+//
+////        val exercisesPerformed = remember { workout!!.exercises }
+////            val exercises by mutableStateOf(workout!!.exercises)
+//            val exercisesPerformed by startWorkoutViewModel.liveListOfExercisesPerformed.observeAsState()
+////            if(exercisesPerformed.v.size > 0) {
+//            exercisesPerformed!!.forEach { exercise ->
+//                Text(exercise.exerciseName)
+//                ExerciseSetHeaderRow(exercise)
+//            }
+////            }
+//
+//            Column(
+//                horizontalGravity = Alignment.CenterHorizontally,
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                TextButton(onClick = {
+//                    startWorkoutViewModel.addExerciseToWorkout("Pullups", ExerciseType.bodyweight)
+//                }, content = {
+//                    Text("ADD EXERCISE")
+//                })
+//            }
+//            Column(
+//                horizontalGravity = Alignment.CenterHorizontally,
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                TextButton(onClick = {}, content = {
+//                    Text("CANCEL WORKOUT")
+//                })
+//            }
+//        }
+//    }
+//}
+//
+//@ExperimentalFoundationApi
+//@Composable
+//fun ExerciseSetHeaderRow(exercise: WorkoutExercise?) {
+//    Column() {
+//        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+//            Text("SET")
+//            Text("WEIGHT")
+//            Text("REPS")
+//            Text("")
+//        }
+//        exercise?.let { exercise ->
+//            exercise.sets?.let { workoutSets ->
+//                workoutSets.forEach { set ->
+//                    Row(
+//                        modifier = Modifier.fillMaxWidth(),
+//                        horizontalArrangement = Arrangement.SpaceEvenly
+//                    ) {
+//                        Text("${set.index}")
+//
+//                        var setWeightField = remember { TextFieldValue("") }
+//                        BaseTextField(
+//                            value = setWeightField,
+//                            onValueChange = {
+//                                setWeightField = it
+//                            }
+//                        )
+//
+//                        var setRepsField = remember { TextFieldValue("") }
+//                        BaseTextField(
+//                            value = setRepsField,
+//                            onValueChange = {
+//                                setRepsField = it
+//                            }
+//                        )
+//
+//                        Image(asset = vectorResource(R.drawable.ic_iconfinder_checkmark))
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//@Composable
+//fun AndroidChronometer() {
+//    AndroidView({ context ->
+//        val chronometer = Chronometer(context)
+//        chronometer.start()
+//        return@AndroidView chronometer
+//    }, modifier = Modifier.padding(top = 8.dp, bottom = 8.dp))
+//}

@@ -17,7 +17,7 @@ data class Workout(
     @ColumnInfo(name = "workout_total_weight") var workoutTotalWeight: String?,
     @ColumnInfo(name = "workout_calories_burned") var caloriesBurned: String?,
     @TypeConverters(ExerciseTypeConverter::class)
-    var exercises: MutableList<WorkoutExercise>? = mutableListOf()
+    var exercises: MutableList<WorkoutExercise> = mutableListOf()
 ) : Serializable {
     constructor(id: Int, workoutName: String, workoutDate: String) : this(
         id,
@@ -27,6 +27,6 @@ data class Workout(
         null,
         null,
         null,
-        null
+        mutableListOf()
     )
 }

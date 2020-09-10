@@ -42,6 +42,11 @@ fun LocalTime.get12HrTime(): String {
     return this.format(DateTimeFormatter.ofPattern(pattern))
 }
 
+fun LocalDate.getDateString(): String {
+    return this.dayOfWeek.name.fixCase() +
+            ", " + this.month.name.fixCase() + " " + this.dayOfMonth
+}
+
 fun Float.getMiles(): Double = (this * 0.000621371192).round(2);
 
 fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDouble()

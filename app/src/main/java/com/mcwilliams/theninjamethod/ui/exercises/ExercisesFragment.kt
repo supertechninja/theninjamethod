@@ -19,8 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.chip.ChipGroup
-import com.mcwilliams.data.exercisedb.DbExercise
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
@@ -32,10 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ExercisesFragment : Fragment() {
     private val viewModel: ExerciseListViewModel by viewModels()
-    private val exerciseListAdapter: ExerciseListAdapter = ExerciseListAdapter()
-    private var exerciseList: MutableList<DbExercise> = mutableListOf()
     var didSaveMasterList: Boolean = false
-    lateinit var chipsGroup: ChipGroup
 
     override fun onCreateView(
         inflater: LayoutInflater,
