@@ -12,7 +12,6 @@ import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import com.mcwilliams.theninjamethod.ui.routines.RoutinesRepository
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiFunction
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import kotlin.collections.set
@@ -43,7 +42,7 @@ class WorkoutListViewModel @ViewModelInject constructor(
                 Observable.combineLatest(
                     stravaWorkoutRepository.getStravaActivities(),
                     manualWorkoutsRepository.getWorkouts().toObservable(),
-                    BiFunction<List<SimpleWorkout>, List<SimpleWorkout>, List<SimpleWorkout>> { strava, manual
+                    { strava, manual
                         ->
                         mutableListOf(strava, manual).flatten()
                     })

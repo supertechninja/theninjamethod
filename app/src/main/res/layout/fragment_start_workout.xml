@@ -17,32 +17,41 @@
             android:layout_marginBottom="16dp">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/workout_name_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/workout_name_layout"
                 app:boxBackgroundMode="none"
                 app:boxStrokeColor="@null"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="wrap_content"
                     android:id="@+id/workout_name"
-                    android:text="Set Workout Name"
                     style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:text="Set Workout Name" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/bookmark_workout"
+                android:src="@drawable/bookmark_outline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/workout_name_layout"
+                app:layout_constraintBottom_toBottomOf="@id/workout_name_layout" />
 
             <Chronometer
                 android:id="@+id/chronometer"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
                 android:layout_marginStart="14dp"
-                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_marginTop="3dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/workout_name_layout" />
 
@@ -69,11 +78,11 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cancel_workout"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:textColor="@color/color_error"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="40dp"
                 android:text="Cancel Workout"
+                android:textColor="@color/color_error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_exercise" />

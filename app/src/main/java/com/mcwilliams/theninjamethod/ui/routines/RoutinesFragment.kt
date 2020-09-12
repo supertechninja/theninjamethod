@@ -1,112 +1,124 @@
 package com.mcwilliams.theninjamethod.ui.routines
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import android.widget.ProgressBar
-import androidx.core.content.ContextCompat
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.ConstraintLayout
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.viewModel
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipDrawable
-import com.google.android.material.chip.ChipGroup
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class RoutinesFragment : Fragment() {
-
-    private val viewModel: RoutinesViewModel by viewModels()
-    private val routinesAdapter = RoutinesAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_routines, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val chipGroup = view.findViewById<ChipGroup>(R.id.chips_group)
-        val chips = mutableListOf("All", "Beginner", "Medium", "Hard", "Custom")
-        createChips(chipGroup, chips)
-        chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            val chip: Chip = chipGroup.findViewById(checkedId)
-            val sortValue = chip.text
-            sortRoutines(sortValue)
-        }
-
-        val routineList = view.findViewById<RecyclerView>(R.id.routines_list)
-        routineList.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-
-        routineList.adapter = routinesAdapter
-
-        val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
-
-        viewModel.workout.observe(viewLifecycleOwner, Observer {
-            Log.d("TAG", "onViewCreated: ${it.size}")
-            routinesAdapter.updateRoutines(it.toMutableList())
-            progressBar.visibility = View.GONE
-        })
-
-    }
-
-    private fun sortRoutines(sortValue: CharSequence?) {
-//        routinesAdapter.getRoutinesList().find {  }
-    }
-
-    fun createChips(chipsGroup: ChipGroup, chipsToCreate: List<String>) {
-        chipsToCreate.forEach {
-            val chip = Chip(requireContext())
-            val chipDrawable = ChipDrawable.createFromAttributes(
-                requireContext(),
-                null,
-                0,
-                R.style.Widget_MaterialComponents_Chip_Filter
-            )
-            chip.setChipDrawable(chipDrawable)
-            chip.chipBackgroundColor = ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    requireContext(),
-                    R.color.color_secondary
-                )
-            )
-            if (it == "All") {
-                chip.isChecked = true
-            } else {
-                chip.isCheckable = false
+        return ComposeView(context = requireContext()).apply {
+            setContent {
+                TheNinjaMethodTheme {
+                    RoutinesScaffold(findNavController())
+                }
             }
-            chip.setTextColor(
-                ColorStateList.valueOf(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        android.R.color.black
-                    )
-                )
-            )
-            chip.text = it
-            chipsGroup.addView(chip)
         }
     }
+}
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        return super.onOptionsItemSelected(item)
-    }
+@Composable
+fun RoutinesScaffold(navController: NavController) {
+    val routinesViewModel = viewModel(RoutinesViewModel::class.java)
+    Scaffold(
+        bodyContent = {
+            RoutinesBodyContent(
+                modifier = Modifier.padding(it),
+                navController = navController,
+                routinesViewModel = routinesViewModel
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {}, icon = { Image(Icons.Default.Add) })
+        }
+    )
 
 }
 
+@Composable
+fun RoutinesBodyContent(
+    navController: NavController,
+    routinesViewModel: RoutinesViewModel,
+    modifier: Modifier
+) {
+    val routines by routinesViewModel.workout.observeAsState()
+    if (routines.isNullOrEmpty()) {
+        Text(text = "No Routines Created")
+    } else {
+        LazyColumnFor(items = routines!!, modifier = modifier.fillMaxWidth().padding(16.dp)) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Card(
+                    modifier = Modifier.fillMaxWidth()
+                        .background(color = Color.Transparent)
+                        .padding(start = 8.dp, bottom = 8.dp, end = 8.dp, top = 8.dp),
+                    elevation = 4.dp,
+                    border = BorderStroke(0.5.dp, Color.Gray)
+                ) {
+                    ConstraintLayout(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+                        val (workoutName, startWorkoutButton) = createRefs()
+
+                        Text(text = it.workoutName, modifier = Modifier.constrainAs(workoutName) {
+                            start.linkTo(parent.start)
+                            top.linkTo(startWorkoutButton.top)
+                            bottom.linkTo(startWorkoutButton.bottom)
+//                            end.linkTo(startWorkoutButton.start)
+                        }, style = MaterialTheme.typography.h6, textAlign = TextAlign.Left)
+
+                        OutlinedButton(onClick = {
+                            val bundle = bundleOf("workout" to it)
+                            Log.d("TAG", "RoutinesBodyContent: $bundle")
+                            navController.navigate(
+                                R.id.navigate_from_routines_to_start_workout,
+                                bundle
+                            )
+                        }, modifier = Modifier.constrainAs(startWorkoutButton) {
+                            end.linkTo(parent.end)
+                        }, border = BorderStroke(0.5.dp, Color.Gray)) {
+                            Text(
+                                text = "Start".toUpperCase(),
+                                color = MaterialTheme.colors.secondary,
+                                modifier = Modifier.padding(horizontal = 8.dp),
+                                style = MaterialTheme.typography.button
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

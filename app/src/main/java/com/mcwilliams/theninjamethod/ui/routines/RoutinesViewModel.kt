@@ -8,7 +8,7 @@ import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import io.reactivex.disposables.CompositeDisposable
 
 class RoutinesViewModel @ViewModelInject constructor(
-    private val routinesRepository: RoutinesRepository
+    routinesRepository: RoutinesRepository
 ) : ViewModel() {
     val rootDisposable = CompositeDisposable()
     var _workout: MutableLiveData<List<com.mcwilliams.data.workoutdb.Workout>> = MutableLiveData()

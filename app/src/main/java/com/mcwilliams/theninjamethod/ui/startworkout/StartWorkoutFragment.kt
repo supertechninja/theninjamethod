@@ -10,6 +10,7 @@ import android.widget.Chronometer
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -23,7 +24,6 @@ import com.mcwilliams.data.exercisedb.DbExercise
 import com.mcwilliams.data.exercisedb.model.ExerciseType
 import com.mcwilliams.data.exercisedb.model.WorkoutExercise
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.utils.OnSwipeTouchListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -36,6 +36,7 @@ class StartWorkoutFragment : Fragment() {
     lateinit var chronometer: Chronometer
     lateinit var loadedExercises: List<DbExercise>
     lateinit var exerciseList: LinearLayout
+    var saveWorkoutAsRoutine = false
     private val startWorkoutViewModel: StartWorkoutViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -60,19 +61,6 @@ class StartWorkoutFragment : Fragment() {
         chronometer = view.findViewById(R.id.chronometer)
         chronometer.start()
 
-        if (workout != null) {
-            startWorkoutViewModel.createWorkoutFromRoutine(workout!!)
-        } else {
-            startWorkoutViewModel.createWorkout(timeOfDay)
-        }
-
-        //Observing the list of exercises to choose from during a workout
-        startWorkoutViewModel.listOfExercises.observe(viewLifecycleOwner, Observer { exercistList ->
-            if (!exercistList.isNullOrEmpty()) {
-                loadedExercises = exercistList
-            }
-        })
-
         val workoutName = view.findViewById<TextInputEditText>(R.id.workout_name)
         exerciseList = view.findViewById(R.id.exercise_list)
 
@@ -86,6 +74,31 @@ class StartWorkoutFragment : Fragment() {
                         drawExerciseRow(exercise)
                     }
                 }
+            }
+        })
+
+        if (workout != null) {
+            startWorkoutViewModel.createWorkoutFromRoutine(workout!!)
+            saveWorkoutAsRoutine = true
+        } else {
+            startWorkoutViewModel.createWorkout(timeOfDay)
+        }
+
+        val bookmarkWorkout = view.findViewById<AppCompatImageView>(R.id.bookmark_workout)
+        bookmarkWorkout.setOnClickListener {
+            saveWorkoutAsRoutine = !saveWorkoutAsRoutine
+            if (saveWorkoutAsRoutine) {
+                Snackbar.make(it, "Workout will be saved as Routine", Snackbar.LENGTH_SHORT).show()
+                bookmarkWorkout.setImageResource(R.drawable.bookmark_filled)
+            } else {
+                bookmarkWorkout.setImageResource(R.drawable.bookmark_outline)
+            }
+        }
+
+        //Observing the list of exercises to choose from during a workout
+        startWorkoutViewModel.listOfExercises.observe(viewLifecycleOwner, Observer { exercistList ->
+            if (!exercistList.isNullOrEmpty()) {
+                loadedExercises = exercistList
             }
         })
 
@@ -136,6 +149,9 @@ class StartWorkoutFragment : Fragment() {
         if (R.id.menu_done == item.itemId) {
             chronometer.stop()
             startWorkoutViewModel.saveWorkout(chronometer.text.toString())
+            if (saveWorkoutAsRoutine) {
+
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -271,19 +287,19 @@ class StartWorkoutFragment : Fragment() {
 
                     val exerciseSets =
                         addExerciseViewLayout.findViewById<LinearLayout>(R.id.exercise_sets)
-                    addWorkoutSetLayout.setOnTouchListener(object : OnSwipeTouchListener() {
-                        override fun onSwipeLeft() {
-                            Snackbar.make(
-                                addExerciseViewLayout,
-                                "Are you sure you want to delete?",
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
-
-                        override fun onSwipeRight() {
-
-                        }
-                    })
+//                    addWorkoutSetLayout.setOnTouchListener(object : OnSwipeTouchListener() {
+//                        override fun onSwipeLeft() {
+//                            Snackbar.make(
+//                                addExerciseViewLayout,
+//                                "Are you sure you want to delete?",
+//                                Snackbar.LENGTH_SHORT
+//                            ).show()
+//                        }
+//
+//                        override fun onSwipeRight() {
+//
+//                        }
+//                    })
                     exerciseSets.addView(addWorkoutSetLayout)
                 }
             }

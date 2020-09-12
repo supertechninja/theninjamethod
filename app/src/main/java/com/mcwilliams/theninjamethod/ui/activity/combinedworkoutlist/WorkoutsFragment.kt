@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
@@ -38,14 +39,6 @@ class WorkoutsFragment : Fragment() {
     ): View? {
         val navController = findNavController()
 
-//        preferences = requireContext().getSharedPreferences(
-//            requireContext().getString(R.string.preference_file_key),
-//            Context.MODE_PRIVATE
-//        )
-//        if (!preferences.getBoolean("hasRetrievedRoutines", false)) {
-//            setupRoutines()
-//            preferences.edit().putBoolean("hasRetrievedRoutines", true).apply()
-//        }
 
         return ComposeView(context = requireContext()).apply {
             setContent {
@@ -61,13 +54,7 @@ class WorkoutsFragment : Fragment() {
 
     }
 
-//    private fun setupRoutines() {
-//        val jsonfile: String =
-//            requireActivity().assets.open("routines.json").bufferedReader().use { it.readText() }
-//        val gson = Gson()
-//        val workout = gson.fromJson(jsonfile, com.mcwilliams.data.workoutdb.Workout::class.java)
-//        viewModel.prePopulateRoutines(workout)
-//    }
+
 }
 
 @Composable
@@ -80,15 +67,13 @@ fun ActivityContentScaffold(navController: NavController) {
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                navController.navigate(R.id.navigate_to_start_workout)
-            }) {
+            ExtendedFloatingActionButton(text = {
                 Text(
-                    text = "Start Workout",
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                    style = MaterialTheme.typography.button
+                    text = "Start Workout".toUpperCase(),
                 )
-            }
+            }, onClick = {
+                navController.navigate(R.id.navigate_to_start_workout)
+            })
         }
     )
 }
@@ -109,10 +94,12 @@ fun ActivityBodyContent(modifier: Modifier, navController: NavController) {
             workoutData!!.forEach { dayWorkoutSummary ->
                 Card(
                     modifier = Modifier.fillMaxWidth()
-                        .padding(start = 16.dp, bottom = 8.dp, end = 16.dp, top = 8.dp).clickable {
+                        .background(color = Color.Transparent)
+                        .padding(start = 16.dp, bottom = 8.dp, end = 16.dp, top = 8.dp)
+                        .clickable {
                             val bundle = bundleOf("workoutSummary" to dayWorkoutSummary)
                             navController.navigate(R.id.navigate_to_combined_workout, bundle)
-                        }, elevation = 4.dp
+                        }, elevation = 4.dp, border = BorderStroke(0.5.dp, Color.Gray)
                 ) {
                     Column(modifier = Modifier.padding(10.dp)) {
                         Text(

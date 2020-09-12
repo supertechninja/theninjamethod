@@ -13,6 +13,7 @@ import com.mcwilliams.data.exercisedb.model.WorkoutSet
 import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
+import com.mcwilliams.theninjamethod.ui.routines.RoutinesRepository
 import com.mcwilliams.theninjamethod.utils.extensions.caloriesBurned
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
@@ -21,7 +22,8 @@ import java.time.LocalTime
 
 class StartWorkoutViewModel @ViewModelInject constructor(
     private val manualWorkoutsRepository: ManualWorkoutsRepository,
-    private val exerciseRepository: ExerciseRepository
+    exerciseRepository: ExerciseRepository,
+    private val routinesRepository: RoutinesRepository
 ) : ViewModel() {
 
     //List of exercises from DB to add to a workout
@@ -54,6 +56,7 @@ class StartWorkoutViewModel @ViewModelInject constructor(
         workoutInProgress!!.workoutTotalWeight = calculateTotalWeightLifted().toString()
         viewModelScope.launch {
             manualWorkoutsRepository.addWorkout(workoutInProgress!!)
+            routinesRepository.addRoutine(workoutInProgress!!)
             _didSaveWorkout.postValue(true)
             listOfExercisesPerformed.clear()
             workoutInProgress = null
