@@ -44,9 +44,13 @@ class MainActivity : AppCompatActivity() {
             // you can check destination.id or destination.label and act based on that
             when (destination.id) {
                 R.id.navigation_start_workout -> {
+                    toolbar.visibility = View.GONE
                     navView.visibility = View.GONE
                 }
-                else -> navView.visibility = View.VISIBLE
+                else -> {
+                    navView.visibility = View.VISIBLE
+                    toolbar.visibility = View.VISIBLE
+                }
             }
         }
     }
