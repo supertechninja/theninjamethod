@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -93,13 +92,13 @@ class ManualWorkoutDetailFragment : Fragment() {
                 totalWeightLifted(exercise.sets!!)
 
                 exerciseRow.setOnLongClickListener {
-                    workout.exercises!!.remove(exercise)
-                    viewModel.updateWorkout(workout)
-                    Toast.makeText(
-                        it.context,
-                        "${exercise.exerciseName} removed",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    workout.exercises!!.remove(exercise)
+//                    viewModel.updateWorkout(workout)
+//                    Toast.makeText(
+//                        it.context,
+//                        "${exercise.exerciseName} removed",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                     true
                 }
 

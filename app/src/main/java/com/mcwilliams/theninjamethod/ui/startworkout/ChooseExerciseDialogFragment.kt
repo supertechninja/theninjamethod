@@ -35,9 +35,9 @@ class ChooseExerciseDialogFragment(private val listOfExercise: List<DbExercise>)
                 } else {
                     val exercise = arrayOfExercises[which]
                     val exerciseObj = listOfExercise.find { it.exerciseName == exercise }
-                    startWorkoutViewModel.addExerciseToWorkout(
+                    startWorkoutViewModel.addExercise(
                         exerciseObj!!.exerciseName,
-                        exerciseObj.definedExerciseType!!
+//                        exerciseObj.definedExerciseType!!
                     )
                 }
             }

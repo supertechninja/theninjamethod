@@ -5,20 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.Box
-import androidx.compose.foundation.ContentGravity
 import androidx.compose.foundation.Text
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.TabConstants.defaultTabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.unit.dp
 import androidx.core.util.Preconditions
@@ -28,7 +23,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.mcwilliams.settings.model.ActivityTotal
 import dagger.hilt.android.AndroidEntryPoint
-import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
@@ -83,25 +77,24 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
 
     if (isLoggedIn!!) {
-
         val detailedAthlete by viewModel.detailedAthlete.observeAsState()
         detailedAthlete?.let {
             Column(modifier = Modifier.padding(16.dp).fillMaxHeight()) {
                 Row() {
-                    CoilImage(
-                        data = it.profile,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(100.dp).clip(CircleShape)
-                            .border(1.dp, Color.White, CircleShape),
-                        loading = {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                gravity = ContentGravity.Center
-                            ) {
-                                CircularProgressIndicator()
-                            }
-                        }
-                    )
+//                    CoilImage(
+//                        data = it.profile,
+//                        contentScale = ContentScale.Crop,
+//                        modifier = Modifier.size(100.dp).clip(CircleShape)
+//                            .border(1.dp, Color.White, CircleShape),
+//                        loading = {
+//                            Box(
+//                                modifier = Modifier.fillMaxSize(),
+//                                gravity = ContentGravity.Center
+//                            ) {
+//                                CircularProgressIndicator()
+//                            }
+//                        }
+//                    )
 
                     Text(
                         text = "${it.firstname} ${it.lastname}",
@@ -162,17 +155,9 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
                     }
                 }
 
-                val workoutsCount by viewModel.workoutHistory.observeAsState()
-                workoutsCount?.let {
-                    Text(
-                        text = "Workout Stats",
-                        color = Color.White,
-                        style = MaterialTheme.typography.h6,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
-                    )
-                    Text(text = "Total Workouts Tracked: $it", color = Color.White)
-                }
+                WorkoutStats(viewModel = viewModel)
 
+                Spacer(modifier = Modifier.preferredHeight(20.dp))
                 Button(content = {
                     Text("Log off")
                 }, onClick = {
@@ -183,12 +168,30 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
 
     } else {
         Column {
+            WorkoutStats(viewModel = viewModel)
+
             Button(content = {
                 Text("Log into Strava")
             }, onClick = {
                 Navigation.findNavController(fragmentView).navigate(R.id.navigate_to_strava_auth)
             })
         }
+    }
+
+
+}
+
+@Composable
+fun WorkoutStats(viewModel: SettingsViewModel) {
+    val workoutsCount by viewModel.workoutHistory.observeAsState()
+    workoutsCount?.let {
+        Text(
+            text = "Workout Stats",
+            color = Color.White,
+            style = MaterialTheme.typography.h6,
+            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+        )
+        Text(text = "Total Workouts Tracked: $it", color = Color.White)
     }
 }
 
@@ -202,14 +205,23 @@ fun Tabs(
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier.wrapContentHeight().padding(top = 8.dp),
     ) {
-        TabRow(selectedTabIndex = selectedTab, backgroundColor = Color(0xFF059EDC)) {
+        TabRow(selectedTabIndex = selectedTab,
+            backgroundColor = Color(0xFF059EDC),
+            indicator = { tabPositions ->
+                TabConstants.DefaultIndicator(
+                    Modifier.defaultTabIndicatorOffset(tabPositions[selectedTab]),
+                    height = 1.dp,
+                    color = Color.Yellow
+                )
+            }
+        ) {
             tabTitles.forEachIndexed { index, title ->
                 Tab(
                     text = { Text(title) },
                     selected = selectedTab == index,
                     onClick = { onSelected(index) },
                     selectedContentColor = Color.Black,
-                    unselectedContentColor = Color.LightGray
+                    unselectedContentColor = Color.LightGray,
                 )
             }
         }

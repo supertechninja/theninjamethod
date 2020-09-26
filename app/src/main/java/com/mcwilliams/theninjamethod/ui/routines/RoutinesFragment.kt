@@ -5,21 +5,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.Text
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.ConstraintLayout
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -30,6 +24,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,6 +72,9 @@ fun RoutinesBodyContent(
     modifier: Modifier
 ) {
     val routines by routinesViewModel.workout.observeAsState()
+    var showRoutinesSummaryDialog by remember { mutableStateOf(false) }
+    var routineToShow by remember { mutableStateOf(Workout(0, "", "")) }
+
     if (routines.isNullOrEmpty()) {
         Text(text = "No Routines Created")
     } else {
@@ -84,6 +82,10 @@ fun RoutinesBodyContent(
             Row(modifier = Modifier.fillMaxWidth()) {
                 Card(
                     modifier = Modifier.fillMaxWidth()
+                        .clickable(onClick = {
+                            showRoutinesSummaryDialog = true
+                            routineToShow = it
+                        })
                         .background(color = Color.Transparent)
                         .padding(start = 8.dp, bottom = 8.dp, end = 8.dp, top = 8.dp),
                     elevation = 4.dp,
@@ -120,5 +122,29 @@ fun RoutinesBodyContent(
                 }
             }
         }
+    }
+
+    if (showRoutinesSummaryDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                showRoutinesSummaryDialog = false
+            },
+            title = {
+                Text("Routine Details", modifier = Modifier.padding(start = 8.dp, top = 8.dp))
+            },
+            buttons = {
+                Column(horizontalGravity = Alignment.End) {
+                    TextButton(onClick = {
+                        showRoutinesSummaryDialog = false
+                    }, modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)) {
+                        Text(text = "OK")
+                    }
+                }
+            },
+            text = {
+                routineToShow.exercises.forEach {
+                    Text(text = it.exerciseName, modifier = Modifier.padding(4.dp))
+                }
+            })
     }
 }

@@ -82,6 +82,7 @@ fun ActivityContentScaffold(navController: NavController) {
 fun ActivityBodyContent(modifier: Modifier, navController: NavController) {
     val viewModel = viewModel(WorkoutListViewModel::class.java)
     val workoutData by viewModel.workoutMapLiveData.observeAsState()
+    val isLoggedIn by viewModel.isLoggedIn.observeAsState()
 
     if (workoutData.isNullOrEmpty()) {
         Column(modifier = Modifier.fillMaxWidth()) {

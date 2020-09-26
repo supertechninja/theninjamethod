@@ -14,11 +14,9 @@ import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import com.mcwilliams.theninjamethod.ui.routines.RoutinesRepository
-import com.mcwilliams.theninjamethod.utils.extensions.caloriesBurned
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.LocalTime
 
 class StartWorkoutViewModel @ViewModelInject constructor(
     private val manualWorkoutsRepository: ManualWorkoutsRepository,
@@ -29,18 +27,11 @@ class StartWorkoutViewModel @ViewModelInject constructor(
     //List of exercises from DB to add to a workout
     var listOfExercises: LiveData<List<DbExercise>>
 
-    var _didSaveWorkout = MutableLiveData<Boolean>()
+    var _didSaveWorkout = MutableLiveData(false)
     var didSaveWorkout: LiveData<Boolean> = _didSaveWorkout
 
-    private var _exercise = MutableLiveData<String>()
-    var exercise: MutableLiveData<String> = _exercise
-
-    var _workout = MutableLiveData<com.mcwilliams.data.workoutdb.Workout>()
-    var workout: MutableLiveData<com.mcwilliams.data.workoutdb.Workout> = _workout
-
-    var workoutInProgress: com.mcwilliams.data.workoutdb.Workout? = null
-    var listOfExercisesPerformed: MutableList<WorkoutExercise> =
-        mutableListOf()
+    var _workout = MutableLiveData(Workout(0, "", LocalDate.now().toString()))
+    var workout: LiveData<Workout> = _workout
 
     var compositeDisposable = CompositeDisposable()
 
@@ -49,82 +40,83 @@ class StartWorkoutViewModel @ViewModelInject constructor(
             .toLiveData(compositeDisposable) { it }
     }
 
-    fun saveWorkout(workoutDuration: String) {
-        val time = LocalTime.parse(workoutDuration)
-        workoutInProgress!!.workoutDuration = workoutDuration
-        workoutInProgress!!.caloriesBurned = caloriesBurned(3.5f, 180, time.minute).toString()
-        workoutInProgress!!.workoutTotalWeight = calculateTotalWeightLifted().toString()
+    fun saveWorkout(workoutDuration: String, saveWorkoutAsRoutine: Boolean) {
+        val completedWorkout = workout.value!!
+        completedWorkout.workoutDuration = ""
+        completedWorkout.caloriesBurned = ""
+        completedWorkout.workoutTotalWeight = ""
         viewModelScope.launch {
-            manualWorkoutsRepository.addWorkout(workoutInProgress!!)
-            routinesRepository.addRoutine(workoutInProgress!!)
+            manualWorkoutsRepository.addWorkout(workout = completedWorkout)
+//            if (saveWorkoutAsRoutine) {
+//                routinesRepository.addRoutine(workoutInProgress!!)
+//            }
             _didSaveWorkout.postValue(true)
-            listOfExercisesPerformed.clear()
-            workoutInProgress = null
+            //Reset workout object in view model
+            val workout = Workout(0, "", "", listOf())
+            _workout.postValue(workout)
         }
     }
 
-    //Create empty workout obj
-    fun createWorkout(workoutName: String) {
-        workoutInProgress = Workout(0, workoutName, LocalDate.now().toString())
-        _workout.postValue(workoutInProgress)
+    fun addExercise(exerciseName: String) {
+        //make a copy of the existing exercises
+        val existingExercies = workout.value!!.exercises
+        //create new exercise
+        val workoutExercise =
+            WorkoutExercise(exerciseName, ExerciseType.bodyweight, mutableListOf())
+        // merge exercises into 1 list
+        val combinedExercises = existingExercies + listOf(workoutExercise)
+        //create new workout object with combined exercies
+        val updatedWorkout = Workout(
+            workout.value!!.id,
+            workout.value!!.workoutName,
+            workout.value!!.workoutDate,
+            combinedExercises
+        )
+        //post value of new workout
+        _workout.postValue(updatedWorkout)
     }
 
-    fun createWorkoutFromRoutine(workout: Workout) {
-        workoutInProgress = workout
-        _workout.postValue(workoutInProgress)
+    fun addSetToExercise(setCount: Int, exerciseName: String) {
+        //store the current workout sets
+        val currentSets =
+            workout.value!!.exercises.find { it.exerciseName == exerciseName }!!.sets
+        //create the new workout set
+        val newSet = WorkoutSet(setCount, "", "")
+        //store the current exercises
+        val existingExercies = workout.value!!.exercises
+        //find the current exercise to update the sets on
+        val currentExercise = existingExercies.find { it.exerciseName == exerciseName }
+        //create a mutable list of existing exercises
+        val list = existingExercies.toMutableList()
+        //create an update the current exercise with an updated sets list
+        list[existingExercies.indexOf(currentExercise)] =
+            WorkoutExercise(exerciseName, ExerciseType.bodyweight, currentSets + listOf(newSet))
+        //create a new workout object with the updated workout with the updated sets
+        val updatedWorkout = Workout(
+            workout.value!!.id,
+            workout.value!!.workoutName,
+            workout.value!!.workoutDate,
+            list.toList()
+        )
+        //post updated value of workout
+        _workout.postValue(updatedWorkout)
     }
+
+//    fun createWorkoutFromRoutine(workout: Workout) {
+//        workoutInProgress = workout
+//        _workout.postValue(workoutInProgress)
+//    }
 
     fun updateWorkoutName(workoutName: String) {
-        workoutInProgress!!.workoutName = workoutName
-        _workout.postValue(workoutInProgress)
+        val currentWorkout = workout.value
+        currentWorkout!!.workoutName = workoutName
+        _workout.postValue(currentWorkout)
     }
 
-    //Create an exercise with an empty list of sets
-    fun addExerciseToWorkout(
-        s: String,
-        definedExerciseType: ExerciseType
-    ) {
-        var startingWeight = ""
-        if (definedExerciseType == ExerciseType.bodyweight) {
-            startingWeight = "0"
-        }
-
-        val newExercise =
-            WorkoutExercise(
-                s,
-                definedExerciseType,
-                mutableListOf(WorkoutSet(1, startingWeight, ""))
-            )
-        listOfExercisesPerformed.add(newExercise)
-        workoutInProgress!!.exercises = listOfExercisesPerformed
-        _workout.postValue(workoutInProgress)
-    }
-
-    //Create empty workout set in exercise to update later
-    fun addNewSetToExerciseToWorkout(exercise: String) {
-        val exerciseToAddSetTo =
-            workoutInProgress!!.exercises!!.find { it.exerciseName == exercise }
-        val currentSetCount = exerciseToAddSetTo!!.sets!!.size
-        val newSet = WorkoutSet(currentSetCount.inc(), "", "")
-        workoutInProgress!!.exercises!!.find { it.exerciseName == exercise }!!.sets!!.add(newSet)
-        _workout.postValue(workoutInProgress)
-    }
-
-    // Update set in exercise with values from UI, Finds the exercise in the workout by exerciseName,
-    // then finds the sets based on index
-    fun updateSetInExercise(index: Int, weight: String, reps: String, exercise: String) {
-        workoutInProgress!!.exercises!!.find { it.exerciseName == exercise }!!
-            .sets!!.find { it.index == index }!!.weight = weight
-        workoutInProgress!!.exercises!!.find { it.exerciseName == exercise }!!
-            .sets!!.find { it.index == index }!!.reps = reps
-        _workout.postValue(workoutInProgress)
-    }
-
-    fun cancelWorkout() {
-        workoutInProgress = null
-        _workout.postValue(workoutInProgress)
-        _didSaveWorkout.postValue(true)
-    }
+//    fun cancelWorkout() {
+//        _workout.postValue(workoutInProgress)
+//        _didSaveWorkout.postValue(true)
+//    }
 
     fun calculateTotalWeightLifted(): Int {
         var totalWeight = 0
@@ -140,5 +132,4 @@ class StartWorkoutViewModel @ViewModelInject constructor(
 //        }
         return totalWeight
     }
-
 }

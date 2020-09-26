@@ -62,7 +62,7 @@ class ManualWorkoutsRepository @Inject constructor(val context: Context) : Corou
                     "",
                     it.workoutName,
                     WorkoutType.LIFTING,
-                    "${it.workoutTotalWeight!!} lbs",
+                    "lbs",
                     it.caloriesBurned ?: "",
                     it.workoutDuration ?: "",
                     it.id

@@ -5,12 +5,12 @@ data class WorkoutExercise(
     val exerciseType: String,
     val exerciseBodyPart: String,
     var definedExerciseType: ExerciseType?,
-    val sets: MutableList<WorkoutSet>?
+    var sets: List<WorkoutSet> = listOf()
 ) {
     constructor(
         workoutName: String,
         exerciseType: ExerciseType,
-        sets: MutableList<WorkoutSet>?
+        sets: List<WorkoutSet> = listOf()
     ) : this(
         workoutName,
         "",

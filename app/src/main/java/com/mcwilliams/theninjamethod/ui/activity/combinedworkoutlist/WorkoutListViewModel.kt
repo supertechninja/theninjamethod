@@ -20,7 +20,8 @@ class WorkoutListViewModel @ViewModelInject constructor(
     sessionRepo: SessionRepository,
     stravaWorkoutRepository: StravaWorkoutRepository,
     private val manualWorkoutsRepository: ManualWorkoutsRepository,
-    private val routinesRepository: RoutinesRepository
+    private val routinesRepository: RoutinesRepository,
+    private val sessionRepository: SessionRepository
 ) : ViewModel() {
     var isRefreshing: Boolean = false
     val errorMessage: MutableLiveData<Int> = MutableLiveData()
@@ -35,7 +36,11 @@ class WorkoutListViewModel @ViewModelInject constructor(
     var _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     var isLoading: LiveData<Boolean> = _isLoading
 
+    private var _isLoggedIn = MutableLiveData(false)
+    var isLoggedIn: LiveData<Boolean> = _isLoggedIn
+
     init {
+        _isLoggedIn.postValue(sessionRepository.isLoggedIn())
         _isLoading.postValue(true)
         if (sessionRepo.isLoggedIn()) {
             workoutMapLiveData =
