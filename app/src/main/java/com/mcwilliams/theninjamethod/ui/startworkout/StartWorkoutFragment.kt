@@ -131,12 +131,12 @@ fun StartWorkoutFrame(
             })
         },
         bodyContent = {
-//            val scrollState = rememberScrollState(0f)
+            var scrollState = rememberScrollState(0f)
 
             ScrollableColumn(
                 modifier = Modifier.fillMaxWidth().padding(it)
                     .padding(start = 16.dp, bottom = 30.dp, end = 16.dp),
-//                scrollState = scrollState
+                scrollState = scrollState
             ) {
                 if (workout != null) {
                     var workoutName by
@@ -172,11 +172,13 @@ fun StartWorkoutFrame(
 
                             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
                                 LazyColumnFor(items = exercise.sets) {
-                                    SetRow(set = it, modifier = modifier)
+                                    SetRow(set = it, modifier = modifier, scrollState = scrollState)
                                 }
 
+                                scrollState.smoothScrollTo(scrollState.maxValue)
+
                                 Column(
-                                    horizontalGravity = Alignment.CenterHorizontally,
+                                    horizontalAlignment = Alignment.CenterHorizontally,
                                     modifier = Modifier.fillMaxWidth()
                                         .padding(top = 8.dp, bottom = 20.dp)
                                 ) {
@@ -216,6 +218,7 @@ fun StartWorkoutFrame(
 @ExperimentalFoundationApi
 @Composable
 fun SetRow(
+    scrollState: ScrollState,
     set: WorkoutSet,
     modifier: Modifier
 ) {
@@ -225,7 +228,7 @@ fun SetRow(
     ) {
         var setField by remember { mutableStateOf(TextFieldValue("${set.index}")) }
         Column(
-            horizontalGravity = ContentGravity.CenterHorizontally,
+            horizontalAlignment = ContentGravity.CenterHorizontally,
             modifier = modifier.padding(horizontal = 8.dp)
         ) {
             OutlinedTextField(
@@ -241,7 +244,7 @@ fun SetRow(
 
         var setWeightField by remember { mutableStateOf(TextFieldValue(set.weight)) }
         Column(
-            horizontalGravity = ContentGravity.CenterHorizontally,
+            horizontalAlignment = ContentGravity.CenterHorizontally,
             modifier = modifier.padding(horizontal = 8.dp),
         ) {
             OutlinedTextField(
@@ -257,6 +260,7 @@ fun SetRow(
                 onImeActionPerformed = { imeAction, softwareKeyboardController ->
                     if (imeAction == ImeAction.Done) {
                         softwareKeyboardController?.hideSoftwareKeyboard()
+                        scrollState.smoothScrollTo(scrollState.maxValue)
                     }
                 }
             )
@@ -264,7 +268,7 @@ fun SetRow(
 
         var setRepsField by remember { mutableStateOf(TextFieldValue(set.reps)) }
         Column(
-            horizontalGravity = ContentGravity.CenterHorizontally,
+            horizontalAlignment = ContentGravity.CenterHorizontally,
             modifier = modifier.padding(horizontal = 8.dp)
         ) {
             OutlinedTextField(
@@ -280,6 +284,7 @@ fun SetRow(
                 onImeActionPerformed = { imeAction, softwareKeyboardController ->
                     if (imeAction == ImeAction.Done) {
                         softwareKeyboardController?.hideSoftwareKeyboard()
+                        scrollState.smoothScrollTo(scrollState.maxValue)
                     }
                 }
             )

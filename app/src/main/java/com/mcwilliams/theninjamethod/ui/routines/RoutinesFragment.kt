@@ -133,7 +133,7 @@ fun RoutinesBodyContent(
                 Text("Routine Details", modifier = Modifier.padding(start = 8.dp, top = 8.dp))
             },
             buttons = {
-                Column(horizontalGravity = Alignment.End) {
+                Column(horizontalAlignment = Alignment.End) {
                     TextButton(onClick = {
                         showRoutinesSummaryDialog = false
                     }, modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)) {

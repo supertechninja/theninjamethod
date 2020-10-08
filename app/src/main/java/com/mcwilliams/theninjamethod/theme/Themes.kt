@@ -14,7 +14,7 @@ private val Yellow600 = Color(0xFFF5CF1B)
 private val Yellow700 = Color(0xFFF3B711)
 private val Yellow800 = Color(0xFFF29F05)
 
-private val Blue200 = Color(0xFF9DA3FA)
+private val Blue200 = Color(0xFF059EDC)
 private val Blue400 = Color(0xFF4860F7)
 private val Blue500 = Color(0xFF0540F2)
 private val Blue800 = Color(0xFF001CCF)

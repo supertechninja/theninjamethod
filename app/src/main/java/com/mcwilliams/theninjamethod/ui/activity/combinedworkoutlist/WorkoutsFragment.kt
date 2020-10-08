@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -25,6 +27,7 @@ import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
+import com.mcwilliams.theninjamethod.utils.AnimatingFabContent
 import com.mcwilliams.theninjamethod.utils.extensions.getDateString
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,27 +62,59 @@ class WorkoutsFragment : Fragment() {
 
 @Composable
 fun ActivityContentScaffold(navController: NavController) {
+    val scrollstate = rememberScrollState()
+
     Scaffold(
         bodyContent = {
             ActivityBodyContent(
                 modifier = Modifier.padding(it),
-                navController = navController
+                navController = navController,
+                scrollstate = scrollstate
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(text = {
-                Text(
-                    text = "Start Workout".toUpperCase(),
-                )
-            }, onClick = {
-                navController.navigate(R.id.navigate_to_start_workout)
-            })
+            StartWorkoutFab(
+                extended = scrollstate.value == 0f,
+                modifier = Modifier
+            )
         }
     )
 }
 
 @Composable
-fun ActivityBodyContent(modifier: Modifier, navController: NavController) {
+fun StartWorkoutFab(extended: Boolean, modifier: Modifier = Modifier) {
+    FloatingActionButton(
+        onClick = { /* TODO */ },
+        modifier = modifier
+            .padding(16.dp)
+            .preferredHeight(48.dp)
+            .widthIn(min = 48.dp),
+        backgroundColor = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.onPrimary
+    ) {
+        AnimatingFabContent(
+            icon = {
+                Icon(
+                    asset = Icons.Default.Add,
+                    modifier = Modifier.preferredSize(24.dp)
+                )
+            },
+            text = {
+                Text(
+                    text = "Start Workout",
+                )
+            },
+            extended = extended
+        )
+    }
+}
+
+@Composable
+fun ActivityBodyContent(
+    modifier: Modifier,
+    navController: NavController,
+    scrollstate: ScrollState
+) {
     val viewModel = viewModel(WorkoutListViewModel::class.java)
     val workoutData by viewModel.workoutMapLiveData.observeAsState()
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
@@ -91,7 +126,7 @@ fun ActivityBodyContent(modifier: Modifier, navController: NavController) {
             }
         }
     } else {
-        ScrollableColumn(modifier = modifier) {
+        ScrollableColumn(modifier = modifier, scrollState = scrollstate) {
             workoutData!!.forEach { dayWorkoutSummary ->
                 Card(
                     modifier = Modifier.fillMaxWidth()
