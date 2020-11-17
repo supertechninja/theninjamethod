@@ -3,6 +3,7 @@ package com.mcwilliams.theninjamethod.di.modules
 import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.network.apis.WorkoutApi
 import com.mcwilliams.theninjamethod.strava.api.ActivitiesApi
+import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -47,6 +48,14 @@ object NetworkModule {
     internal fun provideActivites(@Named("stravaApi") retrofit: Retrofit): ActivitiesApi {
         return retrofit.create(ActivitiesApi::class.java)
     }
+
+    @Provides
+    @Reusable
+    @JvmStatic
+    internal fun provideAthlete(@Named("stravaApi") retrofit: Retrofit): AthleteApi {
+        return retrofit.create(AthleteApi::class.java)
+    }
+
 
     /**
      * Provides the Retrofit object.

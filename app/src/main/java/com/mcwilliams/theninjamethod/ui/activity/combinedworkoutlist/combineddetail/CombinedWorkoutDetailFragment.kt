@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import coil.load
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.data.exercisedb.model.ExerciseType
 import com.mcwilliams.data.exercisedb.model.WorkoutSet
@@ -172,7 +171,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
         if (stravaDetail.map!!.summary_polyline.isNullOrEmpty()) {
             mapView.visibility = View.GONE
         } else {
-            mapView.load(getMapUrl(stravaDetail.map.summary_polyline!!))
+//            mapView.load(getMapUrl(stravaDetail.map.summary_polyline!!))
         }
 
         val workoutDistance =

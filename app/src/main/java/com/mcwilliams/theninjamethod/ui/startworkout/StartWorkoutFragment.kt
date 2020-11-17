@@ -9,6 +9,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -17,8 +18,10 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.WithConstraints
+import androidx.compose.material.Text
+import androidx.compose.material.Icon
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.WithConstraints
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.DensityAmbient
 import androidx.compose.ui.text.input.ImeAction
@@ -52,7 +55,7 @@ class StartWorkoutFragment : Fragment() {
     ): View? {
         arguments?.let {
             workout =
-                arguments?.getSerializable("workout") as com.mcwilliams.data.workoutdb.Workout
+                arguments?.getSerializable("workout") as Workout
         }
 
         //Reset the previously saved workout
@@ -133,10 +136,9 @@ fun StartWorkoutFrame(
         bodyContent = {
             var scrollState = rememberScrollState(0f)
 
-            ScrollableColumn(
+            Column(
                 modifier = Modifier.fillMaxWidth().padding(it)
                     .padding(start = 16.dp, bottom = 30.dp, end = 16.dp),
-                scrollState = scrollState
             ) {
                 if (workout != null) {
                     var workoutName by
@@ -165,37 +167,39 @@ fun StartWorkoutFrame(
 
                         var setCount by remember { mutableStateOf(1) }
 
-                        WithConstraints {
-                            val width =
-                                with(DensityAmbient.current) { constraints.maxWidth.toDp() / 3 }
-                            val modifier = Modifier.width(width = width)
-
-                            Column(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-                                LazyColumnFor(items = exercise.sets) {
-                                    SetRow(set = it, modifier = modifier, scrollState = scrollState)
-                                }
-
-                                scrollState.smoothScrollTo(scrollState.maxValue)
+//                        WithConstraints {
+//                            val width =
+//                                with(DensityAmbient.current) { constraints.maxWidth.toDp() / 3 }
+                            val modifier = Modifier.width(width = 40.dp)
 
                                 Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier.fillMaxWidth()
-                                        .padding(top = 8.dp, bottom = 20.dp)
+                                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
                                 ) {
-                                    TextButton(onClick = {
-                                        //Save current sets to viewModel list of Exercises with sets
-                                        startWorkoutViewModel.addSetToExercise(
-                                            setCount = setCount,
-                                            exercise.exerciseName
-                                        )
-                                        setCount = setCount.inc()
+                                    exercise.sets.forEach {
+                                        SetRow(set = it, modifier = modifier)
+                                    }
+//                                scrollState.smoothScrollTo(scrollState.maxValue)
+
+                                    Column(
+                                        horizontalAlignment = Alignment.CenterHorizontally,
+                                        modifier = Modifier.fillMaxWidth()
+                                            .padding(top = 8.dp, bottom = 20.dp)
+                                    ) {
+                                        TextButton(onClick = {
+                                            //Save current sets to viewModel list of Exercises with sets
+                                            startWorkoutViewModel.addSetToExercise(
+                                                setCount = setCount,
+                                                exercise.exerciseName
+                                            )
+                                            setCount = setCount.inc()
 //                                        scrollState.smoothScrollTo(scrollState.maxValue)
-                                    }, content = {
-                                        Text("ADD SET")
-                                    })
+                                        }, content = {
+                                            Text("ADD SET")
+                                        })
+                                    }
                                 }
-                            }
-                        }
+//                            }
+//                        }
                     }
                 }
             }
@@ -218,7 +222,6 @@ fun StartWorkoutFrame(
 @ExperimentalFoundationApi
 @Composable
 fun SetRow(
-    scrollState: ScrollState,
     set: WorkoutSet,
     modifier: Modifier
 ) {
@@ -238,13 +241,14 @@ fun SetRow(
                 },
                 label = {
                     Text("Set")
-                }, keyboardType = KeyboardType.Number
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
         }
 
         var setWeightField by remember { mutableStateOf(TextFieldValue(set.weight)) }
         Column(
-            horizontalAlignment = ContentGravity.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier.padding(horizontal = 8.dp),
         ) {
             OutlinedTextField(
@@ -255,12 +259,12 @@ fun SetRow(
                 },
                 label = {
                     Text("Weight (lb)")
-                }, keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done,
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                 onImeActionPerformed = { imeAction, softwareKeyboardController ->
                     if (imeAction == ImeAction.Done) {
                         softwareKeyboardController?.hideSoftwareKeyboard()
-                        scrollState.smoothScrollTo(scrollState.maxValue)
+//                        scrollState.smoothScrollTo(scrollState.maxValue)
                     }
                 }
             )
@@ -279,12 +283,12 @@ fun SetRow(
                 },
                 label = {
                     Text("Reps")
-                }, keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done,
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
                 onImeActionPerformed = { imeAction, softwareKeyboardController ->
                     if (imeAction == ImeAction.Done) {
                         softwareKeyboardController?.hideSoftwareKeyboard()
-                        scrollState.smoothScrollTo(scrollState.maxValue)
+//                        scrollState.smoothScrollTo(scrollState.maxValue)
                     }
                 }
             )

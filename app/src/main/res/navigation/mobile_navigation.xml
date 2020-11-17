@@ -97,6 +97,23 @@
         android:name="com.mcwilliams.theninjamethod.ui.exercises.ExercisesFragment"
         android:label="@string/title_home" />
 
-    <include app:graph="@navigation/navigation_settings" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.mcwilliams.theninjamethod.ui.settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/navigate_to_strava_auth"
+            app:destination="@+id/navigation_strava_auth" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_strava_auth"
+        android:name="com.mcwilliams.theninjamethod.ui.settings.StravaWebAuthFragment"
+        android:label="Sign into Strava"
+        tools:layout="@layout/fragment_settings" />
 
 </navigation>

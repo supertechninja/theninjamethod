@@ -1,4 +1,4 @@
-package com.mcwilliams.settings
+package com.mcwilliams.theninjamethod.ui.settings
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -22,6 +22,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.mcwilliams.settings.model.ActivityTotal
+import com.mcwilliams.theninjamethod.R
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 

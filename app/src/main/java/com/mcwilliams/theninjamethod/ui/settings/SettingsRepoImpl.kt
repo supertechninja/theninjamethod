@@ -1,11 +1,11 @@
-package com.mcwilliams.settings.repo
+package com.mcwilliams.theninjamethod.ui.settings
 
 import android.util.Log
 import com.mcwilliams.appinf.SessionRepository
 import com.mcwilliams.appinf.model.Athlete
-import com.mcwilliams.settings.AthleteApi
 import com.mcwilliams.settings.model.AthleteStats
 import com.mcwilliams.settings.model.StravaAthlete
+import com.mcwilliams.theninjamethod.strava.api.AthleteApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

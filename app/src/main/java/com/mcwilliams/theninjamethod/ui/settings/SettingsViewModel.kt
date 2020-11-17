@@ -1,4 +1,4 @@
-package com.mcwilliams.settings
+package com.mcwilliams.theninjamethod.ui.settings
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -9,7 +9,6 @@ import com.mcwilliams.appinf.SessionRepository
 import com.mcwilliams.data.ManualWorkoutsRepository
 import com.mcwilliams.settings.model.AthleteStats
 import com.mcwilliams.settings.model.StravaAthlete
-import com.mcwilliams.settings.repo.SettingsRepo
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

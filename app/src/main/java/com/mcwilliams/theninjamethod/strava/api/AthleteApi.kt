@@ -1,4 +1,4 @@
-package com.mcwilliams.settings
+package com.mcwilliams.theninjamethod.strava.api
 
 import com.mcwilliams.settings.model.AthleteStats
 import com.mcwilliams.settings.model.StravaAthlete

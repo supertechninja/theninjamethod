@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.imageResource
+import androidx.compose.material.Text
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
 import androidx.core.os.bundleOf
@@ -74,6 +75,7 @@ fun ActivityContentScaffold(navController: NavController) {
         },
         floatingActionButton = {
             StartWorkoutFab(
+                navController = navController,
                 extended = scrollstate.value == 0f,
                 modifier = Modifier
             )
@@ -82,9 +84,11 @@ fun ActivityContentScaffold(navController: NavController) {
 }
 
 @Composable
-fun StartWorkoutFab(extended: Boolean, modifier: Modifier = Modifier) {
+fun StartWorkoutFab(navController: NavController, extended: Boolean, modifier: Modifier = Modifier) {
     FloatingActionButton(
-        onClick = { /* TODO */ },
+        onClick = {
+            navController.navigate(R.id.navigate_to_start_workout)
+        },
         modifier = modifier
             .padding(16.dp)
             .preferredHeight(48.dp)
@@ -94,14 +98,14 @@ fun StartWorkoutFab(extended: Boolean, modifier: Modifier = Modifier) {
     ) {
         AnimatingFabContent(
             icon = {
-                Icon(
+                Image(
                     asset = Icons.Default.Add,
                     modifier = Modifier.preferredSize(24.dp)
                 )
             },
             text = {
                 Text(
-                    text = "Start Workout",
+                    text = "Start Workout"
                 )
             },
             extended = extended
