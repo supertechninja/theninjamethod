@@ -21,7 +21,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.material.Text
 import androidx.compose.material.Icon
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.WithConstraints
+import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.AmbientWindowManager
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.DensityAmbient
 import androidx.compose.ui.text.input.ImeAction
@@ -123,13 +126,13 @@ fun StartWorkoutFrame(
                 IconButton(onClick = {
                     startWorkoutViewModel.saveWorkout(workoutDuration, false)
                 }) {
-                    Icon(asset = Icons.Default.Done)
+                    Icon(imageVector = Icons.Default.Done)
                 }
             }, navigationIcon = {
                 IconButton(onClick = {
                     startWorkoutViewModel.cancelWorkout()
                 }) {
-                    Icon(asset = Icons.Default.Close)
+                    Icon(imageVector = Icons.Default.Close)
                 }
             })
         },
@@ -163,41 +166,46 @@ fun StartWorkoutFrame(
                     Spacer(modifier = Modifier.preferredHeight(16.dp))
 
                     LazyColumnFor(items = workout!!.exercises) { exercise ->
-                        Text(exercise.exerciseName, color = Color.White)
 
                         var setCount by remember { mutableStateOf(1) }
+
+                        Row {
+                            Text(exercise.exerciseName, color = Color.White)
+
+                            Column(
+                                horizontalAlignment = Alignment.End,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                TextButton(onClick = {
+                                    //Save current sets to viewModel list of Exercises with sets
+                                    startWorkoutViewModel.addSetToExercise(
+                                        setCount = setCount,
+                                        exercise.exerciseName
+                                    )
+                                    setCount = setCount.inc()
+//                                        scrollState.smoothScrollTo(scrollState.maxValue)
+                                }, content = {
+                                    Text("ADD SET")
+                                })
+                            }
+                        }
+
 
 //                        WithConstraints {
 //                            val width =
 //                                with(DensityAmbient.current) { constraints.maxWidth.toDp() / 3 }
-                            val modifier = Modifier.width(width = 40.dp)
+                        val modifier = Modifier.width(width = 200.dp)
 
-                                Column(
-                                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
-                                ) {
-                                    exercise.sets.forEach {
-                                        SetRow(set = it, modifier = modifier)
-                                    }
+                        Column(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
+                        ) {
+                            exercise.sets.forEach {
+                                SetRow(set = it)
+                            }
 //                                scrollState.smoothScrollTo(scrollState.maxValue)
 
-                                    Column(
-                                        horizontalAlignment = Alignment.CenterHorizontally,
-                                        modifier = Modifier.fillMaxWidth()
-                                            .padding(top = 8.dp, bottom = 20.dp)
-                                    ) {
-                                        TextButton(onClick = {
-                                            //Save current sets to viewModel list of Exercises with sets
-                                            startWorkoutViewModel.addSetToExercise(
-                                                setCount = setCount,
-                                                exercise.exerciseName
-                                            )
-                                            setCount = setCount.inc()
-//                                        scrollState.smoothScrollTo(scrollState.maxValue)
-                                        }, content = {
-                                            Text("ADD SET")
-                                        })
-                                    }
-                                }
+
+                        }
 //                            }
 //                        }
                     }
@@ -223,16 +231,21 @@ fun StartWorkoutFrame(
 @Composable
 fun SetRow(
     set: WorkoutSet,
-    modifier: Modifier
 ) {
+//    val width = with(DensityAmbient.current) { constraints.maxWidth.toDp() / 3 }
+//    AmbientDensity.current.
+//    with(AmbientDensity.current) { constr }
+
+    val widthModifier = Modifier.width(100.dp)
+
     Row(
         modifier = Modifier.fillMaxWidth().padding(top = 8.dp, bottom = 8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         var setField by remember { mutableStateOf(TextFieldValue("${set.index}")) }
         Column(
-            horizontalAlignment = ContentGravity.CenterHorizontally,
-            modifier = modifier.padding(horizontal = 8.dp)
+            horizontalAlignment = Alignment.Start,
+            modifier = widthModifier.padding(horizontal = 8.dp)
         ) {
             OutlinedTextField(
                 value = setField,
@@ -242,14 +255,14 @@ fun SetRow(
                 label = {
                     Text("Set")
                 },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             )
         }
 
         var setWeightField by remember { mutableStateOf(TextFieldValue(set.weight)) }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier.padding(horizontal = 8.dp),
+            modifier = widthModifier.padding(horizontal = 8.dp)
         ) {
             OutlinedTextField(
                 value = setWeightField,
@@ -260,20 +273,24 @@ fun SetRow(
                 label = {
                     Text("Weight (lb)")
                 },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
                 onImeActionPerformed = { imeAction, softwareKeyboardController ->
                     if (imeAction == ImeAction.Done) {
                         softwareKeyboardController?.hideSoftwareKeyboard()
 //                        scrollState.smoothScrollTo(scrollState.maxValue)
                     }
-                }
+                },
+                modifier = widthModifier
             )
         }
 
         var setRepsField by remember { mutableStateOf(TextFieldValue(set.reps)) }
         Column(
-            horizontalAlignment = ContentGravity.CenterHorizontally,
-            modifier = modifier.padding(horizontal = 8.dp)
+            horizontalAlignment = Alignment.End,
+            modifier = widthModifier.padding(horizontal = 8.dp)
         ) {
             OutlinedTextField(
                 value = setRepsField,
@@ -284,13 +301,17 @@ fun SetRow(
                 label = {
                     Text("Reps")
                 },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Done
+                ),
                 onImeActionPerformed = { imeAction, softwareKeyboardController ->
                     if (imeAction == ImeAction.Done) {
                         softwareKeyboardController?.hideSoftwareKeyboard()
 //                        scrollState.smoothScrollTo(scrollState.maxValue)
                     }
-                }
+                },
+                modifier = widthModifier
             )
         }
     }

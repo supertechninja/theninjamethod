@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.imageResource
 import androidx.compose.material.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
 import androidx.core.os.bundleOf
@@ -28,7 +29,6 @@ import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
-import com.mcwilliams.theninjamethod.utils.AnimatingFabContent
 import com.mcwilliams.theninjamethod.utils.extensions.getDateString
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -74,17 +74,26 @@ fun ActivityContentScaffold(navController: NavController) {
             )
         },
         floatingActionButton = {
-            StartWorkoutFab(
-                navController = navController,
-                extended = scrollstate.value == 0f,
-                modifier = Modifier
-            )
+            FloatingActionButton(onClick = { navController.navigate(R.id.navigate_to_start_workout) }) {
+                Text(
+                    text = "Start Workout"
+                )
+            }
+//            StartWorkoutFab(
+//                navController = navController,
+//                extended = scrollstate.value == 0f,
+//                modifier = Modifier
+//            )
         }
     )
 }
 
 @Composable
-fun StartWorkoutFab(navController: NavController, extended: Boolean, modifier: Modifier = Modifier) {
+fun StartWorkoutFab(
+    navController: NavController,
+    extended: Boolean,
+    modifier: Modifier = Modifier
+) {
     FloatingActionButton(
         onClick = {
             navController.navigate(R.id.navigate_to_start_workout)
@@ -96,20 +105,20 @@ fun StartWorkoutFab(navController: NavController, extended: Boolean, modifier: M
         backgroundColor = MaterialTheme.colors.primary,
         contentColor = MaterialTheme.colors.onPrimary
     ) {
-        AnimatingFabContent(
-            icon = {
-                Image(
-                    asset = Icons.Default.Add,
-                    modifier = Modifier.preferredSize(24.dp)
-                )
-            },
-            text = {
-                Text(
-                    text = "Start Workout"
-                )
-            },
-            extended = extended
-        )
+//        AnimatingFabContent(
+//            icon = {
+//                Image(
+//                    imageVector = Icons.Default.Add,
+//                    modifier = Modifier.preferredSize(24.dp)
+//                )
+//            },
+//            text = {
+//                Text(
+//                    text = "Start Workout"
+//                )
+//            },
+//            extended = extended
+//        )
     }
 }
 
@@ -125,7 +134,7 @@ fun ActivityBodyContent(
 
     if (workoutData.isNullOrEmpty()) {
         Column(modifier = Modifier.fillMaxWidth()) {
-            Box(gravity = ContentGravity.Center) {
+            Box(contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
         }
@@ -222,7 +231,7 @@ fun WorkoutRow(navController: NavController, navDestId: Int, workoutSummary: Sim
 fun WorkoutStat(imageRes: Int, value: String) {
     Row(horizontalArrangement = Arrangement.Center) {
         Image(
-            asset = imageResource(imageRes),
+            bitmap = imageResource(imageRes),
             modifier = Modifier.preferredSize(20.dp)
         )
         Text(

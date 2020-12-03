@@ -60,7 +60,9 @@ fun RoutinesScaffold(navController: NavController) {
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {}, icon = { Image(Icons.Default.Add) })
+            FloatingActionButton(onClick = {}){
+                Image(Icons.Default.Add)
+            }
         }
     )
 
