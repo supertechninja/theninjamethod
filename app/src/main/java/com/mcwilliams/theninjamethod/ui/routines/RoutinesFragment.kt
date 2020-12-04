@@ -25,6 +25,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.google.android.material.composethemeadapter.MdcTheme
 import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
@@ -40,7 +41,7 @@ class RoutinesFragment : Fragment() {
     ): View? {
         return ComposeView(context = requireContext()).apply {
             setContent {
-                TheNinjaMethodTheme {
+                MdcTheme {
                     RoutinesScaffold(findNavController())
                 }
             }

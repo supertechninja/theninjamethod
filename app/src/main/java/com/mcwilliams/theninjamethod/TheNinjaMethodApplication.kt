@@ -35,7 +35,7 @@ class TheNinjaMethodApplication() : Application() {
         var isUserLoggedIn = false
     }
 
-    private suspend fun setupRoutines() {
+    private fun setupRoutines() {
         val jsonfile: String =
             this.assets.open("routines.json").bufferedReader().use { it.readText() }
         val gson = Gson()

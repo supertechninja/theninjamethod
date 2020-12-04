@@ -25,6 +25,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.composethemeadapter.MdcTheme
 import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.R
@@ -46,7 +47,7 @@ class WorkoutsFragment : Fragment() {
 
         return ComposeView(context = requireContext()).apply {
             setContent {
-                TheNinjaMethodTheme {
+                MdcTheme {
                     ActivityContentScaffold(navController)
                 }
             }
@@ -76,7 +77,8 @@ fun ActivityContentScaffold(navController: NavController) {
         floatingActionButton = {
             FloatingActionButton(onClick = { navController.navigate(R.id.navigate_to_start_workout) }) {
                 Text(
-                    text = "Start Workout"
+                    text = "Start Workout",
+                    modifier = Modifier.padding(horizontal = 8.dp)
                 )
             }
 //            StartWorkoutFab(
@@ -135,7 +137,7 @@ fun ActivityBodyContent(
     if (workoutData.isNullOrEmpty()) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Box(contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
         }
     } else {

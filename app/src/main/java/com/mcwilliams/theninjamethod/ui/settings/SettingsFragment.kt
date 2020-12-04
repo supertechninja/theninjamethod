@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -14,13 +13,16 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.setContent
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.core.util.Preconditions
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.composethemeadapter.MdcTheme
 import com.mcwilliams.settings.model.ActivityTotal
 import com.mcwilliams.theninjamethod.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,11 +38,14 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val fragmentView = inflater.inflate(R.layout.frame_layout, container, false)
-        (fragmentView as ViewGroup).setContent(Recomposer.current()) {
-            SettingsLayout(fragmentView, viewModel)
+        val navController = findNavController()
+        return ComposeView(context = requireContext()).apply {
+            setContent {
+                MdcTheme {
+                    SettingsLayout(navController, viewModel)
+                }
+            }
         }
-        return fragmentView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,7 +79,7 @@ class SettingsFragment : Fragment() {
 }
 
 @Composable
-fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
+fun SettingsLayout(navController: NavController, viewModel: SettingsViewModel) {
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
 
     if (isLoggedIn!!) {
@@ -174,7 +179,7 @@ fun SettingsLayout(fragmentView: ViewGroup, viewModel: SettingsViewModel) {
             Button(content = {
                 Text("Log into Strava")
             }, onClick = {
-                Navigation.findNavController(fragmentView).navigate(R.id.navigate_to_strava_auth)
+                navController.navigate(R.id.navigate_to_strava_auth)
             })
         }
     }
