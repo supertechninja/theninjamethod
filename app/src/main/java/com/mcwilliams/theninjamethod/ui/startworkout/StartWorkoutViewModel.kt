@@ -48,9 +48,9 @@ class StartWorkoutViewModel @ViewModelInject constructor(
         completedWorkout.workoutTotalWeight = calculateTotalWeightLifted().toString()
         viewModelScope.launch {
             manualWorkoutsRepository.addWorkout(workout = completedWorkout)
-//            if (saveWorkoutAsRoutine) {
-//                routinesRepository.addRoutine(workoutInProgress!!)
-//            }
+            if (saveWorkoutAsRoutine) {
+                routinesRepository.addRoutine(completedWorkout)
+            }
             _didSaveWorkout.postValue(true)
             //Reset workout object in view model
             val workout = Workout(0, "", "", listOf())
@@ -103,10 +103,9 @@ class StartWorkoutViewModel @ViewModelInject constructor(
         _workout.postValue(updatedWorkout)
     }
 
-//    fun createWorkoutFromRoutine(workout: Workout) {
-//        workoutInProgress = workout
-//        _workout.postValue(workoutInProgress)
-//    }
+    fun createWorkoutFromRoutine(routine: Workout) {
+        _workout.postValue(routine)
+    }
 
     fun updateWorkoutName(workoutName: String) {
         val currentWorkout = workout.value

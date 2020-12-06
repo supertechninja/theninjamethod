@@ -61,7 +61,9 @@ fun RoutinesScaffold(navController: NavController) {
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {}){
+            FloatingActionButton(onClick = {
+                navController.navigate(R.id.navigate_from_routines_to_start_workout)
+            }){
                 Image(Icons.Default.Add)
             }
         }

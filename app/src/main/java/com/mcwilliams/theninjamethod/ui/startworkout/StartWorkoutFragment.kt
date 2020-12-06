@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.material.Text
 import androidx.compose.material.Icon
+import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.WithConstraints
@@ -59,6 +60,10 @@ class StartWorkoutFragment : Fragment() {
         arguments?.let {
             workout =
                 arguments?.getSerializable("workout") as Workout
+        }
+
+        workout?.let{
+            startWorkoutViewModel.createWorkoutFromRoutine(it)
         }
 
         //Reset the previously saved workout
@@ -118,13 +123,15 @@ fun StartWorkoutFrame(
         navController.popBackStack()
     }
 
+    var saveAsRoutine by savedInstanceState { false }
+
     Scaffold(
         topBar = {
             TopAppBar(title = {
                 Text(text = "Start Workout")
             }, actions = {
                 IconButton(onClick = {
-                    startWorkoutViewModel.saveWorkout(workoutDuration, false)
+                    startWorkoutViewModel.saveWorkout(workoutDuration, saveAsRoutine)
                 }) {
                     Icon(imageVector = Icons.Default.Done)
                 }
@@ -146,16 +153,38 @@ fun StartWorkoutFrame(
                 if (workout != null) {
                     var workoutName by
                     remember { mutableStateOf(TextFieldValue(workout!!.workoutName)) }
-                    BaseTextField(
-                        value = workoutName,
-                        onValueChange = {
-                            workoutName = it
-                            startWorkoutViewModel.updateWorkoutName(workoutName.text)
-                        },
-                        textStyle = MaterialTheme.typography.h5,
-                        textColor = Color.White,
-                        modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
-                    )
+
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Column(horizontalAlignment = Alignment.Start) {
+                            BaseTextField(
+                                value = workoutName,
+                                onValueChange = {
+                                    workoutName = it
+                                    startWorkoutViewModel.updateWorkoutName(workoutName.text)
+                                },
+                                textStyle = MaterialTheme.typography.h5,
+                                textColor = Color.White,
+                                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                            )
+                        }
+
+                        Column(horizontalAlignment = Alignment.End) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                            ) {
+                                Checkbox(
+                                    checked = saveAsRoutine,
+                                    onCheckedChange = { saveAsRoutine = it })
+                                Text(
+                                    "Save As Routine",
+                                    style = MaterialTheme.typography.caption,
+                                    color = Color.White
+                                )
+                            }
+
+                        }
+                    }
 
                     val chronometerOnTick = Chronometer.OnChronometerTickListener {
                         workoutDuration = it.text.toString()

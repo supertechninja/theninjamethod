@@ -5,10 +5,7 @@ import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -237,31 +234,32 @@ fun ManualWorkoutDetailContent(navController: NavController, workoutArg: SimpleW
                     elevation = 4.dp,
                     shape = RoundedCornerShape(6.dp),
                     border = BorderStroke(1.dp, Color.LightGray),
-                    modifier = Modifier.padding(8.dp)
+                    modifier = Modifier.padding(8.dp).fillMaxWidth()
                 ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = exercise.exerciseName,
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            style = MaterialTheme.typography.body1,
+                            color = Color.White
+                        )
 
-                    Text(
-                        text = exercise.exerciseName,
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        style = MaterialTheme.typography.body1,
-                        color = Color.White
-                    )
-
-                    exercise.sets.forEach { workoutSet ->
-                        Row(
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                            horizontalArrangement = Arrangement.SpaceEvenly
-                        ) {
-                            Text(
-                                text = "${workoutSet.index}",
-                                style = MaterialTheme.typography.body2,
-                                color = Color.White
-                            )
-                            Text(
-                                text = "${workoutSet.weight}lbs x ${workoutSet.reps}",
-                                style = MaterialTheme.typography.body2,
-                                color = Color.White
-                            )
+                        exercise.sets.forEach { workoutSet ->
+                            Row(
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                Text(
+                                    text = "${workoutSet.index}",
+                                    style = MaterialTheme.typography.body2,
+                                    color = Color.White
+                                )
+                                Text(
+                                    text = "${workoutSet.weight}lbs x ${workoutSet.reps}",
+                                    style = MaterialTheme.typography.body2,
+                                    color = Color.White
+                                )
+                            }
                         }
                     }
                 }
