@@ -120,7 +120,7 @@ fun StartWorkoutFab(
 //                )
 //            },
 //            extended = extended
-//        )
+//        )•
     }
 }
 
@@ -135,10 +135,8 @@ fun ActivityBodyContent(
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
 
     if (workoutData.isNullOrEmpty()) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Box(contentAlignment = Alignment.Center) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center).padding(100.dp))
         }
     } else {
         ScrollableColumn(modifier = modifier, scrollState = scrollstate) {

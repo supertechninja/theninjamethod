@@ -62,10 +62,6 @@ class StartWorkoutFragment : Fragment() {
                 arguments?.getSerializable("workout") as Workout
         }
 
-        workout?.let{
-            startWorkoutViewModel.createWorkoutFromRoutine(it)
-        }
-
         //Reset the previously saved workout
         startWorkoutViewModel._didSaveWorkout.postValue(false)
 
@@ -76,7 +72,8 @@ class StartWorkoutFragment : Fragment() {
                     StartWorkoutFrame(
                         navController = findNavController(),
                         parentFragmentManager,
-                        startWorkoutViewModel
+                        startWorkoutViewModel,
+                        workout
                     )
                 }
             }
@@ -108,13 +105,18 @@ fun getTimeOfDay(): String {
 fun StartWorkoutFrame(
     navController: NavController,
     parentFragmentManager: FragmentManager,
-    startWorkoutViewModel: StartWorkoutViewModel
+    startWorkoutViewModel: StartWorkoutViewModel,
+    workoutRoutine: Workout?
 ) {
 //    val startWorkoutViewModel = viewModel(StartWorkoutViewModel::class.java)
     val workout by startWorkoutViewModel.workout.observeAsState()
 
-    val timeOfDay = getTimeOfDay()
-    startWorkoutViewModel.updateWorkoutName(timeOfDay)
+    if (workoutRoutine != null) {
+        startWorkoutViewModel.createWorkoutFromRoutine(workoutRoutine)
+    } else {
+        val timeOfDay = getTimeOfDay()
+        startWorkoutViewModel.updateWorkoutName(timeOfDay)
+    }
 
     var workoutDuration by remember { mutableStateOf("0:00") }
 
