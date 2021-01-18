@@ -8,18 +8,20 @@ import android.view.ViewGroup
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.imageResource
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
+import androidx.compose.runtime.*
+import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.viewModel
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -29,9 +31,10 @@ import com.google.android.material.composethemeadapter.MdcTheme
 import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import com.mcwilliams.theninjamethod.utils.extensions.getDateString
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class WorkoutsFragment : Fragment() {
@@ -133,44 +136,77 @@ fun ActivityBodyContent(
     val viewModel = viewModel(WorkoutListViewModel::class.java)
     val workoutData by viewModel.workoutMapLiveData.observeAsState()
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
+    var isGridView by savedInstanceState { true }
 
     if (workoutData.isNullOrEmpty()) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center).padding(100.dp))
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(100.dp)
+            )
         }
     } else {
-        ScrollableColumn(modifier = modifier, scrollState = scrollstate) {
-            workoutData!!.forEach { dayWorkoutSummary ->
-                Card(
-                    modifier = Modifier.fillMaxWidth()
-                        .background(color = Color.Transparent)
-                        .padding(start = 16.dp, bottom = 8.dp, end = 16.dp, top = 8.dp)
-                        .clickable {
-                            val bundle = bundleOf("workoutSummary" to dayWorkoutSummary)
-                            navController.navigate(R.id.navigate_to_combined_workout, bundle)
-                        }, elevation = 4.dp, border = BorderStroke(0.5.dp, Color.Gray)
-                ) {
-                    Column(modifier = Modifier.padding(10.dp)) {
-                        Text(
-                            text = dayWorkoutSummary.first.getDateString(),
-                            style = MaterialTheme.typography.h6
-                        )
-
+        if (isGridView) {
+            ScrollableColumn() {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    IconButton(onClick = {
+                        isGridView = !isGridView
+                    }) {
+                        Image(imageVector = Icons.Default.List, colorFilter = ColorFilter.tint(Color.White))
+                    }
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                StaggeredVerticalGrid(maxColumnWidth = 250.dp) {
+                    workoutData!!.forEach { dayWorkoutSummary ->
                         dayWorkoutSummary.second.forEach { workoutSummary ->
-                            when (workoutSummary.workoutType) {
-                                WorkoutType.LIFTING -> {
-                                    WorkoutRow(
-                                        navController = navController,
-                                        navDestId = R.id.navigate_to_manual_workout_detail,
-                                        workoutSummary = workoutSummary
-                                    )
-                                }
-                                WorkoutType.STRAVA -> {
-                                    WorkoutRow(
-                                        navController = navController,
-                                        navDestId = R.id.navigate_to_strava_workout_detail,
-                                        workoutSummary = workoutSummary
-                                    )
+                            WorkoutWithRandomHeight(workoutSummary, dayWorkoutSummary.first, navController)
+                        }
+                    }
+                }
+            }
+        } else {
+            ScrollableColumn(modifier = modifier, scrollState = scrollstate) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    IconButton(onClick = {
+                        isGridView = !isGridView
+                    }) {
+                        Image(imageVector = Icons.Default.List, colorFilter = ColorFilter.tint(Color.White))
+                    }
+                }
+                workoutData!!.forEach { dayWorkoutSummary ->
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = Color.Transparent)
+                            .padding(start = 16.dp, bottom = 8.dp, end = 16.dp, top = 8.dp)
+                            .clickable {
+                                val bundle = bundleOf("workoutSummary" to dayWorkoutSummary)
+                                navController.navigate(R.id.navigate_to_combined_workout, bundle)
+                            }, elevation = 4.dp, border = BorderStroke(0.5.dp, Color.Gray)
+                    ) {
+                        Column(modifier = Modifier.padding(10.dp)) {
+                            Text(
+                                text = dayWorkoutSummary.first.getDateString(),
+                                style = MaterialTheme.typography.h6
+                            )
+
+                            dayWorkoutSummary.second.forEach { workoutSummary ->
+                                when (workoutSummary.workoutType) {
+                                    WorkoutType.LIFTING -> {
+                                        WorkoutRow(
+                                            navController = navController,
+                                            navDestId = R.id.navigate_to_manual_workout_detail,
+                                            workoutSummary = workoutSummary
+                                        )
+                                    }
+                                    WorkoutType.STRAVA -> {
+                                        WorkoutRow(
+                                            navController = navController,
+                                            navDestId = R.id.navigate_to_strava_workout_detail,
+                                            workoutSummary = workoutSummary
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -178,6 +214,77 @@ fun ActivityBodyContent(
                 }
             }
         }
+    }
+}
+
+
+@Composable
+fun WorkoutWithRandomHeight(workout: SimpleWorkout, first: LocalDate, navController: NavController) {
+    // Randomly pick height for album but remember the same height for that album.
+    val randomHeight = remember(workout.id) { Random.nextInt(150, 200).dp }
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Card(
+            elevation = 8.dp,
+            modifier = Modifier
+                .padding(6.dp)
+                .clickable {
+                    val bundle = bundleOf("workout" to workout)
+                    navController.navigate(R.id.navigate_to_strava_workout_detail, bundle)
+                }
+        ) {
+            Column(
+                modifier = Modifier.height(randomHeight),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = workout.workoutName,
+                    modifier = Modifier.padding(8.dp),
+                    style = MaterialTheme.typography.h6.copy(fontSize = 16.sp),
+                    maxLines = 2
+                )
+
+                Column(
+                    modifier = Modifier
+                        .padding(
+                            horizontal = 16.dp,
+                            vertical = 8.dp
+                        )
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+
+                    Text(
+                        text = first.getDateString(),
+                        modifier = Modifier.padding(8.dp),
+                        style = MaterialTheme.typography.h6.copy(fontSize = 14.sp)
+                    )
+
+                    val imageRes =
+                        if (workout.workoutType == WorkoutType.STRAVA) R.drawable.ic_distance
+                        else R.drawable.ic_weight
+
+                    WorkoutStat(
+                        imageRes = imageRes,
+                        value = workout.stravaDistance
+                    )
+
+                    WorkoutStat(
+                        imageRes = R.drawable.ic_clock,
+                        value = workout.stravaTime
+                    )
+
+                    if (workout.workoutCaloriesBurned.isNotEmpty()) {
+                        WorkoutStat(
+                            imageRes = R.drawable.ic_fire,
+                            value = workout.workoutCaloriesBurned
+                        )
+                    }
+                }
+            }
+        }
+
     }
 }
 
@@ -197,10 +304,12 @@ fun WorkoutRow(navController: NavController, navDestId: Int, workoutSummary: Sim
             modifier = Modifier.padding(start = 10.dp, top = 10.dp)
         )
         Row(
-            modifier = Modifier.padding(
-                horizontal = 16.dp,
-                vertical = 8.dp
-            ).fillMaxWidth(),
+            modifier = Modifier
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 8.dp
+                )
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             val imageRes =

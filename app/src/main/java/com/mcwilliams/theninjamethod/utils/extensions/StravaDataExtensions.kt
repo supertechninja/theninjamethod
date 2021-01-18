@@ -43,8 +43,7 @@ fun LocalTime.get12HrTime(): String {
 }
 
 fun LocalDate.getDateString(): String {
-    return this.dayOfWeek.name.fixCase() +
-            ", " + this.month.name.fixCase() + " " + this.dayOfMonth
+    return this.month.name.fixCase() + " " + this.dayOfMonth
 }
 
 fun Float.getMiles(): Double = (this * 0.000621371192).round(2);
