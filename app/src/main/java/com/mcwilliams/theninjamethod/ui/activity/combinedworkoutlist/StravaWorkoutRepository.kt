@@ -1,6 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
 import android.content.Context
+import android.util.Log
 import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.strava.api.ActivitiesApi
@@ -49,6 +50,8 @@ class StravaWorkoutRepository @Inject constructor(
                 calories = stravaCalories.toString()
             }
 
+            Log.d("TAG", "mapStravaWorkouts: ${it.type}")
+
             val workoutItem =
                 SimpleWorkout(
                     date,
@@ -61,7 +64,9 @@ class StravaWorkoutRepository @Inject constructor(
                     it.id
                 )
 
-            workoutList.add(workoutItem)
+            if (it.type != "WeightTraining") {
+                workoutList.add(workoutItem)
+            }
         }
         listOfStravaWorkouts = stravaWorkouts
         return workoutList

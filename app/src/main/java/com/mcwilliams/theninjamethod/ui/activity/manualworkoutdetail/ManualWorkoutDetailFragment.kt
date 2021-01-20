@@ -6,6 +6,7 @@ import android.view.*
 import android.widget.LinearLayout
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -228,41 +229,44 @@ fun ManualWorkoutDetailContent(navController: NavController, workoutArg: SimpleW
                 it.workoutDuration?.let { it1 -> Text(text = it1) }
             }
 
-            LazyColumnFor(items = it.exercises) { exercise ->
+            LazyColumn {
+                items(items = it.exercises, itemContent = { exercise ->
 
-                Card(
-                    elevation = 4.dp,
-                    shape = RoundedCornerShape(6.dp),
-                    border = BorderStroke(1.dp, Color.LightGray),
-                    modifier = Modifier.padding(8.dp).fillMaxWidth()
-                ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text(
-                            text = exercise.exerciseName,
-                            modifier = Modifier.padding(vertical = 8.dp),
-                            style = MaterialTheme.typography.body1,
-                            color = Color.White
-                        )
+                    Card(
+                        elevation = 4.dp,
+                        shape = RoundedCornerShape(10.dp),
+                        border = BorderStroke(1.dp, Color.LightGray),
+                        modifier = Modifier.padding(8.dp).fillMaxWidth()
+                    ) {
+                        Column {
+                            Text(
+                                text = exercise.exerciseName,
+                                modifier = Modifier.padding(top = 8.dp, start = 8.dp),
+                                style = MaterialTheme.typography.body1,
+                                color = Color.White
+                            )
 
-                        exercise.sets.forEach { workoutSet ->
-                            Row(
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                                horizontalArrangement = Arrangement.SpaceEvenly
-                            ) {
-                                Text(
-                                    text = "${workoutSet.index}",
-                                    style = MaterialTheme.typography.body2,
-                                    color = Color.White
-                                )
-                                Text(
-                                    text = "${workoutSet.weight}lbs x ${workoutSet.reps}",
-                                    style = MaterialTheme.typography.body2,
-                                    color = Color.White
-                                )
+                            exercise.sets.forEach { workoutSet ->
+                                Row(
+                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+                                    horizontalArrangement = Arrangement.SpaceEvenly
+                                ) {
+                                    Text(
+                                        text = "Set ${workoutSet.index}",
+                                        style = MaterialTheme.typography.body2,
+                                        color = Color.White,
+                                        modifier = Modifier.padding(end = 16.dp)
+                                    )
+                                    Text(
+                                        text = "${workoutSet.weight}lbs x ${workoutSet.reps}",
+                                        style = MaterialTheme.typography.body2,
+                                        color = Color.White
+                                    )
+                                }
                             }
                         }
                     }
-                }
+                })
             }
         }
     }

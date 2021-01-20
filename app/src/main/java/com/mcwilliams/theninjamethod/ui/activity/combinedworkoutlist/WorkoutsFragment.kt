@@ -156,7 +156,6 @@ fun ActivityBodyContent(
                         Image(imageVector = Icons.Default.List, colorFilter = ColorFilter.tint(Color.White))
                     }
                 }
-                Spacer(modifier = Modifier.height(8.dp))
                 StaggeredVerticalGrid(maxColumnWidth = 250.dp) {
                     workoutData!!.forEach { dayWorkoutSummary ->
                         dayWorkoutSummary.second.forEach { workoutSummary ->
@@ -221,17 +220,25 @@ fun ActivityBodyContent(
 @Composable
 fun WorkoutWithRandomHeight(workout: SimpleWorkout, first: LocalDate, navController: NavController) {
     // Randomly pick height for album but remember the same height for that album.
-    val randomHeight = remember(workout.id) { Random.nextInt(150, 200).dp }
+    val randomHeight = remember(workout.id) { Random.nextInt(150, 250).dp }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
         Card(
-            elevation = 8.dp,
+            elevation = 12.dp,
             modifier = Modifier
                 .padding(6.dp)
                 .clickable {
                     val bundle = bundleOf("workout" to workout)
-                    navController.navigate(R.id.navigate_to_strava_workout_detail, bundle)
+                    when (workout.workoutType) {
+                        WorkoutType.LIFTING -> {
+                            navController.navigate(R.id.navigate_to_manual_workout_detail, bundle)
+                        }
+                        WorkoutType.STRAVA -> {
+                            navController.navigate(R.id.navigate_to_strava_workout_detail, bundle)
+                        }
+                    }
+
+
                 }
         ) {
             Column(
@@ -267,12 +274,14 @@ fun WorkoutWithRandomHeight(workout: SimpleWorkout, first: LocalDate, navControl
 
                     WorkoutStat(
                         imageRes = imageRes,
-                        value = workout.stravaDistance
+                        value = workout.stravaDistance,
+                        imageModifier = Modifier.preferredSize(30.dp)
                     )
 
                     WorkoutStat(
                         imageRes = R.drawable.ic_clock,
-                        value = workout.stravaTime
+                        value = workout.stravaTime,
+                        imageModifier = Modifier.preferredSize(30.dp)
                     )
 
                     if (workout.workoutCaloriesBurned.isNotEmpty()) {
@@ -318,7 +327,7 @@ fun WorkoutRow(navController: NavController, navDestId: Int, workoutSummary: Sim
 
             WorkoutStat(
                 imageRes = imageRes,
-                value = workoutSummary.stravaDistance
+                value = workoutSummary.stravaDistance,
             )
 
             WorkoutStat(
@@ -337,15 +346,16 @@ fun WorkoutRow(navController: NavController, navDestId: Int, workoutSummary: Sim
 }
 
 @Composable
-fun WorkoutStat(imageRes: Int, value: String) {
-    Row(horizontalArrangement = Arrangement.Center) {
+fun WorkoutStat(imageRes: Int, value: String, imageModifier: Modifier = Modifier.preferredSize(20.dp)) {
+    Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.padding(vertical = 2.dp)) {
         Image(
             bitmap = imageResource(imageRes),
-            modifier = Modifier.preferredSize(20.dp)
+            modifier = imageModifier
         )
         Text(
             text = value,
-            modifier = Modifier.padding(start = 5.dp)
+            modifier = Modifier.padding(start = 5.dp).align(Alignment.CenterVertically),
+            style = MaterialTheme.typography.body1,
         )
     }
 }

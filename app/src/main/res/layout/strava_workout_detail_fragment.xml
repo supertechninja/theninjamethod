@@ -56,8 +56,8 @@
             android:layout_marginTop="10dp"
             android:src="@drawable/ic_heart_icon"
             android:tint="@color/color_error"
-            app:layout_constraintStart_toStartOf="@id/guideline1"
-            app:layout_constraintTop_toBottomOf="@+id/workout_name" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/workout_date" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/workout_heartrate"
@@ -77,13 +77,12 @@
             android:layout_marginTop="20dp"
             android:scaleType="fitXY"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/workout_date" />
+            app:layout_constraintTop_toBottomOf="@+id/workout_heartrate" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/running_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/map_view">
 
