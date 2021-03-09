@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import android.widget.Chronometer
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -17,17 +20,12 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.material.Text
 import androidx.compose.material.Icon
-import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.layout.WithConstraints
-import androidx.compose.ui.platform.AmbientDensity
-import androidx.compose.ui.platform.AmbientWindowManager
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.DensityAmbient
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -125,7 +123,7 @@ fun StartWorkoutFrame(
         navController.popBackStack()
     }
 
-    var saveAsRoutine by savedInstanceState { false }
+    var saveAsRoutine by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -135,21 +133,23 @@ fun StartWorkoutFrame(
                 IconButton(onClick = {
                     startWorkoutViewModel.saveWorkout(workoutDuration, saveAsRoutine)
                 }) {
-                    Icon(imageVector = Icons.Default.Done)
+                    Icon(imageVector = Icons.Default.Done, contentDescription = "")
                 }
             }, navigationIcon = {
                 IconButton(onClick = {
                     startWorkoutViewModel.cancelWorkout()
                 }) {
-                    Icon(imageVector = Icons.Default.Close)
+                    Icon(imageVector = Icons.Default.Close, contentDescription = "")
                 }
             })
         },
-        bodyContent = {
-            var scrollState = rememberScrollState(0f)
+        content = {
+            var scrollState = rememberScrollState(0)
 
             Column(
-                modifier = Modifier.fillMaxWidth().padding(it)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(it)
                     .padding(start = 16.dp, bottom = 30.dp, end = 16.dp),
             ) {
                 if (workout != null) {
@@ -158,14 +158,14 @@ fun StartWorkoutFrame(
 
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Column(horizontalAlignment = Alignment.Start) {
-                            BaseTextField(
+                            BasicTextField(
                                 value = workoutName,
                                 onValueChange = {
                                     workoutName = it
                                     startWorkoutViewModel.updateWorkoutName(workoutName.text)
                                 },
                                 textStyle = MaterialTheme.typography.h5,
-                                textColor = Color.White,
+//                                textColor = Color.White,
                                 modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
                             )
                         }
@@ -194,48 +194,51 @@ fun StartWorkoutFrame(
 
                     AndroidChronometer(chronometerOnTick)
 
-                    Spacer(modifier = Modifier.preferredHeight(16.dp))
+                    Spacer(modifier = Modifier.requiredHeight(16.dp))
 
-                    LazyColumnFor(items = workout!!.exercises) { exercise ->
+                    LazyColumn() {
+                        items(workout!!.exercises) { exercise ->
+                            var setCount by remember { mutableStateOf(1) }
 
-                        var setCount by remember { mutableStateOf(1) }
+                            Row {
+                                Text(exercise.exerciseName, color = Color.White)
 
-                        Row {
-                            Text(exercise.exerciseName, color = Color.White)
-
-                            Column(
-                                horizontalAlignment = Alignment.End,
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                TextButton(onClick = {
-                                    //Save current sets to viewModel list of Exercises with sets
-                                    startWorkoutViewModel.addSetToExercise(
-                                        setCount = setCount,
-                                        exercise.exerciseName
-                                    )
-                                    setCount = setCount.inc()
+                                Column(
+                                    horizontalAlignment = Alignment.End,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    TextButton(onClick = {
+                                        //Save current sets to viewModel list of Exercises with sets
+                                        startWorkoutViewModel.addSetToExercise(
+                                            setCount = setCount,
+                                            exercise.exerciseName
+                                        )
+                                        setCount = setCount.inc()
 //                                        scrollState.smoothScrollTo(scrollState.maxValue)
-                                }, content = {
-                                    Text("ADD SET")
-                                })
+                                    }, content = {
+                                        Text("ADD SET")
+                                    })
+                                }
                             }
-                        }
 
 
 //                        WithConstraints {
 //                            val width =
 //                                with(DensityAmbient.current) { constraints.maxWidth.toDp() / 3 }
-                        val modifier = Modifier.width(width = 200.dp)
+                            val modifier = Modifier.width(width = 200.dp)
 
-                        Column(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
-                        ) {
-                            exercise.sets.forEach {
-                                SetRow(set = it)
-                            }
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 8.dp)
+                            ) {
+                                exercise.sets.forEach {
+                                    SetRow(set = it)
+                                }
 //                                scrollState.smoothScrollTo(scrollState.maxValue)
 
 
+                            }
                         }
 //                            }
 //                        }
@@ -270,7 +273,9 @@ fun SetRow(
     val widthModifier = Modifier.width(100.dp)
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(top = 8.dp, bottom = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp, bottom = 8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         var setField by remember { mutableStateOf(TextFieldValue("${set.index}")) }
@@ -308,12 +313,6 @@ fun SetRow(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
                 ),
-                onImeActionPerformed = { imeAction, softwareKeyboardController ->
-                    if (imeAction == ImeAction.Done) {
-                        softwareKeyboardController?.hideSoftwareKeyboard()
-//                        scrollState.smoothScrollTo(scrollState.maxValue)
-                    }
-                },
                 modifier = widthModifier
             )
         }
@@ -336,12 +335,6 @@ fun SetRow(
                     keyboardType = KeyboardType.Number,
                     imeAction = ImeAction.Done
                 ),
-                onImeActionPerformed = { imeAction, softwareKeyboardController ->
-                    if (imeAction == ImeAction.Done) {
-                        softwareKeyboardController?.hideSoftwareKeyboard()
-//                        scrollState.smoothScrollTo(scrollState.maxValue)
-                    }
-                },
                 modifier = widthModifier
             )
         }

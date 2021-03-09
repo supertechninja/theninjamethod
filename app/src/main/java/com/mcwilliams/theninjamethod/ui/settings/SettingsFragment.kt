@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.TabConstants.defaultTabIndicatorOffset
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -163,7 +163,7 @@ fun SettingsLayout(navController: NavController, viewModel: SettingsViewModel) {
 
                 WorkoutStats(viewModel = viewModel)
 
-                Spacer(modifier = Modifier.preferredHeight(20.dp))
+                Spacer(modifier = Modifier.requiredHeight(20.dp))
                 Button(content = {
                     Text("Log off")
                 }, onClick = {
@@ -214,8 +214,8 @@ fun Tabs(
         TabRow(selectedTabIndex = selectedTab,
             backgroundColor = Color(0xFF059EDC),
             indicator = { tabPositions ->
-                TabConstants.DefaultIndicator(
-                    Modifier.defaultTabIndicatorOffset(tabPositions[selectedTab]),
+                TabRowDefaults.Indicator(
+                    Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
                     height = 1.dp,
                     color = Color.Yellow
                 )

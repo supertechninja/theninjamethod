@@ -1,13 +1,11 @@
 package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.LinearLayout
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -19,29 +17,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.viewModel
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.composethemeadapter.MdcTheme
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textview.MaterialTextView
-import com.mcwilliams.data.exercisedb.model.ExerciseType
 import com.mcwilliams.data.exercisedb.model.WorkoutSet
 import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.ActivityContentScaffold
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.NumberFormat
 import java.time.LocalDate
 import java.util.*
 
@@ -68,7 +57,11 @@ class ManualWorkoutDetailFragment : Fragment() {
         return ComposeView(context = requireContext()).apply {
             setContent {
                 MdcTheme {
-                    ManualWorkoutDetailContent(navController = navController, workoutArg = workout)
+                    ManualWorkoutDetailContent(
+                        navController = navController,
+                        workoutArg = workout,
+                        viewModel
+                    )
                 }
             }
         }
@@ -206,8 +199,11 @@ class ManualWorkoutDetailFragment : Fragment() {
 }
 
 @Composable
-fun ManualWorkoutDetailContent(navController: NavController, workoutArg: SimpleWorkout) {
-    val viewModel = viewModel(modelClass = ManualWorkoutViewModel::class.java)
+fun ManualWorkoutDetailContent(
+    navController: NavController,
+    workoutArg: SimpleWorkout,
+    viewModel: ManualWorkoutViewModel
+) {
     val workout by viewModel.workout.observeAsState()
 
     viewModel.getManualWorkoutDetail(workoutArg.id)
@@ -230,13 +226,14 @@ fun ManualWorkoutDetailContent(navController: NavController, workoutArg: SimpleW
             }
 
             LazyColumn {
-                items(items = it.exercises, itemContent = { exercise ->
-
+                items(workout!!.exercises) { exercise ->
                     Card(
                         elevation = 4.dp,
                         shape = RoundedCornerShape(10.dp),
                         border = BorderStroke(1.dp, Color.LightGray),
-                        modifier = Modifier.padding(8.dp).fillMaxWidth()
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
                     ) {
                         Column {
                             Text(
@@ -266,10 +263,8 @@ fun ManualWorkoutDetailContent(navController: NavController, workoutArg: SimpleW
                             }
                         }
                     }
-                })
+                }
             }
         }
     }
-
-
 }

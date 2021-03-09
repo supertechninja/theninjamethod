@@ -26,5 +26,5 @@ data class StravaAthlete(
     val state: String,
     val updated_at: String,
     val username: String,
-    val weight: Int?
+    val weight: Double?
 )

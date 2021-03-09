@@ -3,15 +3,14 @@ package com.mcwilliams.theninjamethod.ui.exercises
 import android.os.Bundle
 import android.view.*
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.gesture.longPressGestureFilter
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -24,7 +23,6 @@ import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewMode
 import dagger.hilt.android.AndroidEntryPoint
 
 
-@ExperimentalLayout
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class ExercisesFragment : Fragment() {
@@ -106,7 +104,6 @@ class ExercisesFragment : Fragment() {
 //    }
 }
 
-@ExperimentalLayout
 @ExperimentalMaterialApi
 @Composable
 fun ExerciseList(viewModel: ExerciseListViewModel) {
@@ -115,19 +112,24 @@ fun ExerciseList(viewModel: ExerciseListViewModel) {
 //    var exerciseToDelete = remember { MutableList<DbExercise>() }
 
     Scaffold(
-        bodyContent = {
+        content = {
             Column {
                 exerciseList?.let { exercises ->
-                    LazyColumnFor(
-                        items = exercises,
+                    LazyColumn(
                         modifier = Modifier.fillMaxSize()
-                    ) { exercise ->
-                        ListItem(text = {
-                            Text(text = exercise.exerciseName, color = Color.White)
-                        }, modifier = Modifier.longPressGestureFilter {
-//                            exerciseToDelete = exercise
-//                            showDeleteDialog = true
-                        })
+                    ) {
+                        items(exerciseList!!) { exercise ->
+                            ListItem(text = {
+                                Text(text = exercise.exerciseName, color = Color.White)
+                            },
+//                                modifier = Modifier.tou
+//                            longPressGestureFilter {
+////                            exerciseToDelete = exercise
+////                            showDeleteDialog = true
+//                            }
+                            )
+
+                        }
                     }
                 }
             }
