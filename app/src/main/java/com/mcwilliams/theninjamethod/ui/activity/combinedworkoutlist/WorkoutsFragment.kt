@@ -17,6 +17,9 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
@@ -134,9 +137,11 @@ fun ActivityBodyContent(
         LazyColumn(content = {
             workoutData!!.forEach { (date, workouts) ->
                 stickyHeader {
-                    Row(modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(0x80444444))) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(0x80444444))
+                    ) {
                         Text(
                             text = date.getDateString(),
                             modifier = Modifier.padding(start = 16.dp),
@@ -146,18 +151,6 @@ fun ActivityBodyContent(
                 }
 
                 items(workouts) {
-//                    Card(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .background(color = Color.Transparent)
-//                            .padding(start = 16.dp, bottom = 8.dp, end = 16.dp, top = 8.dp)
-//                            .clickable {
-////                                val bundle = bundleOf("workoutSummary" to dayWorkoutSummary)
-////                                navController.navigate(R.id.navigate_to_combined_workout, bundle)
-//                            }, elevation = 4.dp, border = BorderStroke(0.5.dp, Color.Gray)
-//                    ) {
-//                        Column(modifier = Modifier.padding(10.dp)) {
-//                            workouts.forEach { workoutSummary ->
                     when (it.workoutType) {
                         WorkoutType.LIFTING -> {
                             WorkoutRow(
@@ -175,10 +168,7 @@ fun ActivityBodyContent(
                         }
                     }
                 }
-//                        }
-//                    }
             }
-//            }
         })
     }
 }
@@ -246,13 +236,13 @@ fun WorkoutWithRandomHeight(
                     WorkoutStat(
                         imageRes = imageRes,
                         value = workout.stravaDistance,
-                        imageModifier = Modifier.requiredHeight(30.dp)
+                        modifier = Modifier.requiredHeight(30.dp)
                     )
 
                     WorkoutStat(
                         imageRes = R.drawable.ic_clock,
                         value = workout.stravaTime,
-                        imageModifier = Modifier.requiredHeight(30.dp)
+                        modifier = Modifier.requiredHeight(30.dp)
                     )
 
                     if (workout.workoutCaloriesBurned.isNotEmpty()) {
@@ -320,14 +310,14 @@ fun WorkoutRow(navController: NavController, navDestId: Int, workoutSummary: Sim
 fun WorkoutStat(
     imageRes: Int,
     value: String,
-    imageModifier: Modifier = Modifier.requiredHeight(20.dp)
+    modifier: Modifier = Modifier
 ) {
     Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.padding(vertical = 2.dp)) {
-//        Image(
-//            imageVector = loadImage(imageRes),
-//            contentDescription = "",
-//            modifier = imageModifier
-//        )
+        Image(
+            painter = painterResource(imageRes),
+            contentDescription = "",
+            modifier = modifier
+        )
         Text(
             text = value,
             modifier = Modifier
