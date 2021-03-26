@@ -5,235 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rootView"
-        android:layout_width="300dp"
-        android:layout_height="350dp"
-        android:layout_centerInParent="true"
-        android:background="@color/card_background">
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"/>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/workout_name"
-            style="?attr/textAppearanceHeadline6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:textColor="@color/color_on_background"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Early Morning Workout" />
-
-        <!--            <com.google.android.material.textview.MaterialTextView-->
-        <!--                android:id="@+id/workout_date"-->
-        <!--                style="?attr/textAppearanceBody2"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginTop="5dp"-->
-        <!--                android:gravity="center"-->
-        <!--                android:textColor="@color/color_on_background"-->
-        <!--                app:layout_constraintStart_toStartOf="parent"-->
-        <!--                app:layout_constraintTop_toBottomOf="@id/workout_name"-->
-        <!--                tools:text="Early Morning Workout" />-->
-
-        <!--            <ImageView-->
-        <!--                android:id="@+id/map_view"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="150dp"-->
-        <!--                android:layout_marginTop="10dp"-->
-        <!--                android:scaleType="fitXY"-->
-        <!--                app:layout_constraintStart_toStartOf="parent"-->
-        <!--                app:layout_constraintTop_toBottomOf="@+id/workout_date" />-->
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/running_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/workout_name">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/distance_label"
-                style="@style/TextAppearance.MaterialComponents.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Distance"
-                app:layout_constraintEnd_toStartOf="@id/duration_label"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/distance"
-                style="@style/TextAppearance.MaterialComponents.Body2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:text="Distance"
-                app:layout_constraintEnd_toEndOf="@id/distance_label"
-                app:layout_constraintStart_toStartOf="@id/distance_label"
-                app:layout_constraintTop_toBottomOf="@+id/distance_label" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/duration_label"
-                style="@style/TextAppearance.MaterialComponents.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="Duration"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.50"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/workout_duration"
-                style="@style/TextAppearance.MaterialComponents.Body2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:text="Duration"
-                app:layout_constraintEnd_toEndOf="@+id/duration_label"
-                app:layout_constraintStart_toStartOf="@+id/duration_label"
-                app:layout_constraintTop_toBottomOf="@+id/duration_label" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/calories_label"
-                style="@style/TextAppearance.MaterialComponents.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Calories"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/duration_label"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/calories_burned"
-                style="@style/TextAppearance.MaterialComponents.Body2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:text="140 calories"
-                app:layout_constraintEnd_toEndOf="@+id/calories_label"
-                app:layout_constraintStart_toStartOf="@+id/calories_label"
-                app:layout_constraintTop_toBottomOf="@+id/calories_label" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/splits_label"
-            style="@style/TextAppearance.MaterialComponents.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="Splits"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/running_details" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/split_count_label"
-            style="@style/TextAppearance.MaterialComponents.Body2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="MI"
-            app:layout_constraintEnd_toStartOf="@id/split_distance_label"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/splits_label" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/split_distance_label"
-            style="@style/TextAppearance.MaterialComponents.Body2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="PACE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.50"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/splits_label"
-            app:layout_constraintTop_toTopOf="@+id/split_count_label" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/split_time_label"
-            style="@style/TextAppearance.MaterialComponents.Body2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="HR"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/split_distance_label"
-            app:layout_constraintTop_toBottomOf="@+id/splits_label"
-            app:layout_constraintTop_toTopOf="@+id/split_count_label" />
-
-        <LinearLayout
-            android:id="@+id/splits"
-            style="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="15dp"
-            android:gravity="top"
-            android:orientation="vertical"
-            android:visibility="visible"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/split_time_label" />
-
-        <ImageView
-            android:id="@+id/ninja_method_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:src="@mipmap/ic_launcher_foreground"
-            android:tint="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <ImageView
-            android:id="@+id/strava_logo"
-            android:layout_width="70dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/strava_logo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/ninja_method_label"
-            style="@style/TextAppearance.MaterialComponents.Caption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:text="Ninja Method"
-            android:textColor="@color/color_on_background"
-            android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="@id/ninja_method_icon"
-            app:layout_constraintStart_toStartOf="@id/ninja_method_icon"
-            app:layout_constraintTop_toBottomOf="@+id/ninja_method_icon" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/compose_toggle_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/compose_view"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="8dp" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rootView"
+        android:layout_below="@id/compose_toggle_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
         android:text="Share" />
 </RelativeLayout>

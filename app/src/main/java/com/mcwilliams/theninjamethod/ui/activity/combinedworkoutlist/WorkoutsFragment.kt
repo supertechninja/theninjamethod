@@ -38,7 +38,6 @@ import kotlin.random.Random
 
 @AndroidEntryPoint
 class WorkoutsFragment : Fragment() {
-    private lateinit var preferences: SharedPreferences
     private val viewModel: WorkoutListViewModel by viewModels()
 
     @ExperimentalFoundationApi
@@ -58,13 +57,6 @@ class WorkoutsFragment : Fragment() {
             }
         }
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
-
-
 }
 
 @ExperimentalFoundationApi
@@ -82,34 +74,18 @@ fun ActivityContentScaffold(navController: NavController, viewModel: WorkoutList
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate(R.id.navigate_to_start_workout) }) {
+            FloatingActionButton(
+                onClick = { navController.navigate(R.id.navigate_to_start_workout) },
+                backgroundColor = MaterialTheme.colors.primary,
+                contentColor = MaterialTheme.colors.onPrimary
+            ) {
                 Text(
                     text = "Start Workout",
-                    modifier = Modifier.padding(horizontal = 8.dp)
+                    modifier = Modifier.padding(16.dp)
                 )
             }
         }
     )
-}
-
-@Composable
-fun StartWorkoutFab(
-    navController: NavController,
-    extended: Boolean,
-    modifier: Modifier = Modifier
-) {
-    FloatingActionButton(
-        onClick = {
-            navController.navigate(R.id.navigate_to_start_workout)
-        },
-        modifier = modifier
-            .padding(16.dp)
-            .requiredHeight(48.dp)
-            .widthIn(min = 48.dp),
-        backgroundColor = MaterialTheme.colors.primary,
-        contentColor = MaterialTheme.colors.onPrimary
-    ) {
-    }
 }
 
 @ExperimentalFoundationApi
@@ -123,7 +99,6 @@ fun ActivityBodyContent(
 
     val workoutData by viewModel.workoutMapLiveData.observeAsState()
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
-    var isGridView by remember { mutableStateOf(true) }
 
     if (workoutData.isNullOrEmpty()) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
@@ -172,92 +147,6 @@ fun ActivityBodyContent(
         })
     }
 }
-
-
-@Composable
-fun WorkoutWithRandomHeight(
-    workout: SimpleWorkout,
-    first: LocalDate,
-    navController: NavController
-) {
-    // Randomly pick height for album but remember the same height for that album.
-    val randomHeight = remember(workout.id) { Random.nextInt(150, 250).dp }
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Card(
-            elevation = 12.dp,
-            modifier = Modifier
-                .padding(6.dp)
-                .clickable {
-                    val bundle = bundleOf("workout" to workout)
-                    when (workout.workoutType) {
-                        WorkoutType.LIFTING -> {
-                            navController.navigate(R.id.navigate_to_manual_workout_detail, bundle)
-                        }
-                        WorkoutType.STRAVA -> {
-                            navController.navigate(R.id.navigate_to_strava_workout_detail, bundle)
-                        }
-                    }
-
-
-                }
-        ) {
-            Column(
-                modifier = Modifier.height(randomHeight),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = workout.workoutName,
-                    modifier = Modifier.padding(8.dp),
-                    style = MaterialTheme.typography.h6.copy(fontSize = 16.sp),
-                    maxLines = 2
-                )
-
-                Column(
-                    modifier = Modifier
-                        .padding(
-                            horizontal = 16.dp,
-                            vertical = 8.dp
-                        )
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-                    Text(
-                        text = first.getDateString(),
-                        modifier = Modifier.padding(8.dp),
-                        style = MaterialTheme.typography.h6.copy(fontSize = 14.sp)
-                    )
-
-                    val imageRes =
-                        if (workout.workoutType == WorkoutType.STRAVA) R.drawable.ic_distance
-                        else R.drawable.ic_weight
-
-                    WorkoutStat(
-                        imageRes = imageRes,
-                        value = workout.stravaDistance,
-                        modifier = Modifier.requiredHeight(30.dp)
-                    )
-
-                    WorkoutStat(
-                        imageRes = R.drawable.ic_clock,
-                        value = workout.stravaTime,
-                        modifier = Modifier.requiredHeight(30.dp)
-                    )
-
-                    if (workout.workoutCaloriesBurned.isNotEmpty()) {
-                        WorkoutStat(
-                            imageRes = R.drawable.ic_fire,
-                            value = workout.workoutCaloriesBurned
-                        )
-                    }
-                }
-            }
-        }
-
-    }
-}
-
 
 @Composable
 fun WorkoutRow(navController: NavController, navDestId: Int, workoutSummary: SimpleWorkout) {
