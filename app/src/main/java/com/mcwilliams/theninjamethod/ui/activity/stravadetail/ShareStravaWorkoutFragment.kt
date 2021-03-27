@@ -308,12 +308,14 @@ fun StackedRunDetail(label: String, value: String) {
         Text(
             text = label,
             style = MaterialTheme.typography.h6,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp),
+            color = Color.White
         )
         Text(
             text = value,
             style = MaterialTheme.typography.body1,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp),
+            color = Color.White
         )
     }
 }
@@ -330,7 +332,8 @@ fun RunDetail(label: String, width: Dp, textStyle: TextStyle) {
         Text(
             text = label,
             style = textStyle,
-            modifier = Modifier.padding(bottom = 2.dp)
+            modifier = Modifier.padding(bottom = 2.dp),
+            color = Color.White
         )
     }
 }

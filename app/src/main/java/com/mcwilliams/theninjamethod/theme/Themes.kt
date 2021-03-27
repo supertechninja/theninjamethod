@@ -27,13 +27,8 @@ private val SkyBlue = Color(0xFF059EDC)
 private val TheNinjaMethodDarkPalette = darkColors(
     primary = Blue200,
     primaryVariant = Blue400,
-    onPrimary = Color.Black,
     secondary = SkyBlue,
-    onSecondary = Color.Black,
-    onSurface = Color.White,
-    onBackground = Color.White,
     error = Red300,
-    onError = Color.Black
 )
 
 private val TheNinjaMethodLightPalette = lightColors(

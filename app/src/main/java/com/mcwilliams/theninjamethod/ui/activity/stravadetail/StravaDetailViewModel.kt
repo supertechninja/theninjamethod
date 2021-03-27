@@ -16,8 +16,13 @@ class StravaDetailViewModel @ViewModelInject constructor(
     var _detailedActivity: MutableLiveData<StravaActivityDetail> = MutableLiveData()
     var detailedActivity: LiveData<StravaActivityDetail> = _detailedActivity
 
+    var _isLoading: MutableLiveData<Boolean> = MutableLiveData(true)
+    var isLoading: LiveData<Boolean> = _isLoading
+
     fun getDetailedActivities(id: Number) {
         detailedActivity =
             stravaDetailRepository.getStravaItemDetail(id).toLiveData(rootDisposable) { it }
+
+        _isLoading.postValue(false)
     }
 }
