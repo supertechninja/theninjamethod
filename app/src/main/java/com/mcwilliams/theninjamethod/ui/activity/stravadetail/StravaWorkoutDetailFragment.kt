@@ -5,7 +5,10 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Share
@@ -14,6 +17,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -26,9 +30,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.google.accompanist.coil.CoilImage
 import com.google.android.material.composethemeadapter.MdcTheme
 import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.data.workoutdb.SimpleWorkout
+import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
@@ -64,10 +70,10 @@ class StravaWorkoutDetailFragment : Fragment() {
             }
         }
     }
+}
 
-//    fun getMapUrl(polyline: String): String {
-//        return "https://maps.googleapis.com/maps/api/staticmap?size=700x350&scale=2&maptype=roadmap&path=enc:${polyline}&key=${BuildConfig.MAPS_API_KEY}"
-//    }
+fun getMapUrl(polyline: String): String {
+    return "https://maps.googleapis.com/maps/api/staticmap?size=700x350&scale=2&maptype=roadmap&path=enc:${polyline}&key=AIzaSyBWhwSFZ1aFOyxGN057wR_4wMA3QMyLT9I"
 }
 
 @Composable
@@ -89,13 +95,14 @@ fun StravaDetailContent(
             )
         }
     } else {
+        val scrollState = rememberScrollState()
         detailActivity?.let { stravaDetailActivity ->
             Box() {
                 Column(
                     Modifier
                         .fillMaxSize()
-                        .padding(horizontal = 16.dp)
-                        .padding(top = 16.dp)
+                        .padding(horizontal = 16.dp, vertical = 16.dp)
+                        .verticalScroll(scrollState)
                 ) {
                     Text(
                         text = stravaDetailActivity.name,
@@ -107,7 +114,7 @@ fun StravaDetailContent(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 32.dp)
+                            .padding(bottom = 16.dp)
                     ) {
                         Text(
                             text = stravaDetailActivity.formattedDate,
@@ -122,7 +129,9 @@ fun StravaDetailContent(
                                     painter = painterResource(id = R.drawable.ic_heart_icon),
                                     contentDescription = "",
                                     tint = Color.Red,
-                                    modifier = Modifier.size(20.dp).padding(end = 4.dp)
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .padding(end = 4.dp)
                                 )
                                 Text(
                                     text = "${stravaDetailActivity.average_heartrate} bpm",
@@ -133,23 +142,96 @@ fun StravaDetailContent(
                             }
                         }
                     }
+//
+//                    Row(
+//                        horizontalArrangement = Arrangement.SpaceEvenly,
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(bottom = 16.dp)
+//                    ) {
+//                        StackedRunDetail(label = "Distance", value = stravaDetailActivity.miles)
+//                        StackedRunDetail(label = "Duration", value = stravaDetailActivity.duration)
+//                        StackedRunDetail(
+//                            label = "Calories",
+//                            value = "${stravaDetailActivity.calories.toInt()}"
+//                        )
+//                    }
 
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        modifier = Modifier.fillMaxWidth()
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
                     ) {
-                        StackedRunDetail(label = "Distance", value = stravaDetailActivity.miles)
-                        StackedRunDetail(label = "Duration", value = stravaDetailActivity.duration)
-                        StackedRunDetail(
-                            label = "Calories",
-                            value = "${stravaDetailActivity.calories.toInt()}"
-                        )
+                        stravaDetailActivity.map?.let {
+                            CoilImage(
+                                data = getMapUrl(it.polyline),
+                                contentDescription = "",
+                                contentScale = ContentScale.FillWidth,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(200.dp),
+                                loading = {
+
+                                }
+                            )
+                        }
+
+                        Row(
+                            verticalAlignment = Alignment.Bottom,
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
+                                .padding(bottom = 4.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .wrapContentSize()
+                                    .padding(horizontal = 8.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "${stravaDetailActivity.miles}",
+                                    style = MaterialTheme.typography.h6,
+                                    modifier = Modifier.padding(bottom = 8.dp),
+                                    color = Color.Black
+                                )
+                            }
+                            Column(
+                                modifier = Modifier
+                                    .wrapContentSize()
+                                    .padding(horizontal = 8.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "${stravaDetailActivity.duration}",
+                                    style = MaterialTheme.typography.h6,
+                                    modifier = Modifier.padding(bottom = 8.dp),
+                                    color = Color.Black
+                                )
+                            }
+                            Column(
+                                modifier = Modifier
+                                    .wrapContentSize()
+                                    .padding(horizontal = 8.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "${stravaDetailActivity.calories} cal",
+                                    style = MaterialTheme.typography.h6,
+                                    modifier = Modifier.padding(bottom = 8.dp),
+                                    color = Color.Black
+                                )
+                            }
+                        }
                     }
+
+
 
                     Text(
                         text = "Splits",
                         style = MaterialTheme.typography.h6,
-                        modifier = Modifier.padding(vertical = 8.dp),
+                        modifier = Modifier.padding(vertical = 16.dp),
                         color = Color.White
                     )
 
@@ -164,17 +246,17 @@ fun StravaDetailContent(
                             RunDetail(
                                 label = "MI",
                                 width = 50.dp,
-                                textStyle = MaterialTheme.typography.h6
+                                textStyle = MaterialTheme.typography.body1
                             )
                             RunDetail(
                                 label = "Pace",
                                 width = 100.dp,
-                                textStyle = MaterialTheme.typography.h6
+                                textStyle = MaterialTheme.typography.body1
                             )
                             RunDetail(
                                 label = "HR",
                                 width = 50.dp,
-                                textStyle = MaterialTheme.typography.h6
+                                textStyle = MaterialTheme.typography.body1
                             )
                         }
 
@@ -190,17 +272,17 @@ fun StravaDetailContent(
                                     RunDetail(
                                         label = "${split.split}",
                                         width = 50.dp,
-                                        textStyle = MaterialTheme.typography.body1
+                                        textStyle = MaterialTheme.typography.body2
                                     )
                                     RunDetail(
                                         label = "${split.moving_time / 60}m ${split.moving_time % 60}s",
                                         width = 100.dp,
-                                        textStyle = MaterialTheme.typography.body1
+                                        textStyle = MaterialTheme.typography.body2
                                     )
                                     RunDetail(
                                         label = "${split.average_heartrate.roundToInt()}",
                                         width = 50.dp,
-                                        textStyle = MaterialTheme.typography.body1
+                                        textStyle = MaterialTheme.typography.body2
                                     )
                                 }
                             }
@@ -228,7 +310,7 @@ fun StravaDetailContent(
                                 sparkview
                             }, modifier = Modifier
                                 .fillMaxWidth()
-                                .requiredHeight(100.dp)
+                                .requiredHeight(70.dp)
                         )
 
                         if (splitText.isNotEmpty()) {

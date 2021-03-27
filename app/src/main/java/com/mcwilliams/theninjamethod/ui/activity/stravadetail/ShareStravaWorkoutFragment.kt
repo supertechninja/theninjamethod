@@ -298,19 +298,22 @@ fun ImageToggles(viewModel: ShareStravaWorkoutViewModel) {
 }
 
 @Composable
-fun StackedRunDetail(label: String, value: String) {
+fun StackedRunDetail(label: String?, value: String) {
     Column(
         modifier = Modifier
             .wrapContentSize()
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.h6,
-            modifier = Modifier.padding(bottom = 8.dp),
-            color = Color.White
-        )
+        label?.let {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.h6,
+                modifier = Modifier.padding(bottom = 8.dp),
+                color = Color.White
+            )
+        }
+
         Text(
             text = value,
             style = MaterialTheme.typography.body1,
