@@ -14,6 +14,6 @@ This app does both. It utilizes Strava Apis to pull running data and tracks the 
 * MVVM
 * Coroutines
 
-<img src="/images/app_home.png" width="200">
+<img src="/images/app_home.png" width="200"><img src="/images/strava_detail.png" width="200">
 
 
