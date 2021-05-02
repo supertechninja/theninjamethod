@@ -5,13 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
@@ -22,9 +28,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import com.google.accompanist.coil.rememberCoilPainter
 import com.google.android.material.composethemeadapter.MdcTheme
 import com.mcwilliams.settings.model.ActivityTotal
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
@@ -41,7 +49,7 @@ class SettingsFragment : Fragment() {
         val navController = findNavController()
         return ComposeView(context = requireContext()).apply {
             setContent {
-                MdcTheme {
+                TheNinjaMethodTheme {
                     SettingsLayout(navController, viewModel)
                 }
             }
@@ -81,99 +89,150 @@ class SettingsFragment : Fragment() {
 @Composable
 fun SettingsLayout(navController: NavController, viewModel: SettingsViewModel) {
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
+    val scrollState = rememberScrollState()
+    var selectedTab by remember { mutableStateOf(0) }
 
     if (isLoggedIn!!) {
-        val detailedAthlete by viewModel.detailedAthlete.observeAsState()
-        detailedAthlete?.let {
-            Column(modifier = Modifier.padding(16.dp).fillMaxHeight()) {
-                Row() {
-//                    CoilImage(
-//                        data = it.profile,
-//                        contentScale = ContentScale.Crop,
-//                        modifier = Modifier.size(100.dp).clip(CircleShape)
-//                            .border(1.dp, Color.White, CircleShape),
-//                        loading = {
-//                            Box(
-//                                modifier = Modifier.fillMaxSize(),
-//                                gravity = ContentGravity.Center
-//                            ) {
-//                                CircularProgressIndicator()
-//                            }
-//                        }
-//                    )
-
-                    Text(
-                        text = "${it.firstname} ${it.lastname}",
-                        style = MaterialTheme.typography.h6,
-                        modifier = Modifier.padding(start = 16.dp),
-                        color = Color.White
+        Column {
+            TabRow(
+                selectedTabIndex = selectedTab,
+                modifier = Modifier.height(56.dp),
+                backgroundColor = MaterialTheme.colors.onPrimary,
+                indicator = { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
+                        color = MaterialTheme.colors.onSurface,
+                        height = 3.dp
                     )
                 }
+            ) {
+                Tab(selected = selectedTab == 0, onClick = { selectedTab = 0 }) {
+                    Text(text = "Workouts", color = MaterialTheme.colors.onSurface)
+                }
 
-                Text(
-                    text = "Strava Stats",
-                    style = MaterialTheme.typography.h6,
-                    modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
-                    color = Color.White
-                )
+                Tab(selected = selectedTab == 1, onClick = { selectedTab = 1 }) {
+                    Text(text = "Strava", color = MaterialTheme.colors.onSurface)
+                }
+            }
 
-                val athleteStats by viewModel.athleteStats.observeAsState()
-                athleteStats?.let {
 
-                    var screenState by remember { mutableStateOf(0) }
+            val detailedAthlete by viewModel.detailedAthlete.observeAsState()
+            detailedAthlete?.let {
+                if (selectedTab == 1) {
+                    Column(
+                        modifier = Modifier
+                            .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+                            .fillMaxHeight()
+                            .verticalScroll(scrollState)
+                    ) {
 
-                    Tabs(
-                        tabTitles = listOf("Ride", "Run", "Swim"),
-                        selectedTab = screenState,
-                        onSelected = { index ->
-                            screenState = index
-                        }
-                    )
+                        Row() {
+                            Image(
+                                painter = rememberCoilPainter(request = it.profile),
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .clip(CircleShape)
+                                    .border(1.dp, Color.White, shape = CircleShape),
+                                contentDescription = "Profile Pic"
+                            )
 
-                    when (screenState) {
-                        0 -> {
-                            ShowStatsByType(
-                                listOf(
-                                    it.recent_ride_totals,
-                                    it.ytd_ride_totals,
-                                    it.all_ride_totals
-                                )
+                            Text(
+                                text = "${it.firstname} ${it.lastname}",
+                                style = MaterialTheme.typography.h6,
+                                modifier = Modifier.padding(start = 16.dp),
+                                color = Color.White
                             )
                         }
-                        1 -> {
-                            ShowStatsByType(
-                                listOf(
-                                    it.recent_run_totals,
-                                    it.ytd_run_totals,
-                                    it.all_run_totals
-                                )
-                            )
+
+                        Text(
+                            text = "Strava Stats",
+                            style = MaterialTheme.typography.h6,
+                            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
+                            color = Color.White
+                        )
+
+                        val athleteStats by viewModel.athleteStats.observeAsState()
+                        athleteStats?.let {
+
+                            var stravaTab by remember { mutableStateOf(0) }
+
+                            TabRow(
+                                selectedTabIndex = stravaTab,
+                                modifier = Modifier.height(56.dp),
+                                backgroundColor = MaterialTheme.colors.onPrimary,
+                                indicator = { tabPositions ->
+                                    TabRowDefaults.Indicator(
+                                        modifier = Modifier.tabIndicatorOffset(tabPositions[stravaTab]),
+                                        color = MaterialTheme.colors.onSurface,
+                                        height = 3.dp
+                                    )
+                                }
+                            ) {
+                                Tab(selected = stravaTab == 0, onClick = { stravaTab = 0 }) {
+                                    Text(text = "Run", color = MaterialTheme.colors.onSurface)
+                                }
+                                Tab(selected = stravaTab == 1, onClick = { stravaTab = 1 }) {
+                                    Text(text = "Ride", color = MaterialTheme.colors.onSurface)
+                                }
+                                Tab(selected = stravaTab == 2, onClick = { stravaTab = 2 }) {
+                                    Text(text = "Swim", color = MaterialTheme.colors.onSurface)
+                                }
+
+                            }
+
+                            when (stravaTab) {
+                                0 -> {
+                                    ShowStatsByType(
+                                        listOf(
+                                            it.recent_run_totals,
+                                            it.ytd_run_totals,
+                                            it.all_run_totals
+                                        )
+                                    )
+
+                                }
+                                1 -> {
+                                    ShowStatsByType(
+                                        listOf(
+                                            it.recent_ride_totals,
+                                            it.ytd_ride_totals,
+                                            it.all_ride_totals
+                                        )
+                                    )
+                                }
+                                2 -> {
+                                    ShowStatsByType(
+                                        listOf(
+                                            it.recent_swim_totals,
+                                            it.ytd_swim_totals,
+                                            it.all_swim_totals
+                                        )
+                                    )
+                                }
+                            }
                         }
-                        2 -> {
-                            ShowStatsByType(
-                                listOf(
-                                    it.recent_swim_totals,
-                                    it.ytd_swim_totals,
-                                    it.all_swim_totals
-                                )
-                            )
-                        }
+
+
+
+                        Spacer(modifier = Modifier.requiredHeight(20.dp))
+                        Button(content = {
+                            Text("Log off")
+                        }, onClick = {
+                            viewModel.logOff()
+                        })
                     }
+                } else if (selectedTab == 0) {
+                    WorkoutStats(viewModel = viewModel)
                 }
-
-                WorkoutStats(viewModel = viewModel)
-
-                Spacer(modifier = Modifier.requiredHeight(20.dp))
-                Button(content = {
-                    Text("Log off")
-                }, onClick = {
-                    viewModel.logOff()
-                })
             }
         }
 
     } else {
-        Column {
+        Column(
+            modifier = Modifier
+                .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+                .fillMaxHeight()
+        ) {
             WorkoutStats(viewModel = viewModel)
 
             Button(content = {
@@ -209,7 +268,9 @@ fun Tabs(
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
-        modifier = Modifier.wrapContentHeight().padding(top = 8.dp),
+        modifier = Modifier
+            .wrapContentHeight()
+            .padding(top = 8.dp),
     ) {
         TabRow(selectedTabIndex = selectedTab,
             backgroundColor = Color(0xFF059EDC),

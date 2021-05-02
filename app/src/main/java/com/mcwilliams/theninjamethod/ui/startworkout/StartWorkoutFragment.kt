@@ -26,6 +26,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.Icon
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -156,35 +157,34 @@ fun StartWorkoutFrame(
                     var workoutName by
                     remember { mutableStateOf(TextFieldValue(workout!!.workoutName)) }
 
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        Column(horizontalAlignment = Alignment.Start) {
-                            BasicTextField(
-                                value = workoutName,
-                                onValueChange = {
-                                    workoutName = it
-                                    startWorkoutViewModel.updateWorkoutName(workoutName.text)
-                                },
-                                textStyle = MaterialTheme.typography.h5,
-//                                textColor = Color.White,
-                                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        BasicTextField(
+                            value = workoutName,
+                            onValueChange = {
+                                workoutName = it
+                                startWorkoutViewModel.updateWorkoutName(workoutName.text)
+                            },
+                            textStyle = MaterialTheme.typography.h5.copy(color = MaterialTheme.colors.onBackground),
+                            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp),
+                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.End,
+                            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+                        ) {
+                            Checkbox(
+                                checked = saveAsRoutine,
+                                onCheckedChange = { saveAsRoutine = it })
+                            Text(
+                                "Save As Routine",
+                                style = MaterialTheme.typography.caption,
+                                modifier = Modifier.padding(start = 4.dp),
+                                color = Color.White
                             )
-                        }
-
-                        Column(horizontalAlignment = Alignment.End) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
-                            ) {
-                                Checkbox(
-                                    checked = saveAsRoutine,
-                                    onCheckedChange = { saveAsRoutine = it })
-                                Text(
-                                    "Save As Routine",
-                                    style = MaterialTheme.typography.caption,
-                                    color = Color.White
-                                )
-                            }
-
                         }
                     }
 
@@ -221,12 +221,6 @@ fun StartWorkoutFrame(
                                 }
                             }
 
-
-//                        WithConstraints {
-//                            val width =
-//                                with(DensityAmbient.current) { constraints.maxWidth.toDp() / 3 }
-                            val modifier = Modifier.width(width = 200.dp)
-
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -236,12 +230,8 @@ fun StartWorkoutFrame(
                                     SetRow(set = it)
                                 }
 //                                scrollState.smoothScrollTo(scrollState.maxValue)
-
-
                             }
                         }
-//                            }
-//                        }
                     }
                 }
             }
@@ -266,12 +256,7 @@ fun StartWorkoutFrame(
 fun SetRow(
     set: WorkoutSet,
 ) {
-//    val width = with(DensityAmbient.current) { constraints.maxWidth.toDp() / 3 }
-//    AmbientDensity.current.
-//    with(AmbientDensity.current) { constr }
-
     val widthModifier = Modifier.width(100.dp)
-
     Row(
         modifier = Modifier
             .fillMaxWidth()

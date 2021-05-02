@@ -4,18 +4,20 @@ import android.os.Bundle
 import android.view.*
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
@@ -24,11 +26,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.composethemeadapter.MdcTheme
 import com.mcwilliams.data.exercisedb.model.WorkoutSet
 import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
@@ -47,16 +49,14 @@ class ManualWorkoutDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         setHasOptionsMenu(true)
-//        return inflater.inflate(R.layout.workout_detail_fragment, container, false)
 
         val navController = findNavController()
         workout = arguments?.getSerializable("workout") as SimpleWorkout
 
         return ComposeView(context = requireContext()).apply {
             setContent {
-                MdcTheme {
+                TheNinjaMethodTheme {
                     ManualWorkoutDetailContent(
                         navController = navController,
                         workoutArg = workout,
@@ -66,108 +66,6 @@ class ManualWorkoutDetailFragment : Fragment() {
             }
         }
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        rootView = view.findViewById(R.id.rootView)
-//
-//        viewModel.workout.observe(viewLifecycleOwner, Observer { workout ->
-//            Log.d("TAG", "onViewCreated: ${workout.workoutName}")
-//            detailedWorkout = workout
-//            val workoutName = view.findViewById<MaterialTextView>(R.id.workout_name)
-//            workoutName.text = workout.workoutName
-//            workoutName.setOnClickListener {
-//                val inputView = layoutInflater.inflate(R.layout.workout_name_dialog, null)
-//                val duration = inputView.findViewById<TextInputEditText>(R.id.tilWorkoutName)
-//                duration.setText(detailedWorkout.workoutName)
-//
-//                MaterialAlertDialogBuilder(requireContext())
-//                    .setTitle("Edit Workout Name")
-//                    .setView(inputView)
-//                    .setPositiveButton("Save") { _, _ ->
-//                        workoutName.text = duration.text.toString()
-//                        detailedWorkout.workoutName = duration.text.toString()
-//                        viewModel.updateWorkout(detailedWorkout)
-//                    }
-//                    .setNegativeButton("Cancel") { _, _ -> }
-//                    // Add customization options here
-//                    .create().show()
-//            }
-//
-//            val workoutDate = view.findViewById<MaterialTextView>(R.id.workout_date)
-//            val date = LocalDate.parse(workout.workoutDate)
-//            workoutDate.text =
-//                "${date.dayOfWeek.name.fixCase()}, ${date.month.name.fixCase()} ${date.dayOfMonth}, ${date.year}"
-//
-//            val workoutDuration = view.findViewById<MaterialTextView>(R.id.workout_duration)
-//            workoutDuration.text = "Duration: ${workout.workoutDuration}"
-//
-//            val exercisesAndSets = view.findViewById<LinearLayout>(R.id.exercises_and_sets)
-//            exercisesAndSets.removeAllViews()
-//            for (exercise in workout.exercises!!) {
-//
-//                val exerciseRow =
-//                    layoutInflater.inflate(R.layout.workout_detail_exercise_header_row, null)
-//                val exerciseName =
-//                    exerciseRow.findViewById<MaterialTextView>(R.id.exercise_name_detail)
-//                exerciseName.text = exercise.exerciseName
-//                exercisesAndSets.addView(exerciseRow)
-//
-//                totalWeightLifted(exercise.sets!!)
-//
-//                exerciseRow.setOnLongClickListener {
-////                    workout.exercises!!.remove(exercise)
-////                    viewModel.updateWorkout(workout)
-////                    Toast.makeText(
-////                        it.context,
-////                        "${exercise.exerciseName} removed",
-////                        Toast.LENGTH_SHORT
-////                    ).show()
-//                    true
-//                }
-//
-//                exercise.sets!!.forEach { exerciseSet ->
-//                    val setRow = layoutInflater.inflate(R.layout.workout_detail_sets_row, null)
-//
-//                    val setNumber = setRow.findViewById<MaterialTextView>(R.id.set_count_detail)
-//                    setNumber.text = exerciseSet.index.toString()
-//                    val setRepsAndWeight =
-//                        setRow.findViewById<MaterialTextView>(R.id.reps_and_weight_count)
-//
-//                    when (exercise.definedExerciseType) {
-//                        ExerciseType.bodyweight -> {
-//                            if (exerciseSet.weight.toInt() > 0) {
-//                                setRepsAndWeight.text =
-//                                    "+${exerciseSet.weight}lbs x ${exerciseSet.reps}"
-//                            } else {
-//                                setRepsAndWeight.text = "${exerciseSet.reps} reps"
-//                            }
-//                        }
-//                        else -> {
-//                            setRepsAndWeight.text = "${exerciseSet.weight}lbs x ${exerciseSet.reps}"
-//                        }
-//                    }
-//
-//                    val onRepMaxTextView =
-//                        setRow.findViewById<MaterialTextView>(R.id.one_rep_max_value)
-//
-//                    if (exerciseSet.weight.isNotEmpty() && exerciseSet.reps.isNotEmpty()) {
-//                        val oneRepMax =
-//                            (exerciseSet.weight.toInt() / (1.0278 - (0.0278 * exerciseSet.reps.toInt()))).toInt()
-//                        onRepMaxTextView.text = oneRepMax.toString() + "lbs"
-//                    }
-//
-//                    exercisesAndSets.addView(setRow)
-//                }
-//            }
-//            val totalWeightLifted = view.findViewById<MaterialTextView>(R.id.total_weight_lifted)
-//            totalWeightLifted.text =
-//                NumberFormat.getNumberInstance(Locale.US).format(totalAmountLifted) + "lbs lifted"
-//        })
-//
-//        viewModel.getManualWorkoutDetail(workout.id)
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -189,13 +87,7 @@ class ManualWorkoutDetailFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun totalWeightLifted(sets: List<WorkoutSet>) {
-        sets.forEach {
-            if (it.weight.isNotEmpty() && it.reps.isNotEmpty()) {
-                totalAmountLifted += (it.weight.toInt() * it.reps.toInt())
-            }
-        }
-    }
+
 }
 
 @Composable
@@ -205,61 +97,94 @@ fun ManualWorkoutDetailContent(
     viewModel: ManualWorkoutViewModel
 ) {
     val workout by viewModel.workout.observeAsState()
-
+    val scrollState = rememberScrollState()
     viewModel.getManualWorkoutDetail(workoutArg.id)
 
     workout?.let {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .verticalScroll(scrollState)
+                .padding(16.dp)
+        ) {
             //TODO add edit name dialog
-            Text(text = it.workoutName, style = MaterialTheme.typography.h6, color = Color.White)
+            Text(
+                text = it.workoutName,
+                style = MaterialTheme.typography.h6,
+                color = MaterialTheme.colors.onSurface
+            )
 
-            Row {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 val date = LocalDate.parse(it.workoutDate)
                 Text(
                     text =
                     "${date.dayOfWeek.name.fixCase()}, ${date.month.name.fixCase()} ${date.dayOfMonth}, ${date.year}",
                     style = MaterialTheme.typography.body1,
-                    color = Color.White,
+                    color = MaterialTheme.colors.onSurface,
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
-                it.workoutDuration?.let { it1 -> Text(text = it1) }
+
+                it.workoutDuration?.let { it1 ->
+                    Text(
+                        text = it1, style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                }
+
+                val totalWeightLifted = totalWeightLifted(it)
+                Text(
+                    text = if (totalWeightLifted == 0) "" else "$totalWeightLifted lbs",
+                    style = MaterialTheme.typography.body1,
+                    color = MaterialTheme.colors.onSurface,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
             }
 
-            LazyColumn {
-                items(workout!!.exercises) { exercise ->
-                    Card(
-                        elevation = 4.dp,
-                        shape = RoundedCornerShape(10.dp),
-                        border = BorderStroke(1.dp, Color.LightGray),
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Column {
-                            Text(
-                                text = exercise.exerciseName,
-                                modifier = Modifier.padding(top = 8.dp, start = 8.dp),
-                                style = MaterialTheme.typography.body1,
-                                color = Color.White
-                            )
+            workout!!.exercises.forEach { exercise ->
+                Card(
+                    elevation = 4.dp,
+                    shape = RoundedCornerShape(10.dp),
+                    border = BorderStroke(1.dp, Color.LightGray),
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = exercise.exerciseName,
+                            style = MaterialTheme.typography.body1,
+                            color = MaterialTheme.colors.onSurface,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
 
-                            exercise.sets.forEach { workoutSet ->
-                                Row(
-                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
-                                    horizontalArrangement = Arrangement.SpaceEvenly
-                                ) {
-                                    Text(
-                                        text = "Set ${workoutSet.index}",
-                                        style = MaterialTheme.typography.body2,
-                                        color = Color.White,
-                                        modifier = Modifier.padding(end = 16.dp)
-                                    )
-                                    Text(
-                                        text = "${workoutSet.weight}lbs x ${workoutSet.reps}",
-                                        style = MaterialTheme.typography.body2,
-                                        color = Color.White
-                                    )
-                                }
+                        exercise.sets.forEach { workoutSet ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "Set ${workoutSet.index}",
+                                    style = MaterialTheme.typography.body2,
+                                    color = MaterialTheme.colors.onSurface,
+                                    textAlign = TextAlign.Left
+                                )
+                                Text(
+                                    text = "${workoutSet.weight}lbs x ${workoutSet.reps}",
+                                    style = MaterialTheme.typography.body2,
+                                    color = MaterialTheme.colors.onSurface,
+                                    textAlign = TextAlign.Center
+                                )
+
+                                Text(
+                                    text = oneRepMax(workoutSet),
+                                    style = MaterialTheme.typography.body2,
+                                    color = MaterialTheme.colors.onSurface,
+                                    textAlign = TextAlign.End
+                                )
                             }
                         }
                     }
@@ -267,4 +192,27 @@ fun ManualWorkoutDetailContent(
             }
         }
     }
+}
+
+fun oneRepMax(workoutSet: WorkoutSet): String {
+    if (workoutSet.weight.isNotEmpty() && workoutSet.reps.isNotEmpty()) {
+        val oneRepMax =
+            (workoutSet.weight.toInt() / (1.0278 - (0.0278 * workoutSet.reps.toInt()))).toInt()
+        return oneRepMax.toString() + "lbs"
+    }
+    return ""
+}
+
+private fun totalWeightLifted(workout: Workout): Int {
+    var totalAmountLifted = 0
+
+    workout.exercises.forEach { workoutExercise ->
+        workoutExercise.sets.forEach { workoutSet ->
+            if (workoutSet.weight.isNotEmpty() && workoutSet.reps.isNotEmpty()) {
+                totalAmountLifted += (workoutSet.weight.toInt() * workoutSet.reps.toInt())
+            }
+        }
+    }
+
+    return totalAmountLifted
 }

@@ -17,11 +17,13 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.fastForEachIndexed
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -110,16 +112,23 @@ fun ActivityBodyContent(
         }
     } else {
         LazyColumn(content = {
-            workoutData!!.forEach { (date, workouts) ->
+            workoutData!!.fastForEachIndexed { index, (date, workouts) ->
                 stickyHeader {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .clickable {
+                                val bundle = bundleOf("workoutSummary" to workoutData!![index])
+                                navController.navigate(
+                                    R.id.navigate_to_combined_workout,
+                                    bundle
+                                )
+                            }
                             .background(Color(0x80444444))
                     ) {
                         Text(
                             text = date.getDateString(),
-                            modifier = Modifier.padding(start = 16.dp),
+                            modifier = Modifier.padding(start = 16.dp).padding(vertical = 4.dp),
                             style = MaterialTheme.typography.h6
                         )
                     }
@@ -205,7 +214,8 @@ fun WorkoutStat(
         Image(
             painter = painterResource(imageRes),
             contentDescription = "",
-            modifier = modifier
+            modifier = modifier,
+            colorFilter = ColorFilter.tint(color = MaterialTheme.colors.onSurface)
         )
         Text(
             text = value,
