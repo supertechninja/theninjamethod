@@ -34,7 +34,6 @@ import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
-import java.util.*
 
 @AndroidEntryPoint
 class ManualWorkoutDetailFragment : Fragment() {
@@ -203,7 +202,7 @@ fun oneRepMax(workoutSet: WorkoutSet): String {
     return ""
 }
 
-private fun totalWeightLifted(workout: Workout): Int {
+internal fun totalWeightLifted(workout: Workout): Int {
     var totalAmountLifted = 0
 
     workout.exercises.forEach { workoutExercise ->

@@ -2,24 +2,38 @@ package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.combinedde
 
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.*
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
-import com.google.android.material.textview.MaterialTextView
-import com.mcwilliams.data.exercisedb.model.ExerciseType
-import com.mcwilliams.data.exercisedb.model.WorkoutSet
 import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
-import com.mcwilliams.theninjamethod.utils.extensions.fixCase
+import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.totalWeightLifted
+import com.mcwilliams.theninjamethod.ui.activity.stravadetail.StravaMapWithStats
+import com.mcwilliams.theninjamethod.utils.extensions.getDateString
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.NumberFormat
 import java.time.LocalDate
 import java.util.*
 
@@ -35,162 +49,17 @@ class CombinedWorkoutDetailFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         combinedWorkout =
             arguments?.getSerializable("workoutSummary") as Pair<LocalDate, MutableList<SimpleWorkout>>
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_combined_workout_detail, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val listOfStravaWorkouts: MutableList<SimpleWorkout> = mutableListOf()
-        val listOfManualWorkouts: MutableList<SimpleWorkout> = mutableListOf()
-        for (workout in combinedWorkout.second) {
-            when (workout.workoutType) {
-                WorkoutType.LIFTING -> {
-                    listOfManualWorkouts.add(workout)
-                }
-                WorkoutType.STRAVA -> {
-                    listOfStravaWorkouts.add(workout)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                TheNinjaMethodTheme() {
+                    CombinedWorkoutFragmentContent(viewModel, combinedWorkout = combinedWorkout)
                 }
             }
         }
-
-        if (listOfManualWorkouts.isNotEmpty()) {
-            if (listOfManualWorkouts.size > 1) {
-//            val ids = listOfStravaWorkouts.map { it.id }
-//            viewModel.getManualWorkoutDetail(ids)
-            } else {
-                viewModel.getManualWorkoutDetail(listOfManualWorkouts[0].id)
-            }
-        }
-
-        if (listOfStravaWorkouts.isNotEmpty()) {
-            if (listOfStravaWorkouts.size > 1) {
-                val ids = listOfStravaWorkouts.map { it.id }
-                viewModel.getMultipleDetailedActivities(ids)
-            } else {
-                viewModel.getDetailedActivities(listOfStravaWorkouts[0].id)
-            }
-        }
-
-        rootView = view.findViewById(R.id.rootView)
-        workoutCardContainer = view.findViewById(R.id.workout_card_container)
-
-        val workoutName = view.findViewById<MaterialTextView>(R.id.workout_name)
-        workoutName.text = combinedWorkout.first.dayOfWeek.name.fixCase() +
-                ", " + combinedWorkout.first.month.name.fixCase() + " " + combinedWorkout.first.dayOfMonth
-
-        viewModel.workout.observe(viewLifecycleOwner, Observer {
-            //load manual workout
-            //TODO setup for view reuse between combined and individual detail
-            val manualWorkoutCardView =
-                layoutInflater.inflate(R.layout.combined_manual_workout_cardview, null)
-
-            val workoutName =
-                manualWorkoutCardView.findViewById<MaterialTextView>(R.id.tvWorkoutName)
-            workoutName.text = it.workoutName
-
-            val exercisesListLayout =
-                manualWorkoutCardView.findViewById<LinearLayout>(R.id.llexercises)
-
-            for (exercise in it.exercises!!) {
-
-                val shareExerciseSummary =
-                    layoutInflater.inflate(R.layout.share_workout_exercise_summary, null)
-                val exerciseSummary =
-                    shareExerciseSummary.findViewById<MaterialTextView>(R.id.exercise_summary)
-                exerciseSummary.gravity = Gravity.LEFT
-                val exerciseName = exercise.exerciseName
-
-                var setsSummary = ""
-                for (set in exercise.sets!!) {
-                    val weightAndRepsString = when (exercise.definedExerciseType) {
-                        ExerciseType.bodyweight -> {
-                            if (set.weight.toInt() > 0) {
-                                "${set.reps}x +${set.weight}lbs, "
-                            } else {
-                                "${set.reps}, "
-                            }
-                        }
-                        else -> {
-                            "${set.reps}x${set.weight}lbs, "
-                        }
-                    }
-                    setsSummary += weightAndRepsString
-
-                }
-
-                val setsSummaryFormatted = setsSummary.substring(0, (setsSummary.length - 2))
-                exerciseSummary.text = "$exerciseName: $setsSummaryFormatted"
-
-                totalWeightLifted(exercise.sets!!)
-
-                exercisesListLayout.addView(shareExerciseSummary)
-            }
-
-            val workoutWeightLifted =
-                manualWorkoutCardView.findViewById<MaterialTextView>(R.id.tvWeightLifted)
-
-            if (totalAmountLifted > 0) {
-                workoutWeightLifted.text =
-                    NumberFormat.getNumberInstance(Locale.US)
-                        .format(totalAmountLifted) + "lbs lifted"
-            } else {
-                workoutWeightLifted.visibility = View.GONE
-            }
-            workoutCardContainer.addView(manualWorkoutCardView)
-        })
-
-        viewModel.detailedActivity.observe(viewLifecycleOwner, Observer { stravaDetail ->
-            //load strava workout
-            drawStravaDetailCards(stravaDetail)
-        })
-
-        viewModel.detailedActivities.observe(viewLifecycleOwner, Observer { stravaDetail ->
-            //load strava workout
-            stravaDetail.forEach {
-                drawStravaDetailCards(it)
-            }
-        })
-    }
-
-    fun drawStravaDetailCards(stravaDetail: StravaActivityDetail) {
-        val stravaWorkoutCardview =
-            layoutInflater.inflate(R.layout.combined_strava_workout_cardview, null)
-
-        val workoutName =
-            stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.workout_name)
-        workoutName.text = stravaDetail.name
-
-        val mapView =
-            stravaWorkoutCardview.findViewById<ImageView>(R.id.map_view)
-
-        if (stravaDetail.map!!.summary_polyline.isNullOrEmpty()) {
-            mapView.visibility = View.GONE
-        } else {
-//            mapView.load(getMapUrl(stravaDetail.map.summary_polyline!!))
-        }
-
-        val workoutDistance =
-            stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.distance)
-        workoutDistance.text = stravaDetail.miles
-
-        val workoutDuration =
-            stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.workout_duration)
-        workoutDuration.text = stravaDetail.duration
-
-        val caloriesBurned =
-            stravaWorkoutCardview.findViewById<MaterialTextView>(R.id.calories_burned)
-        caloriesBurned.text = stravaDetail.calories.toString()
-
-        workoutCardContainer.addView(stravaWorkoutCardview)
-    }
-
-    fun getMapUrl(polyline: String): String {
-        return "https://maps.googleapis.com/maps/api/staticmap?size=700x350&scale=2&maptype=roadmap&path=enc:${polyline}&key=AIzaSyBWhwSFZ1aFOyxGN057wR_4wMA3QMyLT9I"
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -208,10 +77,154 @@ class CombinedWorkoutDetailFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
+}
 
-    private fun totalWeightLifted(sets: List<WorkoutSet>) {
-        sets.forEach {
-            totalAmountLifted += (it.weight.toInt() * it.reps.toInt())
+@Composable
+fun CombinedWorkoutFragmentContent(
+    viewModel: CombinedWorkoutViewModel,
+    combinedWorkout: Pair<LocalDate, MutableList<SimpleWorkout>>
+) {
+    val listOfStravaWorkouts: MutableList<SimpleWorkout> = mutableListOf()
+    val listOfManualWorkouts: MutableList<SimpleWorkout> = mutableListOf()
+    for (workout in combinedWorkout.second) {
+        when (workout.workoutType) {
+            WorkoutType.LIFTING -> {
+                listOfManualWorkouts.add(workout)
+            }
+            WorkoutType.STRAVA -> {
+                listOfStravaWorkouts.add(workout)
+            }
+        }
+    }
+
+    if (listOfManualWorkouts.isNotEmpty()) {
+        if (listOfManualWorkouts.size > 1) {
+//            val ids = listOfStravaWorkouts.map { it.id }
+//            viewModel.getManualWorkoutDetail(ids)
+        } else {
+            viewModel.getManualWorkoutDetail(listOfManualWorkouts[0].id)
+        }
+    }
+
+    if (listOfStravaWorkouts.isNotEmpty()) {
+        if (listOfStravaWorkouts.size > 1) {
+            val ids = listOfStravaWorkouts.map { it.id }
+            viewModel.getMultipleDetailedActivities(ids)
+        } else {
+            viewModel.getDetailedActivities(listOfStravaWorkouts[0].id)
+        }
+    }
+
+    val workout by viewModel.workout.observeAsState()
+    val stravaWorkout by viewModel.detailedActivity.observeAsState()
+    val stravaWorkouts by viewModel.detailedActivities.observeAsState()
+    val scrollState = rememberScrollState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(all = 16.dp)
+            .verticalScroll(scrollState)
+    ) {
+        Text(
+            text = combinedWorkout.first.getDateString(),
+            style = MaterialTheme.typography.h5,
+            color = MaterialTheme.colors.onSurface,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+
+        workout?.let { manualWorkout ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                elevation = 4.dp
+            ) {
+                Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+                    Text(
+                        text = manualWorkout.workoutName,
+                        style = MaterialTheme.typography.h5,
+                        color = MaterialTheme.colors.onSurface
+                    )
+
+                    manualWorkout.exercises.forEach { exercise ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp, vertical = 4.dp)
+                        ) {
+                            Text(text = buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontSize = 20.sp)) {
+                                    append("${exercise.exerciseName} : ")
+                                }
+                                withStyle(style = SpanStyle(fontSize = 14.sp)) {
+                                    exercise.sets.forEach { set ->
+                                        if (set.weight.toInt() > 0) {
+                                            append("${set.reps} x +${set.weight}lbs, ")
+                                        } else {
+                                            append("${set.reps}, ")
+                                        }
+                                    }
+                                }
+                            }, color = MaterialTheme.colors.onSurface)
+                        }
+                    }
+
+                    val totalWeightLifted = totalWeightLifted(manualWorkout)
+                    Text(
+                        text = if (totalWeightLifted == 0) "" else "Total Weight Lifted: $totalWeightLifted lbs",
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface,
+                        modifier = Modifier.padding(vertical = 8.dp)
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        stravaWorkout?.let {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                elevation = 4.dp
+            ) {
+                Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = it.name,
+                            style = MaterialTheme.typography.h5,
+                            color = MaterialTheme.colors.onSurface
+                        )
+
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_heart_icon),
+                                contentDescription = "",
+                                tint = Color.Red,
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    .padding(end = 4.dp)
+                            )
+                            Text(
+                                text = "${it.average_heartrate} bpm",
+                                style = MaterialTheme.typography.body2,
+                                color = Color.White,
+                                modifier = Modifier.padding(bottom = 8.dp, top = 8.dp)
+                            )
+                        }
+                    }
+                    StravaMapWithStats(stravaDetailActivity = it)
+                }
+            }
+        }
+
+        stravaWorkouts?.let { listOfStravaDetailActivities ->
+            listOfStravaDetailActivities.forEach { stravaDetailActivity ->
+//                StravaMapWithStats(stravaDetailActivity = stravaDetailActivity)
+            }
         }
     }
 

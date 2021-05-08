@@ -2,10 +2,6 @@ package com.mcwilliams.theninjamethod.ui.activity.stravadetail
 
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,26 +18,17 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.accompanist.coil.CoilImage
-import com.google.android.material.composethemeadapter.MdcTheme
-import com.google.android.material.textview.MaterialTextView
 import com.mcwilliams.data.workoutdb.SimpleWorkout
-import com.mcwilliams.theninjamethod.BuildConfig
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.ActivityBodyContent
-import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.ActivityContentScaffold
 import com.mcwilliams.theninjamethod.utils.extensions.getTimeFloat
-import com.mcwilliams.theninjamethod.utils.extensions.getTimeString
 import com.robinhood.spark.SparkAdapter
 import com.robinhood.spark.SparkView
 import dagger.hilt.android.AndroidEntryPoint
@@ -157,76 +144,7 @@ fun StravaDetailContent(
 //                        )
 //                    }
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                    ) {
-                        stravaDetailActivity.map?.let {
-                            CoilImage(
-                                data = getMapUrl(it.polyline),
-                                contentDescription = "",
-                                contentScale = ContentScale.FillWidth,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(200.dp),
-                                loading = {
-
-                                }
-                            )
-                        }
-
-                        Row(
-                            verticalAlignment = Alignment.Bottom,
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp)
-                                .padding(bottom = 4.dp)
-                        ) {
-                            Column(
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .padding(horizontal = 8.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Text(
-                                    text = "${stravaDetailActivity.miles}",
-                                    style = MaterialTheme.typography.h6,
-                                    modifier = Modifier.padding(bottom = 8.dp),
-                                    color = Color.Black
-                                )
-                            }
-                            Column(
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .padding(horizontal = 8.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Text(
-                                    text = "${stravaDetailActivity.duration}",
-                                    style = MaterialTheme.typography.h6,
-                                    modifier = Modifier.padding(bottom = 8.dp),
-                                    color = Color.Black
-                                )
-                            }
-                            Column(
-                                modifier = Modifier
-                                    .wrapContentSize()
-                                    .padding(horizontal = 8.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Text(
-                                    text = "${stravaDetailActivity.calories} cal",
-                                    style = MaterialTheme.typography.h6,
-                                    modifier = Modifier.padding(bottom = 8.dp),
-                                    color = Color.Black
-                                )
-                            }
-                        }
-                    }
-
-
+                    StravaMapWithStats(stravaDetailActivity)
 
                     Text(
                         text = "Splits",
@@ -353,6 +271,77 @@ fun StravaDetailContent(
     }
 }
 
+@Composable
+fun StravaMapWithStats(stravaDetailActivity: StravaActivityDetail) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+    ) {
+        stravaDetailActivity.map?.let {
+            CoilImage(
+                data = getMapUrl(it.polyline),
+                contentDescription = "",
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+                loading = {
+
+                }
+            )
+        }
+
+        Row(
+            verticalAlignment = Alignment.Bottom,
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .padding(bottom = 4.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(horizontal = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "${stravaDetailActivity.miles}",
+                    style = MaterialTheme.typography.h6,
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    color = Color.Black
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(horizontal = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "${stravaDetailActivity.duration}",
+                    style = MaterialTheme.typography.h6,
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    color = Color.Black
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(horizontal = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "${stravaDetailActivity.calories} cal",
+                    style = MaterialTheme.typography.h6,
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    color = Color.Black
+                )
+            }
+        }
+    }
+}
 
 class MyAdapter(private val yData: FloatArray) : SparkAdapter() {
     override fun getCount(): Int {
