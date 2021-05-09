@@ -1,6 +1,5 @@
 package com.mcwilliams.theninjamethod.ui.settings
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,12 +8,15 @@ import com.mcwilliams.appinf.SessionRepository
 import com.mcwilliams.data.ManualWorkoutsRepository
 import com.mcwilliams.settings.model.AthleteStats
 import com.mcwilliams.settings.model.StravaAthlete
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SettingsViewModel @ViewModelInject constructor(
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
     private val settingsRepo: SettingsRepo,
     private val sessionRepository: SessionRepository,
     private val workoutsRepository: ManualWorkoutsRepository

@@ -2,6 +2,8 @@ package com.mcwilliams.theninjamethod.di.modules
 
 import android.content.Context
 import com.mcwilliams.appinf.SessionRepository
+import com.mcwilliams.appinf.di.StravaNetworkModule
+import com.mcwilliams.data.di.DataModule
 import com.mcwilliams.theninjamethod.network.apis.ExerciseApi
 import com.mcwilliams.theninjamethod.strava.api.ActivitiesApi
 import com.mcwilliams.theninjamethod.strava.api.AthleteApi
@@ -14,12 +16,12 @@ import com.mcwilliams.theninjamethod.ui.settings.SettingsRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@InstallIn(ApplicationComponent::class)
-@Module(includes = [NetworkModule::class])
+@InstallIn(SingletonComponent::class)
+@Module(includes = [NetworkModule::class, DataModule::class, StravaNetworkModule::class], )
 class AppModule {
 
     @Provides
@@ -62,5 +64,4 @@ class AppModule {
         exerciseApi: ExerciseApi
     ): ExerciseRepository =
         ExerciseRepository(context, exerciseApi)
-
 }

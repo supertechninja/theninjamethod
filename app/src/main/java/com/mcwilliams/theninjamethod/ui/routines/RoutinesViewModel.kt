@@ -1,13 +1,15 @@
 package com.mcwilliams.theninjamethod.ui.routines
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
-class RoutinesViewModel @ViewModelInject constructor(
+@HiltViewModel
+class RoutinesViewModel @Inject constructor(
     routinesRepository: RoutinesRepository
 ) : ViewModel() {
     val rootDisposable = CompositeDisposable()

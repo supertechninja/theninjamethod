@@ -1,6 +1,5 @@
 package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,13 +9,16 @@ import com.mcwilliams.data.ManualWorkoutsRepository
 import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import com.mcwilliams.theninjamethod.ui.routines.RoutinesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import javax.inject.Inject
 import kotlin.collections.set
 
-class WorkoutListViewModel @ViewModelInject constructor(
+@HiltViewModel
+class WorkoutListViewModel @Inject constructor(
     sessionRepo: SessionRepository,
     stravaWorkoutRepository: StravaWorkoutRepository,
     private val manualWorkoutsRepository: ManualWorkoutsRepository,

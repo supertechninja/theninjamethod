@@ -1,6 +1,5 @@
 package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +9,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEachIndexed
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -35,8 +30,6 @@ import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.utils.extensions.getDateString
 import dagger.hilt.android.AndroidEntryPoint
-import java.time.LocalDate
-import kotlin.random.Random
 
 @AndroidEntryPoint
 class WorkoutsFragment : Fragment() {
@@ -54,7 +47,7 @@ class WorkoutsFragment : Fragment() {
         return ComposeView(context = requireContext()).apply {
             setContent {
                 MdcTheme {
-                    ActivityContentScaffold(navController, viewModel)
+                    ActivityContentScaffold(navController, viewModel = viewModel)
                 }
             }
         }
@@ -128,7 +121,9 @@ fun ActivityBodyContent(
                     ) {
                         Text(
                             text = date.getDateString(),
-                            modifier = Modifier.padding(start = 16.dp).padding(vertical = 4.dp),
+                            modifier = Modifier
+                                .padding(start = 16.dp)
+                                .padding(vertical = 4.dp),
                             style = MaterialTheme.typography.h6
                         )
                     }

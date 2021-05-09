@@ -1,6 +1,5 @@
 package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.combineddetail
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,9 +7,12 @@ import com.mcwilliams.data.ManualWorkoutsRepository
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
 import com.mcwilliams.theninjamethod.ui.activity.stravadetail.StravaWorkoutDetailRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
-class CombinedWorkoutViewModel @ViewModelInject constructor(
+@HiltViewModel
+class CombinedWorkoutViewModel @Inject constructor(
     private val stravaDetailRepository: StravaWorkoutDetailRepository,
     private val manualWorkoutsRepository: ManualWorkoutsRepository
 ) : ViewModel() {

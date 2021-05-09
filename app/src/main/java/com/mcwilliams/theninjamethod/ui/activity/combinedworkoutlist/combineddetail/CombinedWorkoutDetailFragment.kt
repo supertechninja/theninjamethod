@@ -25,7 +25,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.R
@@ -56,7 +58,7 @@ class CombinedWorkoutDetailFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 TheNinjaMethodTheme() {
-                    CombinedWorkoutFragmentContent(viewModel, combinedWorkout = combinedWorkout)
+                    CombinedWorkoutFragmentContent(viewModel, combinedWorkout = combinedWorkout, findNavController())
                 }
             }
         }
@@ -82,7 +84,8 @@ class CombinedWorkoutDetailFragment : Fragment() {
 @Composable
 fun CombinedWorkoutFragmentContent(
     viewModel: CombinedWorkoutViewModel,
-    combinedWorkout: Pair<LocalDate, MutableList<SimpleWorkout>>
+    combinedWorkout: Pair<LocalDate, MutableList<SimpleWorkout>>,
+    navController: NavController
 ) {
     val listOfStravaWorkouts: MutableList<SimpleWorkout> = mutableListOf()
     val listOfManualWorkouts: MutableList<SimpleWorkout> = mutableListOf()
@@ -137,6 +140,13 @@ fun CombinedWorkoutFragmentContent(
             Card(
                 modifier = Modifier
                     .fillMaxWidth(),
+//                    .clickable {
+//                        val bundle = bundleOf("workout" to manualWorkout)
+//                        navController.navigate(
+//                            R.id.navigate_to_manual_workout_detail,
+//                            bundle
+//                        )
+//                    },
                 elevation = 4.dp
             ) {
                 Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {

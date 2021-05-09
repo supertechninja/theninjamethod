@@ -1,15 +1,17 @@
 package com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mcwilliams.data.ManualWorkoutsRepository
 import com.mcwilliams.data.workoutdb.Workout
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ManualWorkoutViewModel @ViewModelInject constructor(
+@HiltViewModel
+class ManualWorkoutViewModel @Inject constructor(
     private val manualWorkoutsRepository: ManualWorkoutsRepository
 ) : ViewModel() {
 
