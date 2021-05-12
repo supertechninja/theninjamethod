@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -26,14 +25,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.Icon
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -42,43 +39,6 @@ import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-
-
-@ExperimentalFoundationApi
-@AndroidEntryPoint
-class StartWorkoutFragment : Fragment() {
-
-    var workout: Workout? = null
-    private val startWorkoutViewModel: StartWorkoutViewModel by activityViewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        arguments?.let {
-            workout =
-                arguments?.getSerializable("workout") as Workout
-        }
-
-        //Reset the previously saved workout
-        startWorkoutViewModel._didSaveWorkout.postValue(false)
-
-        setHasOptionsMenu(true)
-        return ComposeView(requireContext()).apply {
-            setContent {
-                TheNinjaMethodTheme {
-                    StartWorkoutFrame(
-                        navController = findNavController(),
-                        parentFragmentManager,
-                        startWorkoutViewModel,
-                        workout
-                    )
-                }
-            }
-        }
-    }
-}
 
 fun getTimeOfDay(): String {
     val c: Calendar = Calendar.getInstance()
@@ -103,9 +63,9 @@ fun getTimeOfDay(): String {
 @Composable
 fun StartWorkoutFrame(
     navController: NavController,
-    parentFragmentManager: FragmentManager,
     startWorkoutViewModel: StartWorkoutViewModel,
-    workoutRoutine: Workout?
+    workoutRoutine: Workout? = null,
+    paddingValues: PaddingValues
 ) {
 //    val startWorkoutViewModel = viewModel(StartWorkoutViewModel::class.java)
     val workout by startWorkoutViewModel.workout.observeAsState()
@@ -238,12 +198,13 @@ fun StartWorkoutFrame(
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(text = { Text("ADD EXERCISE") }, onClick = {
-                ChooseExerciseDialogFragment(startWorkoutViewModel.listOfExercises.value!!).show(
-                    parentFragmentManager,
-                    ""
-                )
+//                ChooseExerciseDialogFragment(startWorkoutViewModel.listOfExercises.value!!).show(
+//                    parentFragmentManager,
+//                    ""
+//                )
             })
         },
+        modifier = Modifier.padding(paddingValues = paddingValues),
         isFloatingActionButtonDocked = true,
         floatingActionButtonPosition = FabPosition.Center,
         bottomBar = {

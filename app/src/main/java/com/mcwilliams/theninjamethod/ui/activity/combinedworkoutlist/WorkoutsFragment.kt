@@ -22,47 +22,29 @@ import androidx.compose.ui.util.fastForEachIndexed
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.navigate
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.composethemeadapter.MdcTheme
 import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.ui.NavigationDestination
 import com.mcwilliams.theninjamethod.utils.extensions.getDateString
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class WorkoutsFragment : Fragment() {
-    private val viewModel: WorkoutListViewModel by viewModels()
-
-    @ExperimentalFoundationApi
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val navController = findNavController()
-
-
-        return ComposeView(context = requireContext()).apply {
-            setContent {
-                MdcTheme {
-                    ActivityContentScaffold(navController, viewModel = viewModel)
-                }
-            }
-        }
-    }
-}
-
 @ExperimentalFoundationApi
 @Composable
-fun ActivityContentScaffold(navController: NavController, viewModel: WorkoutListViewModel) {
+fun ActivityContentScaffold(
+    viewModel: WorkoutListViewModel,
+    navController: NavHostController,
+    paddingValues: PaddingValues
+) {
     val scrollstate = rememberScrollState()
 
     Scaffold(
         content = {
             ActivityBodyContent(
-                modifier = Modifier.padding(it),
                 navController = navController,
                 scrollstate = scrollstate,
                 viewModel = viewModel
@@ -70,7 +52,7 @@ fun ActivityContentScaffold(navController: NavController, viewModel: WorkoutList
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate(R.id.navigate_to_start_workout) },
+                onClick = { navController.navigate(NavigationDestination.StartAWorkout.destination) },
                 backgroundColor = MaterialTheme.colors.primary,
                 contentColor = MaterialTheme.colors.onPrimary
             ) {
@@ -79,15 +61,15 @@ fun ActivityContentScaffold(navController: NavController, viewModel: WorkoutList
                     modifier = Modifier.padding(16.dp)
                 )
             }
-        }
+        },
+        modifier = Modifier.padding(paddingValues = paddingValues)
     )
 }
 
 @ExperimentalFoundationApi
 @Composable
 fun ActivityBodyContent(
-    modifier: Modifier,
-    navController: NavController,
+    navController: NavHostController,
     scrollstate: ScrollState,
     viewModel: WorkoutListViewModel
 ) {
@@ -153,7 +135,7 @@ fun ActivityBodyContent(
 }
 
 @Composable
-fun WorkoutRow(navController: NavController, navDestId: Int, workoutSummary: SimpleWorkout) {
+fun WorkoutRow(navController: NavHostController, navDestId: Int, workoutSummary: SimpleWorkout) {
     Column(modifier = Modifier.clickable {
         val bundle = bundleOf("workout" to workoutSummary)
         navController.navigate(

@@ -1,18 +1,34 @@
 package com.mcwilliams.theninjamethod.ui
 
 import android.os.Bundle
-import android.view.View
+import androidx.activity.compose.setContent
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomnavigation.LabelVisibilityMode
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.*
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltNavGraphViewModel
+import androidx.navigation.compose.*
 import com.mcwilliams.theninjamethod.R
+import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.ActivityContentScaffold
+import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.WorkoutListViewModel
+import com.mcwilliams.theninjamethod.ui.exercises.ExerciseList
+import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
+import com.mcwilliams.theninjamethod.ui.routines.RoutinesScaffold
+import com.mcwilliams.theninjamethod.ui.routines.RoutinesViewModel
+import com.mcwilliams.theninjamethod.ui.settings.SettingsLayout
+import com.mcwilliams.theninjamethod.ui.settings.SettingsViewModel
+import com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutFrame
+import com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -22,68 +38,123 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val navController = rememberNavController()
 
-            NavHost(navController, startDestination = NavigationDestination.CombinedWorkouts.destination) {
-                composable(NavigationDestination.CombinedWorkouts.destination) {
-                    val viewModel: Screen1ViewModel = hiltNavGraphViewModel()
-                    Screen1(viewModel = viewModel)
-                    ActivityContentScaffold()
-                }
-                composable(NavigationDestination.StartAWorkout.destination) {
-                    val viewModel: Screen1ViewModel = hiltNavGraphViewModel()
-                    Screen1(viewModel = viewModel)
+            val items = listOf(
+                NavigationDestination.CombinedWorkouts,
+                NavigationDestination.Routines,
+                NavigationDestination.Exercises,
+                NavigationDestination.Settings,
+            )
+            TheNinjaMethodTheme() {
+                Scaffold(
+                    bottomBar = {
+                        BottomNavigation {
+                            val navBackStackEntry by navController.currentBackStackEntryAsState()
+                            val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
+                            items.forEach { screen ->
+                                BottomNavigationItem(
+                                    icon = {
+                                        Icon(
+                                            painterResource(id = screen.resId!!),
+                                            contentDescription = "", modifier = Modifier.size(24.dp)
+                                        )
+                                    },
+                                    label = { Text(screen.label!!) },
+                                    selected = currentRoute == screen.destination,
+                                    onClick = {
+                                        navController.navigate(screen.destination) {
+                                            // Pop up to the start destination of the graph to
+                                            // avoid building up a large stack of destinations
+                                            // on the back stack as users select items
+                                            popUpTo = navController.graph.startDestination
+                                            // Avoid multiple copies of the same destination when
+                                            // reselecting the same item
+                                            launchSingleTop = true
+                                        }
+                                    }
+                                )
+                            }
+                        }
+                    }
+                ) { paddingValues ->
+                    NavHost(
+                        navController,
+                        startDestination = NavigationDestination.CombinedWorkouts.destination
+                    ) {
+                        composable(NavigationDestination.CombinedWorkouts.destination) {
+                            val viewModel: WorkoutListViewModel = hiltNavGraphViewModel()
+                            ActivityContentScaffold(
+                                navController = navController,
+                                viewModel = viewModel,
+                                paddingValues = paddingValues
+                            )
+                        }
+                        composable(NavigationDestination.StartAWorkout.destination) {
+                            val viewModel: StartWorkoutViewModel =
+                                hiltNavGraphViewModel()
+                            StartWorkoutFrame(
+                                navController = navController,
+                                startWorkoutViewModel = viewModel,
+                                paddingValues = paddingValues
+                            )
+                        }
+                        composable(NavigationDestination.Routines.destination) {
+                            val viewModel: RoutinesViewModel =
+                                hiltNavGraphViewModel()
+
+                            RoutinesScaffold(
+                                navController = navController,
+                                routinesViewModel = viewModel,
+                                paddingValues = paddingValues
+                            )
+                        }
+                        composable(NavigationDestination.Exercises.destination) {
+                            val viewModel: ExerciseListViewModel =
+                                hiltNavGraphViewModel()
+
+                            ExerciseList(viewModel = viewModel, paddingValues = paddingValues)
+                        }
+
+                        composable(NavigationDestination.Settings.destination) {
+                            val viewModel: SettingsViewModel = hiltNavGraphViewModel()
+
+                            SettingsLayout(
+                                navController = navController,
+                                viewModel = viewModel,
+                                paddingValues = paddingValues
+                            )
+                        }
+                    }
                 }
             }
         }
-
-x
-//        setContentView(R.layout.activity_main)
-//        val navView: BottomNavigationView = this.findViewById(R.id.nav_view)
-//
-//        val toolbar: Toolbar = this.findViewById(R.id.toolbar)
-//        setSupportActionBar(toolbar)
-//
-//        val navController = findNavController(R.id.nav_host_fragment)
-//        // Passing each menu ID as a set of Ids because each
-//        // menu should be considered as top level destinations.
-//        val appBarConfiguration = AppBarConfiguration(
-//            setOf(
-//                R.id.navigation_workouts,
-//                R.id.navigation_routines,
-//                R.id.navigation_exercises,
-//                R.id.navigation_settings
-//            )
-//        )
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-//        navView.setupWithNavController(navController)
-//        navView.labelVisibilityMode = LabelVisibilityMode.LABEL_VISIBILITY_LABELED
-//
-//        navController.addOnDestinationChangedListener { controller, destination, arguments ->
-//            // react on change
-//            // you can check destination.id or destination.label and act based on that
-//            when (destination.id) {
-//                R.id.navigation_start_workout -> {
-//                    toolbar.visibility = View.GONE
-//                    navView.visibility = View.GONE
-//                }
-//                else -> {
-//                    navView.visibility = View.VISIBLE
-//                    toolbar.visibility = View.VISIBLE
-//                }
-//            }
-//        }
     }
 }
 
-sealed class NavigationDestination(val destination: String) {
-    object CombinedWorkouts : NavigationDestination("combinedWorkouts")
+sealed class NavigationDestination(
+    val destination: String,
+    val label: String? = null,
+    @DrawableRes val resId: Int? = null
+) {
+    object CombinedWorkouts :
+        NavigationDestination("combinedWorkouts", "Activity", resId = R.drawable.ic_running_icon)
+
+    object Routines :
+        NavigationDestination("routines", "Routines", resId = R.drawable.ic_routine_icon)
+
+    object Exercises :
+        NavigationDestination("exercises", "Exercises", resId = R.drawable.ic_exercises_icon)
+
+    object Settings : NavigationDestination(
+        "settings",
+        "Settings",
+        resId = R.drawable.ic_notifications_black_24dp
+    )
+
     object StartAWorkout : NavigationDestination("startAWorkout")
-    object Routines : NavigationDestination("routines")
     object ManualWorkoutDetail : NavigationDestination("manualWorkoutDetail")
     object StravaWorkoutDetail : NavigationDestination("stravaWorkoutDetail")
     object CombinedWorkoutDetail : NavigationDestination("combinedWorkoutDetail")
     object ShareCombinedWorkout : NavigationDestination("shareCombinedWorkout")
     object ShareStravaWorkout : NavigationDestination("shareStravaWorkout")
     object ShareManualWorkout : NavigationDestination("shareManualWorkout")
-    object Exercises : NavigationDestination("exercises")
-    object Settings : NavigationDestination("settings")
 }

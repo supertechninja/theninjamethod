@@ -26,74 +26,76 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.accompanist.coil.rememberCoilPainter
-import com.google.android.material.composethemeadapter.MdcTheme
 import com.mcwilliams.settings.model.ActivityTotal
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
-@AndroidEntryPoint
-class SettingsFragment : Fragment() {
-
-    private val viewModel: SettingsViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val navController = findNavController()
-        return ComposeView(context = requireContext()).apply {
-            setContent {
-                TheNinjaMethodTheme {
-                    SettingsLayout(navController, viewModel)
-                }
-            }
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                viewModel.loadDetailedAthlete()
-            }
-        })
-
-        parentFragmentManager.setFragmentResultListener(
-            REQUEST_KEY,
-            this,
-            { requestKey, result ->
-                onFragmentResult(requestKey, result)
-            }
-        )
-    }
-
-    @SuppressLint("RestrictedApi")
-    private fun onFragmentResult(requestKey: String, result: Bundle) {
-        Preconditions.checkState(REQUEST_KEY == requestKey)
-        val authCode = result.getString("authCode")
-        viewModel.loginAthlete(authCode!!)
-    }
-
-    companion object {
-        private const val REQUEST_KEY = "authCode"
-    }
-}
+//@AndroidEntryPoint
+//class SettingsFragment : Fragment() {
+//
+//    private val viewModel: SettingsViewModel by viewModels()
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        val navController = findNavController()
+//        return ComposeView(context = requireContext()).apply {
+//            setContent {
+//                TheNinjaMethodTheme {
+//                    SettingsLayout(navController, viewModel, paddingValues)
+//                }
+//            }
+//        }
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
+//            if (it) {
+//                viewModel.loadDetailedAthlete()
+//            }
+//        })
+//
+//        parentFragmentManager.setFragmentResultListener(
+//            REQUEST_KEY,
+//            this,
+//            { requestKey, result ->
+//                onFragmentResult(requestKey, result)
+//            }
+//        )
+//    }
+//
+//    @SuppressLint("RestrictedApi")
+//    private fun onFragmentResult(requestKey: String, result: Bundle) {
+//        Preconditions.checkState(REQUEST_KEY == requestKey)
+//        val authCode = result.getString("authCode")
+//        viewModel.loginAthlete(authCode!!)
+//    }
+//
+//    companion object {
+//        private const val REQUEST_KEY = "authCode"
+//    }
+//}
 
 @Composable
-fun SettingsLayout(navController: NavController, viewModel: SettingsViewModel) {
+fun SettingsLayout(
+    navController: NavController,
+    viewModel: SettingsViewModel,
+    paddingValues: PaddingValues
+) {
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
     val scrollState = rememberScrollState()
     var selectedTab by remember { mutableStateOf(0) }
 
     if (isLoggedIn!!) {
-        Column {
+        Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
             TabRow(
                 selectedTabIndex = selectedTab,
                 modifier = Modifier.height(56.dp),
@@ -230,6 +232,7 @@ fun SettingsLayout(navController: NavController, viewModel: SettingsViewModel) {
     } else {
         Column(
             modifier = Modifier
+                .padding(paddingValues = paddingValues)
                 .padding(start = 16.dp, top = 16.dp, end = 16.dp)
                 .fillMaxHeight()
         ) {

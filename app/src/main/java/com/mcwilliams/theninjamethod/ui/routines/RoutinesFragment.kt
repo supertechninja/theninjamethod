@@ -44,7 +44,7 @@ class RoutinesFragment : Fragment() {
         return ComposeView(context = requireContext()).apply {
             setContent {
                 MdcTheme {
-                    RoutinesScaffold(findNavController(), viewModel)
+//                    RoutinesScaffold(findNavController(), viewModel, paddingValues)
                 }
             }
         }
@@ -52,7 +52,11 @@ class RoutinesFragment : Fragment() {
 }
 
 @Composable
-fun RoutinesScaffold(navController: NavController, routinesViewModel: RoutinesViewModel) {
+fun RoutinesScaffold(
+    navController: NavController,
+    routinesViewModel: RoutinesViewModel,
+    paddingValues: PaddingValues
+) {
     Scaffold(
         content = {
             RoutinesBodyContent(
@@ -61,6 +65,7 @@ fun RoutinesScaffold(navController: NavController, routinesViewModel: RoutinesVi
                 routinesViewModel = routinesViewModel
             )
         },
+        modifier = Modifier.padding(paddingValues = paddingValues),
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 navController.navigate(R.id.navigate_from_routines_to_start_workout)

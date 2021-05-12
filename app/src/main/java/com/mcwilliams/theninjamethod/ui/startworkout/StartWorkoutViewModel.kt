@@ -14,11 +14,14 @@ import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.ui.exercises.repository.ExerciseRepository
 import com.mcwilliams.theninjamethod.ui.ext.toLiveData
 import com.mcwilliams.theninjamethod.ui.routines.RoutinesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import javax.inject.Inject
 
-class StartWorkoutViewModel @ViewModelInject constructor(
+@HiltViewModel
+class StartWorkoutViewModel @Inject constructor(
     private val manualWorkoutsRepository: ManualWorkoutsRepository,
     exerciseRepository: ExerciseRepository,
     private val routinesRepository: RoutinesRepository
