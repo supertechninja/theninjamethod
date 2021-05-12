@@ -1,6 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -137,11 +138,15 @@ fun ActivityBodyContent(
 @Composable
 fun WorkoutRow(navController: NavHostController, navDestId: Int, workoutSummary: SimpleWorkout) {
     Column(modifier = Modifier.clickable {
-        val bundle = bundleOf("workout" to workoutSummary)
-        navController.navigate(
-            navDestId,
-            bundle
-        )
+        Log.d("TAG", "WorkoutRow: ${workoutSummary.id}")
+        navController.navigate("manualWorkoutDetail/${workoutSummary.id}")
+//        navController.navigate("${NavigationDestination.ManualWorkoutDetail.destination}/${workoutSummary.id}")
+
+//        val bundle = bundleOf("workout" to workoutSummary)
+//        navController.navigate(
+//            navDestId,
+//            bundle
+//        )
     }) {
         Text(
             text = workoutSummary.workoutName,

@@ -1,10 +1,13 @@
 package com.mcwilliams.theninjamethod.ui.settings
 
-import android.annotation.SuppressLint
-import android.os.Bundle
-import android.view.LayoutInflater
+import android.annotation.TargetApi
+import android.content.Context
+import android.net.Uri
+import android.os.Build
 import android.view.View
-import android.view.ViewGroup
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -19,70 +22,15 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
-import androidx.core.util.Preconditions
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.google.accompanist.coil.rememberCoilPainter
+import com.mcwilliams.appinf.model.StravaLogin
 import com.mcwilliams.settings.model.ActivityTotal
-import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
-import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
-
-//@AndroidEntryPoint
-//class SettingsFragment : Fragment() {
-//
-//    private val viewModel: SettingsViewModel by viewModels()
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        val navController = findNavController()
-//        return ComposeView(context = requireContext()).apply {
-//            setContent {
-//                TheNinjaMethodTheme {
-//                    SettingsLayout(navController, viewModel, paddingValues)
-//                }
-//            }
-//        }
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        viewModel.isLoggedIn.observe(viewLifecycleOwner, Observer {
-//            if (it) {
-//                viewModel.loadDetailedAthlete()
-//            }
-//        })
-//
-//        parentFragmentManager.setFragmentResultListener(
-//            REQUEST_KEY,
-//            this,
-//            { requestKey, result ->
-//                onFragmentResult(requestKey, result)
-//            }
-//        )
-//    }
-//
-//    @SuppressLint("RestrictedApi")
-//    private fun onFragmentResult(requestKey: String, result: Bundle) {
-//        Preconditions.checkState(REQUEST_KEY == requestKey)
-//        val authCode = result.getString("authCode")
-//        viewModel.loginAthlete(authCode!!)
-//    }
-//
-//    companion object {
-//        private const val REQUEST_KEY = "authCode"
-//    }
-//}
 
 @Composable
 fun SettingsLayout(
@@ -93,8 +41,10 @@ fun SettingsLayout(
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
     val scrollState = rememberScrollState()
     var selectedTab by remember { mutableStateOf(0) }
+    var showLoginDialog by remember { mutableStateOf(false) }
 
     if (isLoggedIn!!) {
+        viewModel.loadDetailedAthlete()
         Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
             TabRow(
                 selectedTabIndex = selectedTab,
@@ -214,8 +164,6 @@ fun SettingsLayout(
                             }
                         }
 
-
-
                         Spacer(modifier = Modifier.requiredHeight(20.dp))
                         Button(content = {
                             Text("Log off")
@@ -241,12 +189,17 @@ fun SettingsLayout(
             Button(content = {
                 Text("Log into Strava")
             }, onClick = {
-                navController.navigate(R.id.navigate_to_strava_auth)
+                showLoginDialog = !showLoginDialog
             })
         }
     }
 
-
+    if (showLoginDialog) {
+        val onFinish = { showLoginDialog = !showLoginDialog}
+        Dialog(onDismissRequest = { showLoginDialog = !showLoginDialog }) {
+            StravaAuthWebView(viewModel = viewModel, onFinish = onFinish)
+        }
+    }
 }
 
 @Composable

@@ -58,7 +58,7 @@ class ManualWorkoutDetailFragment : Fragment() {
                 TheNinjaMethodTheme {
                     ManualWorkoutDetailContent(
                         navController = navController,
-                        workoutArg = workout,
+                        workoutId = "",
                         viewModel
                     )
                 }
@@ -92,12 +92,12 @@ class ManualWorkoutDetailFragment : Fragment() {
 @Composable
 fun ManualWorkoutDetailContent(
     navController: NavController,
-    workoutArg: SimpleWorkout,
+    workoutId: String,
     viewModel: ManualWorkoutViewModel
 ) {
     val workout by viewModel.workout.observeAsState()
     val scrollState = rememberScrollState()
-    viewModel.getManualWorkoutDetail(workoutArg.id)
+    viewModel.getManualWorkoutDetail(workoutId.toInt())
 
     workout?.let {
         Column(

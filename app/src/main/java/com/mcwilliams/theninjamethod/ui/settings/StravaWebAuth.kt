@@ -1,6 +1,7 @@
 package com.mcwilliams.theninjamethod.ui.settings
 
 import android.annotation.TargetApi
+import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -10,41 +11,19 @@ import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.mcwilliams.appinf.model.StravaLogin
 import com.mcwilliams.theninjamethod.R
 
-class StravaWebAuthFragment : Fragment() {
-
-    lateinit var loginWebview: WebView
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.strava_auth_fragment, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        loginWebview = view.findViewById(R.id.login_webview) as WebView
-
-        configureWebViewClient()
-        loginWebview.loadUrl(loadLoginUrl())
-    }
-
-    private fun loadLoginUrl(): String = StravaLogin.withContext(activity)
-        .withClientID(CLIENT_ID)
-        .withRedirectURI(redirectUrl)
-        .withApprovalPrompt("auto")
-        .withAccessScope("activity:read,activity:write")
-        .makeLoginURL()
-
-
-    private fun configureWebViewClient() {
+@Composable
+fun StravaAuthWebView(viewModel: SettingsViewModel, onFinish: () -> Unit) {
+    AndroidView(factory = { context ->
+        val loginWebview = WebView(context)
         loginWebview.settings.javaScriptEnabled = true
         loginWebview.settings.userAgentString = "Mozilla/5.0 Google"
         loginWebview.webViewClient = object : WebViewClient() {
@@ -62,7 +41,7 @@ class StravaWebAuthFragment : Fragment() {
             }
 
             private fun handleUrl(uri: Uri): Boolean {
-                if (uri.toString().startsWith(redirectUrl)) {
+                if (uri.toString().startsWith("https://www.supertech.ninja")) {
                     val code = uri.getQueryParameter("code")
                     return makeResult(code)
                 }
@@ -73,25 +52,23 @@ class StravaWebAuthFragment : Fragment() {
                 if (code != null && code.isNotEmpty()) {
                     loginWebview.visibility = View.GONE
 
-                    handleSuccessfulLogin(code)
+                    viewModel.loginAthlete(code!!)
+                    onFinish()
                     return true
                 }
                 return false
             }
         }
-    }
 
-    fun handleSuccessfulLogin(code: String) {
-        parentFragmentManager.setFragmentResult(
-            "authCode", // Same request key FragmentA used to register its listener
-            bundleOf("authCode" to code) // The data to be passed to FragmentA
-        )
-        parentFragmentManager.popBackStack()
-    }
+        loginWebview.loadUrl(loadLoginUrl(context))
+        return@AndroidView loginWebview
 
-
-    companion object {
-        const val redirectUrl = "https://www.supertech.ninja"
-        private const val CLIENT_ID = 47849
-    }
+    }, modifier = Modifier.fillMaxSize())
 }
+
+private fun loadLoginUrl(context: Context): String = StravaLogin.withContext(context)
+    .withClientID(47849)
+    .withRedirectURI("https://www.supertech.ninja")
+    .withApprovalPrompt("auto")
+    .withAccessScope("activity:read,activity:write")
+    .makeLoginURL()

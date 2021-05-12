@@ -12,11 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltNavGraphViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.ActivityContentScaffold
 import com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist.WorkoutListViewModel
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutDetailContent
+import com.mcwilliams.theninjamethod.ui.activity.manualworkoutdetail.ManualWorkoutViewModel
 import com.mcwilliams.theninjamethod.ui.exercises.ExerciseList
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
 import com.mcwilliams.theninjamethod.ui.routines.RoutinesScaffold
@@ -123,6 +127,19 @@ class MainActivity : AppCompatActivity() {
                                 paddingValues = paddingValues
                             )
                         }
+
+                        composable(
+                            NavigationDestination.ManualWorkoutDetail.destination,
+//                            arguments = listOf(navArgument("userId") { type = NavType.StringType })
+                        ) { backStackEntry ->
+                            val viewModel: ManualWorkoutViewModel = hiltNavGraphViewModel()
+
+                            ManualWorkoutDetailContent(
+                                navController = navController,
+                                workoutId = backStackEntry.arguments?.getString("workoutId", "")!!,
+                                viewModel = viewModel
+                            )
+                        }
                     }
                 }
             }
@@ -132,8 +149,10 @@ class MainActivity : AppCompatActivity() {
 
 sealed class NavigationDestination(
     val destination: String,
+//    val argKey: String? = null,
+//    val route: String = destination + (argKey ?: ""),
     val label: String? = null,
-    @DrawableRes val resId: Int? = null
+    @DrawableRes val resId: Int? = null,
 ) {
     object CombinedWorkouts :
         NavigationDestination("combinedWorkouts", "Activity", resId = R.drawable.ic_running_icon)
@@ -151,7 +170,7 @@ sealed class NavigationDestination(
     )
 
     object StartAWorkout : NavigationDestination("startAWorkout")
-    object ManualWorkoutDetail : NavigationDestination("manualWorkoutDetail")
+    object ManualWorkoutDetail : NavigationDestination("manualWorkoutDetail/{workoutId}")
     object StravaWorkoutDetail : NavigationDestination("stravaWorkoutDetail")
     object CombinedWorkoutDetail : NavigationDestination("combinedWorkoutDetail")
     object ShareCombinedWorkout : NavigationDestination("shareCombinedWorkout")
