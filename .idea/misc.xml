@@ -3,12 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/jtmac/Documents/Android/theninjamethod/app/src/main/res/drawable/ic_profile.xml" value="0.403125" />
+        <entry key="..\:/Users/jtmac/Documents/Android/theninjamethod/app/src/main/res/layout/fragment_start_workout.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/jtmac/Documents/Android/theninjamethod/app/src/main/res/layout/share_workout_image.xml" value="0.23731884057971014" />
+        <entry key="..\:/Users/jtmac/Documents/Android/theninjamethod/app/src/main/res/layout/strava_auth_fragment.xml" value="0.38697916666666665" />
         <entry key="app/src/main/res/layout/activity_strava_login.xml" value="0.1621376811594203" />
         <entry key="app/src/main/res/layout/strava_auth_fragment.xml" value="0.14895833333333333" />
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11 (2)" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

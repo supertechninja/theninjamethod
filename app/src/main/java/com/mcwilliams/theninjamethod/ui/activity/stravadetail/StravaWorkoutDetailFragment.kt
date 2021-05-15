@@ -1,7 +1,5 @@
 package com.mcwilliams.theninjamethod.ui.activity.stravadetail
 
-import android.os.Bundle
-import android.view.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,50 +12,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.google.accompanist.coil.CoilImage
-import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.strava.model.activitydetail.StravaActivityDetail
-import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import com.mcwilliams.theninjamethod.utils.extensions.getTimeFloat
 import com.robinhood.spark.SparkAdapter
 import com.robinhood.spark.SparkView
-import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
-
-@AndroidEntryPoint
-class StravaWorkoutDetailFragment : Fragment() {
-    lateinit var workout: SimpleWorkout
-    private val viewModel: StravaDetailViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        workout = arguments?.getSerializable("workout") as SimpleWorkout
-        return ComposeView(context = requireContext()).apply {
-            setContent {
-                TheNinjaMethodTheme {
-                    StravaDetailContent(
-                        viewModel = viewModel,
-                        workout = workout,
-                        findNavController()
-                    )
-                }
-            }
-        }
-    }
-}
 
 fun getMapUrl(polyline: String): String {
     return "https://maps.googleapis.com/maps/api/staticmap?size=700x350&scale=2&maptype=roadmap&path=enc:${polyline}&key=AIzaSyBWhwSFZ1aFOyxGN057wR_4wMA3QMyLT9I"
@@ -66,12 +32,13 @@ fun getMapUrl(polyline: String): String {
 @Composable
 fun StravaDetailContent(
     viewModel: StravaDetailViewModel,
-    workout: SimpleWorkout,
-    navController: NavController
+    workoutId: String,
+    navController: NavController,
+    paddingValues: PaddingValues
 ) {
     val detailActivity by viewModel.detailedActivity.observeAsState()
     val isLoading by viewModel.isLoading.observeAsState(true)
-    viewModel.getDetailedActivities(workout.id)
+    viewModel.getDetailedActivities(workoutId.toLong())
 
     if (isLoading) {
         Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
@@ -84,7 +51,7 @@ fun StravaDetailContent(
     } else {
         val scrollState = rememberScrollState()
         detailActivity?.let { stravaDetailActivity ->
-            Box() {
+            Box(modifier = Modifier.padding(paddingValues = paddingValues)) {
                 Column(
                     Modifier
                         .fillMaxSize()

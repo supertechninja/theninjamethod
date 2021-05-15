@@ -35,74 +35,37 @@ import com.mcwilliams.theninjamethod.utils.extensions.fixCase
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 
-@AndroidEntryPoint
-class ManualWorkoutDetailFragment : Fragment() {
-    lateinit var workout: SimpleWorkout
-    lateinit var detailedWorkout: Workout
-    private val viewModel: ManualWorkoutViewModel by viewModels()
-    private var totalAmountLifted = 0
-    lateinit var rootView: ConstraintLayout
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setHasOptionsMenu(true)
-
-        val navController = findNavController()
-        workout = arguments?.getSerializable("workout") as SimpleWorkout
-
-        return ComposeView(context = requireContext()).apply {
-            setContent {
-                TheNinjaMethodTheme {
-                    ManualWorkoutDetailContent(
-                        navController = navController,
-                        workoutArg = workout,
-                        viewModel
-                    )
-                }
-            }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.manual_workout_detail_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (R.id.menu_delete == item.itemId) {
-            viewModel.deleteWorkout()
-            Navigation.findNavController(rootView).popBackStack()
-        } else if (R.id.menu_share == item.itemId) {
-            val bundle = bundleOf(
-                "workout" to detailedWorkout,
-                "amountLifted" to totalAmountLifted
-            )
-            Navigation.findNavController(rootView)
-                .navigate(R.id.navigate_to_share_workout, bundle)
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-
-}
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if (R.id.menu_delete == item.itemId) {
+//            viewModel.deleteWorkout()
+//            Navigation.findNavController(rootView).popBackStack()
+//        } else if (R.id.menu_share == item.itemId) {
+//            val bundle = bundleOf(
+//                "workout" to detailedWorkout,
+//                "amountLifted" to totalAmountLifted
+//            )
+//            Navigation.findNavController(rootView)
+//                .navigate(R.id.navigate_to_share_workout, bundle)
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
 @Composable
 fun ManualWorkoutDetailContent(
     navController: NavController,
-    workoutArg: SimpleWorkout,
-    viewModel: ManualWorkoutViewModel
+    workoutId: String,
+    viewModel: ManualWorkoutViewModel,
+    paddingValues: PaddingValues
 ) {
     val workout by viewModel.workout.observeAsState()
     val scrollState = rememberScrollState()
-    viewModel.getManualWorkoutDetail(workoutArg.id)
+    viewModel.getManualWorkoutDetail(workoutId.toInt())
 
     workout?.let {
         Column(
             modifier = Modifier
                 .verticalScroll(scrollState)
+                .padding(paddingValues = paddingValues)
                 .padding(16.dp)
         ) {
             //TODO add edit name dialog

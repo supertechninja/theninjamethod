@@ -3,7 +3,9 @@ package com.mcwilliams.theninjamethod.ui.exercises
 import android.os.Bundle
 import android.view.*
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
@@ -18,7 +20,6 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.composethemeadapter.MdcTheme
 import com.mcwilliams.data.exercisedb.DbExercise
 import com.mcwilliams.theninjamethod.R
-import com.mcwilliams.theninjamethod.theme.TheNinjaMethodTheme
 import com.mcwilliams.theninjamethod.ui.exercises.viewmodel.ExerciseListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,7 +40,7 @@ class ExercisesFragment : Fragment() {
         return ComposeView(context = requireContext()).apply {
             setContent {
                 MdcTheme {
-                    ExerciseList(viewModel)
+//                    ExerciseList(viewModel, paddingValues)
                 }
             }
         }
@@ -69,47 +70,16 @@ class ExercisesFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-//    private fun showFilterChips() {
-//        // Prepare the View for the animation
-//        chipsGroup.visibility = View.VISIBLE;
-//        chipsGroup.alpha = 0.0f;
-//        chipsGroup.animate().setDuration(300)
-//            .translationY(chipsGroup.height.toFloat())
-//            .alpha(1.0f)
-//            .setListener(null);
-//    }
-//
-//    private fun registerFilterChanged() {
-//        val ids = chipsGroup.checkedChipIds
-//        val titles = mutableListOf<CharSequence>()
-//
-//        ids.forEach { id ->
-//            titles.add(chipsGroup.findViewById<Chip>(id).text)
-//        }
-//
-//        if (titles.isNotEmpty()) {
-//            val allFilteredExerciseList: MutableList<List<DbExercise>> = mutableListOf()
-//            titles.forEach { exerciseChip: CharSequence ->
-//                val exerciseList =
-//                    exerciseList.filter { it.definedExerciseType!!.name == exerciseChip }
-//                allFilteredExerciseList.add(exerciseList)
-//            }
-//
-//            exerciseListAdapter.updatePostList(allFilteredExerciseList.flatten().toMutableList())
-//        } else {
-//            exerciseListAdapter.updatePostList(exerciseList)
-//        }
-//
-//    }
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun ExerciseList(viewModel: ExerciseListViewModel) {
+fun ExerciseList(viewModel: ExerciseListViewModel, paddingValues: PaddingValues) {
     val exerciseList by viewModel.exerciseList.observeAsState()
 //    var showDeleteDialog by remember { mutableStateOf(false) }
 //    var exerciseToDelete = remember { MutableList<DbExercise>() }
+
+    //TODO Add support for adding dialog
 
     Scaffold(
         content = {
@@ -134,6 +104,7 @@ fun ExerciseList(viewModel: ExerciseListViewModel) {
                 }
             }
         },
+        modifier = Modifier.padding(paddingValues = paddingValues),
         floatingActionButton = {
             ExtendedFloatingActionButton(onClick = {
                 viewModel._showDialog.postValue(true)
