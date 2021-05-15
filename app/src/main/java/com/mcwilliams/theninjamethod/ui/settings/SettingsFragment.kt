@@ -217,41 +217,6 @@ fun WorkoutStats(viewModel: SettingsViewModel) {
 }
 
 @Composable
-fun Tabs(
-    tabTitles: List<String>,
-    selectedTab: Int,
-    onSelected: (Int) -> Unit
-) {
-    Card(
-        shape = RoundedCornerShape(8.dp),
-        modifier = Modifier
-            .wrapContentHeight()
-            .padding(top = 8.dp),
-    ) {
-        TabRow(selectedTabIndex = selectedTab,
-            backgroundColor = Color(0xFF059EDC),
-            indicator = { tabPositions ->
-                TabRowDefaults.Indicator(
-                    Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
-                    height = 1.dp,
-                    color = Color.Yellow
-                )
-            }
-        ) {
-            tabTitles.forEachIndexed { index, title ->
-                Tab(
-                    text = { Text(title) },
-                    selected = selectedTab == index,
-                    onClick = { onSelected(index) },
-                    selectedContentColor = Color.Black,
-                    unselectedContentColor = Color.LightGray,
-                )
-            }
-        }
-    }
-}
-
-@Composable
 fun ShowStatsByType(activites: List<ActivityTotal>) {
     Column {
         val weekly = activites[0]

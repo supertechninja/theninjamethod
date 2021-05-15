@@ -32,25 +32,6 @@ import com.mcwilliams.data.workoutdb.Workout
 import com.mcwilliams.theninjamethod.R
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class RoutinesFragment : Fragment() {
-    private val viewModel: RoutinesViewModel by viewModels()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return ComposeView(context = requireContext()).apply {
-            setContent {
-                MdcTheme {
-//                    RoutinesScaffold(findNavController(), viewModel, paddingValues)
-                }
-            }
-        }
-    }
-}
-
 @Composable
 fun RoutinesScaffold(
     navController: NavController,
@@ -74,7 +55,6 @@ fun RoutinesScaffold(
             }
         }
     )
-
 }
 
 @Composable

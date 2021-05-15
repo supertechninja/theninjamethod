@@ -1,10 +1,5 @@
 package com.mcwilliams.theninjamethod.ui.activity.combinedworkoutlist
 
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,23 +11,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.navigate
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.composethemeadapter.MdcTheme
 import com.mcwilliams.data.workoutdb.SimpleWorkout
 import com.mcwilliams.data.workoutdb.WorkoutType
 import com.mcwilliams.theninjamethod.R
 import com.mcwilliams.theninjamethod.ui.NavigationDestination
 import com.mcwilliams.theninjamethod.utils.extensions.getDateString
-import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalFoundationApi
 @Composable
@@ -78,75 +67,106 @@ fun ActivityBodyContent(
     val workoutData by viewModel.workoutMapLiveData.observeAsState()
     val isLoggedIn by viewModel.isLoggedIn.observeAsState()
 
-    if (workoutData.isNullOrEmpty()) {
-        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(100.dp)
+    Column(modifier = Modifier.fillMaxSize()) {
+
+        Row(
+            modifier = Modifier
+                .height(80.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                "All Workouts",
+                style = MaterialTheme.typography.h4,
+                color = MaterialTheme.colors.onSurface,
+                modifier = Modifier.padding(start = 16.dp)
             )
+
+            if (isLoggedIn!!) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_profile),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .size(40.dp)
+                        .clickable {
+                            navController.navigate(NavigationDestination.Settings.destination)
+                        }
+                )
+            }
         }
-    } else {
-        LazyColumn(content = {
-            workoutData!!.fastForEachIndexed { index, (date, workouts) ->
-                stickyHeader {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                val bundle = bundleOf("workoutSummary" to workoutData!![index])
-                                navController.navigate(
-                                    R.id.navigate_to_combined_workout,
-                                    bundle
+
+        if (workoutData.isNullOrEmpty()) {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(100.dp)
+                )
+            }
+        } else {
+            LazyColumn(content = {
+                workoutData!!.fastForEachIndexed { index, (date, workouts) ->
+                    stickyHeader {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    val bundle = bundleOf("workoutSummary" to workoutData!![index])
+                                    navController.navigate(
+                                        R.id.navigate_to_combined_workout,
+                                        bundle
+                                    )
+                                }
+                                .background(Color(0x80444444))
+                        ) {
+                            Text(
+                                text = date.getDateString(),
+                                modifier = Modifier
+                                    .padding(start = 16.dp)
+                                    .padding(vertical = 4.dp),
+                                style = MaterialTheme.typography.h6
+                            )
+                        }
+                    }
+
+                    items(workouts) {
+                        when (it.workoutType) {
+                            WorkoutType.LIFTING -> {
+                                WorkoutRow(
+                                    navController = navController,
+                                    openDetail = {
+                                        navController.navigate("manualWorkoutDetail/${it.id}")
+                                    },
+                                    workoutSummary = it
                                 )
                             }
-                            .background(Color(0x80444444))
-                    ) {
-                        Text(
-                            text = date.getDateString(),
-                            modifier = Modifier
-                                .padding(start = 16.dp)
-                                .padding(vertical = 4.dp),
-                            style = MaterialTheme.typography.h6
-                        )
-                    }
-                }
-
-                items(workouts) {
-                    when (it.workoutType) {
-                        WorkoutType.LIFTING -> {
-                            WorkoutRow(
-                                navController = navController,
-                                navDestId = R.id.navigate_to_manual_workout_detail,
-                                workoutSummary = it
-                            )
-                        }
-                        WorkoutType.STRAVA -> {
-                            WorkoutRow(
-                                navController = navController,
-                                navDestId = R.id.navigate_to_strava_workout_detail,
-                                workoutSummary = it
-                            )
+                            WorkoutType.STRAVA -> {
+                                WorkoutRow(
+                                    navController = navController,
+                                    openDetail = {
+                                        navController.navigate("stravaWorkoutDetail/${it.id}")
+                                    },
+                                    workoutSummary = it
+                                )
+                            }
                         }
                     }
                 }
-            }
-        })
+            })
+        }
     }
 }
 
 @Composable
-fun WorkoutRow(navController: NavHostController, navDestId: Int, workoutSummary: SimpleWorkout) {
+fun WorkoutRow(
+    navController: NavHostController,
+    openDetail: () -> Unit,
+    workoutSummary: SimpleWorkout
+) {
     Column(modifier = Modifier.clickable {
-        Log.d("TAG", "WorkoutRow: ${workoutSummary.id}")
-        navController.navigate("manualWorkoutDetail/${workoutSummary.id}")
-//        navController.navigate("${NavigationDestination.ManualWorkoutDetail.destination}/${workoutSummary.id}")
-
-//        val bundle = bundleOf("workout" to workoutSummary)
-//        navController.navigate(
-//            navDestId,
-//            bundle
-//        )
+        openDetail()
     }) {
         Text(
             text = workoutSummary.workoutName,

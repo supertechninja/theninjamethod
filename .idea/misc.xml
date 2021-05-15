@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/jtmac/Documents/Android/theninjamethod/app/src/main/res/drawable/ic_profile.xml" value="0.403125" />
+        <entry key="..\:/Users/jtmac/Documents/Android/theninjamethod/app/src/main/res/layout/fragment_start_workout.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/jtmac/Documents/Android/theninjamethod/app/src/main/res/layout/share_workout_image.xml" value="0.23731884057971014" />
         <entry key="..\:/Users/jtmac/Documents/Android/theninjamethod/app/src/main/res/layout/strava_auth_fragment.xml" value="0.38697916666666665" />
         <entry key="app/src/main/res/layout/activity_strava_login.xml" value="0.1621376811594203" />
