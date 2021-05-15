@@ -28,6 +28,7 @@ import com.mcwilliams.theninjamethod.ui.routines.RoutinesViewModel
 import com.mcwilliams.theninjamethod.ui.settings.SettingsLayout
 import com.mcwilliams.theninjamethod.ui.settings.SettingsViewModel
 import com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutFrame
+import com.mcwilliams.theninjamethod.ui.settings.StravaDashboard
 import com.mcwilliams.theninjamethod.ui.startworkout.StartWorkoutViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,122 +41,126 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val navController = rememberNavController()
-
-            val items = listOf(
-                NavigationDestination.CombinedWorkouts,
-                NavigationDestination.Routines,
-                NavigationDestination.Exercises,
-            )
-            TheNinjaMethodTheme() {
-                Scaffold(
-                    bottomBar = {
-                        BottomNavigation {
-                            val navBackStackEntry by navController.currentBackStackEntryAsState()
-                            val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
-                            items.forEach { screen ->
-                                BottomNavigationItem(
-                                    icon = {
-                                        Icon(
-                                            painterResource(id = screen.resId!!),
-                                            contentDescription = "", modifier = Modifier.size(24.dp)
-                                        )
-                                    },
-                                    label = { Text(screen.label!!) },
-                                    selected = currentRoute == screen.destination,
-                                    onClick = {
-                                        navController.navigate(screen.destination) {
-                                            // Pop up to the start destination of the graph to
-                                            // avoid building up a large stack of destinations
-                                            // on the back stack as users select items
-                                            popUpTo = navController.graph.startDestination
-                                            // Avoid multiple copies of the same destination when
-                                            // reselecting the same item
-                                            launchSingleTop = true
-                                        }
-                                    }
-                                )
-                            }
-                        }
-                    }
-                ) { paddingValues ->
-                    NavHost(
-                        navController,
-                        startDestination = NavigationDestination.CombinedWorkouts.destination
-                    ) {
-                        composable(NavigationDestination.CombinedWorkouts.destination) {
-                            val viewModel: WorkoutListViewModel = hiltNavGraphViewModel()
-                            ActivityContentScaffold(
-                                navController = navController,
-                                viewModel = viewModel,
-                                paddingValues = paddingValues
-                            )
-                        }
-                        composable(NavigationDestination.StartAWorkout.destination) {
-                            val viewModel: StartWorkoutViewModel =
-                                hiltNavGraphViewModel()
-                            StartWorkoutFrame(
-                                navController = navController,
-                                startWorkoutViewModel = viewModel,
-                                paddingValues = paddingValues
-                            )
-                        }
-                        composable(NavigationDestination.Routines.destination) {
-                            val viewModel: RoutinesViewModel =
-                                hiltNavGraphViewModel()
-
-                            RoutinesScaffold(
-                                navController = navController,
-                                routinesViewModel = viewModel,
-                                paddingValues = paddingValues
-                            )
-                        }
-                        composable(NavigationDestination.Exercises.destination) {
-                            val viewModel: ExerciseListViewModel =
-                                hiltNavGraphViewModel()
-
-                            ExerciseList(viewModel = viewModel, paddingValues = paddingValues)
-                        }
-
-                        composable(NavigationDestination.Settings.destination) {
-                            val viewModel: SettingsViewModel = hiltNavGraphViewModel()
-
-                            SettingsLayout(
-                                navController = navController,
-                                viewModel = viewModel,
-                                paddingValues = paddingValues
-                            )
-                        }
-
-                        composable(
-                            NavigationDestination.ManualWorkoutDetail.destination,
-                        ) { backStackEntry ->
-                            val viewModel: ManualWorkoutViewModel = hiltNavGraphViewModel()
-
-                            ManualWorkoutDetailContent(
-                                navController = navController,
-                                workoutId = backStackEntry.arguments?.getString("workoutId", "")!!,
-                                viewModel = viewModel,
-                                paddingValues = paddingValues
-                            )
-                        }
-
-                        composable(
-                            NavigationDestination.StravaWorkoutDetail.destination,
-                        ) { backStackEntry ->
-                            val viewModel: StravaDetailViewModel = hiltNavGraphViewModel()
-
-                            StravaDetailContent(
-                                navController = navController,
-                                workoutId = backStackEntry.arguments?.getString("workoutId", "")!!,
-                                viewModel = viewModel,
-                                paddingValues = paddingValues
-                            )
-                        }
-                    }
-                }
-            }
+            StravaDashboard()
         }
+
+//        setContent {
+//            val navController = rememberNavController()
+//
+//            val items = listOf(
+//                NavigationDestination.CombinedWorkouts,
+//                NavigationDestination.Routines,
+//                NavigationDestination.Exercises,
+//            )
+//            TheNinjaMethodTheme() {
+//                Scaffold(
+//                    bottomBar = {
+//                        BottomNavigation {
+//                            val navBackStackEntry by navController.currentBackStackEntryAsState()
+//                            val currentRoute = navBackStackEntry?.arguments?.getString(KEY_ROUTE)
+//                            items.forEach { screen ->
+//                                BottomNavigationItem(
+//                                    icon = {
+//                                        Icon(
+//                                            painterResource(id = screen.resId!!),
+//                                            contentDescription = "", modifier = Modifier.size(24.dp)
+//                                        )
+//                                    },
+//                                    label = { Text(screen.label!!) },
+//                                    selected = currentRoute == screen.destination,
+//                                    onClick = {
+//                                        navController.navigate(screen.destination) {
+//                                            // Pop up to the start destination of the graph to
+//                                            // avoid building up a large stack of destinations
+//                                            // on the back stack as users select items
+//                                            popUpTo = navController.graph.startDestination
+//                                            // Avoid multiple copies of the same destination when
+//                                            // reselecting the same item
+//                                            launchSingleTop = true
+//                                        }
+//                                    }
+//                                )
+//                            }
+//                        }
+//                    }
+//                ) { paddingValues ->
+//                    NavHost(
+//                        navController,
+//                        startDestination = NavigationDestination.CombinedWorkouts.destination
+//                    ) {
+//                        composable(NavigationDestination.CombinedWorkouts.destination) {
+//                            val viewModel: WorkoutListViewModel = hiltNavGraphViewModel()
+//                            ActivityContentScaffold(
+//                                navController = navController,
+//                                viewModel = viewModel,
+//                                paddingValues = paddingValues
+//                            )
+//                        }
+//                        composable(NavigationDestination.StartAWorkout.destination) {
+//                            val viewModel: StartWorkoutViewModel =
+//                                hiltNavGraphViewModel()
+//                            StartWorkoutFrame(
+//                                navController = navController,
+//                                startWorkoutViewModel = viewModel,
+//                                paddingValues = paddingValues
+//                            )
+//                        }
+//                        composable(NavigationDestination.Routines.destination) {
+//                            val viewModel: RoutinesViewModel =
+//                                hiltNavGraphViewModel()
+//
+//                            RoutinesScaffold(
+//                                navController = navController,
+//                                routinesViewModel = viewModel,
+//                                paddingValues = paddingValues
+//                            )
+//                        }
+//                        composable(NavigationDestination.Exercises.destination) {
+//                            val viewModel: ExerciseListViewModel =
+//                                hiltNavGraphViewModel()
+//
+//                            ExerciseList(viewModel = viewModel, paddingValues = paddingValues)
+//                        }
+//
+//                        composable(NavigationDestination.Settings.destination) {
+//                            val viewModel: SettingsViewModel = hiltNavGraphViewModel()
+//
+//                            SettingsLayout(
+//                                navController = navController,
+//                                viewModel = viewModel,
+//                                paddingValues = paddingValues
+//                            )
+//                        }
+//
+//                        composable(
+//                            NavigationDestination.ManualWorkoutDetail.destination,
+//                        ) { backStackEntry ->
+//                            val viewModel: ManualWorkoutViewModel = hiltNavGraphViewModel()
+//
+//                            ManualWorkoutDetailContent(
+//                                navController = navController,
+//                                workoutId = backStackEntry.arguments?.getString("workoutId", "")!!,
+//                                viewModel = viewModel,
+//                                paddingValues = paddingValues
+//                            )
+//                        }
+//
+//                        composable(
+//                            NavigationDestination.StravaWorkoutDetail.destination,
+//                        ) { backStackEntry ->
+//                            val viewModel: StravaDetailViewModel = hiltNavGraphViewModel()
+//
+//                            StravaDetailContent(
+//                                navController = navController,
+//                                workoutId = backStackEntry.arguments?.getString("workoutId", "")!!,
+//                                viewModel = viewModel,
+//                                paddingValues = paddingValues
+//                            )
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 }
 
